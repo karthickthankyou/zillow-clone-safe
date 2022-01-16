@@ -1,0 +1,6 @@
+query MyQuery {
+  properties(limit: 10) {
+    address
+    description
+  }
+}

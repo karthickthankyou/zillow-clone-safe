@@ -1,0 +1,15 @@
+overwrite: true
+schema:
+  - 'https://zillow-karthick.herokuapp.com/v1/graphql':
+      headers:
+        x-hasura-admin-secret: ${SECRET}
+documents: 'src/**/*.graphql'
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-urql'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'
