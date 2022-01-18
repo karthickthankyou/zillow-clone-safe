@@ -23,7 +23,10 @@ module.exports = {
           },
         },
       ],
-      include: path.resolve(__dirname, '../'),
+      // include: path.resolve(__dirname, '../'),
+      include: /node_modules/,
+      // include: /node_modules/,
+      type: 'javascript/auto',
     })
     config.resolve.modules = [
       ...(config.resolve.modules || []),

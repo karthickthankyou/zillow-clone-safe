@@ -17,7 +17,7 @@ const PopoverButton = ({
   const { open } = useContext(DataContext)
   return (
     <Popover.Button
-      className={`py-1 hover:text-black ${
+      className={`py-1 rounded-none hover:text-black ${
         open ? 'border-b text-black border-black' : 'text-gray-700'
       }`}
     >
@@ -40,16 +40,14 @@ const PopoverOverlay = () => {
 const PopoverPanel = ({
   children,
   className,
-  position = 'left-0',
 }: {
   children: string | ReactElement | ReactElement[]
   className?: string
-  position: 'right-0' | 'left-0'
 }) => (
   // const { open } = useContext(DataContext)
 
   <Popover.Panel
-    className={`absolute ${position} z-10 gap-4 p-3 mt-1 bg-white border border-white rounded shadow-lg top-full bg-opacity-90 backdrop-filter backdrop-blur ${className}`}
+    className={`absolute left-1/2 -translate-x-1/2 z-10 gap-4 p-3 mt-1 bg-white border border-white rounded shadow-lg top-full bg-opacity-90 backdrop-filter backdrop-blur ${className}`}
   >
     {children}
   </Popover.Panel>

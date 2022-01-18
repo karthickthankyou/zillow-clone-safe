@@ -60,6 +60,14 @@ module.exports = {
     'import/no-cycle': 'off',
     'react/require-default-props': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting'],
+        },
+      },
+    ],
   },
   overrides: [
     {

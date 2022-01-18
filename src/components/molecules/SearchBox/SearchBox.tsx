@@ -1,6 +1,10 @@
 import { SearchIcon } from '@heroicons/react/outline'
 import { ComponentType } from 'react'
-import Select, { components, DropdownIndicatorProps } from 'react-select'
+import Select, {
+  components,
+  DropdownIndicatorProps,
+  GroupBase,
+} from 'react-select'
 // import tw from 'twin.macro'
 
 export interface ISearchBoxProps {
@@ -253,20 +257,22 @@ const options = [
   },
 ]
 
-const DropdownIndicator = (props) =>
+export const DropdownIndicator = (
+  props: DropdownIndicatorProps<unknown, boolean, GroupBase<unknown>>
+) =>
   components.DropdownIndicator && (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <components.DropdownIndicator {...props}>
-      <SearchIcon className='w-5 h-5 text-black' aria-hidden='true' />
+      <SearchIcon className='w-5 h-5 text-black ' aria-hidden='true' />
     </components.DropdownIndicator>
   )
 
 const SearchBox = ({ className }: ISearchBoxProps) => (
   <Select
-    className={`${className}`}
-    menuPosition='fixed'
+    className={` ${className}`}
     isClearable
     isSearchable
-    placeholder='Enter an address, neighborhood, city, or ZIP code'
+    placeholder='Search...'
     // styles={customStyles}
     options={options}
     components={{ DropdownIndicator, IndicatorSeparator: () => null }}

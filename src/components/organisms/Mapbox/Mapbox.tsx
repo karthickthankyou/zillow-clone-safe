@@ -31,7 +31,9 @@ const MapBox = ({
       <ReactMapGL
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...viewport}
-        scrollZoom
+        scrollZoom={false}
+        doubleClickZoom
+        dragPan
         touchZoom
         maxZoom={16}
         minZoom={13}
