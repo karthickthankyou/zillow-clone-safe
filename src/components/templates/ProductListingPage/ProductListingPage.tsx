@@ -165,7 +165,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
 
   const onSubmit = (data: FilterState) => console.log(data)
 
-  console.log(watch(), dirtyFields) // watch input value by passing the name of it
+  console.log(watch(), dirtyFields)
 
   return (
     <div>
@@ -189,6 +189,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
                 placeholder='Search...'
                 value={value}
                 onChange={onChange}
+                onBlur={onBlur}
                 options={[
                   {
                     value: 'Apple Valley',
@@ -225,7 +226,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
                     onChange={onChange}
                     onBlur={onBlur}
                     value={value}
-                    max={1000000}
+                    max={20000}
                   />
                 </div>
               )}

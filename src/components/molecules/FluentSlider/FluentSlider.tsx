@@ -15,10 +15,10 @@ const FluentSlider = ({
   max,
   step = Math.floor((max - min) / 20),
   label,
-  register,
 }: IFluentSliderProps) => (
   <Slider
-    {...register}
+    onChange={(e) => console.log(e)}
+    onSelect={(e) => console.log(e)}
     ranged
     label={label}
     min={min || 0}

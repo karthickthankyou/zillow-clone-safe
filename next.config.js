@@ -12,16 +12,7 @@ const { withSentryConfig } = require('@sentry/nextjs')
 const moduleExports = withPWA({
   // Your existing module.exports
   reactStrictMode: true,
-  webpack: (config) => {
-    // Unset client-side javascript that only works server-side
-    config.resolve.fallback = {
-      fs: false,
-      module: false,
-      path: false,
-      os: false,
-    }
-    return config
-  },
+
   pwa: {
     dest: 'public',
     register: true,
