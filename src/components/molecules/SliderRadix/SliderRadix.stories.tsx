@@ -1,6 +1,5 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { useForm } from 'react-hook-form'
 import SliderRadix from './SliderRadix'
 
 export default {
@@ -8,18 +7,9 @@ export default {
   component: SliderRadix,
 } as ComponentMeta<typeof SliderRadix>
 
-const Template: ComponentStory<typeof SliderRadix> = (args) => {
-  const { control, watch } = useForm()
-
-  return (
-    <SliderRadix
-      {...args}
-      control={control}
-      controlName='PriceRange'
-      watch={watch}
-    />
-  )
-}
+const Template: ComponentStory<typeof SliderRadix> = (args) => (
+  <SliderRadix {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {

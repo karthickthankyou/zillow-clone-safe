@@ -7,7 +7,7 @@ export default {
   component: AgentCard,
 } as ComponentMeta<typeof AgentCard>
 
-const Template: ComponentStory<typeof AgentCard> = (args) => (
+const Template: ComponentStory<typeof AgentCard> = () => (
   <div className='container grid gap-6 mx-auto sm:grid-cols-2 lg:grid-cols-3'>
     <AgentCard />
     <AgentCard />

@@ -7,7 +7,7 @@ export default {
   component: ChakraSlider,
 } as ComponentMeta<typeof ChakraSlider>
 
-const Template: ComponentStory<typeof ChakraSlider> = (args) => <ChakraSlider {...args} />
+const Template: ComponentStory<typeof ChakraSlider> = (args) => <ChakraSlider />
 
 export const Primary = Template.bind({})
 Primary.args = {}

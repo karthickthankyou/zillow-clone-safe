@@ -4,6 +4,6 @@ import BannerHomeLoan from './BannerHomeLoan'
 
 describe('BannerHomeLoan Component', () => {
   test('BannerHomeLoan renders', () => {
-    render(<BannerHomeLoan />)
+    render(<BannerHomeLoan title='' description='' btnText='' />)
   })
 })

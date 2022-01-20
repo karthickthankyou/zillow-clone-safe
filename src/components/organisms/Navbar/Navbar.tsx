@@ -1,6 +1,5 @@
 import { Popover } from '@headlessui/react'
-import { syncBuiltinESMExports } from 'module'
-import { ReactElement, ReactNode, useState } from 'react'
+import { ReactElement } from 'react'
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
   PopoverButton,

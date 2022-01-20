@@ -18,7 +18,7 @@ const data = [
   'https://res.cloudinary.com/thankyou/image/upload/v1640674085/nike/villas_xev2wm.jpg',
 ]
 
-const ProductPageCarousel = ({}: IProductPageCarouselProps) => {
+const ProductPageCarousel = () => {
   const [selected, setSelected] = useState(0)
   return (
     <div>

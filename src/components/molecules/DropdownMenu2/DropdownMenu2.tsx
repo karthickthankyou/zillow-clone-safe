@@ -1,17 +1,11 @@
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuLink,
-  MenuList,
-} from '@reach/menu-button'
+import { Menu, MenuButton, MenuLink, MenuList } from '@reach/menu-button'
 import { ReactElement } from 'react'
 
 export interface IDropdownMenu2Props {
   title: string
   children: ReactElement | ReactElement[]
 }
-const Example = () => (
+const Example = ({ title, children }: IDropdownMenu2Props) => (
   <Menu>
     <MenuButton>
       Actions <span aria-hidden>▾</span>

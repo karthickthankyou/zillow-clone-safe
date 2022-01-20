@@ -7,8 +7,8 @@ export default {
   component: ProductPageCarousel,
 } as ComponentMeta<typeof ProductPageCarousel>
 
-const Template: ComponentStory<typeof ProductPageCarousel> = (args) => (
-  <ProductPageCarousel {...args} />
+const Template: ComponentStory<typeof ProductPageCarousel> = () => (
+  <ProductPageCarousel />
 )
 
 export const Primary = Template.bind({})

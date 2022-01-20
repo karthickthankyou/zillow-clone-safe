@@ -2,7 +2,6 @@ import Image from 'src/components/atoms/Image'
 import Link from 'src/components/atoms/Link'
 import CurrencyDollarIcon from '@heroicons/react/solid/CurrencyDollarIcon'
 import ProductPageCarousel from 'src/components/organisms/ProductPageCarousel'
-import Option from 'src/components/templates/ProductPage/Option'
 import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
 import HScroll from 'src/components/molecules/HScroll'
@@ -17,7 +16,6 @@ import {
   otherDetails,
 } from './data'
 import Details from './Details'
-import Badge from 'src/components/atoms/Badge'
 
 export interface IProductPageProps {}
 
@@ -73,7 +71,7 @@ const ProductPage = () => (
           latitude={40.7128}
           longitude={-74}
           zoom={12}
-          markers={[{ latitude: 40.7128, longitude: -74 }]}
+          markers={[{ id: '1', latitude: 40.7128, longitude: -74 }]}
           className='h-96'
         />
         <div className='grid grid-cols-2 gap-3'>

@@ -5,8 +5,7 @@ import ProductListingPage from 'src/components/templates/ProductListingPage'
 
 const Homes: NextPage = () => {
   const router = useRouter()
-  const { city } = router.query
-  console.log('Router city: ', city)
+  const city = router.query.city as string
 
   return (
     <div>

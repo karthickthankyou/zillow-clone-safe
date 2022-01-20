@@ -4,6 +4,10 @@ import Slideup from './Slideup'
 
 describe('Slideup Component', () => {
   test('Slideup renders', () => {
-    render(<Slideup />)
+    render(
+      <Slideup show>
+        <div>Hello</div>
+      </Slideup>
+    )
   })
 })

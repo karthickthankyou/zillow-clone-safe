@@ -4,6 +4,6 @@ import Option from './Option'
 
 describe('Option Component', () => {
   test('Option renders', () => {
-    render(<Option />)
+    render(<Option title='title' content={['Content']} />)
   })
 })

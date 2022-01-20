@@ -1,5 +1,4 @@
 import { SearchIcon } from '@heroicons/react/outline'
-import { ComponentType } from 'react'
 import Select, {
   components,
   DropdownIndicatorProps,

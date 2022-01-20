@@ -8,12 +8,11 @@ export default {
   component: DropdownMenu2,
 } as ComponentMeta<typeof DropdownMenu2>
 
-const Template: ComponentStory<typeof DropdownMenu2> = (args) => (
-  <DropdownMenu2 {...args}>
-    <MenuLink onSelect={() => alert('Download')}>Download</MenuLink>
-    <MenuLink onSelect={() => alert('Copy')}>Create a Copy</MenuLink>
-    <MenuLink onSelect={() => alert('Mark as Draft')}>Mark as Draft</MenuLink>
-    <MenuLink onSelect={() => alert('Delete')}>Delete</MenuLink>
+const Template: ComponentStory<typeof DropdownMenu2> = () => (
+  <DropdownMenu2 title='Title'>
+    <div>Hello</div>
+    <div>Hello2</div>
+    <div>Hello3</div>
   </DropdownMenu2>
 )
 

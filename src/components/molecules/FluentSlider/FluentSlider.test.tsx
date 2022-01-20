@@ -4,6 +4,6 @@ import FluentSlider from './FluentSlider'
 
 describe('FluentSlider Component', () => {
   test('FluentSlider renders', () => {
-    render(<FluentSlider />)
+    render(<FluentSlider label='' max={3} />)
   })
 })

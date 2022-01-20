@@ -9,7 +9,7 @@ interface IMapBoxProps {
   latitude: number
   longitude: number
   zoom: number
-  markers: { latitude: number; longitude: number }[]
+  markers: { id: string; latitude: number; longitude: number }[]
   className?: string
 }
 
@@ -43,9 +43,9 @@ const MapBox = ({
         mapboxApiAccessToken={accessToken}
         onViewportChange={setViewport}
       >
-        {markers.map((marker, index) => (
+        {markers.map((marker) => (
           <Marker
-            key={index}
+            key={marker.id}
             latitude={marker.latitude}
             longitude={marker.longitude}
           >

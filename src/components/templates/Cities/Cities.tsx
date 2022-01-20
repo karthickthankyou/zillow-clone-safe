@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import HScroll from 'src/components/molecules/HScroll'
-import CityCard from 'src/components/organisms/CityCard'
 
 export interface ICitiesProps {
   title: string

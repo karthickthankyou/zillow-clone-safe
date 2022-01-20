@@ -1,5 +1,3 @@
-import Suboption, { ISuboptionProps } from '../Suboption/Suboption'
-
 export interface IOptionProps {
   title: string
   content: string[]

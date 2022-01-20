@@ -7,9 +7,7 @@ export default {
   component: HoverCardRadix,
 } as ComponentMeta<typeof HoverCardRadix>
 
-const Template: ComponentStory<typeof HoverCardRadix> = (args) => (
-  <HoverCardRadix {...args} />
-)
+const Template: ComponentStory<typeof HoverCardRadix> = () => <HoverCardRadix />
 
 export const Primary = Template.bind({})
 Primary.args = {}

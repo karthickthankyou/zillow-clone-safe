@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import HScroll from './HScroll'
 
@@ -7,7 +7,7 @@ export default {
   component: HScroll,
 } as ComponentMeta<typeof HScroll>
 
-const childrenItems = [
+const childrenItems: ReactElement[] = [
   <div key='Hello' className='px-5 py-2 bg-blue-200 rounded-full'>
     Hello
   </div>,
@@ -49,7 +49,7 @@ const childrenItems = [
   </div>,
 ]
 
-const Template: ComponentStory<typeof HScroll> = ({ children }) => (
+const Template: ComponentStory<typeof HScroll> = () => (
   <HScroll>
     <HScroll.RightArrow className='absolute left-0 h-full '>
       <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
@@ -61,11 +61,11 @@ const Template: ComponentStory<typeof HScroll> = ({ children }) => (
         &gt;
       </div>
     </HScroll.LeftArrow>
-    <HScroll.Body>{children}</HScroll.Body>
+    <HScroll.Body>{[<div key='1'>Helo</div>]}</HScroll.Body>
   </HScroll>
 )
 
-const Template2: ComponentStory<typeof HScroll> = ({ children }) => (
+const Template2: ComponentStory<typeof HScroll> = () => (
   <HScroll>
     <div className='flex py-2'>
       <h2 className='font-bold'>Some Title</h2>
@@ -82,7 +82,7 @@ const Template2: ComponentStory<typeof HScroll> = ({ children }) => (
         </HScroll.LeftArrow>
       </div>
     </div>
-    <HScroll.Body className='pb-24'>{children}</HScroll.Body>
+    <HScroll.Body className='pb-24'>{[<div key='1'>Helo</div>]}</HScroll.Body>
   </HScroll>
 )
 

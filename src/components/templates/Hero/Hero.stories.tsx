@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import Image from 'src/components/atoms/Image'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Navbar from 'src/components/organisms/Navbar'
@@ -6,10 +6,9 @@ import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import BadgeCheckIcon from '@heroicons/react/outline/BadgeCheckIcon'
 import Footer from 'src/components/organisms/Footer'
 import useTriggerOnScroll from 'src/hooks'
-import SlideUp from 'src/components/molecules/Slideup/Slideup'
+import CityCard from 'src/components/organisms/CityCard'
 import Hero from './Hero'
 import Cities from '../Cities'
-import CityCard from 'src/components/organisms/CityCard'
 
 export default {
   title: 'templates/Hero',
@@ -163,6 +162,7 @@ const Template: ComponentStory<typeof Hero> = () => {
         <div>
           <Image
             className='h-12'
+            alt=''
             src='https://wp-tid.zillowstatic.com/bedrock/app/uploads/sites/2/2020/05/Zillow_Sites2x-cd3144-c697dc-fbb28e.png'
           />
         </div>

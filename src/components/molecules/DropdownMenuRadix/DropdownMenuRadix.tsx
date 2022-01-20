@@ -22,7 +22,7 @@ const DropdownMenuRadix = () => (
       </DropdownMenu.CheckboxItem>
 
       <DropdownMenu.RadioGroup>
-        <DropdownMenu.RadioItem>
+        <DropdownMenu.RadioItem value='34'>
           <DropdownMenu.ItemIndicator />
         </DropdownMenu.RadioItem>
       </DropdownMenu.RadioGroup>

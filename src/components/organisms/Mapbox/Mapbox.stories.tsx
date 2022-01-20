@@ -15,8 +15,8 @@ Primary.args = {
   longitude: -71.058884,
   zoom: 12,
   markers: [
-    { latitude: 42.360081, longitude: -71.0583 },
-    { latitude: 42.360081, longitude: -71.0585 },
+    { id: '1', latitude: 42.360081, longitude: -71.0583 },
+    { id: '2', latitude: 42.360081, longitude: -71.0585 },
   ],
   className: 'h-screen',
 }

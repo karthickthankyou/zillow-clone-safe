@@ -4,6 +4,11 @@ import Cities from './Cities'
 
 describe('Cities Component', () => {
   test('Cities renders', () => {
-    render(<Cities />)
+    render(
+      <Cities title='sdf' description='sdf'>
+        <div>Hello</div>
+        <div>Hello</div>
+      </Cities>
+    )
   })
 })

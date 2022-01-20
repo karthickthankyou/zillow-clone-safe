@@ -4,6 +4,8 @@ import SliderRadix from './SliderRadix'
 
 describe('SliderRadix Component', () => {
   test('SliderRadix renders', () => {
-    render(<SliderRadix />)
+    render(
+      <SliderRadix max={34} onChange={() => {}} onBlur={() => {}} value={7} />
+    )
   })
 })

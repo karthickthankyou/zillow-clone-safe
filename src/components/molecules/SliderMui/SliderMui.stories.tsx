@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import SliderMui from './SliderMui'
 import { Controller, useForm } from 'react-hook-form'
+import SliderMui from './SliderMui'
 
 export default {
   title: 'src/components/molecules/SliderMui',

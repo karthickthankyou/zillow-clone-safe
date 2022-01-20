@@ -1,6 +1,5 @@
 import * as React from 'react'
-import Autocomplete, { AutocompleteClasses } from '@mui/material/Autocomplete'
-import TextField from '@mui/material/TextField'
+import Autocomplete from '@mui/material/Autocomplete'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 import XIcon from '@heroicons/react/outline/XIcon'
 
@@ -36,6 +35,7 @@ const AutocompleteComponent = ({
       <div ref={params.InputProps.ref} className='inline-flex items-center '>
         <input
           type='text'
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...params.inputProps}
           className='py-2 pl-3 pr-8 border border-gray-800 rounded-sm shadow-none focus:ring-0'
           placeholder='Search'

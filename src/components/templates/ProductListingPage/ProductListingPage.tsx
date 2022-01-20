@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { RadioGroup } from '@headlessui/react'
-import Select from 'react-select'
 import { ReactElement } from 'react'
 import PopoverMenu from 'src/components/molecules/PopoverMenu'
 import {
@@ -12,12 +11,12 @@ import FilterIcon from '@heroicons/react/outline/FilterIcon'
 import Mapbox from 'src/components/organisms/Mapbox'
 import PropertyCard from 'src/components/organisms/PropertyCard'
 import { Controller, useForm } from 'react-hook-form'
-import { DropdownIndicator } from 'src/components/molecules/SearchBox/SearchBox'
 import SliderMui from 'src/components/molecules/SliderMui'
 import {
   addDollar,
   shorten,
 } from 'src/components/molecules/SliderMui/SliderMui'
+import Autocomplete from 'src/components/molecules/Autocomplete'
 
 export interface IProductListingPageProps {
   city: string
@@ -65,21 +64,10 @@ const initialFilterState: FilterState = {
   error: null,
 }
 
-const ProductListingPage = ({ city }: { city: string }) => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    reset,
-    formState: { errors, dirtyFields },
-  } = useForm({
+const ProductListingPage = () => {
+  const { register, control, reset } = useForm({
     defaultValues: initialFilterState,
   })
-
-  const onSubmit = (data: FilterState) => console.log(data)
-
-  console.log(watch(), dirtyFields)
 
   return (
     <div>
@@ -96,32 +84,11 @@ const ProductListingPage = ({ city }: { city: string }) => {
           <Controller
             control={control}
             name='search'
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Select
-                isClearable
-                isSearchable
-                placeholder='Search...'
-                value={value}
+            render={({ field: { onChange, value } }) => (
+              <Autocomplete
                 onChange={onChange}
-                onBlur={onBlur}
-                options={[
-                  {
-                    value: 'Apple Valley',
-                    label: 'Apple Valley',
-                  },
-                  {
-                    value: 'Atlanta',
-                    label: 'Atlanta',
-                  },
-                  {
-                    value: 'Bakersfield',
-                    label: 'Bakersfield',
-                  },
-                ]}
-                components={{
-                  DropdownIndicator,
-                  IndicatorSeparator: () => null,
-                }}
+                value={value}
+                options={['Hello', 'Hello World']}
               />
             )}
           />
@@ -139,7 +106,9 @@ const ProductListingPage = ({ city }: { city: string }) => {
                     initialData={[0, 1_000_000]}
                     step={10_000}
                     className='mt-12'
-                    labelFormat={(value) => `${addDollar(shorten(value))}`}
+                    labelFormat={(sliderValue) =>
+                      `${addDollar(shorten(sliderValue))}`
+                    }
                   />
                 </div>
               )}
@@ -176,7 +145,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
                     initialData={[0, 10_000]}
                     step={1_000}
                     className='mt-12'
-                    labelFormat={(value) => `${value} sqft`}
+                    labelFormat={(sliderValue) => `${sliderValue} sqft`}
                   />
                 </div>
               )}
@@ -188,7 +157,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
               <Controller
                 control={control}
                 name='beds'
-                render={({ field: { onChange, onBlur, value } }) => (
+                render={({ field: { onChange, value } }) => (
                   <RadioGroup
                     value={value}
                     onChange={onChange}
@@ -268,8 +237,8 @@ const ProductListingPage = ({ city }: { city: string }) => {
               />
               <Controller
                 control={control}
-                name='baths'
-                render={({ field: { onChange, onBlur, value } }) => (
+                name='bath'
+                render={({ field: { onChange, value } }) => (
                   <RadioGroup
                     value={value}
                     onChange={onChange}
@@ -348,7 +317,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
                   <input
                     type='checkbox'
                     value={c}
-                    {...register('homeType.' + i)}
+                    {...register(`homeType.${i}`)}
                   />
                   {c}
                 </label>
@@ -357,7 +326,7 @@ const ProductListingPage = ({ city }: { city: string }) => {
           </MenuItem>
 
           <button type='button' className='ml-auto text-primary-600'>
-            <FilterIcon className='w-5 h-5 lg:hidden' register={register} />
+            <FilterIcon className='w-5 h-5 lg:hidden' />
           </button>
         </div>
         <div className='flex gap-5'>
@@ -368,8 +337,8 @@ const ProductListingPage = ({ city }: { city: string }) => {
                 longitude={109.3}
                 zoom={12}
                 markers={[
-                  { latitude: 42.360081, longitude: -71.0583 },
-                  { latitude: 42.360081, longitude: -71.0585 },
+                  { id: '1', latitude: 42.360081, longitude: -71.0583 },
+                  { id: '2', latitude: 42.360081, longitude: -71.0585 },
                 ]}
                 className='h-screen'
               />

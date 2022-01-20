@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Slider, IStackTokens, Stack, IStackStyles } from '@fluentui/react'
+import { Slider } from '@fluentui/react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 export interface IFluentSliderProps {
@@ -7,7 +7,7 @@ export interface IFluentSliderProps {
   max: number
   min?: number
   step?: number
-  register: ReturnType<UseFormRegister<FieldValues>>
+  register?: ReturnType<UseFormRegister<FieldValues>>
 }
 
 const FluentSlider = ({

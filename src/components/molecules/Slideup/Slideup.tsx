@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, RefObject } from 'react'
+import { ReactNode, RefObject } from 'react'
 import { Transition } from '@headlessui/react'
 
 interface Props {
@@ -24,12 +24,7 @@ const transitionDefault = {
   leaveTo: 'opacity-0 translate-y-3',
 }
 
-const SlideUp = ({
-  show,
-  children,
-  transition = transitionDefault,
-  ref,
-}: Props) => (
+const SlideUp = ({ show, children, transition = transitionDefault }: Props) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <Transition show={show} {...transition}>
     {children}

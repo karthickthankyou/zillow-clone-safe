@@ -7,13 +7,13 @@ export default {
   component: Badge,
 } as ComponentMeta<typeof Badge>
 
-const Template: ComponentStory<typeof Badge> = ({ displayText, size }) => (
-  <Badge displayText={displayText} size={size} />
+const Template: ComponentStory<typeof Badge> = ({ children, size }) => (
+  <Badge size={size}>{children}</Badge>
 )
 
 export const Primary = Template.bind({})
 Primary.args = {
-  displayText: 'Hello World',
+  children: 'Hello World',
   size: 'sm',
 }
 Primary.parameters = {}

@@ -7,7 +7,7 @@ export default {
   component: ProductListingPage,
 } as ComponentMeta<typeof ProductListingPage>
 
-const Template: ComponentStory<typeof ProductListingPage> = (args) => (
+const Template: ComponentStory<typeof ProductListingPage> = () => (
   <div className='container mx-auto'>
     <ProductListingPage />
   </div>

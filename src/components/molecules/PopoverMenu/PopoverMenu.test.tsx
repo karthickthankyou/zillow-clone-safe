@@ -4,6 +4,10 @@ import PopoverMenu from './PopoverMenu'
 
 describe('PopoverMenu Component', () => {
   test('PopoverMenu renders', () => {
-    render(<PopoverMenu />)
+    render(
+      <PopoverMenu>
+        <div>Hello</div>
+      </PopoverMenu>
+    )
   })
 })

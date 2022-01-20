@@ -1,4 +1,4 @@
-import { Transition, Popover } from '@headlessui/react'
+import { Popover } from '@headlessui/react'
 import { createContext, ReactElement, useContext } from 'react'
 import Link from 'src/components/atoms/Link'
 

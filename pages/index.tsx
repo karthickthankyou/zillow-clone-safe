@@ -1,9 +1,5 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'src/store'
-import { selectCount } from 'src/store/counter'
-import { increment, setCounterState } from 'src/store/counter/counterSlice'
 import { NextSeo } from 'next-seo'
 import Hero from 'src/components/templates/Hero'
 import Cities from 'src/components/templates/Cities'
@@ -16,7 +12,6 @@ import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
 import Footer from 'src/components/organisms/Footer'
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav'
-import ChevronRightIcon from '@heroicons/react/solid/ArrowCircleRightIcon'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props

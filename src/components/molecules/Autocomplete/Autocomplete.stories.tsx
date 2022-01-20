@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import Autocomplete from './Autocomplete'
 import { Controller, useForm } from 'react-hook-form'
+import Autocomplete from './Autocomplete'
 
 export default {
   title: 'src/components/molecules/Autocomplete',
@@ -26,10 +26,10 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
         )}
       />
       <div className='flex -rotate-12'>
-        <div className='w-12 bg-red-600 h-96'></div>
-        <div className='w-12 bg-green-600 h-96'></div>
-        <div className='w-12 bg-blue-600 h-96'></div>
-        <div className='w-12 bg-purple-600 h-96'></div>
+        <div className='w-12 bg-red-600 h-96' />
+        <div className='w-12 bg-green-600 h-96' />
+        <div className='w-12 bg-blue-600 h-96' />
+        <div className='w-12 bg-purple-600 h-96' />
       </div>
     </div>
   )

@@ -7,7 +7,9 @@ export default {
   component: DropdownMenuRadix,
 } as ComponentMeta<typeof DropdownMenuRadix>
 
-const Template: ComponentStory<typeof DropdownMenuRadix> = (args) => <DropdownMenuRadix {...args} />
+const Template: ComponentStory<typeof DropdownMenuRadix> = () => (
+  <DropdownMenuRadix />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

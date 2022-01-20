@@ -4,6 +4,8 @@ import Details from './Details'
 
 describe('Details Component', () => {
   test('Details renders', () => {
-    render(<Details />)
+    render(
+      <Details title='Hey' content={[{ title: 'Hello', content: ['hello'] }]} />
+    )
   })
 })

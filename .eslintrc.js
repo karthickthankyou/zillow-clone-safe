@@ -24,8 +24,6 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'no-use-before-define': 'off',
-    '@typescript/no-use-before-define': 'off',
     'react/function-component-definition': [
       2,
       {
@@ -39,7 +37,10 @@ module.exports = {
         extensions: ['tsx'],
       },
     ],
-    'no-unused-vars': 'warn',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn'],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
     'import/no-extraneous-dependencies': [
       'error',
       {

@@ -4,6 +4,6 @@ import Suboption from './Suboption'
 
 describe('Suboption Component', () => {
   test('Suboption renders', () => {
-    render(<Suboption />)
+    render(<Suboption value='hello' />)
   })
 })

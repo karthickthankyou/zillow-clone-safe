@@ -7,9 +7,7 @@ export default {
   component: FullBanner,
 } as ComponentMeta<typeof FullBanner>
 
-const Template: ComponentStory<typeof FullBanner> = (args) => (
-  <FullBanner {...args} />
-)
+const Template: ComponentStory<typeof FullBanner> = () => <FullBanner />
 
 export const Primary = Template.bind({})
 Primary.args = {}

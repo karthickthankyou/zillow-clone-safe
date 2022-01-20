@@ -1,8 +1,6 @@
 import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
-import Image from 'src/components/atoms/Image'
-import NextImage from 'next/image'
 
 import {} from '@react-icons/all-files/'
 import Link from 'src/components/atoms/Link'

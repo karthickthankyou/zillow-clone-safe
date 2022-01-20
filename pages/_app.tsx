@@ -41,6 +41,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
     exchanges: [...defaultExchanges, devtoolsExchange, cacheExchange({})],
     fetchOptions: {
+      // @ts-ignore
       headers,
     },
   })

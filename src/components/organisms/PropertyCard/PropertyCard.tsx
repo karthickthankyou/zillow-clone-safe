@@ -1,11 +1,10 @@
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
-import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 
 export interface IPropertyCardProps {}
 
-const PropertyCard = ({}: IPropertyCardProps) => (
+const PropertyCard = () => (
   <div>
     <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
       <Image

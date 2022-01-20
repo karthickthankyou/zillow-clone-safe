@@ -1,7 +1,5 @@
 import Image from 'src/components/atoms/Image'
-import * as HoverCard from '@radix-ui/react-hover-card'
 import StarIcon from '@heroicons/react/solid/StarIcon'
-import PhoneIcon from '@heroicons/react/solid/PhoneIcon'
 
 export interface IAgentCardProps {}
 

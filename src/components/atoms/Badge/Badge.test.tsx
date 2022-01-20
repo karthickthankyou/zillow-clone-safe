@@ -4,6 +4,6 @@ import Badge from './Badge'
 
 describe('Badge Component', () => {
   test('should render', () => {
-    render(<Badge displayText='Hello' />)
+    render(<Badge>Hello</Badge>)
   })
 })

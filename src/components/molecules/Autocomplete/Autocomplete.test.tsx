@@ -4,6 +4,6 @@ import Autocomplete from './Autocomplete'
 
 describe('Autocomplete Component', () => {
   test('Autocomplete renders', () => {
-    render(<Autocomplete />)
+    render(<Autocomplete options={[]} value='' onChange={() => {}} />)
   })
 })

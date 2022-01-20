@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from 'react'
+import { ReactElement } from 'react'
 import Image from 'src/components/atoms/Image'
 import SlideUp from 'src/components/molecules/Slideup/Slideup'
 import useTriggerOnScroll from 'src/hooks'

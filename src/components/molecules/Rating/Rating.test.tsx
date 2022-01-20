@@ -4,6 +4,6 @@ import Rating from './Rating'
 
 describe('Rating Component', () => {
   test('Rating renders', () => {
-    render(<Rating />)
+    render(<Rating value={3} />)
   })
 })

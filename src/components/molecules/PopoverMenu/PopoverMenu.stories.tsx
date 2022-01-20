@@ -1,7 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import Link from 'src/components/atoms/Link'
 import PopoverMenu, {
   PopoverButton,
   PopoverOverlay,
@@ -13,7 +12,7 @@ export default {
   component: PopoverMenu,
 } as ComponentMeta<typeof PopoverMenu>
 
-const Template: ComponentStory<typeof PopoverMenu> = (args) => (
+const Template: ComponentStory<typeof PopoverMenu> = () => (
   <div>
     <PopoverMenu>
       <PopoverButton>
@@ -21,19 +20,19 @@ const Template: ComponentStory<typeof PopoverMenu> = (args) => (
       </PopoverButton>
       <PopoverOverlay />
       <PopoverPanel>
-        <label className='flex items-center block select-none'>
+        <label className='flex items-center select-none'>
           <input type='checkbox' className='mr-1' />
           Houses
         </label>
-        <label className='flex items-center block select-none'>
+        <label className='flex items-center select-none'>
           <input type='checkbox' className='mr-1' />
           Townhomes
         </label>
-        <label className='flex items-center block select-none'>
+        <label className='flex items-center select-none'>
           <input type='checkbox' className='mr-1' />
           Multifamily
         </label>
-        <label className='flex items-center block select-none'>
+        <label className='flex items-center select-none'>
           <input type='checkbox' className='mr-1' />
           Condos
         </label>
