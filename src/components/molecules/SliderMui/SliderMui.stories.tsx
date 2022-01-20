@@ -16,19 +16,21 @@ const Template: ComponentStory<typeof SliderMui> = ({ initialData }) => {
   })
   console.log('Watching: ', watch())
   return (
-    <Controller
-      name='slider'
-      control={control}
-      defaultValue={initialData}
-      render={({ field: { onChange, value } }) => (
-        <SliderMui
-          step={10_000}
-          initialData={initialData}
-          onChange={onChange}
-          value={value}
-        />
-      )}
-    />
+    <div className='px-12 mt-24'>
+      <Controller
+        name='slider'
+        control={control}
+        defaultValue={initialData}
+        render={({ field: { onChange, value } }) => (
+          <SliderMui
+            step={10_000}
+            initialData={initialData}
+            onChange={onChange}
+            value={value}
+          />
+        )}
+      />
+    </div>
   )
 }
 

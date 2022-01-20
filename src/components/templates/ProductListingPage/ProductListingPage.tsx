@@ -2,7 +2,6 @@
 import { RadioGroup } from '@headlessui/react'
 import Select from 'react-select'
 import { ReactElement } from 'react'
-import FluentSlider from 'src/components/molecules/FluentSlider'
 import PopoverMenu from 'src/components/molecules/PopoverMenu'
 import {
   PopoverButton,
@@ -12,104 +11,17 @@ import {
 import FilterIcon from '@heroicons/react/outline/FilterIcon'
 import Mapbox from 'src/components/organisms/Mapbox'
 import PropertyCard from 'src/components/organisms/PropertyCard'
-import {
-  Controller,
-  FieldValues,
-  useForm,
-  UseFormRegister,
-} from 'react-hook-form'
-import SliderRadix from 'src/components/molecules/SliderRadix'
+import { Controller, useForm } from 'react-hook-form'
 import { DropdownIndicator } from 'src/components/molecules/SearchBox/SearchBox'
+import SliderMui from 'src/components/molecules/SliderMui'
+import {
+  addDollar,
+  shorten,
+} from 'src/components/molecules/SliderMui/SliderMui'
 
 export interface IProductListingPageProps {
   city: string
 }
-
-const MenuYearbuilt = ({
-  className,
-  register,
-}: {
-  register: UseFormRegister<FieldValues>
-  className?: string
-}) => (
-  <PopoverMenu className={className}>
-    <PopoverButton>
-      Year built <span aria-hidden>▾</span>
-    </PopoverButton>
-    {/* <PopoverOverlay /> */}
-    <PopoverPanel className='space-y-2 text-gray-600'>
-      <FluentSlider
-        {...register('yearBuilt')}
-        label='Year built range'
-        max={2022}
-        min={1900}
-      />
-    </PopoverPanel>
-  </PopoverMenu>
-)
-
-const MenuSqft = ({
-  className,
-  register,
-}: {
-  register: UseFormRegister<FieldValues>
-  className?: string
-}) => (
-  <PopoverMenu className={className}>
-    <PopoverButton>
-      Sqft <span aria-hidden>▾</span>
-    </PopoverButton>
-    {/* <PopoverOverlay /> */}
-    <PopoverPanel className='space-y-2 text-gray-600'>
-      <FluentSlider {...register('sqft')} label='Sqft range' max={20_000} />
-    </PopoverPanel>
-  </PopoverMenu>
-)
-
-const MenuHomeType = ({
-  className,
-  register,
-}: {
-  register: UseFormRegister<FieldValues>
-  className?: string
-}) => (
-  <PopoverMenu className={className}>
-    <PopoverButton>
-      Home type <span aria-hidden>▾</span>
-    </PopoverButton>
-    {/* <PopoverOverlay /> */}
-    <PopoverPanel className='mr-12 space-y-2 text-gray-600'>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Houses
-      </label>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Townhomes
-      </label>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Multifamily
-      </label>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Condos
-      </label>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Lots/Land
-      </label>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Apartments
-      </label>
-      <label className='flex items-center select-none'>
-        <input type='checkbox' className='mr-1' />
-        Manufactured
-      </label>
-    </PopoverPanel>
-  </PopoverMenu>
-)
 
 const MenuItem = ({
   children,
@@ -123,7 +35,9 @@ const MenuItem = ({
       {title} <span aria-hidden>▾</span>
     </PopoverButton>
     <PopoverOverlay />
-    <PopoverPanel className='space-y-2 text-gray-600'>{children}</PopoverPanel>
+    <PopoverPanel className='w-56 space-y-2 text-gray-600'>
+      {children}
+    </PopoverPanel>
   </PopoverMenu>
 )
 
@@ -216,17 +130,34 @@ const ProductListingPage = ({ city }: { city: string }) => {
             <Controller
               control={control}
               name='price'
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <div>
                   <div className='font-semibold'>Price range</div>
-                  <div className='my-2 text-sm'>
-                    ${JSON.stringify(value[0])} - ${JSON.stringify(value[1])}
-                  </div>
-                  <SliderRadix
+                  <SliderMui
                     onChange={onChange}
-                    onBlur={onBlur}
                     value={value}
-                    max={20000}
+                    initialData={[0, 1_000_000]}
+                    step={10_000}
+                    className='mt-12'
+                    labelFormat={(value) => `${addDollar(shorten(value))}`}
+                  />
+                </div>
+              )}
+            />
+          </MenuItem>
+          <MenuItem title='Year built'>
+            <Controller
+              control={control}
+              name='yearBuilt'
+              render={({ field: { onChange, value } }) => (
+                <div>
+                  <div className='font-semibold'>Price range</div>
+                  <SliderMui
+                    onChange={onChange}
+                    value={value}
+                    initialData={[1900, 2022]}
+                    step={10}
+                    className='mt-12'
                   />
                 </div>
               )}
@@ -236,17 +167,16 @@ const ProductListingPage = ({ city }: { city: string }) => {
             <Controller
               control={control}
               name='sqft'
-              render={({ field: { onChange, onBlur, value } }) => (
+              render={({ field: { onChange, value } }) => (
                 <div>
                   <div className='font-semibold'>Price range</div>
-                  <div className='my-2 text-sm'>
-                    ${JSON.stringify(value[0])} - ${JSON.stringify(value[1])}
-                  </div>
-                  <SliderRadix
+                  <SliderMui
                     onChange={onChange}
-                    onBlur={onBlur}
                     value={value}
-                    max={20000}
+                    initialData={[0, 10_000]}
+                    step={1_000}
+                    className='mt-12'
+                    labelFormat={(value) => `${value} sqft`}
                   />
                 </div>
               )}
@@ -410,12 +340,22 @@ const ProductListingPage = ({ city }: { city: string }) => {
               />
             </>
           </MenuItem>
+          <MenuItem title='Home Type'>
+            <fieldset style={{ float: 'left' }}>
+              <legend>With the same name</legend>
+              {['rainbow', 'sdf', 'sdfs'].map((c, i) => (
+                <label key={c}>
+                  <input
+                    type='checkbox'
+                    value={c}
+                    {...register('homeType.' + i)}
+                  />
+                  {c}
+                </label>
+              ))}
+            </fieldset>
+          </MenuItem>
 
-          {/* <MenuPrice className='hidden sm:block' register={register} /> */}
-          <MenuHomeType className='hidden sm:block' register={register} />
-
-          <MenuSqft className='hidden lg:block' register={register} />
-          <MenuYearbuilt className='hidden lg:block' register={register} />
           <button type='button' className='ml-auto text-primary-600'>
             <FilterIcon className='w-5 h-5 lg:hidden' register={register} />
           </button>
