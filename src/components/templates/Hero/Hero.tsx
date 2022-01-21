@@ -1,10 +1,13 @@
 import Autocomplete from 'src/components/molecules/Autocomplete'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/dist/client/router'
 
 export interface IHeroProps {}
 
 const Hero = () => {
   const [value, setValue] = useState<string>('')
+  const router = useRouter()
+
   return (
     <div className='flex flex-col items-center justify-center w-screen bg-scroll bg-cover h-screen90 -z-10 bg-opacity-80 bg-hero'>
       <div className='max-w-lg'>
@@ -13,9 +16,27 @@ const Hero = () => {
         </div>
 
         <Autocomplete
-          options={['Hello', 'not', 'bye']}
-          value={value}
-          onChange={(v) => setValue(v?.toString() || '')}
+          options={[
+            'new york',
+            'los angeles',
+            'san francisco',
+            'chicago',
+            'houston',
+            'philadelphia',
+          ]}
+          value=''
+          onChange={(v) => {
+            router.push({
+              pathname: '/homes',
+              query: {
+                search: v,
+                lat: 40.79224,
+                lng: -73.98837,
+                yearBuilt: ['2000', '2022'],
+                price: ['100000', '200000'],
+              },
+            })
+          }}
           className='mt-24 rounded-lg'
         />
       </div>

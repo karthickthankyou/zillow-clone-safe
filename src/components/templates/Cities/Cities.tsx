@@ -8,8 +8,8 @@ export interface ICitiesProps {
 }
 
 const Cities = ({ title, description, children }: ICitiesProps) => (
-  <div className='my-12'>
-    <div className='flex items-center justify-between'>
+  <div className='py-12 my-24'>
+    <div className='container flex items-center justify-between mx-auto'>
       <div>
         <div className='text-3xl tracking-tight'>{title}</div>
         {description && (
@@ -34,7 +34,7 @@ const Cities = ({ title, description, children }: ICitiesProps) => (
           &gt;
         </div>
       </HScroll.LeftArrow>
-      <HScroll.Body className='gap-3 mb-12'>{children}</HScroll.Body>
+      <HScroll.Body className='gap-4 mb-12'>{children}</HScroll.Body>
     </HScroll>
   </div>
 )

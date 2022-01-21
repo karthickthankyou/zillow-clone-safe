@@ -3,6 +3,9 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+      transitionDuration: {
+        2000: '2000ms',
+      },
       boxShadow: {
         'inner-l': 'inset 6px 0px 3px rgba(0, 0, 0, 0.3)',
         'inner-r': 'inset -6px 0px 3px rgba(0, 0, 0, 0.3)',

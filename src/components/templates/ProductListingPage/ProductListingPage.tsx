@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { RadioGroup } from '@headlessui/react'
-import { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import PopoverMenu from 'src/components/molecules/PopoverMenu'
+import debounce from 'lodash.debounce'
 import {
   PopoverButton,
   PopoverOverlay,
@@ -10,13 +11,14 @@ import {
 import FilterIcon from '@heroicons/react/outline/FilterIcon'
 import Mapbox from 'src/components/organisms/Mapbox'
 import PropertyCard from 'src/components/organisms/PropertyCard'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import SliderMui from 'src/components/molecules/SliderMui'
 import {
   addDollar,
   shorten,
 } from 'src/components/molecules/SliderMui/SliderMui'
 import Autocomplete from 'src/components/molecules/Autocomplete'
+import { useRouter, withRouter } from 'next/dist/client/router'
 
 export interface IProductListingPageProps {
   city: string
@@ -41,33 +43,81 @@ const MenuItem = ({
 )
 
 interface FilterState {
-  search: string
-  yearBuilt: [number, number]
-  price: [number, number]
-  sqft: [number, number]
-  beds: number
-  bath: number
-  homeType: string[]
-  loading: boolean
-  error: Error | null
-}
-
-const initialFilterState: FilterState = {
-  search: '',
-  yearBuilt: [1800, 2022],
-  price: [0, 10_000_000],
-  sqft: [0, 20_000],
-  beds: 5,
-  bath: 5,
-  homeType: [],
-  loading: false,
-  error: null,
+  search?: string
+  lat?: number
+  lng?: number
+  yearBuilt?: [number, number]
+  price?: [number, number]
+  sqft?: [number, number]
+  beds?: number
+  bath?: number
+  homeType?: string[]
 }
 
 const ProductListingPage = () => {
-  const { register, control, reset } = useForm({
+  const router = useRouter()
+  const {
+    search,
+    lat,
+    lng,
+    yearBuilt,
+    price,
+    sqft,
+    beds,
+    bath,
+    homeType,
+  }: FilterState = router.query
+
+  console.log(search, lat, lng, yearBuilt, price, sqft, beds, bath, homeType)
+
+  const initialFilterState: FilterState = {
+    search: search || '',
+    yearBuilt: yearBuilt || [1800, 2022],
+    price: price || [0, 10_000_000],
+    sqft: sqft || [0, 20_000],
+    beds: beds || 5,
+    bath: bath || 5,
+    homeType: homeType || [],
+  }
+
+  const {
+    register,
+    control,
+    reset,
+    getValues,
+    watch,
+    formState: { dirtyFields, isDirty },
+  } = useForm({
     defaultValues: initialFilterState,
   })
+
+  const watchAllData = useWatch({
+    control,
+  })
+
+  useEffect(() => {
+    const dirtyFieldsArray = Object.keys(dirtyFields)
+    const filtered = Object.keys(watchAllData)
+      .filter((key) => dirtyFieldsArray.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = watchAllData[key]
+        return obj
+      }, {})
+
+    console.log('filtered', filtered)
+
+    // router.push(
+    //   {
+    //     pathname: '/homes',
+    //     query: {
+    //       ...router.query,
+    //       ...filtered,
+    //     },
+    //   },
+    //   undefined,
+    //   { shallow: true }
+    // )
+  }, [dirtyFields, router, watchAllData])
 
   return (
     <div>
@@ -81,14 +131,22 @@ const ProductListingPage = () => {
           >
             reset
           </button>
+
           <Controller
             control={control}
             name='search'
             render={({ field: { onChange, value } }) => (
               <Autocomplete
                 onChange={onChange}
-                value={value}
-                options={['Hello', 'Hello World']}
+                value={value || ''}
+                options={[
+                  'new york',
+                  'los angeles',
+                  'san francisco',
+                  'chicago',
+                  'houston',
+                  'philadelphia',
+                ]}
                 className='px-2 py-2'
               />
             )}
@@ -103,7 +161,7 @@ const ProductListingPage = () => {
                   <div className='font-semibold'>Price range</div>
                   <SliderMui
                     onChange={onChange}
-                    value={value}
+                    value={value || [0, 1_000_000]}
                     initialData={[0, 1_000_000]}
                     step={10_000}
                     className='mt-12'
@@ -142,7 +200,7 @@ const ProductListingPage = () => {
                   <div className='font-semibold'>Price range</div>
                   <SliderMui
                     onChange={onChange}
-                    value={value}
+                    value={value || [0, 10_000]}
                     initialData={[0, 10_000]}
                     step={1_000}
                     className='mt-12'
@@ -334,8 +392,8 @@ const ProductListingPage = () => {
           <div className='flex-1 hidden lg:block'>
             <div className='sticky top-0 col-span-1 overflow-hidden rounded'>
               <Mapbox
-                latitude={0.4}
-                longitude={109.3}
+                latitude={parseFloat(lat) || 37.7577}
+                longitude={parseFloat(lng) || -122.4376}
                 zoom={12}
                 markers={[
                   { id: '1', latitude: 42.360081, longitude: -71.0583 },
@@ -362,4 +420,4 @@ const ProductListingPage = () => {
   )
 }
 
-export default ProductListingPage
+export default withRouter(ProductListingPage)

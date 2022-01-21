@@ -4,6 +4,6 @@ import CityCard from './CityCard'
 
 describe('CityCard Component', () => {
   test('CityCard renders', () => {
-    render(<CityCard />)
+    render(<CityCard title='Hello World' />)
   })
 })

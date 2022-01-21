@@ -1,8 +1,9 @@
 import { ReactElement } from 'react'
 import Link, { LinkProps } from 'next/link'
+import { Url } from 'url'
 
 export interface ILinkProps {
-  href: string
+  href: LinkProps['href']
   className?: string
   onHover?: () => void
   onBlur?: () => void

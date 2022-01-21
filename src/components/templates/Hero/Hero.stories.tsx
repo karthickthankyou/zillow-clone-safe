@@ -23,9 +23,9 @@ const Template: ComponentStory<typeof Hero> = () => {
       <Hero />
       <div className='container mx-auto space-y-24'>
         <Cities title='Buy a home' description=''>
-          <CityCard />
+          <CityCard title=' Hello World' />
           <CityCard
-            title='San Fransisco'
+            title=' Hello World'
             src='https://res.cloudinary.com/thankyou/image/upload/v1640725349/nike/cities/maarten-van-den-heuvel-gZXx8lKAb7Y-unsplash_llua9m.jpg'
           />
           <CityCard
@@ -36,7 +36,7 @@ const Template: ComponentStory<typeof Hero> = () => {
             title='Los Angeles'
             src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
           />
-          <CityCard />
+          <CityCard title=' Hello World' />
         </Cities>
         <Cities
           title='Sell a home'
@@ -46,9 +46,9 @@ const Template: ComponentStory<typeof Hero> = () => {
             title='Los Angeles'
             src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
           />
-          <CityCard />
-          <CityCard />
-          <CityCard />
+          <CityCard title=' Hello World' />
+          <CityCard title=' Hello World' />
+          <CityCard title=' Hello World' />
         </Cities>
         <Cities
           title='Sell a home'
@@ -58,8 +58,10 @@ const Template: ComponentStory<typeof Hero> = () => {
             title='Chicago'
             src='https://res.cloudinary.com/thankyou/image/upload/v1640725977/nike/cities/sawyer-bengtson-tnv84LOjes4-unsplash_yl9elq.jpg'
           />
-          <CityCard />
-          <CityCard />
+          <CityCard
+            title='Chicago'
+            src='https://res.cloudinary.com/thankyou/image/upload/v1640725977/nike/cities/sawyer-bengtson-tnv84LOjes4-unsplash_yl9elq.jpg'
+          />
         </Cities>
         <Cities
           title='Pick your style'

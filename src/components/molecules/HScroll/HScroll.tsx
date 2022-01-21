@@ -81,20 +81,20 @@ const HScrollBody = ({
   className?: string
 }) => {
   const { scrollEl, scrollListener, scrollPos } = useScrollContext()
-  const showLeft = scrollPos[0] > 0
-  const showRight = scrollPos[1] > 0
+  // const showLeft = scrollPos[0] > 0
+  // const showRight = scrollPos[1] > 0
 
-  const shadowClasses = useMemo(() => {
-    if (showLeft && showRight) return 'shadow-inner-lr'
-    if (showRight) return 'shadow-inner-r'
-    return 'shadow-inner-l'
-  }, [showLeft, showRight])
+  // const shadowClasses = useMemo(() => {
+  //   if (showLeft && showRight) return 'shadow-inner-lr'
+  //   if (showRight) return 'shadow-inner-r'
+  //   return 'shadow-inner-l'
+  // }, [showLeft, showRight])
 
   return (
     <div
       ref={scrollEl}
       onScroll={scrollListener}
-      className={`flex py-3 w-full space-x-2 overflow-x-scroll snap-x snap-mandatory scrollbar-hide ${shadowClasses}`}
+      className={`flex w-full py-3 space-x-2 overflow-x-scroll snap-x snap-mandatory scrollbar-hide ${className}`}
     >
       {children.map((child) => (
         <div key={child.props.key} className='flex-shrink-0 snap-start'>

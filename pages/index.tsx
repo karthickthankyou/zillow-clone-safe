@@ -46,7 +46,7 @@ const Home: NextPage = ({
         <Hero />
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>
-            <CityCard />
+            <CityCard title='Hello' />
             <CityCard
               title='San Fransisco'
               src='https://res.cloudinary.com/thankyou/image/upload/v1640725349/nike/cities/maarten-van-den-heuvel-gZXx8lKAb7Y-unsplash_llua9m.jpg'
@@ -59,7 +59,7 @@ const Home: NextPage = ({
               title='Los Angeles'
               src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
             />
-            <CityCard />
+            <CityCard title='Hello' />
           </Cities>
           <Cities
             title='Pick your style'
@@ -69,9 +69,9 @@ const Home: NextPage = ({
               title='Los Angeles'
               src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
             />
-            <CityCard />
-            <CityCard />
-            <CityCard />
+            <CityCard title='Hello' />
+            <CityCard title='Hello' />
+            <CityCard title='Hello' />
           </Cities>
           <BannerHomeLoan
             title='Zillow Home Loans'
