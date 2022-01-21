@@ -82,7 +82,20 @@ const Template2: ComponentStory<typeof HScroll> = () => (
         </HScroll.LeftArrow>
       </div>
     </div>
-    <HScroll.Body className='pb-24'>{[<div key='1'>Helo</div>]}</HScroll.Body>
+    <HScroll.Body className='pb-24'>
+      {[
+        <div key='1'>Helo</div>,
+        <div key='2'>Helo 2</div>,
+        <div key='3'>Helo 3 </div>,
+        <div key='4'>Helo 4</div>,
+        <div key='5'>Helo 5</div>,
+        <div key='6'>Helo 6</div>,
+        <div key='7'>Helo 7</div>,
+        <div key='8'>Helo 8</div>,
+        <div key='9'>Helo 9</div>,
+        <div key='10'>Helo 10</div>,
+      ]}
+    </HScroll.Body>
   </HScroll>
 )
 

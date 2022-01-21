@@ -4,7 +4,7 @@ import { MenuItem, MenuLink } from '@reach/menu-button'
 import DropdownMenu2 from './DropdownMenu2'
 
 export default {
-  title: 'src/components/molecules/DropdownMenu2',
+  title: 'molecules/DropdownMenu2',
   component: DropdownMenu2,
 } as ComponentMeta<typeof DropdownMenu2>
 

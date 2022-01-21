@@ -1,5 +1,4 @@
 import { initializeApp } from 'firebase/app'
-// import { getAnalytics } from 'firebase/analytics'
 
 import {
   createUserWithEmailAndPassword,
@@ -8,7 +7,6 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from 'firebase/auth'
-// import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyAI95p-yl6U-kavucE-V81QkUL6uRSGRxE',
@@ -22,14 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig)
-// const analytics = getAnalytics(firebaseApp)
-// export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
-
-export const collections = {
-  // Example
-  // USERS: 'users',
-}
 
 export const createAccount = (email: string, password: string) => {
   createUserWithEmailAndPassword(auth, email, password)

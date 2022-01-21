@@ -89,6 +89,7 @@ const ProductListingPage = () => {
                 onChange={onChange}
                 value={value}
                 options={['Hello', 'Hello World']}
+                className='px-2 py-2'
               />
             )}
           />

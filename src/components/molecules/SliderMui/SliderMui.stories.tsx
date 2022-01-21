@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import SliderMui from './SliderMui'
 
 export default {
-  title: 'src/components/molecules/SliderMui',
+  title: 'molecules/SliderMui',
   component: SliderMui,
 } as ComponentMeta<typeof SliderMui>
 

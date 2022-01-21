@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import Autocomplete from './Autocomplete'
 
 export default {
-  title: 'src/components/molecules/Autocomplete',
+  title: 'molecules/Autocomplete',
   component: Autocomplete,
 } as ComponentMeta<typeof Autocomplete>
 

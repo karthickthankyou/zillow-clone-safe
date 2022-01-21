@@ -3,6 +3,12 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+      boxShadow: {
+        'inner-l': 'inset 6px 0px 3px rgba(0, 0, 0, 0.3)',
+        'inner-r': 'inset -6px 0px 3px rgba(0, 0, 0, 0.3)',
+        'inner-lr':
+          'inset 8px 0px 2px rgba(0, 0, 0, 0.3), inset -8px 0px 2px rgba(0, 0, 0, 0.3)',
+      },
       zIndex: {
         '-50': '-50',
         '-40': '-40',

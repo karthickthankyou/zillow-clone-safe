@@ -8,7 +8,7 @@ import PopoverMenu, {
 } from './PopoverMenu'
 
 export default {
-  title: 'src/components/molecules/PopoverMenu',
+  title: 'molecules/PopoverMenu',
   component: PopoverMenu,
 } as ComponentMeta<typeof PopoverMenu>
 

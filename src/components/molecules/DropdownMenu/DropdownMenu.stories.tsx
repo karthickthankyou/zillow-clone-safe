@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import DropdownMenu from './DropdownMenu'
 
 export default {
-  title: 'src/components/molecules/DropdownMenu',
+  title: 'molecules/DropdownMenu',
   component: DropdownMenu,
 } as ComponentMeta<typeof DropdownMenu>
 

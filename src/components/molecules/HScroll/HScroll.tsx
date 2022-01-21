@@ -30,7 +30,8 @@ const RightArrow = ({
   className?: string
 }) => {
   const { scrollPos, scroll } = useScrollContext()
-  const show = scrollPos[0] > 0
+  // const show = scrollPos[ 0 ] > 0
+  const show = useMemo(() => scrollPos[0] > 0, [scrollPos])
   return (
     <div>
       <button
@@ -56,7 +57,8 @@ const LeftArrow = ({
   distance?: number
 }) => {
   const { scrollPos, scroll } = useScrollContext()
-  const show = scrollPos[1] > 0
+  const show = useMemo(() => scrollPos[1] > 0, [scrollPos])
+
   return (
     <div>
       <button
@@ -78,13 +80,21 @@ const HScrollBody = ({
   children: ReactElement[]
   className?: string
 }) => {
-  const { scrollEl, scrollListener } = useScrollContext()
+  const { scrollEl, scrollListener, scrollPos } = useScrollContext()
+  const showLeft = scrollPos[0] > 0
+  const showRight = scrollPos[1] > 0
+
+  const shadowClasses = useMemo(() => {
+    if (showLeft && showRight) return 'shadow-inner-lr'
+    if (showRight) return 'shadow-inner-r'
+    return 'shadow-inner-l'
+  }, [showLeft, showRight])
 
   return (
     <div
       ref={scrollEl}
       onScroll={scrollListener}
-      className={`flex py-3 w-full space-x-2 overflow-x-scroll snap-x snap-mandatory scrollbar-hide ${className}`}
+      className={`flex py-3 w-full space-x-2 overflow-x-scroll snap-x snap-mandatory scrollbar-hide ${shadowClasses}`}
     >
       {children.map((child) => (
         <div key={child.props.key} className='flex-shrink-0 snap-start'>
@@ -98,6 +108,12 @@ const HScrollBody = ({
 const HScroll = ({ children, className }: IHScrollProps) => {
   const [scrollPos, scrollEl, scrollListener, scroll] = useScroll()
 
+  // const value = {
+  //   scrollPos,
+  //   scrollEl,
+  //   scrollListener,
+  //   scroll,
+  // }
   const value = useMemo(
     () => ({
       scrollPos,
@@ -107,6 +123,8 @@ const HScroll = ({ children, className }: IHScrollProps) => {
     }),
     [scroll, scrollEl, scrollListener, scrollPos]
   )
+  console.log('Hello from parent.')
+
   return (
     <div className={`relative ${className} mb-12`}>
       <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>

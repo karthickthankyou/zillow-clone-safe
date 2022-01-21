@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Switch from './Switch'
 
 export default {
-  title: 'src/components/molecules/Switch',
+  title: 'molecules/Switch',
   component: Switch,
 } as ComponentMeta<typeof Switch>
 
