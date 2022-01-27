@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof SliderMui> = ({ initialData }) => {
       slider: initialData,
     },
   })
-  console.log('Watching: ', watch())
+
   return (
     <div className='px-12 mt-24'>
       <Controller

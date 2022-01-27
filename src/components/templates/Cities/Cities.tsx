@@ -18,7 +18,7 @@ const Cities = ({ title, description, children }: ICitiesProps) => (
       </div>
       <button
         type='button'
-        className='px-4 py-2 border rounded-full text-primary-600 hover:text-white hover:bg-primary-500 border-primary-600'
+        className='px-4 py-2 border rounded-full text-primary-600 hover:text-primary-500 hover:border-primary-500 border-primary-600'
       >
         Search homes
       </button>

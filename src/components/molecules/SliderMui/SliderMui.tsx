@@ -1,9 +1,9 @@
 import Slider from '@mui/material/Slider'
 
 export interface ISliderMuiProps {
-  initialData: number[]
+  initialData: [number, number]
   step: number
-  value: number[]
+  value: [number, number]
   onChange: (event: Event, value: number | number[]) => void
   className?: string
   labelFormat?: (value: number) => string
@@ -43,7 +43,7 @@ const SliderMui = ({
     valueLabelDisplay='on'
     valueLabelFormat={labelFormat}
     classes={{
-      root: `h-0.5 border-0 ${className}`,
+      root: `h-0.5 w-56 border-0 ${className}`,
       thumb:
         'rounded-sm border-primary-600 border-2 bg-white p-2 hover:shadow-none focus:shadow-none active:shadow-none',
       track: 'text-primary-600',

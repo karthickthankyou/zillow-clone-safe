@@ -3,15 +3,16 @@ import Head from 'next/head'
 import { NextSeo } from 'next-seo'
 import Hero from 'src/components/templates/Hero'
 import Cities from 'src/components/templates/Cities'
-import { useMyQueryQuery } from 'src/generated/graphql'
+import { useGetCitiesQuery, useMyQueryQuery } from 'src/generated/graphql'
 import Navbar from 'src/components/organisms/Navbar'
-import CityCard from 'src/components/organisms/CityCard'
+import CityCard, { CityCardShadow } from 'src/components/organisms/CityCard'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
 import Footer from 'src/components/organisms/Footer'
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav'
+import Skeleton from '@mui/material/Skeleton'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -20,10 +21,10 @@ export const getStaticProps: GetStaticProps = async () => ({
 const Home: NextPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const [{ data: citiesData, fetching, error }] = useGetCitiesQuery()
+
   const [result, reexecuteQuery] = useMyQueryQuery()
   const [show, el] = useTriggerOnScroll()
-
-  console.log('Properties: ', result)
 
   return (
     <div>
@@ -46,21 +47,22 @@ const Home: NextPage = ({
         <Hero />
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>
-            <CityCard title='Hello' />
-            <CityCard
-              title='San Fransisco'
-              src='https://res.cloudinary.com/thankyou/image/upload/v1640725349/nike/cities/maarten-van-den-heuvel-gZXx8lKAb7Y-unsplash_llua9m.jpg'
-            />
-            <CityCard
-              title='Chicago'
-              src='https://res.cloudinary.com/thankyou/image/upload/v1640725977/nike/cities/sawyer-bengtson-tnv84LOjes4-unsplash_yl9elq.jpg'
-            />
-            <CityCard
-              title='Los Angeles'
-              src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
-            />
-            <CityCard title='Hello' />
+            {fetching
+              ? ['1', '2', '3', '4'].map((item) => (
+                  <CityCardShadow key={item} />
+                ))
+              : citiesData?.cities?.map((city) => (
+                  <CityCard
+                    key={city.displayName}
+                    displayName={city.displayName}
+                    lat={city.lat}
+                    lng={city.lng}
+                    propertiesCount={city.propertiesCount}
+                    image={city.image || ''}
+                  />
+                ))}
           </Cities>
+
           <Cities
             title='Pick your style'
             description='No matter what path you take to sell your home, we can help you navigate a successful sale.'

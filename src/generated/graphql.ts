@@ -81,12 +81,14 @@ export type String_Comparison_Exp = {
  */
 export type Cities = {
   __typename?: 'cities'
-  created_at: Scalars['timestamptz']
+  createdAt: Scalars['timestamptz']
   displayName: Scalars['String']
   id: Scalars['Int']
-  image_src?: Maybe<Scalars['String']>
-  properties_count: Scalars['Int']
-  updated_at: Scalars['timestamptz']
+  image?: Maybe<Scalars['String']>
+  lat: Scalars['float8']
+  lng: Scalars['float8']
+  propertiesCount: Scalars['Int']
+  updatedAt: Scalars['timestamptz']
 }
 
 /** aggregated selection of "cities" */
@@ -122,7 +124,9 @@ export type Cities_Aggregate_FieldsCountArgs = {
 export type Cities_Avg_Fields = {
   __typename?: 'cities_avg_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
 }
 
 /** Boolean expression to filter rows from the table "cities". All fields are combined with a logical 'AND'. */
@@ -130,12 +134,14 @@ export type Cities_Bool_Exp = {
   _and?: InputMaybe<Array<Cities_Bool_Exp>>
   _not?: InputMaybe<Cities_Bool_Exp>
   _or?: InputMaybe<Array<Cities_Bool_Exp>>
-  created_at?: InputMaybe<Timestamptz_Comparison_Exp>
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>
   displayName?: InputMaybe<String_Comparison_Exp>
   id?: InputMaybe<Int_Comparison_Exp>
-  image_src?: InputMaybe<String_Comparison_Exp>
-  properties_count?: InputMaybe<Int_Comparison_Exp>
-  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>
+  image?: InputMaybe<String_Comparison_Exp>
+  lat?: InputMaybe<Float8_Comparison_Exp>
+  lng?: InputMaybe<Float8_Comparison_Exp>
+  propertiesCount?: InputMaybe<Int_Comparison_Exp>
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>
 }
 
 /** unique or primary key constraints on table "cities" */
@@ -149,39 +155,47 @@ export enum Cities_Constraint {
 /** input type for incrementing numeric columns in table "cities" */
 export type Cities_Inc_Input = {
   id?: InputMaybe<Scalars['Int']>
-  properties_count?: InputMaybe<Scalars['Int']>
+  lat?: InputMaybe<Scalars['float8']>
+  lng?: InputMaybe<Scalars['float8']>
+  propertiesCount?: InputMaybe<Scalars['Int']>
 }
 
 /** input type for inserting data into table "cities" */
 export type Cities_Insert_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>
+  createdAt?: InputMaybe<Scalars['timestamptz']>
   displayName?: InputMaybe<Scalars['String']>
   id?: InputMaybe<Scalars['Int']>
-  image_src?: InputMaybe<Scalars['String']>
-  properties_count?: InputMaybe<Scalars['Int']>
-  updated_at?: InputMaybe<Scalars['timestamptz']>
+  image?: InputMaybe<Scalars['String']>
+  lat?: InputMaybe<Scalars['float8']>
+  lng?: InputMaybe<Scalars['float8']>
+  propertiesCount?: InputMaybe<Scalars['Int']>
+  updatedAt?: InputMaybe<Scalars['timestamptz']>
 }
 
 /** aggregate max on columns */
 export type Cities_Max_Fields = {
   __typename?: 'cities_max_fields'
-  created_at?: Maybe<Scalars['timestamptz']>
+  createdAt?: Maybe<Scalars['timestamptz']>
   displayName?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['Int']>
-  image_src?: Maybe<Scalars['String']>
-  properties_count?: Maybe<Scalars['Int']>
-  updated_at?: Maybe<Scalars['timestamptz']>
+  image?: Maybe<Scalars['String']>
+  lat?: Maybe<Scalars['float8']>
+  lng?: Maybe<Scalars['float8']>
+  propertiesCount?: Maybe<Scalars['Int']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
 /** aggregate min on columns */
 export type Cities_Min_Fields = {
   __typename?: 'cities_min_fields'
-  created_at?: Maybe<Scalars['timestamptz']>
+  createdAt?: Maybe<Scalars['timestamptz']>
   displayName?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['Int']>
-  image_src?: Maybe<Scalars['String']>
-  properties_count?: Maybe<Scalars['Int']>
-  updated_at?: Maybe<Scalars['timestamptz']>
+  image?: Maybe<Scalars['String']>
+  lat?: Maybe<Scalars['float8']>
+  lng?: Maybe<Scalars['float8']>
+  propertiesCount?: Maybe<Scalars['Int']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
 /** response of any mutation on the table "cities" */
@@ -202,12 +216,14 @@ export type Cities_On_Conflict = {
 
 /** Ordering options when selecting data from "cities". */
 export type Cities_Order_By = {
-  created_at?: InputMaybe<Order_By>
+  createdAt?: InputMaybe<Order_By>
   displayName?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
-  image_src?: InputMaybe<Order_By>
-  properties_count?: InputMaybe<Order_By>
-  updated_at?: InputMaybe<Order_By>
+  image?: InputMaybe<Order_By>
+  lat?: InputMaybe<Order_By>
+  lng?: InputMaybe<Order_By>
+  propertiesCount?: InputMaybe<Order_By>
+  updatedAt?: InputMaybe<Order_By>
 }
 
 /** primary key columns input for table: cities */
@@ -218,92 +234,129 @@ export type Cities_Pk_Columns_Input = {
 /** select columns of table "cities" */
 export enum Cities_Select_Column {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   DisplayName = 'displayName',
   /** column name */
   Id = 'id',
   /** column name */
-  ImageSrc = 'image_src',
+  Image = 'image',
   /** column name */
-  PropertiesCount = 'properties_count',
+  Lat = 'lat',
   /** column name */
-  UpdatedAt = 'updated_at',
+  Lng = 'lng',
+  /** column name */
+  PropertiesCount = 'propertiesCount',
+  /** column name */
+  UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "cities" */
 export type Cities_Set_Input = {
-  created_at?: InputMaybe<Scalars['timestamptz']>
+  createdAt?: InputMaybe<Scalars['timestamptz']>
   displayName?: InputMaybe<Scalars['String']>
   id?: InputMaybe<Scalars['Int']>
-  image_src?: InputMaybe<Scalars['String']>
-  properties_count?: InputMaybe<Scalars['Int']>
-  updated_at?: InputMaybe<Scalars['timestamptz']>
+  image?: InputMaybe<Scalars['String']>
+  lat?: InputMaybe<Scalars['float8']>
+  lng?: InputMaybe<Scalars['float8']>
+  propertiesCount?: InputMaybe<Scalars['Int']>
+  updatedAt?: InputMaybe<Scalars['timestamptz']>
 }
 
 /** aggregate stddev on columns */
 export type Cities_Stddev_Fields = {
   __typename?: 'cities_stddev_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_pop on columns */
 export type Cities_Stddev_Pop_Fields = {
   __typename?: 'cities_stddev_pop_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_samp on columns */
 export type Cities_Stddev_Samp_Fields = {
   __typename?: 'cities_stddev_samp_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
 }
 
 /** aggregate sum on columns */
 export type Cities_Sum_Fields = {
   __typename?: 'cities_sum_fields'
   id?: Maybe<Scalars['Int']>
-  properties_count?: Maybe<Scalars['Int']>
+  lat?: Maybe<Scalars['float8']>
+  lng?: Maybe<Scalars['float8']>
+  propertiesCount?: Maybe<Scalars['Int']>
 }
 
 /** update columns of table "cities" */
 export enum Cities_Update_Column {
   /** column name */
-  CreatedAt = 'created_at',
+  CreatedAt = 'createdAt',
   /** column name */
   DisplayName = 'displayName',
   /** column name */
   Id = 'id',
   /** column name */
-  ImageSrc = 'image_src',
+  Image = 'image',
   /** column name */
-  PropertiesCount = 'properties_count',
+  Lat = 'lat',
   /** column name */
-  UpdatedAt = 'updated_at',
+  Lng = 'lng',
+  /** column name */
+  PropertiesCount = 'propertiesCount',
+  /** column name */
+  UpdatedAt = 'updatedAt',
 }
 
 /** aggregate var_pop on columns */
 export type Cities_Var_Pop_Fields = {
   __typename?: 'cities_var_pop_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
 }
 
 /** aggregate var_samp on columns */
 export type Cities_Var_Samp_Fields = {
   __typename?: 'cities_var_samp_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
 }
 
 /** aggregate variance on columns */
 export type Cities_Variance_Fields = {
   __typename?: 'cities_variance_fields'
   id?: Maybe<Scalars['Float']>
-  properties_count?: Maybe<Scalars['Float']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  propertiesCount?: Maybe<Scalars['Float']>
+}
+
+/** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+export type Float8_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['float8']>
+  _gt?: InputMaybe<Scalars['float8']>
+  _gte?: InputMaybe<Scalars['float8']>
+  _in?: InputMaybe<Array<Scalars['float8']>>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  _lt?: InputMaybe<Scalars['float8']>
+  _lte?: InputMaybe<Scalars['float8']>
+  _neq?: InputMaybe<Scalars['float8']>
+  _nin?: InputMaybe<Array<Scalars['float8']>>
 }
 
 export type Geography_Cast_Exp = {
@@ -1318,6 +1371,10 @@ export type Query_Root = {
   properties_aggregate: Properties_Aggregate
   /** fetch data from the table: "properties" using primary key columns */
   properties_by_pk?: Maybe<Properties>
+  /** execute function "search_cities" which returns "cities" */
+  search_cities: Array<Cities>
+  /** execute function "search_cities" and query aggregates on result of table type "cities" */
+  search_cities_aggregate: Cities_Aggregate
   /** execute function "search_landmarks_near_user" which returns "user_landmarks" */
   search_landmarks_near_user: Array<User_Landmarks>
   /** execute function "search_landmarks_near_user" and query aggregates on result of table type "user_landmarks" */
@@ -1414,6 +1471,24 @@ export type Query_RootProperties_AggregateArgs = {
 
 export type Query_RootProperties_By_PkArgs = {
   id: Scalars['Int']
+}
+
+export type Query_RootSearch_CitiesArgs = {
+  args: Search_Cities_Args
+  distinct_on?: InputMaybe<Array<Cities_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Cities_Order_By>>
+  where?: InputMaybe<Cities_Bool_Exp>
+}
+
+export type Query_RootSearch_Cities_AggregateArgs = {
+  args: Search_Cities_Args
+  distinct_on?: InputMaybe<Array<Cities_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Cities_Order_By>>
+  where?: InputMaybe<Cities_Bool_Exp>
 }
 
 export type Query_RootSearch_Landmarks_Near_UserArgs = {
@@ -1560,6 +1635,10 @@ export type Query_RootUser_Location_AggregateArgs = {
 
 export type Query_RootUser_Location_By_PkArgs = {
   user_id: Scalars['Int']
+}
+
+export type Search_Cities_Args = {
+  search?: InputMaybe<Scalars['String']>
 }
 
 export type Search_Landmarks_Near_User_Args = {
@@ -1852,6 +1931,10 @@ export type Subscription_Root = {
   properties_aggregate: Properties_Aggregate
   /** fetch data from the table: "properties" using primary key columns */
   properties_by_pk?: Maybe<Properties>
+  /** execute function "search_cities" which returns "cities" */
+  search_cities: Array<Cities>
+  /** execute function "search_cities" and query aggregates on result of table type "cities" */
+  search_cities_aggregate: Cities_Aggregate
   /** execute function "search_landmarks_near_user" which returns "user_landmarks" */
   search_landmarks_near_user: Array<User_Landmarks>
   /** execute function "search_landmarks_near_user" and query aggregates on result of table type "user_landmarks" */
@@ -1948,6 +2031,24 @@ export type Subscription_RootProperties_AggregateArgs = {
 
 export type Subscription_RootProperties_By_PkArgs = {
   id: Scalars['Int']
+}
+
+export type Subscription_RootSearch_CitiesArgs = {
+  args: Search_Cities_Args
+  distinct_on?: InputMaybe<Array<Cities_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Cities_Order_By>>
+  where?: InputMaybe<Cities_Bool_Exp>
+}
+
+export type Subscription_RootSearch_Cities_AggregateArgs = {
+  args: Search_Cities_Args
+  distinct_on?: InputMaybe<Array<Cities_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Cities_Order_By>>
+  where?: InputMaybe<Cities_Bool_Exp>
 }
 
 export type Subscription_RootSearch_Landmarks_Near_UserArgs = {
@@ -2448,7 +2549,57 @@ export type MyQueryQuery = {
   }>
 }
 
-export const MyQueryDocument = gql`
+export type SearchCitiesQueryVariables = Exact<{
+  search: Scalars['String']
+}>
+
+export type SearchCitiesQuery = {
+  __typename?: 'query_root'
+  search_cities: Array<{
+    __typename?: 'cities'
+    lat: any
+    lng: any
+    displayName: string
+  }>
+}
+
+export type GetCitiesQueryVariables = Exact<{ [key: string]: never }>
+
+export type GetCitiesQuery = {
+  __typename?: 'query_root'
+  cities: Array<{
+    __typename?: 'cities'
+    displayName: string
+    lat: any
+    lng: any
+    image?: string | null | undefined
+    propertiesCount: number
+  }>
+}
+
+export type SearchPropertiesByLocationQueryVariables = Exact<{
+  args: Search_Properties_By_Location4_Args
+  distinct_on?: InputMaybe<
+    Array<Properties_Select_Column> | Properties_Select_Column
+  >
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Properties_Order_By> | Properties_Order_By>
+  where?: InputMaybe<Properties_Bool_Exp>
+}>
+
+export type SearchPropertiesByLocationQuery = {
+  __typename?: 'query_root'
+  search_properties_by_location4: Array<{
+    __typename?: 'properties'
+    bath: number
+    beds: number
+    city: string
+    address: string
+  }>
+}
+
+export const MyQueryDocument = /*#__PURE__*/ gql`
   query MyQuery {
     properties(limit: 10) {
       address
@@ -2461,4 +2612,77 @@ export function useMyQueryQuery(
   options: Omit<Urql.UseQueryArgs<MyQueryQueryVariables>, 'query'> = {}
 ) {
   return Urql.useQuery<MyQueryQuery>({ query: MyQueryDocument, ...options })
+}
+export const SearchCitiesDocument = /*#__PURE__*/ gql`
+  query searchCities($search: String!) {
+    search_cities(args: { search: $search }) {
+      lat
+      lng
+      displayName
+    }
+  }
+`
+
+export function useSearchCitiesQuery(
+  options: Omit<Urql.UseQueryArgs<SearchCitiesQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<SearchCitiesQuery>({
+    query: SearchCitiesDocument,
+    ...options,
+  })
+}
+export const GetCitiesDocument = /*#__PURE__*/ gql`
+  query getCities {
+    cities(limit: 10) {
+      displayName
+      lat
+      lng
+      image
+      propertiesCount
+    }
+  }
+`
+
+export function useGetCitiesQuery(
+  options: Omit<Urql.UseQueryArgs<GetCitiesQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetCitiesQuery>({ query: GetCitiesDocument, ...options })
+}
+export const SearchPropertiesByLocationDocument = /*#__PURE__*/ gql`
+  query SearchPropertiesByLocation(
+    $args: search_properties_by_location4_args!
+    $distinct_on: [properties_select_column!]
+    $limit: Int
+    $offset: Int
+    $order_by: [properties_order_by!]
+    $where: properties_bool_exp
+  ) {
+    search_properties_by_location4(
+      args: $args
+      distinct_on: $distinct_on
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      bath
+      beds
+      city
+      address
+    }
+  }
+`
+
+export function useSearchPropertiesByLocationQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SearchPropertiesByLocationQueryVariables>,
+    'query'
+  > = {}
+) {
+  console.log('Running useSearchPropertiesByLocation.')
+
+  return Urql.useQuery<SearchPropertiesByLocationQuery>({
+    query: SearchPropertiesByLocationDocument,
+    ...options,
+  })
 }

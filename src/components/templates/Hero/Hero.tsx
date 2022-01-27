@@ -1,12 +1,37 @@
 import Autocomplete from 'src/components/molecules/Autocomplete'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/dist/client/router'
+import { useSearchCitiesQuery } from 'src/generated/graphql'
 
 export interface IHeroProps {}
 
 const Hero = () => {
-  const [value, setValue] = useState<string>('')
   const router = useRouter()
+  const [inputValue, setInputValue] = useState('')
+
+  const [{ data, fetching }] = useSearchCitiesQuery({
+    variables: { search: inputValue },
+  })
+  const options = data?.search_cities.map((item) => item.displayName) || []
+
+  const onOptionSelect = (e: any, v: any) => {
+    if (v) {
+      const lat = data?.search_cities.filter((d) => d.displayName === v)[0]?.lat
+      const lng = data?.search_cities.filter((d) => d.displayName === v)[0]?.lng
+
+      router.push(
+        {
+          pathname: '/homes',
+          query: {
+            search: v,
+            lat,
+            lng,
+          },
+        },
+        '/homes'
+      )
+    }
+  }
 
   return (
     <div className='flex flex-col items-center justify-center w-screen bg-scroll bg-cover h-screen90 -z-10 bg-opacity-80 bg-hero'>
@@ -16,27 +41,10 @@ const Hero = () => {
         </div>
 
         <Autocomplete
-          options={[
-            'new york',
-            'los angeles',
-            'san francisco',
-            'chicago',
-            'houston',
-            'philadelphia',
-          ]}
-          value=''
-          onChange={(v) => {
-            router.push({
-              pathname: '/homes',
-              query: {
-                search: v,
-                lat: 40.79224,
-                lng: -73.98837,
-                yearBuilt: ['2000', '2022'],
-                price: ['100000', '200000'],
-              },
-            })
-          }}
+          options={options}
+          onInputChange={(_e, v) => setInputValue(v)}
+          loading={fetching}
+          onChange={onOptionSelect}
           className='mt-24 rounded-lg'
         />
       </div>

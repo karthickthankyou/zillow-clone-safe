@@ -27,14 +27,12 @@ export const createAccount = (email: string, password: string) => {
     .then((userCredential) => {
       // Signed in
       const { user } = userCredential
-      console.log(user)
 
       // ...
     })
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
-      console.log(error)
 
       // ..
     })
@@ -42,7 +40,6 @@ export const createAccount = (email: string, password: string) => {
 
 export const getCurrentUser = async () => {
   const token = await auth.currentUser?.getIdToken(true)
-  console.log(auth.currentUser, token)
 }
 
 export const logout = () => {
@@ -54,16 +51,14 @@ export const signIn = (email: string, password: string) => {
     .then(async (userCredential) => {
       // Signed in
       const { user } = userCredential
-      console.log(user)
+
       const token = await auth.currentUser?.getIdToken(true)
-      console.log('token', token)
 
       // ...
     })
     .catch((error) => {
       const errorCode = error.code
       const errorMessage = error.message
-      console.log(error)
     })
 }
 
@@ -75,10 +70,10 @@ export const googleSignin = () => {
       const credential = GoogleAuthProvider.credentialFromResult(result)
       const token = credential?.accessToken
       // The signed-in user info.
-      console.log('token: ', token)
+
       const { user } = result
       const tokenUpdated = await auth.currentUser?.getIdToken(true)
-      console.log('token updated: ', tokenUpdated)
+
       // ...
     })
     .catch((error) => {

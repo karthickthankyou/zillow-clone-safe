@@ -8,7 +8,7 @@ const PropertyCard = () => (
   <div>
     <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
       <Image
-        className='absolute h-full rounded'
+        className='absolute h-full transition-transform duration-1000 scale-105 rounded hover:scale-100'
         src='https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
         // src='https://res.cloudinary.com/thankyou/image/upload/v1640617959/nike/house1_tmtonc.jpg'
         alt=''

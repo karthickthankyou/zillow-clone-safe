@@ -12,8 +12,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   useEffect(
     () =>
       onAuthStateChanged(auth, async (user) => {
-        console.log('Auth changed. User: ', user)
-
         if (user) {
           const jwtToken = await user.getIdToken()
           settoken(jwtToken)
@@ -21,10 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           const idTokenResult = await user.getIdTokenResult()
           const hasuraClaim =
             idTokenResult.claims['https://hasura.io/jwt/claims']
-          console.log(hasuraClaim)
         } else {
-          console.log('no user')
-
           settoken('')
         }
       }),

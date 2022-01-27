@@ -123,7 +123,6 @@ const HScroll = ({ children, className }: IHScrollProps) => {
     }),
     [scroll, scrollEl, scrollListener, scrollPos]
   )
-  console.log('Hello from parent.')
 
   return (
     <div className={`relative ${className} mb-12`}>

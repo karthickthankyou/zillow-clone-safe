@@ -52,7 +52,6 @@ export default function useTriggerOnScroll(): [
 ] {
   const [triggered, setTriggered] = useState<boolean>(false)
   const ref = useRef<HTMLDivElement>(null)
-  console.log(triggered, ref)
 
   useEffect(() => {
     function getOffset(element: HTMLElement) {

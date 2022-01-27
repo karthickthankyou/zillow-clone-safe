@@ -4,3 +4,44 @@ query MyQuery {
     description
   }
 }
+
+query searchCities($search: String!) {
+  search_cities(args: { search: $search }) {
+    lat
+    lng
+    displayName
+  }
+}
+
+query getCities {
+  cities(limit: 10) {
+    displayName
+    lat
+    lng
+    image
+    propertiesCount
+  }
+}
+
+query SearchPropertiesByLocation(
+  $args: search_properties_by_location4_args!
+  $distinct_on: [properties_select_column!]
+  $limit: Int
+  $offset: Int
+  $order_by: [properties_order_by!]
+  $where: properties_bool_exp
+) {
+  search_properties_by_location4(
+    args: $args
+    distinct_on: $distinct_on
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+    where: $where
+  ) {
+    bath
+    beds
+    city
+    address
+  }
+}

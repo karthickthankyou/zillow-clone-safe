@@ -14,7 +14,7 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
       autocomplete: null,
     },
   })
-  console.log('Watching: ', watch())
+
   return (
     <div>
       <Controller

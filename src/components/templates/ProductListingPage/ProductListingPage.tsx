@@ -1,17 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { RadioGroup } from '@headlessui/react'
-import { ReactElement, useEffect } from 'react'
+import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
 import PopoverMenu from 'src/components/molecules/PopoverMenu'
+import { Controller, useForm, useWatch } from 'react-hook-form'
 import debounce from 'lodash.debounce'
 import {
   PopoverButton,
-  PopoverOverlay,
   PopoverPanel,
 } from 'src/components/molecules/PopoverMenu/PopoverMenu'
 import FilterIcon from '@heroicons/react/outline/FilterIcon'
 import Mapbox from 'src/components/organisms/Mapbox'
 import PropertyCard from 'src/components/organisms/PropertyCard'
-import { Controller, useForm, useWatch } from 'react-hook-form'
 import SliderMui from 'src/components/molecules/SliderMui'
 import {
   addDollar,
@@ -19,6 +18,10 @@ import {
 } from 'src/components/molecules/SliderMui/SliderMui'
 import Autocomplete from 'src/components/molecules/Autocomplete'
 import { useRouter, withRouter } from 'next/dist/client/router'
+import {
+  useSearchCitiesQuery,
+  useSearchPropertiesByLocationQuery,
+} from 'src/generated/graphql'
 
 export interface IProductListingPageProps {
   city: string
@@ -35,58 +38,49 @@ const MenuItem = ({
     <PopoverButton>
       {title} <span aria-hidden>▾</span>
     </PopoverButton>
-    <PopoverOverlay />
-    <PopoverPanel className='w-56 space-y-2 text-gray-600'>
-      {children}
-    </PopoverPanel>
+    {/* <PopoverOverlay /> */}
+    <PopoverPanel className='space-y-2 text-gray-600'>{children}</PopoverPanel>
   </PopoverMenu>
 )
 
 interface FilterState {
-  search?: string
-  lat?: number
-  lng?: number
-  yearBuilt?: [number, number]
-  price?: [number, number]
-  sqft?: [number, number]
-  beds?: number
-  bath?: number
-  homeType?: string[]
+  search: string
+  lat: string
+  lng: string
+  zoom: string
+  yearBuilt: [number, number]
+  price: [number, number]
+  sqft: [number, number]
+  beds: string
+  bath: string
+  homeType: string[]
 }
 
 const ProductListingPage = () => {
   const router = useRouter()
-  const {
-    search,
-    lat,
-    lng,
-    yearBuilt,
-    price,
-    sqft,
-    beds,
-    bath,
-    homeType,
-  }: FilterState = router.query
-
-  console.log(search, lat, lng, yearBuilt, price, sqft, beds, bath, homeType)
+  // Pick<FilterState, 'search' | 'lat' | 'lng'>
+  const { search, lat, lng }: { search: string; lat: string; lng: string } =
+    router.query
 
   const initialFilterState: FilterState = {
-    search: search || '',
-    yearBuilt: yearBuilt || [1800, 2022],
-    price: price || [0, 10_000_000],
-    sqft: sqft || [0, 20_000],
-    beds: beds || 5,
-    bath: bath || 5,
-    homeType: homeType || [],
+    search: search || 'New York',
+    lat: lat || '40.730610',
+    lng: lng || '-73.935242',
+    zoom: '12',
+    yearBuilt: [1800, 2022],
+    price: [0, 10_000_000],
+    sqft: [0, 20_000],
+    beds: 'Any',
+    bath: 'Any',
+    homeType: [],
   }
 
   const {
-    register,
     control,
     reset,
-    getValues,
-    watch,
-    formState: { dirtyFields, isDirty },
+    register,
+    setValue,
+    formState: { dirtyFields },
   } = useForm({
     defaultValues: initialFilterState,
   })
@@ -95,120 +89,159 @@ const ProductListingPage = () => {
     control,
   })
 
+  const dirtyFieldsArray = Object.keys(dirtyFields)
+  const filtered = Object.keys(watchAllData)
+    .filter((key) => dirtyFieldsArray.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = watchAllData[key]
+      return obj
+    }, {})
+
+  const [filteredDebounced, setFilteredDebounced] = useState({})
+
+  const debounced = useCallback(
+    debounce((filteredData) => {
+      console.log('Debounced: ', filteredData)
+      // setFilteredDebounced(filteredData)
+    }, 2000),
+    []
+  )
+
   useEffect(() => {
-    const dirtyFieldsArray = Object.keys(dirtyFields)
-    const filtered = Object.keys(watchAllData)
-      .filter((key) => dirtyFieldsArray.includes(key))
-      .reduce((obj, key) => {
-        obj[key] = watchAllData[key]
-        return obj
-      }, {})
+    debounced(filtered)
+  }, [filtered, debounced])
 
-    console.log('filtered', filtered)
+  console.log('filteredDebounced', filteredDebounced)
 
-    // router.push(
-    //   {
-    //     pathname: '/homes',
-    //     query: {
-    //       ...router.query,
-    //       ...filtered,
-    //     },
-    //   },
-    //   undefined,
-    //   { shallow: true }
-    // )
-  }, [dirtyFields, router, watchAllData])
+  const [searchProperties] = useSearchPropertiesByLocationQuery({
+    variables: {
+      args: {
+        distance_kms: 10000,
+        lat: '34',
+        lng: '-100',
+      },
+      offset: 2,
+      limit: 10,
+      where: {
+        bath: {
+          _gte: 5,
+        },
+      },
+    },
+  })
+
+  // How to debounce!
+  // github.com/FormidableLabs/urql/discussions/1547#discussioncomment-623426
+  console.log('searchProperties: ', searchProperties)
+
+  const [inputValue, setInputValue] = useState(() => search || '')
+
+  const [{ data, fetching }] = useSearchCitiesQuery({
+    variables: { search: inputValue },
+  })
+
+  const options = data?.search_cities.map((item) => item.displayName) || []
+  const [viewport, setViewport] = useState(() => ({
+    longitude: parseFloat(lng || '-122.4'),
+    latitude: parseFloat(lat || '37.78'),
+    zoom: parseFloat('12'),
+  }))
+
+  useEffect(() => {
+    setValue('lat', viewport.latitude.toString(), { shouldDirty: true })
+    setValue('lng', viewport.longitude.toString(), { shouldDirty: true })
+    setValue('zoom', viewport.zoom.toString(), { shouldDirty: true })
+  }, [setValue, viewport])
+
+  const onOptionSelect = (e: any, v: any) => {
+    if (v) {
+      const latSelected = data?.search_cities.filter(
+        (d) => d.displayName === v
+      )[0]?.lat
+      const lngSelected = data?.search_cities.filter(
+        (d) => d.displayName === v
+      )[0]?.lng
+
+      setValue('search', v, { shouldDirty: true })
+      setValue('lat', latSelected, { shouldDirty: true })
+      setValue('lng', lngSelected, { shouldDirty: true })
+      setViewport({ longitude: lngSelected, latitude: latSelected, zoom: 12 })
+    }
+  }
 
   return (
     <div>
       <div className='container mx-auto'>
-        <div className='sticky top-0 z-10 flex items-center gap-12 py-3 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
-          {/* <input type='text' className='w-64 px-2 py-3' placeholder='Search' /> */}
-          {/* <SearchBox className='w-64 rounded-md' /> */}
-          <button
-            type='button'
-            onClick={() => reset({ search: '' }, { keepDirty: false })}
-          >
+        <div className='relative z-10 flex items-center gap-12 py-3 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
+          <button type='button' onClick={() => reset({ values: {} })}>
             reset
           </button>
-
-          <Controller
-            control={control}
-            name='search'
-            render={({ field: { onChange, value } }) => (
-              <Autocomplete
-                onChange={onChange}
-                value={value || ''}
-                options={[
-                  'new york',
-                  'los angeles',
-                  'san francisco',
-                  'chicago',
-                  'houston',
-                  'philadelphia',
-                ]}
-                className='px-2 py-2'
-              />
-            )}
+          <Autocomplete
+            options={options}
+            onInputChange={(_e, v) => setInputValue(v)}
+            value={inputValue}
+            loading={fetching}
+            onChange={onOptionSelect}
+            className='rounded-lg'
           />
 
           <MenuItem title='Price'>
-            <Controller
-              control={control}
-              name='price'
-              render={({ field: { onChange, value } }) => (
-                <div>
-                  <div className='font-semibold'>Price range</div>
+            <div>
+              <div className='font-semibold'>Price range</div>
+              <Controller
+                control={control}
+                name='price'
+                render={({ field: { onChange, value } }) => (
                   <SliderMui
-                    onChange={onChange}
-                    value={value || [0, 1_000_000]}
-                    initialData={[0, 1_000_000]}
+                    onChange={(e, v) => onChange(v)}
+                    value={value}
                     step={10_000}
-                    className='mt-12'
+                    initialData={initialFilterState.price}
+                    className='mt-12 '
                     labelFormat={(sliderValue) =>
                       `${addDollar(shorten(sliderValue))}`
                     }
                   />
-                </div>
-              )}
-            />
+                )}
+              />
+            </div>
           </MenuItem>
           <MenuItem title='Year built'>
-            <Controller
-              control={control}
-              name='yearBuilt'
-              render={({ field: { onChange, value } }) => (
-                <div>
-                  <div className='font-semibold'>Price range</div>
+            <div>
+              <div className='font-semibold'>Price range</div>
+              <Controller
+                control={control}
+                name='yearBuilt'
+                render={({ field: { onChange, value } }) => (
                   <SliderMui
-                    onChange={onChange}
+                    onChange={(e, v) => onChange(v)}
                     value={value}
-                    initialData={[1900, 2022]}
+                    initialData={initialFilterState.yearBuilt}
                     step={10}
-                    className='mt-12'
+                    className='mt-12 '
                   />
-                </div>
-              )}
-            />
+                )}
+              />
+            </div>
           </MenuItem>
           <MenuItem title='Sqft'>
-            <Controller
-              control={control}
-              name='sqft'
-              render={({ field: { onChange, value } }) => (
-                <div>
-                  <div className='font-semibold'>Price range</div>
+            <div>
+              <div className='font-semibold'>Square feet</div>
+              <Controller
+                control={control}
+                name='sqft'
+                render={({ field: { onChange, value } }) => (
                   <SliderMui
-                    onChange={onChange}
-                    value={value || [0, 10_000]}
-                    initialData={[0, 10_000]}
+                    onChange={(e, v) => onChange(v)}
+                    value={value}
+                    initialData={initialFilterState.sqft}
                     step={1_000}
-                    className='mt-12'
+                    className='mt-12 '
                     labelFormat={(sliderValue) => `${sliderValue} sqft`}
                   />
-                </div>
-              )}
-            />
+                )}
+              />
+            </div>
           </MenuItem>
 
           <MenuItem title='Beds & Bath'>
@@ -219,77 +252,26 @@ const ProductListingPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <RadioGroup
                     value={value}
-                    onChange={onChange}
+                    onChange={(v) => onChange(v)}
                     className='space-y-2'
                   >
                     <RadioGroup.Label>Bedrooms</RadioGroup.Label>
                     <div className='flex gap-3'>
-                      <RadioGroup.Option value='any'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            Any
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='1+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            1+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='2+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            2+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='3+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            3+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='4+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            4+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='5+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            5+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
+                      {['1', '2', '3', '4', '5', 'Any'].map((item) => (
+                        <RadioGroup.Option key={item} value={`${item}`}>
+                          {({ checked }) => (
+                            <span
+                              className={`border bg-white rounded-sm p-2 ${
+                                checked
+                                  ? ' border-primary-500 '
+                                  : ' border-white '
+                              }`}
+                            >
+                              {item}+
+                            </span>
+                          )}
+                        </RadioGroup.Option>
+                      ))}
                     </div>
                   </RadioGroup>
                 )}
@@ -300,68 +282,26 @@ const ProductListingPage = () => {
                 render={({ field: { onChange, value } }) => (
                   <RadioGroup
                     value={value}
-                    onChange={onChange}
-                    className='mt-4 space-y-2'
+                    onChange={(v) => onChange(v)}
+                    className='space-y-2'
                   >
-                    <RadioGroup.Label className='mt-4'>
-                      Bathrooms
-                    </RadioGroup.Label>
+                    <RadioGroup.Label>Bathrooms</RadioGroup.Label>
                     <div className='flex gap-3'>
-                      <RadioGroup.Option value='1+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            1+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='2+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            2+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='3+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            3+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='4+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            4+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
-                      <RadioGroup.Option value='5+'>
-                        {({ checked }) => (
-                          <span
-                            className={
-                              checked ? 'border border-primary-500 p-2' : 'p-2'
-                            }
-                          >
-                            5+
-                          </span>
-                        )}
-                      </RadioGroup.Option>
+                      {['1', '2', '3', '4', '5', 'Any'].map((item) => (
+                        <RadioGroup.Option key={item} value={`${item}`}>
+                          {({ checked }) => (
+                            <span
+                              className={`border bg-white rounded-sm p-2 ${
+                                checked
+                                  ? ' border-primary-500 '
+                                  : ' border-white '
+                              }`}
+                            >
+                              {item}+
+                            </span>
+                          )}
+                        </RadioGroup.Option>
+                      ))}
                     </div>
                   </RadioGroup>
                 )}
@@ -371,13 +311,9 @@ const ProductListingPage = () => {
           <MenuItem title='Home Type'>
             <fieldset style={{ float: 'left' }}>
               <legend>With the same name</legend>
-              {['rainbow', 'sdf', 'sdfs'].map((c, i) => (
+              {['rainbow', 'sdf', 'sdfs'].map((c) => (
                 <label key={c}>
-                  <input
-                    type='checkbox'
-                    value={c}
-                    {...register(`homeType.${i}`)}
-                  />
+                  <input type='checkbox' {...register(`homeType`)} value={c} />
                   {c}
                 </label>
               ))}
@@ -392,9 +328,9 @@ const ProductListingPage = () => {
           <div className='flex-1 hidden lg:block'>
             <div className='sticky top-0 col-span-1 overflow-hidden rounded'>
               <Mapbox
-                latitude={parseFloat(lat) || 37.7577}
-                longitude={parseFloat(lng) || -122.4376}
-                zoom={12}
+                // Contains lat lng and zoom
+                viewport={viewport}
+                setViewport={setViewport}
                 markers={[
                   { id: '1', latitude: 42.360081, longitude: -71.0583 },
                   { id: '2', latitude: 42.360081, longitude: -71.0585 },

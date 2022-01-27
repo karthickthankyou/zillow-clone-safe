@@ -47,7 +47,7 @@ const PopoverPanel = ({
   // const { open } = useContext(DataContext)
 
   <Popover.Panel
-    className={`absolute left-1/2 -translate-x-1/2 z-10 gap-4 p-3 mt-1 bg-white border border-white rounded shadow-lg top-full bg-opacity-90 backdrop-filter backdrop-blur ${className}`}
+    className={`absolute left-1/2 -translate-x-1/2 z-10 gap-4 p-3 mt-1 bg-white border border-black rounded shadow-lg top-full bg-opacity-90 backdrop-filter backdrop-blur ${className}`}
   >
     {children}
   </Popover.Panel>
@@ -60,7 +60,7 @@ const PopoverParent = ({
   children: ReactElement | ReactElement[]
   className?: string
 }) => (
-  <Popover className={`relative ${className}`}>
+  <Popover className={`relative z-30 ${className}`}>
     {(open) => (
       <DataContext.Provider value={open}>{children}</DataContext.Provider>
     )}

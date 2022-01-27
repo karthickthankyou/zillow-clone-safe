@@ -1,38 +1,45 @@
 import * as React from 'react'
-import Autocomplete from '@mui/material/Autocomplete'
+import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 import XIcon from '@heroicons/react/outline/XIcon'
 
 export interface IAutocompleteProps {
+  value?: string
   options: string[]
-  value: string | null
-  onChange: (value: string | null) => void
+  onChange: AutocompleteProps<string, false, false, false>['onChange']
+  onInputChange: AutocompleteProps<string, false, false, false>['onInputChange']
   className?: string
+  loading?: boolean
 }
 
 const AutocompleteComponent = ({
-  options,
   value,
+  options,
   onChange,
+  onInputChange,
   className,
+  loading = false,
 }: IAutocompleteProps) => (
   <Autocomplete
     options={options}
     autoHighlight
-    value={value}
-    onChange={(e, v) => onChange(v)}
+    value={value || ''}
+    onInputChange={onInputChange}
+    onChange={onChange}
     className={`${className}`}
     classes={{
       listbox: 'p-0 bg-white bg-opacity-80 backdrop-filter backdrop-blur',
       option: 'hover:bg-white bg-opacity-100',
       paper: 'rounded-lg shadow-md border border-white mt-1 bg-transparent',
     }}
+    filterOptions={(x) => x}
     handleHomeEndKeys
-    clearOnBlur
-    selectOnFocus
-    clearText='Clear'
-    closeText='Close'
-    size='small'
+    // clearOnBlur
+    loading={loading}
+    // selectOnFocus
+    // clearText='Clear'
+    // closeText='Close'
+    // size='small'
     renderInput={(params) => (
       <div ref={params.InputProps.ref} className='flex items-center w-full'>
         <input

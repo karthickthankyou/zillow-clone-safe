@@ -10,6 +10,11 @@ generates:
       - 'typescript'
       - 'typescript-operations'
       - 'typescript-urql'
+    config:
+      pureMagicComment: true
+      exposeFetcher: true
+      exposeQueryKeys: true
+      withHooks: true
   ./graphql.schema.json:
     plugins:
       - 'introspection'
