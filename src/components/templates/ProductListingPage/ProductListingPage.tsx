@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { RadioGroup } from '@headlessui/react'
-import { ReactElement, useCallback, useEffect, useRef, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import PopoverMenu from 'src/components/molecules/PopoverMenu'
 import { Controller, useForm, useWatch } from 'react-hook-form'
-import debounce from 'lodash.debounce'
 import {
   PopoverButton,
   PopoverPanel,
@@ -18,14 +17,8 @@ import {
 } from 'src/components/molecules/SliderMui/SliderMui'
 import Autocomplete from 'src/components/molecules/Autocomplete'
 import { useRouter, withRouter } from 'next/dist/client/router'
-import {
-  useSearchCitiesQuery,
-  useSearchPropertiesByLocationQuery,
-} from 'src/generated/graphql'
-
-export interface IProductListingPageProps {
-  city: string
-}
+import { useSearchCitiesQuery } from 'src/generated/graphql'
+import ProductListingResults from 'src/components/organisms/ProductListingResults'
 
 const MenuItem = ({
   children,
@@ -45,9 +38,9 @@ const MenuItem = ({
 
 interface FilterState {
   search: string
-  lat: string
-  lng: string
-  zoom: string
+  lat: number
+  lng: number
+  zoom: number
   yearBuilt: [number, number]
   price: [number, number]
   sqft: [number, number]
@@ -55,18 +48,18 @@ interface FilterState {
   bath: string
   homeType: string[]
 }
+export interface IProductListingPageProps {
+  search: string
+  lat: number
+  lng: number
+}
 
-const ProductListingPage = () => {
-  const router = useRouter()
-  // Pick<FilterState, 'search' | 'lat' | 'lng'>
-  const { search, lat, lng }: { search: string; lat: string; lng: string } =
-    router.query
-
+const ProductListingPage = ({ search, lat, lng }: IProductListingPageProps) => {
   const initialFilterState: FilterState = {
-    search: search || 'New York',
-    lat: lat || '40.730610',
-    lng: lng || '-73.935242',
-    zoom: '12',
+    search,
+    lat,
+    lng,
+    zoom: 12,
     yearBuilt: [1800, 2022],
     price: [0, 10_000_000],
     sqft: [0, 20_000],
@@ -74,116 +67,110 @@ const ProductListingPage = () => {
     bath: 'Any',
     homeType: [],
   }
-
-  const {
-    control,
-    reset,
-    register,
-    setValue,
-    formState: { dirtyFields },
-  } = useForm({
+  const { control, reset, register, setValue, getValues } = useForm({
     defaultValues: initialFilterState,
   })
 
-  const watchAllData = useWatch({
-    control,
-  })
+  const watchAllData = useWatch({ control })
 
-  const dirtyFieldsArray = Object.keys(dirtyFields)
-  const filtered = Object.keys(watchAllData)
-    .filter((key) => dirtyFieldsArray.includes(key))
-    .reduce((obj, key) => {
-      obj[key] = watchAllData[key]
-      return obj
-    }, {})
+  // console.log('watchAllData: ', watchAllData)
 
-  const [filteredDebounced, setFilteredDebounced] = useState({})
+  console.log('Running!')
 
-  const debounced = useCallback(
-    debounce((filteredData) => {
-      console.log('Debounced: ', filteredData)
-      // setFilteredDebounced(filteredData)
-    }, 2000),
-    []
-  )
+  // const filtered = () => {
+  //   // Search, lat, and lng are added to dirty fields as they are required by default in queries.
+  //   const dirtyFieldsArray = [
+  //     'search',
+  //     'lat',
+  //     'lng',
+  //     'zoom',
+  //     ...Object.keys(dirtyFields),
+  //   ]
 
-  useEffect(() => {
-    debounced(filtered)
-  }, [filtered, debounced])
+  //   return Object.keys(watchAllData)
+  //     .filter((key) => dirtyFieldsArray.includes(key))
+  //     .reduce((obj, key) => {
+  //       obj[key] = watchAllData[key]
+  //       return obj
+  //     }, {})
+  // }
+  // console.log('filtered: ', filtered)
 
-  console.log('filteredDebounced', filteredDebounced)
+  // const [filteredDebounced, setFilteredDebounced] = useState<FilterState>()
 
-  const [searchProperties] = useSearchPropertiesByLocationQuery({
-    variables: {
-      args: {
-        distance_kms: 10000,
-        lat: '34',
-        lng: '-100',
-      },
-      offset: 2,
-      limit: 10,
-      where: {
-        bath: {
-          _gte: 5,
-        },
-      },
-    },
-  })
+  // const debounced = useMemo(
+  //   () =>
+  //     debounce((filteredData) => {
+  //       console.log('Debounced: ', filteredData)
+  //       // setFilteredDebounced(filteredData)
+  //     }, 1000),
+  //   []
+  // )
 
-  // How to debounce!
-  // github.com/FormidableLabs/urql/discussions/1547#discussioncomment-623426
-  console.log('searchProperties: ', searchProperties)
+  // useEffect(() => {
+  //   console.log('Running debounced! ', filtered)
+  //   debounced(filtered)
+  // }, [filtered, debounced])
 
-  const [inputValue, setInputValue] = useState(() => search || '')
+  // const [searchProperties] = useSearchPropertiesByLocationQuery({
+  //   variables: {
+  //     args: {
+  //       distance_kms: +filteredDebounced?.zoom * 10,
+  //       lat: filteredDebounced?.lat,
+  //       lng: filteredDebounced?.lng,
+  //     },
+  //     offset: 2,
+  //     limit: 10,
+  //     where: {
+  //       // bath: {
+  //       //   _gte: 5,
+  //       // },
+  //     },
+  //   },
+  // })
+
+  // // How to debounce!
+  // // github.com/FormidableLabs/urql/discussions/1547#discussioncomment-623426
+  // console.log('searchProperties: ', searchProperties)
+
+  // const [inputValue, setInputValue] = useState(() => search)
 
   const [{ data, fetching }] = useSearchCitiesQuery({
-    variables: { search: inputValue },
+    variables: { search: 'new' },
   })
 
-  const options = data?.search_cities.map((item) => item.displayName) || []
-  const [viewport, setViewport] = useState(() => ({
-    longitude: parseFloat(lng || '-122.4'),
-    latitude: parseFloat(lat || '37.78'),
-    zoom: parseFloat('12'),
-  }))
+  // const options = data?.search_cities.map((item) => item.displayName) || []
 
-  useEffect(() => {
-    setValue('lat', viewport.latitude.toString(), { shouldDirty: true })
-    setValue('lng', viewport.longitude.toString(), { shouldDirty: true })
-    setValue('zoom', viewport.zoom.toString(), { shouldDirty: true })
-  }, [setValue, viewport])
+  // const onOptionSelect = (e: any, v: any) => {
+  //   if (v) {
+  //     const latSelected = data?.search_cities.filter(
+  //       (d) => d.displayName === v
+  //     )[0]?.lat
+  //     const lngSelected = data?.search_cities.filter(
+  //       (d) => d.displayName === v
+  //     )[0]?.lng
 
-  const onOptionSelect = (e: any, v: any) => {
-    if (v) {
-      const latSelected = data?.search_cities.filter(
-        (d) => d.displayName === v
-      )[0]?.lat
-      const lngSelected = data?.search_cities.filter(
-        (d) => d.displayName === v
-      )[0]?.lng
-
-      setValue('search', v, { shouldDirty: true })
-      setValue('lat', latSelected, { shouldDirty: true })
-      setValue('lng', lngSelected, { shouldDirty: true })
-      setViewport({ longitude: lngSelected, latitude: latSelected, zoom: 12 })
-    }
-  }
+  //     setValue('search', v)
+  //     setValue('lat', latSelected)
+  //     setValue('lng', lngSelected)
+  //   }
+  // }
 
   return (
     <div>
       <div className='container mx-auto'>
         <div className='relative z-10 flex items-center gap-12 py-3 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
-          <button type='button' onClick={() => reset({ values: {} })}>
+          <button type='button' onClick={() => reset()}>
             reset
           </button>
-          <Autocomplete
+          {/* <Autocomplete
             options={options}
             onInputChange={(_e, v) => setInputValue(v)}
             value={inputValue}
             loading={fetching}
             onChange={onOptionSelect}
             className='rounded-lg'
-          />
+          /> */}
 
           <MenuItem title='Price'>
             <div>
@@ -329,8 +316,16 @@ const ProductListingPage = () => {
             <div className='sticky top-0 col-span-1 overflow-hidden rounded'>
               <Mapbox
                 // Contains lat lng and zoom
-                viewport={viewport}
-                setViewport={setViewport}
+                initialLocation={{
+                  latitude: initialFilterState.lat,
+                  longitude: initialFilterState.lng,
+                  zoom: initialFilterState.zoom,
+                }}
+                setLocation={({ latitude, longitude, zoom }) => {
+                  setValue('lat', latitude)
+                  setValue('lng', longitude)
+                  setValue('zoom', zoom)
+                }}
                 markers={[
                   { id: '1', latitude: 42.360081, longitude: -71.0583 },
                   { id: '2', latitude: 42.360081, longitude: -71.0585 },
@@ -356,4 +351,4 @@ const ProductListingPage = () => {
   )
 }
 
-export default withRouter(ProductListingPage)
+export default ProductListingPage

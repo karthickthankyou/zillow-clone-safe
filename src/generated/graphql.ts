@@ -2679,8 +2679,6 @@ export function useSearchPropertiesByLocationQuery(
     'query'
   > = {}
 ) {
-  console.log('Running useSearchPropertiesByLocation.')
-
   return Urql.useQuery<SearchPropertiesByLocationQuery>({
     query: SearchPropertiesByLocationDocument,
     ...options,

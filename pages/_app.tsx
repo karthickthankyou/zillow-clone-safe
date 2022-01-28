@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import { createClient, Provider, defaultExchanges } from 'urql'
+import { createClient, Provider, defaultExchanges, fetchExchange } from 'urql'
 import { devtoolsExchange } from '@urql/devtools'
 import { cacheExchange } from '@urql/exchange-graphcache'
 import { onAuthStateChanged } from 'firebase/auth'
@@ -34,7 +34,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const client = createClient({
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
-    exchanges: [...defaultExchanges, devtoolsExchange, cacheExchange({})],
+    exchanges: [
+      ...defaultExchanges,
+      devtoolsExchange,
+      cacheExchange({}),
+      fetchExchange,
+    ],
     fetchOptions: {
       // @ts-ignore
       headers,

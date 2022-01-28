@@ -48,9 +48,7 @@ const Home: NextPage = ({
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>
             {fetching
-              ? ['1', '2', '3', '4'].map((item) => (
-                  <CityCardShadow key={item} />
-                ))
+              ? ['1', '2', '3', '4'].map((item) => <CityCardShadow />)
               : citiesData?.cities?.map((city) => (
                   <CityCard
                     key={city.displayName}
