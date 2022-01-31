@@ -1,11 +1,19 @@
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
+import { Properties } from 'src/generated/graphql'
 
-export interface IPropertyCardProps {}
+export type IPropertyCardProps = Partial<Properties> & { hover: () => void }
 
-const PropertyCard = () => (
-  <div>
+const PropertyCard = ({
+  address,
+  beds,
+  bath,
+  price,
+  sqft,
+  hover,
+}: IPropertyCardProps) => (
+  <div onMouseOver={hover} onFocus={hover}>
     <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
       <Image
         className='absolute h-full transition-transform duration-1000 scale-105 rounded hover:scale-100'
@@ -21,21 +29,37 @@ const PropertyCard = () => (
       </button>
     </div>
 
-    <div className='mt-2 mb-6 ml-1'>
-      <div className='text-lg font-medium'>$925,000</div>
-      <div className='flex mt-1 space-x-1 text-sm'>
-        <div>6 bds</div>
+    <div className='mt-2 mb-4 ml-1'>
+      <div className='text-lg font-medium'>$ {price?.toLocaleString()}</div>
+      <div className='flex items-center mt-0.5 space-x-1 text-sm'>
+        <div>{beds} bds</div>
         <div>&#11049;</div>
-        <div>2 ba</div>
+        <div>{bath} ba</div>
         <div>&#11049;</div>
-        <div>1,884 sqft</div>
+        <div>{sqft} sqft</div>
         <div>&#11049;</div>
         <Badge size='sm' variant='green'>
           House for sale
         </Badge>
       </div>
-      <div className='mt-1 text-sm text-gray-500'>
-        2368 62nd St, Brooklyn, NY 11204
+      <div className='mt-1 text-sm text-gray-500'>{address}</div>
+    </div>
+  </div>
+)
+
+export const PropertyCardSkeleton = () => (
+  <div>
+    <div className='relative overflow-hidden bg-gray-200 border border-white rounded-md shadow-lg h-80 animate-pulse' />
+
+    <div className='mt-2 mb-4 ml-1 text-gray-200'>
+      <div className='w-1/4 text-lg bg-gray-200 rounded-full animate-pulse'>
+        -
+      </div>
+      <div className='flex w-3/4 mt-0.5 text-sm bg-gray-200 rounded-full animate-pulse'>
+        -
+      </div>
+      <div className='w-2/3 mt-1 text-sm bg-gray-200 rounded-full animate-pulse'>
+        -
       </div>
     </div>
   </div>

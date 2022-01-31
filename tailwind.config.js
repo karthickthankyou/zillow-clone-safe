@@ -3,6 +3,11 @@ module.exports = {
   important: true,
   theme: {
     extend: {
+      transitionTimingFunction: {
+        'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
+        'out-expo': 'cubic-bezier(0.19, 1, 0.22, 1)',
+        custom: 'cubic-bezier(0,.84,.17,1.27)',
+      },
       transitionDuration: {
         2000: '2000ms',
       },

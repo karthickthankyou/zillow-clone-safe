@@ -7,18 +7,16 @@ import { getQueryParam } from 'src/lib/util'
 const Homes: NextPage = () => {
   const router = useRouter()
   const search = getQueryParam(router.query.search, 'New York')
-  const lat = getQueryParam(router.query.lat, '40.7128')
-  const lng = getQueryParam(router.query.lng, '-74.0060')
-
-  console.log('Rendering: ', search, lat, lng)
+  const initiaLatitude = getQueryParam(router.query.lat, '40.7128')
+  const initialLongitude = getQueryParam(router.query.lng, '-74.0060')
 
   return (
     <div>
-      <NextSeo
-        title='Next boilerplate - Sample page.'
-        description='This is the amazing sample page. A short description goes here which says what goes here.'
+      <ProductListingPage
+        search={search}
+        initiaLatitude={+initiaLatitude}
+        initialLongitude={+initialLongitude}
       />
-      <ProductListingPage search={search} lat={+lat} lng={+lng} />
     </div>
   )
 }
