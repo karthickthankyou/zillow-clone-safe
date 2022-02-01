@@ -48,14 +48,14 @@ const MapBox = ({
     zoom,
   }: Omit<MapLocation, 'ne' | 'sw'>) => {
     const webMercatorViewport = new WebMercatorViewport({
-      width: width * 0.9,
+      width: width * 1.1,
       height: height * 1.1,
       latitude,
       longitude,
       zoom,
-      bearing: 0,
-      altitude: 2,
-      pitch: 0,
+      // bearing: 0,
+      // altitude: 0,
+      pitch: 40,
       // fovy: 45,
       // position: [longitude, latitude],
       // nearZMultiplier: 0.1,
@@ -121,7 +121,7 @@ const MapBox = ({
         width='100%'
         height='100%'
         pitch={40}
-        altitude={10}
+        // altitude={1.5}
         // className='shadow-inner'
         mapboxApiAccessToken={accessToken}
 
@@ -161,7 +161,7 @@ const MapBox = ({
                 onMouseOver={() =>
                   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: marker?.id })
                 }
-                className={`w-5 h-5  transition-all shadow-2xl ease-in-out duration-500 relative  ${
+                className={`w-5 h-5  transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative  ${
                   highlightedId === marker?.id
                     ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded z-20  '
                     : 'text-primary-900 -z-10 opacity-70'
@@ -192,3 +192,5 @@ export default MapBox
 //     </Marker>
 //   ))
 // }
+
+// Use fitbounds. https://stackoverflow.com/questions/70304280/how-to-use-fitbounds-with-react-mapbox-gl
