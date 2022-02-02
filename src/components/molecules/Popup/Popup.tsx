@@ -17,11 +17,7 @@ const PopupComponent = ({ marker, highlightedHome }: IPopupProps) => (
     offsetTop={-10}
   >
     <div className='flex flex-col '>
-      <img
-        src='https://via.placeholder.com/150'
-        className='w-36 h-36 aspect-square'
-        alt=''
-      />
+      <img src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />
       <div className='flex flex-col p-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
         <div className='mb-1 text-lg font-semibold leading-none'>
           ${highlightedHome?.data?.price.toLocaleString()}

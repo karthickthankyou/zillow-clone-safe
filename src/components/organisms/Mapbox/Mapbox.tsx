@@ -176,12 +176,12 @@ const MapBox = ({
                       payload: marker?.id,
                     })
                   }
-                  // onMouseLeave={() =>
-                  //   dispatch({
-                  //     type: 'SET_HIGHLIGHTED_ID',
-                  //     payload: null,
-                  //   })
-                  // }
+                  onMouseLeave={() =>
+                    dispatch({
+                      type: 'SET_HIGHLIGHTED_ID',
+                      payload: null,
+                    })
+                  }
                   className={`w-5 h-5 transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative ${
                     highlightedHome?.data?.id === marker?.id
                       ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded  '
