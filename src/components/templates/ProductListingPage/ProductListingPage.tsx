@@ -14,7 +14,10 @@ import {
   shorten,
 } from 'src/components/molecules/SliderMui/SliderMui'
 import Autocomplete from 'src/components/molecules/Autocomplete'
-import { useSearchCitiesQuery } from 'src/generated/graphql'
+import {
+  useSearchCitiesQuery,
+  useGetHomeByIdQuery,
+} from 'src/generated/graphql'
 import isEqual from 'react-fast-compare'
 import debounce from 'lodash.debounce'
 import ProductListingResult from 'src/components/organisms/ProductListingResults/ProductListingResults'
@@ -171,6 +174,20 @@ const ProductListingPage = ({
   const [{ data, fetching }] = useSearchCitiesQuery({
     variables: { search: inputValue },
   })
+
+  const [
+    { data: highlightedHome, fetching: highlightedHomeFetching },
+    getHighlightedHome,
+  ] = useGetHomeByIdQuery({
+    variables: { id: filterState.highlightedId || 0 },
+    pause: !filterState.highlightedId,
+  })
+
+  useEffect(() => {
+    console.log('Running getHighlightedHome', highlightedHome?.homes_by_pk)
+
+    getHighlightedHome()
+  }, [filterState.highlightedId, getHighlightedHome, highlightedHome])
 
   const options = data?.search_cities.map((item) => item.displayName) || []
 
@@ -353,7 +370,10 @@ const ProductListingPage = ({
           <div className='flex-1 hidden lg:block'>
             <div className='sticky top-0 col-span-1 overflow-hidden rounded'>
               <Mapbox
-                highlightedId={filterState.highlightedId || null}
+                highlightedHome={{
+                  data: highlightedHome?.homes_by_pk,
+                  fetching: highlightedHomeFetching,
+                }}
                 dispatch={dispatch}
                 // Contains lat lng and zoom
 

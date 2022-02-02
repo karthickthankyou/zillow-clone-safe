@@ -3155,6 +3155,13 @@ export type SearchHomesByLocationDetailedQueryVariables = Exact<{
 
 export type SearchHomesByLocationDetailedQuery = { __typename?: 'query_root', homes: Array<{ __typename?: 'homes', id: number, address: string, bath: number, beds: number, price: number, sqft: number }> };
 
+export type GetHomeByIdQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetHomeByIdQuery = { __typename?: 'query_root', homes_by_pk?: { __typename?: 'homes', price: number, id: number, sqft: number, bath: number, beds: number } | null | undefined };
+
 
 export const MyQueryDocument = /*#__PURE__*/ gql`
     query MyQuery {
@@ -3261,4 +3268,19 @@ export const SearchHomesByLocationDetailedDocument = /*#__PURE__*/ gql`
 
 export function useSearchHomesByLocationDetailedQuery(options: Omit<Urql.UseQueryArgs<SearchHomesByLocationDetailedQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SearchHomesByLocationDetailedQuery>({ query: SearchHomesByLocationDetailedDocument, ...options });
+};
+export const GetHomeByIdDocument = /*#__PURE__*/ gql`
+    query GetHomeById($id: Int!) {
+  homes_by_pk(id: $id) {
+    price
+    id
+    sqft
+    bath
+    beds
+  }
+}
+    `;
+
+export function useGetHomeByIdQuery(options: Omit<Urql.UseQueryArgs<GetHomeByIdQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetHomeByIdQuery>({ query: GetHomeByIdDocument, ...options });
 };

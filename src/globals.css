@@ -83,3 +83,8 @@ input[type='checkbox'] {
     @apply bg-gradient-to-tr via-primary-500 to-primary-600 from-primary-400 hover:bg-primary-600 transition-all text-white;
   }
 }
+
+/* Mapbox */
+.mapboxgl-popup-content {
+  @apply p-0 rounded-lg overflow-hidden border-white border shadow-lg bg-none !important;
+}

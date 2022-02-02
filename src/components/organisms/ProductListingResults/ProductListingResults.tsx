@@ -59,9 +59,8 @@ const ProductListingResult = memo(
           ? [1, 2, 3, 4, 5].map((item) => <PropertyCardSkeleton key={item} />)
           : data?.homes.map((item) => (
               <PropertyCard
-                hover={() =>
-                  dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: item.id })
-                }
+                dispatch={dispatch}
+                id={item.id}
                 key={item.id}
                 address={item.address}
                 bath={item.bath}

@@ -1,0 +1,35 @@
+.mapboxgl-popup-content {
+  background-color: red !important;
+}
+
+.karthick {
+  background-color: red !important;
+}
+
+/* #__next
+  > div
+  > div
+  > div
+  > div.flex.gap-5
+  > div.flex-1.hidden.lg\:block
+  > div
+  > div
+  > div
+  > div
+  > div.overlays
+  > div.mapboxgl-popup.mapboxgl-popup-anchor-bottom-right
+  > div.mapboxgl-popup-content; */
+
+/* We can use styled jsx out of the box */
+/* <style jsx>{`
+        .hello {
+          font: 15px Helvetica, Arial, sans-serif;
+          background: #eee;
+          padding: 100px;
+          text-align: center;
+          transition: 100ms ease-in background;
+        }
+        .hello:hover {
+          background: #ccc;
+        }
+      `}</style> */

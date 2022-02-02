@@ -4,11 +4,17 @@ import ReactMapGL, {
   NavigationControl,
   WebMercatorViewport,
 } from 'react-map-gl'
+import MapPopup from 'src/components/molecules/Popup'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
-import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
+import {
+  GetHomeByIdQuery,
+  useSearchHomesByLocationQuery,
+} from 'src/generated/graphql'
 import { useTransition, animated } from 'react-spring'
 import { FilterAction } from 'src/components/templates/ProductListingPage/ProductListingPage'
+
+import mapStyle from './mapLight.json'
 
 // mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 'TOKEN_NOT_FOUND'
 const accessToken =
@@ -25,11 +31,12 @@ export type MapLocation = {
 }
 
 export type MarkerType = { id: string; lat: number; lng: number }[]
-interface IMapBoxProps {
+
+export interface IMapBoxProps {
   viewport: MapLocation
   setLocation: (arg: MapLocation) => void
   className?: string
-  highlightedId?: number | null
+  highlightedHome?: { data: GetHomeByIdQuery['homes_by_pk']; fetching: boolean }
   dispatch: Dispatch<FilterAction>
 }
 
@@ -37,7 +44,7 @@ const MapBox = ({
   viewport,
   setLocation,
   className,
-  highlightedId,
+  highlightedHome,
   dispatch,
 }: IMapBoxProps) => {
   const setLocationAll = ({
@@ -48,14 +55,15 @@ const MapBox = ({
     zoom,
   }: Omit<MapLocation, 'ne' | 'sw'>) => {
     const webMercatorViewport = new WebMercatorViewport({
-      width: width * 1.1,
-      height: height * 1.1,
+      width: width * 0.95,
+      height: height * 0.95,
       latitude,
       longitude,
       zoom,
+      fovy: 2,
       // bearing: 0,
-      // altitude: 0,
-      pitch: 40,
+      // altitude: 20,
+      // pitch: -40,
       // fovy: 45,
       // position: [longitude, latitude],
       // nearZMultiplier: 0.1,
@@ -120,10 +128,11 @@ const MapBox = ({
         scrollZoom={false}
         width='100%'
         height='100%'
-        pitch={40}
+        // pitch={45}
         // altitude={1.5}
         // className='shadow-inner'
         mapboxApiAccessToken={accessToken}
+        mapStyle={mapStyle}
 
         // visibilityConstraints={{
         //   minZoom: 12,
@@ -132,8 +141,7 @@ const MapBox = ({
         // transitionDuration={100}
         // transitionInterpolator={new FlyToInterpolator()}
       >
-        <NavigationControl className='p-2' />
-
+        <NavigationControl className='z-30 p-2' />{' '}
         <Marker latitude={viewport.ne[1]} longitude={viewport.sw[0]}>
           <div id='red'>
             <HomeIcon className='w-4 h-4 text-red-500' />
@@ -155,21 +163,35 @@ const MapBox = ({
           </div>
         </Marker>
         {markersTransitions((style, marker) => (
-          <animated.div key={marker?.id} style={style}>
-            <Marker latitude={marker?.lat} longitude={marker?.lng}>
-              <HomeIcon
-                onMouseOver={() =>
-                  dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: marker?.id })
-                }
-                className={`w-5 h-5  transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative  ${
-                  highlightedId === marker?.id
-                    ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded z-20  '
-                    : 'text-primary-900 -z-10 opacity-70'
-                }`}
-              />
-              {/* <div className='w-4 h-4 scale-y-50 border-2 border-blue-600 rounded-full ' /> */}
-            </Marker>
-          </animated.div>
+          <>
+            {highlightedHome?.data?.id === marker?.id && (
+              <MapPopup marker={marker} highlightedHome={highlightedHome} />
+            )}
+            <animated.div key={marker?.id} style={style}>
+              <Marker latitude={marker?.lat} longitude={marker?.lng}>
+                <HomeIcon
+                  onMouseOver={() =>
+                    dispatch({
+                      type: 'SET_HIGHLIGHTED_ID',
+                      payload: marker?.id,
+                    })
+                  }
+                  // onMouseLeave={() =>
+                  //   dispatch({
+                  //     type: 'SET_HIGHLIGHTED_ID',
+                  //     payload: null,
+                  //   })
+                  // }
+                  className={`w-5 h-5 transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative ${
+                    highlightedHome?.data?.id === marker?.id
+                      ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded  '
+                      : 'text-primary-900 opacity-70'
+                  }`}
+                />
+                {/* <div className='w-4 h-4 scale-y-50 border-2 border-blue-600 rounded-full ' /> */}
+              </Marker>
+            </animated.div>
+          </>
         ))}
       </ReactMapGL>
     </div>

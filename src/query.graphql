@@ -92,3 +92,13 @@ query SearchHomesByLocationDetailed(
     sqft
   }
 }
+
+query GetHomeById($id: Int!) {
+  homes_by_pk(id: $id) {
+    price
+    id
+    sqft
+    bath
+    beds
+  }
+}
