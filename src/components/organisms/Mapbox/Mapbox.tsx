@@ -1,19 +1,21 @@
 import React, { Dispatch } from 'react'
-import ReactMapGL, {
-  Marker,
-  NavigationControl,
-  WebMercatorViewport,
-} from 'react-map-gl'
+import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl'
 import MapPopup from 'src/components/molecules/Popup'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
-import {
-  GetHomeByIdQuery,
-  useSearchHomesByLocationQuery,
-} from 'src/generated/graphql'
+import { GetHomeByIdQuery } from 'src/generated/graphql'
 import { useTransition, animated } from 'react-spring'
 import { FilterAction } from 'src/components/templates/ProductListingPage/ProductListingPage'
 
+import { useAppDispatch, useAppSelector } from 'src/store'
+import {
+  setMapLocation,
+  selectMap,
+  selectBounds,
+} from 'src/store/cities/citySlice'
+
+import { selectHomesMap } from 'src/store/homes/homeSlice'
+import { useHomes } from 'src/store/homes/homeHooks'
 import mapStyle from './mapLight.json'
 
 // mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 'TOKEN_NOT_FOUND'
@@ -47,63 +49,12 @@ const MapBox = ({
   highlightedHome,
   dispatch,
 }: IMapBoxProps) => {
-  const setLocationAll = ({
-    width,
-    height,
-    latitude,
-    longitude,
-    zoom,
-  }: Omit<MapLocation, 'ne' | 'sw'>) => {
-    const webMercatorViewport = new WebMercatorViewport({
-      width: width * 0.95,
-      height: height * 0.95,
-      latitude,
-      longitude,
-      zoom,
-      fovy: 2,
-      // bearing: 0,
-      // altitude: 20,
-      // pitch: -40,
-      // fovy: 45,
-      // position: [longitude, latitude],
-      // nearZMultiplier: 0.1,
-      // farZMultiplier: 0.1,
-    })
-    // console.log('WebMercatorViewport', webMercatorViewport)
-    // console.log('WebMercatorViewport bounds: ', webMercatorViewport.getBounds())
-    const [ne, sw] = webMercatorViewport.getBounds()
+  const dispatchRedux = useAppDispatch()
+  const selectMapData = useAppSelector(selectMap)
+  const [ne, sw] = useAppSelector(selectBounds)
+  const homes = useAppSelector(selectHomesMap)
+  useHomes()
 
-    // console.log('View matrix: ', webMercatorViewport.getBoundingRegion())
-    // const nw = webMercatorViewport.unprojectFlat([0, 0])
-    // const se = webMercatorViewport.unprojectFlat([ width, height ])
-
-    setLocation({
-      latitude,
-      longitude,
-      zoom,
-      height,
-      width,
-      ne: ne as [number, number],
-      sw: sw as [number, number],
-    })
-    // console.log('ne ', ne)
-    // console.log('sw: ', sw)
-  }
-
-  const [homes] = useSearchHomesByLocationQuery({
-    variables: {
-      where: {
-        lat: {
-          _gt: viewport.ne[1],
-          _lt: viewport.sw[1],
-        },
-        lng: {
-          _gt: viewport.ne[0],
-          _lt: viewport.sw[0],
-        },
-      },
-    },
-  })
   const markersTransitions = useTransition(homes.data?.homes, {
     keys: (home) => home?.id || '3',
     from: { opacity: 0, transform: 'translateY(-6px)' },
@@ -119,10 +70,18 @@ const MapBox = ({
     <div className={`relative w-full ${className}  `}>
       <ReactMapGL
         // eslint-disable-next-line react/jsx-props-no-spreading
-        {...viewport}
+        {...selectMapData}
         // onMouseUp={(map) => console.log(map.getBounds(), 'Map ')}
         onViewportChange={({ width, height, latitude, longitude, zoom }) => {
-          setLocationAll({ width, height, latitude, longitude, zoom })
+          dispatchRedux(
+            setMapLocation({
+              lat: latitude,
+              lng: longitude,
+              zoom,
+              width,
+              height,
+            })
+          )
         }}
         dragPan
         scrollZoom={false}
@@ -200,6 +159,9 @@ const MapBox = ({
 
 export default MapBox
 
+function selectHomesMap(selectHomesMap: any) {
+  throw new Error('Function not implemented.')
+}
 // {
 //   homes.data?.homes.map((marker) => (
 //     <Marker key={marker.id} latitude={marker.lat} longitude={marker.lng}>

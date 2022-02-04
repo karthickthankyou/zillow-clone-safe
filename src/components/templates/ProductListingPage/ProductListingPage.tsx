@@ -23,6 +23,14 @@ import debounce from 'lodash.debounce'
 import ProductListingResult from 'src/components/organisms/ProductListingResults/ProductListingResults'
 import { MapLocation } from 'src/components/organisms/Mapbox/Mapbox'
 import { NextSeo } from 'next-seo'
+import { useSearchCity } from 'src/store/cities/cityHooks'
+import {
+  CitySlice,
+  selectCityOptions,
+  setCitySearchText,
+  setSelectedCity,
+} from 'src/store/cities/citySlice'
+import { useAppDispatch, useAppSelector } from 'src/store'
 
 const MenuItem = ({
   children,
@@ -164,6 +172,7 @@ const ProductListingPage = ({
 
   const [filterState, dispatch] = useReducer(reducer, initialFilterState)
   const [dirty, setDirty] = useState<Partial<FilterState>>({})
+  const dispatchRedux = useAppDispatch()
 
   useEffect(() => {
     debounced(filterState, initialFilterState, setDirty)
@@ -182,6 +191,9 @@ const ProductListingPage = ({
     variables: { id: filterState.highlightedId || 0 },
     pause: !filterState.highlightedId,
   })
+
+  const cityOptions = useAppSelector(selectCityOptions)
+  useSearchCity()
 
   useEffect(() => {
     console.log('Running getHighlightedHome', highlightedHome?.homes_by_pk)
@@ -225,12 +237,14 @@ const ProductListingPage = ({
       />
       <div className='container mx-auto'>
         <div className='relative z-10 flex items-center gap-12 py-3 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
-          <Autocomplete
-            options={options}
-            onInputChange={(_e, v) => setInputValue(v)}
-            value={filterState.search}
+          <Autocomplete<CitySlice['selectedCity'], false, false, false>
+            options={cityOptions.data}
+            getOptionLabel={(x) => x.displayName}
+            onInputChange={(_, v) => dispatchRedux(setCitySearchText(v))}
             loading={fetching}
-            onChange={onOptionSelect}
+            onChange={(_, v) => {
+              if (v) dispatchRedux(setSelectedCity(v))
+            }}
             className='rounded-lg'
           />
 

@@ -21,7 +21,7 @@ const AutocompleteComponent = <
 >(
   props: Omit<
     AutocompleteProps<T, Multiple, DisableClearable, FreeSolo>,
-    'renderInput'
+    'renderInput' | 'filterOptions'
   >
 ) => (
   <Autocomplete
@@ -31,6 +31,7 @@ const AutocompleteComponent = <
       paper: 'rounded-lg shadow-md border border-white mt-1 bg-transparent',
     }}
     handleHomeEndKeys
+    filterOptions={(x) => x}
     renderInput={(params) => (
       <div ref={params.InputProps.ref} className='flex items-center w-full'>
         <input

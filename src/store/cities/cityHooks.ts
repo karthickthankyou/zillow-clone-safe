@@ -1,24 +1,36 @@
+import { useRouter } from 'next/dist/client/router'
 import { useEffect } from 'react'
-import { useSearchCitiesQuery } from 'src/generated/graphql'
+import {
+  useGetCitiesQuery,
+  useSearchCitiesQuery,
+  useSearchHomesByLocationQuery,
+} from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
 import {
   setCityOptions,
   selectCitySearchText,
-  selectCityOptions,
+  setPopularCities,
+  selectBounds,
 } from './citySlice'
 
-export function useSearchCity() {
+export const useSearchCity = () => {
   const dispatch = useAppDispatch()
   const searchTerm = useAppSelector(selectCitySearchText)
-  const cityOptions = useAppSelector(selectCityOptions)
 
-  const [data] = useSearchCitiesQuery({
+  const [{ data, fetching, error, stale }] = useSearchCitiesQuery({
     variables: { search: searchTerm },
   })
 
-  console.log('They are the same! ', cityOptions === data)
+  useEffect(() => {
+    dispatch(setCityOptions({ data, fetching, error, stale }))
+  }, [data, dispatch, error, fetching, stale])
+}
+
+export const usePopularCities = () => {
+  const dispatch = useAppDispatch()
+  const [{ data, fetching, error, stale }] = useGetCitiesQuery()
 
   useEffect(() => {
-    dispatch(setCityOptions(data))
-  }, [data, dispatch])
+    dispatch(setPopularCities({ data, fetching, error, stale }))
+  }, [data, dispatch, error, fetching, stale])
 }

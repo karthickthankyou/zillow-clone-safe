@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import userReducer from './user'
 import cityReducer from './cities/citySlice'
+import homesReducer from './homes/homeSlice'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     city: cityReducer,
+    homes: homesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -26,6 +28,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
-// Synchronous Redux
+// Questions about synchronous Redux
 // https://stackoverflow.com/questions/34570758/why-do-we-need-middleware-for-async-flow-in-redux
 // https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559

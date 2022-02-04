@@ -1,16 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { Homes } from 'src/generated/graphql'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { UseQueryState } from 'urql'
+import { SearchHomesByLocationQuery } from 'src/generated/graphql'
+import { RootState } from '..'
 
-const initialState: Homes[] = {
-  data: [],
+type HomeType = {
+  homesMap: UseQueryState<SearchHomesByLocationQuery>[0]
+}
+
+const initialState: HomeType = {
+  homesMap: [],
 }
 
 const homeSlice = createSlice({
   name: 'homes',
   initialState,
-  reducers: {},
+  reducers: {
+    setHomesMap: (state, action: PayloadAction<HomeType['homesMap']>) => {
+      // @ts-ignore
+      state.homesMap = action.payload
+    },
+  },
 })
 
-export const {} = homeSlice.actions
+export const { setHomesMap } = homeSlice.actions
+
+/** Selectors */
+const selectHomesMap = (state: RootState) => state.homes.homesMap
 
 export default homeSlice.reducer

@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { NextSeo } from 'next-seo'
 import Hero from 'src/components/templates/Hero'
 import Cities from 'src/components/templates/Cities'
-import { useGetCitiesQuery, useMyQueryQuery } from 'src/generated/graphql'
 import Navbar from 'src/components/organisms/Navbar'
 import CityCard, { CityCardShadow } from 'src/components/organisms/CityCard'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
@@ -12,7 +11,9 @@ import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
 import Footer from 'src/components/organisms/Footer'
 import { SkipNavLink, SkipNavContent } from '@reach/skip-nav'
-import Skeleton from '@mui/material/Skeleton'
+import { usePopularCities } from 'src/store/cities/cityHooks'
+import { useAppSelector } from 'src/store'
+import { selectPopularCities } from 'src/store/cities/citySlice'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -21,9 +22,14 @@ export const getStaticProps: GetStaticProps = async () => ({
 const Home: NextPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [{ data: citiesData, fetching, error }] = useGetCitiesQuery()
+  const {
+    data: citiesData,
+    fetching,
+    error,
+  } = useAppSelector(selectPopularCities)
 
-  const [result, reexecuteQuery] = useMyQueryQuery()
+  usePopularCities()
+
   const [show, el] = useTriggerOnScroll()
 
   return (
@@ -63,19 +69,19 @@ const Home: NextPage = ({
                 ))}
           </Cities>
 
-          <Cities
+          {/* <Cities
             title='Pick your style'
             description='No matter what path you take to sell your home, we can help you navigate a successful sale.'
           >
             <CityCard
               key='Los Angeles'
               displayName='Los Angeles'
-              src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
+              image='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
             />
             <CityCard key='Hello' displayName='Hello' />
             <CityCard key='Hello 2' displayName='Hello' />
             <CityCard key='Hello 3' displayName='Hello' />
-          </Cities>
+          </Cities> */}
           <BannerHomeLoan
             title='Zillow Home Loans'
             description={

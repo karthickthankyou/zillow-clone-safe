@@ -1,11 +1,9 @@
 import Image from 'src/components/atoms/Image'
 import Link from 'src/components/atoms/Link'
 import { Cities } from 'src/generated/graphql'
+import { OptionalExceptFor, OptionalPick } from 'src/lib/util'
 
-export type ICityCardProps = Pick<
-  Cities,
-  'displayName' | 'image' | 'lat' | 'lng' | 'propertiesCount'
->
+export type ICityCardProps = OptionalExceptFor<Cities, 'displayName'>
 
 export const CityCardShadow = () => (
   <div className='relative block mt-2 mb-12 overflow-hidden transition-all duration-500 border-2 border-white rounded-md shadow-md animate-pulse w-96 h-96'>
@@ -34,7 +32,7 @@ const CityCard = ({
     <Image
       className='h-full transition-all duration-700 scale-110 group-hover:brightness-110 brightness-95 group-hover:scale-100'
       alt=''
-      src={image}
+      src={image || ''}
     />
     <div className='absolute bottom-0 pt-24 pb-3 pl-3 pr-24 text-white bg-gradient-to-tr from-primary-800 via-transparent to-transparent'>
       <div className='text-2xl font-semibold tracking-tighter'>
