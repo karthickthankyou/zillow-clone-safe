@@ -48,7 +48,9 @@ const Home: NextPage = ({
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>
             {fetching
-              ? ['1', '2', '3', '4'].map((item) => <CityCardShadow />)
+              ? ['1', '2', '3', '4'].map((item) => (
+                  <CityCardShadow key={item} />
+                ))
               : citiesData?.cities?.map((city) => (
                   <CityCard
                     key={city.displayName}
@@ -66,12 +68,13 @@ const Home: NextPage = ({
             description='No matter what path you take to sell your home, we can help you navigate a successful sale.'
           >
             <CityCard
-              title='Los Angeles'
+              key='Los Angeles'
+              displayName='Los Angeles'
               src='https://res.cloudinary.com/thankyou/image/upload/v1640726401/nike/cities/denys-nevozhai-k5w21D7PgMk-unsplash_zz2obf.jpg'
             />
-            <CityCard title='Hello' />
-            <CityCard title='Hello' />
-            <CityCard title='Hello' />
+            <CityCard key='Hello' displayName='Hello' />
+            <CityCard key='Hello 2' displayName='Hello' />
+            <CityCard key='Hello 3' displayName='Hello' />
           </Cities>
           <BannerHomeLoan
             title='Zillow Home Loans'

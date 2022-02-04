@@ -1,11 +1,19 @@
 import type { AppProps } from 'next/app'
-import { createClient, Provider, defaultExchanges, fetchExchange } from 'urql'
+import {
+  createClient,
+  Provider,
+  defaultExchanges,
+  fetchExchange,
+  dedupExchange,
+} from 'urql'
 import { devtoolsExchange } from '@urql/devtools'
 import { cacheExchange } from '@urql/exchange-graphcache'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
-import { auth } from 'src/lib/firebase'
+import { auth } from 'src/config/firebase'
 import 'src/globals.css'
+import { Provider as ReduxProvider } from 'react-redux'
+import { store } from '../src/store'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [token, settoken] = useState('')
@@ -36,6 +44,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
     exchanges: [
       ...defaultExchanges,
+      dedupExchange,
       devtoolsExchange,
       cacheExchange({}),
       fetchExchange,
@@ -47,8 +56,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   })
   return (
     <Provider value={client}>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
+      <ReduxProvider store={store}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </ReduxProvider>
     </Provider>
   )
 }

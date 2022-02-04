@@ -5,7 +5,7 @@ import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 import {} from '@react-icons/all-files/'
 import Link from 'src/components/atoms/Link'
 import Brand from 'src/components/atoms/Brand'
-import { googleSignin } from 'src/lib/firebase'
+import { selectUser, signin, googleSignin } from 'src/store/user'
 
 export interface ISignUpProps {}
 

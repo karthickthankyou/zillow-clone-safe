@@ -1,10 +1,10 @@
 import { ReactElement } from 'react'
-import HScroll from 'src/components/molecules/HScroll'
+import HScroll, { HScrollBodyProps } from 'src/components/molecules/HScroll'
 
 export interface ICitiesProps {
   title: string
   description: string
-  children: ReactElement[]
+  children: HScrollBodyProps['children']
 }
 
 const Cities = ({ title, description, children }: ICitiesProps) => (

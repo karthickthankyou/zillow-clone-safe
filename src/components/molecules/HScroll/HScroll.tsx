@@ -73,13 +73,13 @@ const LeftArrow = ({
     </div>
   )
 }
-const HScrollBody = ({
-  children,
-  className,
-}: {
-  children: ReactElement[]
+
+export type HScrollBodyProps = {
+  children?: ReactElement | ReactElement[]
   className?: string
-}) => {
+}
+
+const HScrollBody = ({ children, className }: HScrollBodyProps) => {
   const { scrollEl, scrollListener, scrollPos } = useScrollContext()
   // const showLeft = scrollPos[0] > 0
   // const showRight = scrollPos[1] > 0

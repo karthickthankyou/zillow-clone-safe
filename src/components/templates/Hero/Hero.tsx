@@ -2,36 +2,56 @@ import Autocomplete from 'src/components/molecules/Autocomplete'
 import { useState } from 'react'
 import { useRouter } from 'next/dist/client/router'
 import { useSearchCitiesQuery } from 'src/generated/graphql'
+import { useDispatch } from 'react-redux'
+
+import { useAppSelector } from 'src/store'
+import {
+  selectCitySearchText,
+  selectCityOptions,
+  selectSelectedCity,
+  setCitySearchText,
+  setSelectedCity,
+} from 'src/store/cities/citySlice'
+import { useSearchCity } from 'src/store/cities/cityHooks'
 
 export interface IHeroProps {}
 
 const Hero = () => {
   const router = useRouter()
-  const [inputValue, setInputValue] = useState('')
+  useSearchCity()
+  const dispatch = useDispatch()
+  const searchTerm = useAppSelector(selectCitySearchText)
+  const cityOptions = useAppSelector(selectCityOptions)
+  const selectedCity = useAppSelector(selectSelectedCity)
 
-  const [{ data, fetching }] = useSearchCitiesQuery({
-    variables: { search: inputValue },
-  })
-  const options = data?.search_cities.map((item) => item.displayName) || []
+  console.log(
+    'SearchTerm: ',
+    searchTerm,
+    'cityOptions: ',
+    cityOptions,
+    'selectedCity',
+    selectedCity
+  )
 
-  const onOptionSelect = (e: any, v: any) => {
-    if (v) {
-      const lat = data?.search_cities.filter((d) => d.displayName === v)[0]?.lat
-      const lng = data?.search_cities.filter((d) => d.displayName === v)[0]?.lng
+  // const onOptionSelect = (e: any, v: any) => {
+  //   if (v) {
+  //     const { lat, lng } = data?.search_cities.filter(
+  //       (d) => d.displayName === v
+  //     )[0]?
 
-      router.push(
-        {
-          pathname: '/homes',
-          query: {
-            search: v,
-            lat,
-            lng,
-          },
-        },
-        '/homes'
-      )
-    }
-  }
+  //     router.push(
+  //       {
+  //         pathname: '/homes',
+  //         query: {
+  //           search: v,
+  //           lat,
+  //           lng,
+  //         },
+  //       },
+  //       '/homes'
+  //     )
+  //   }
+  // }
 
   return (
     <div className='flex flex-col items-center justify-center w-screen bg-scroll bg-cover h-screen90 -z-10 bg-opacity-80 bg-hero'>
@@ -41,10 +61,11 @@ const Hero = () => {
         </div>
 
         <Autocomplete
-          options={options}
-          onInputChange={(_e, v) => setInputValue(v)}
-          loading={fetching}
-          onChange={onOptionSelect}
+          options={cityOptions.data}
+          getOptionLabel={(x) => x.displayName}
+          onInputChange={(_e, v) => dispatch(setCitySearchText(v))}
+          loading={cityOptions.fetching}
+          onChange={(e, v) => dispatch(setSelectedCity(v))}
           className='mt-24 rounded-lg'
         />
       </div>
