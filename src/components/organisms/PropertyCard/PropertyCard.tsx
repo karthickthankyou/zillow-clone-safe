@@ -2,12 +2,10 @@ import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import { Properties } from 'src/generated/graphql'
-import { Dispatch } from 'react'
-import { FilterAction } from 'src/components/templates/ProductListingPage/ProductListingPage'
+import { useAppDispatch } from 'src/store'
+import { useHomesDetailed } from 'src/store/homes/homeHooks'
 
-export type IPropertyCardProps = Partial<Properties> & {
-  dispatch: Dispatch<FilterAction>
-}
+export type IPropertyCardProps = Partial<Properties>
 
 const PropertyCard = ({
   id,
@@ -16,16 +14,16 @@ const PropertyCard = ({
   bath,
   price,
   sqft,
-  dispatch,
 }: IPropertyCardProps) => {
+  const dispatch = useAppDispatch()
   const setHighlightedHome = (value: number | null | undefined) =>
     dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
 
   return (
     <div
-      onMouseOver={() => setHighlightedHome(id)}
-      onFocus={() => setHighlightedHome(id)}
-      onMouseLeave={() => setHighlightedHome(null)}
+    // onMouseOver={() => setHighlightedHome(id)}
+    // onFocus={() => setHighlightedHome(id)}
+    // onMouseLeave={() => setHighlightedHome(null)}
     >
       <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
         <Image
@@ -36,7 +34,7 @@ const PropertyCard = ({
         />
         <button
           type='button'
-          className='absolute top-0 right-0 flex items-start justify-end text-red-500 bg-white rounded-none rounded-bl'
+          className='absolute top-0 right-0 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
         >
           <HeartIconReg className='w-8 h-8 p-1' />
         </button>

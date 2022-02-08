@@ -10,7 +10,7 @@ import {
   setCityOptions,
   selectCitySearchText,
   setPopularCities,
-  selectBounds,
+  selectSelectedCity,
 } from './citySlice'
 
 export const useSearchCity = () => {

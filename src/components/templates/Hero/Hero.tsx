@@ -1,6 +1,7 @@
 import Autocomplete from 'src/components/molecules/Autocomplete'
 
 import { useDispatch } from 'react-redux'
+import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
 
 import { useAppSelector } from 'src/store'
 import {
@@ -26,10 +27,10 @@ const Hero = () => {
   useSearchCity()
 
   return (
-    <div className='flex flex-col items-center justify-center w-screen bg-scroll bg-cover h-screen90 -z-10 bg-opacity-80 bg-hero'>
-      <div className='max-w-lg'>
-        <div className='font-black tracking-tight text-center text-white text-7xl leading-90p'>
-          Change starts <em className=''>here</em>
+    <div className='flex flex-col items-center justify-center w-screen h-screen bg-fixed bg-cover -z-10 bg-opacity-80 bg-hero '>
+      <div className='my-auto'>
+        <div className='text-5xl font-black tracking-tight text-center text-white sm:text-6xl md:max-w-lg lg:text-7xl leading-90p'>
+          Change starts <br /> <em>here</em>
         </div>
 
         <Autocomplete<CitySlice['selectedCity'], false, false, false>
@@ -52,9 +53,10 @@ const Hero = () => {
               )
             }
           }}
-          className='mt-24 rounded-lg'
+          className='w-full mt-12 rounded-lg'
         />
       </div>
+      <ArrowCircleDownIcon className='bottom-0 w-8 h-8 text-white justify-self-stretch animate-bounce' />
     </div>
   )
 }

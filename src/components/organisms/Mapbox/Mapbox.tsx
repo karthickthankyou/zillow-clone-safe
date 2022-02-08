@@ -1,24 +1,22 @@
-import React, { Dispatch } from 'react'
-import ReactMapGL, { Marker, NavigationControl } from 'react-map-gl'
+import React, { useCallback, useState } from 'react'
+import ReactMapGL, {
+  NavigationControl,
+  WebMercatorViewport,
+} from 'react-map-gl'
 import MapPopup from 'src/components/molecules/Popup'
+import MapMarker from 'src/components/molecules/MapMarker'
 import 'mapbox-gl/dist/mapbox-gl.css'
-import HomeIcon from '@heroicons/react/solid/HomeIcon'
-import { GetHomeByIdQuery } from 'src/generated/graphql'
 import { useTransition, animated } from 'react-spring'
-import { FilterAction } from 'src/components/templates/ProductListingPage/ProductListingPage'
+import debounce from 'lodash.debounce'
+import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
-import { useAppDispatch, useAppSelector } from 'src/store'
-import {
-  setMapLocation,
-  selectMap,
-  selectBounds,
-} from 'src/store/cities/citySlice'
+import { useAppDispatch } from 'src/store'
+import { setMapLocation } from 'src/store/cities/citySlice'
 
-import { selectHomesMap } from 'src/store/homes/homeSlice'
-import { useHomes } from 'src/store/homes/homeHooks'
+import { useHomesMap } from 'src/store/homes/homeHooks'
 import mapStyle from './mapLight.json'
+import { dividerClasses } from '@mui/material'
 
-// mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 'TOKEN_NOT_FOUND'
 const accessToken =
   'pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ'
 
@@ -34,28 +32,61 @@ export type MapLocation = {
 
 export type MarkerType = { id: string; lat: number; lng: number }[]
 
-export interface IMapBoxProps {
-  viewport: MapLocation
-  setLocation: (arg: MapLocation) => void
-  className?: string
-  highlightedHome?: { data: GetHomeByIdQuery['homes_by_pk']; fetching: boolean }
-  dispatch: Dispatch<FilterAction>
-}
+// export interface IMapBoxProps {
+//   className?: string
+// }
 
-const MapBox = ({
-  viewport,
-  setLocation,
-  className,
-  highlightedHome,
-  dispatch,
-}: IMapBoxProps) => {
-  const dispatchRedux = useAppDispatch()
-  const selectMapData = useAppSelector(selectMap)
-  const [ne, sw] = useAppSelector(selectBounds)
-  const homes = useAppSelector(selectHomesMap)
-  useHomes()
+const MapBox = () => {
+  /**
+   * Responsibilities
+   *
+   * 1. Send map location to redux.
+   * 2. Fetch data using useHomesMap
+   *
+   *  */
 
-  const markersTransitions = useTransition(homes.data?.homes, {
+  // Local state
+  const [viewport, setViewPort] = useState({
+    width: '100%',
+    height: 900,
+    longitude: -74.006,
+    latitude: 40.7128,
+    zoom: 12,
+  })
+
+  const dispatch = useAppDispatch()
+  const debouncedSave = useCallback(
+    debounce((v) => {
+      const webMercatorViewport = new WebMercatorViewport({
+        width: v.width * 0.95,
+        height: v.height * 0.95,
+        latitude: v.latitude,
+        longitude: v.longitude,
+        zoom: v.zoom,
+      })
+
+      const [ne, sw]: [[number, number], [number, number]] =
+        webMercatorViewport.getBounds()
+      dispatch(
+        setMapLocation({
+          lat: v.latitude,
+          lng: v.longitude,
+          zoom: v.zoom,
+          width: v.width,
+          height: v.height,
+          ne,
+          sw,
+        })
+      )
+    }, 500),
+    []
+  )
+
+  const { data, fetching, error, stale } = useHomesMap()
+
+  const highlightedHome = { data: { id: 88 } }
+
+  const markersTransitions = useTransition(data?.homes, {
     keys: (home) => home?.id || '3',
     from: { opacity: 0, transform: 'translateY(-6px)' },
     enter: { opacity: 1, transform: 'translateY(0px)' },
@@ -67,88 +98,57 @@ const MapBox = ({
   })
 
   return (
-    <div className={`relative w-full ${className}  `}>
+    <div className='relative w-full h-screen'>
       <ReactMapGL
         // eslint-disable-next-line react/jsx-props-no-spreading
-        {...selectMapData}
-        // onMouseUp={(map) => console.log(map.getBounds(), 'Map ')}
-        onViewportChange={({ width, height, latitude, longitude, zoom }) => {
-          dispatchRedux(
-            setMapLocation({
-              lat: latitude,
-              lng: longitude,
-              zoom,
-              width,
-              height,
-            })
-          )
+        {...viewport}
+        onViewportChange={(v) => {
+          setViewPort(v)
+          debouncedSave(v)
         }}
         dragPan
         scrollZoom={false}
         width='100%'
         height='100%'
         // pitch={45}
-        // altitude={1.5}
-        // className='shadow-inner'
         mapboxApiAccessToken={accessToken}
         mapStyle={mapStyle}
-
-        // visibilityConstraints={{
-        //   minZoom: 12,
-        //   maxZoom: 16,
-        // }}
-        // transitionDuration={100}
-        // transitionInterpolator={new FlyToInterpolator()}
       >
-        <NavigationControl className='z-30 p-2' />{' '}
-        <Marker latitude={viewport.ne[1]} longitude={viewport.sw[0]}>
-          <div id='red'>
-            <HomeIcon className='w-4 h-4 text-red-500' />
+        <NavigationControl showCompass={false} className='z-30 p-2 ' />{' '}
+        {fetching && (
+          <div className='absolute top-0 right-0 flex justify-end w-10 h-10 p-2 text-gray-700 '>
+            <RefreshIcon className='w-full h-full transform rotate-180 animate-spin' />
           </div>
-        </Marker>
-        <Marker latitude={viewport.sw[1]} longitude={viewport.ne[0]}>
-          <div id='green'>
-            <HomeIcon className='w-4 h-4 text-green-500' />
+        )}
+        {!fetching && data?.homes.length === 0 && (
+          <div className='absolute top-0 right-0 flex justify-end p-2 text-gray-700 '>
+            <div>No properties found.</div>
           </div>
-        </Marker>
-        <Marker latitude={viewport.ne[1]} longitude={viewport.ne[0]}>
-          <div id='red'>
-            <HomeIcon className='w-4 h-4 text-red-500' />
-          </div>
-        </Marker>
-        <Marker latitude={viewport.sw[1]} longitude={viewport.sw[0]}>
-          <div id='green'>
-            <HomeIcon className='w-4 h-4 text-green-500' />
-          </div>
-        </Marker>
+        )}
         {markersTransitions((style, marker) => (
           <>
             {highlightedHome?.data?.id === marker?.id && (
               <MapPopup marker={marker} highlightedHome={highlightedHome} />
             )}
             <animated.div key={marker?.id} style={style}>
-              <Marker latitude={marker?.lat} longitude={marker?.lng}>
-                <HomeIcon
-                  onMouseOver={() =>
-                    dispatch({
-                      type: 'SET_HIGHLIGHTED_ID',
-                      payload: marker?.id,
-                    })
-                  }
-                  onMouseLeave={() =>
-                    dispatch({
-                      type: 'SET_HIGHLIGHTED_ID',
-                      payload: null,
-                    })
-                  }
-                  className={`w-5 h-5 transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative ${
-                    highlightedHome?.data?.id === marker?.id
-                      ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded  '
-                      : 'text-primary-900 opacity-70'
-                  }`}
-                />
-                {/* <div className='w-4 h-4 scale-y-50 border-2 border-blue-600 rounded-full ' /> */}
-              </Marker>
+              {/* FIX */}
+              <MapMarker
+                lat={marker?.lat || 0}
+                lng={marker?.lng || 0}
+                highlighted={highlightedHome?.data?.id === marker?.id}
+                mouseHoverAction={() =>
+                  dispatch({
+                    type: 'SET_HIGHLIGHTED_ID',
+                    payload: marker?.id,
+                  })
+                }
+                mouseLeaveAction={() =>
+                  dispatch({
+                    type: 'SET_HIGHLIGHTED_ID',
+                    payload: null,
+                  })
+                }
+              />
             </animated.div>
           </>
         ))}
@@ -158,23 +158,3 @@ const MapBox = ({
 }
 
 export default MapBox
-
-function selectHomesMap(selectHomesMap: any) {
-  throw new Error('Function not implemented.')
-}
-// {
-//   homes.data?.homes.map((marker) => (
-//     <Marker key={marker.id} latitude={marker.lat} longitude={marker.lng}>
-//       <HomeIcon
-//         className={`w-5 h-5 opacity-80 outline-white  ${
-//           highlightedId === marker.id
-//             ? 'text-primary-500 scale-125 z-20'
-//             : 'text-primary-900 -z-10'
-//         }`}
-//       />
-//       {/* <div className='w-4 h-4 scale-y-50 border-2 border-blue-600 rounded-full ' /> */}
-//     </Marker>
-//   ))
-// }
-
-// Use fitbounds. https://stackoverflow.com/questions/70304280/how-to-use-fitbounds-with-react-mapbox-gl

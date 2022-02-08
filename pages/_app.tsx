@@ -13,10 +13,14 @@ import { useEffect, useState } from 'react'
 import { auth } from 'src/config/firebase'
 import 'src/globals.css'
 import { Provider as ReduxProvider } from 'react-redux'
+import Layout from 'src/components/templates/Layout'
+
+import Streams from 'src/components/molecules/Streams'
 import { store } from '../src/store'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [token, settoken] = useState('')
+
   useEffect(
     () =>
       onAuthStateChanged(auth, async (user) => {
@@ -57,8 +61,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <Provider value={client}>
       <ReduxProvider store={store}>
-        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Component {...pageProps} />
+        <Layout>
+          <Streams />
+          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <Component {...pageProps} />
+        </Layout>
       </ReduxProvider>
     </Provider>
   )

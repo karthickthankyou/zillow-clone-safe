@@ -61,6 +61,7 @@
     "react-map-gl": "^6.1.18",
     "react-redux": "^7.2.6",
     "react-spring": "^9.4.2",
+    "rxjs": "^7.5.2",
     "urql": "^2.0.6",
     "yup": "^0.32.11"
   },

@@ -43,14 +43,14 @@ svg path {
   }
   [type='checkbox'],
   [type='radio'] {
-    @apply border-gray-300 rounded text-black focus:ring-black;
+    @apply text-black border-gray-300 rounded focus:ring-black;
   }
   a,
   input,
   textarea,
   select,
   button {
-    @apply text-black focus:border-black focus:ring-black focus:outline-accent rounded-sm;
+    @apply text-black rounded-sm focus:border-black focus:ring-black focus:outline-accent;
   }
 }
 
@@ -71,7 +71,7 @@ input[type='checkbox'] {
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.184 20c.357-.13.72-.264 1.088-.402l1.768-.661C33.64 15.347 39.647 14 50 14c10.271 0 15.362 1.222 24.629 4.928.955.383 1.869.74 2.75 1.072h6.225c-2.51-.73-5.139-1.691-8.233-2.928C65.888 13.278 60.562 12 50 12c-10.626 0-16.855 1.397-26.66 5.063l-1.767.662c-2.475.923-4.66 1.674-6.724 2.275h6.335zm0-20C13.258 2.892 8.077 4 0 4V2c5.744 0 9.951-.574 14.85-2h6.334zM77.38 0C85.239 2.966 90.502 4 100 4V2c-6.842 0-11.386-.542-16.396-2h-6.225zM0 14c8.44 0 13.718-1.21 22.272-4.402l1.768-.661C33.64 5.347 39.647 4 50 4c10.271 0 15.362 1.222 24.629 4.928C84.112 12.722 89.438 14 100 14v-2c-10.271 0-15.362-1.222-24.629-4.928C65.888 3.278 60.562 2 50 2 39.374 2 33.145 3.397 23.34 7.063l-1.767.662C13.223 10.84 8.163 12 0 12v2z' fill='%230000ff' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
   ::selection {
-    @apply bg-gradient-to-tr bg-primary-500 text-white;
+    @apply text-white bg-gradient-to-tr bg-primary-500;
   }
   .text-luxury {
     @apply text-gradient bg-gradient-to-tr via-black to-primary-600 from-primary-400;
@@ -80,11 +80,31 @@ input[type='checkbox'] {
     @apply text-gradient bg-gradient-to-tr via-white to-primary-300 from-white;
   }
   .bg-luxury {
-    @apply bg-gradient-to-tr via-primary-500 to-primary-600 from-primary-400 hover:bg-primary-600 transition-all text-white;
+    @apply text-white transition-all bg-gradient-to-tr via-primary-500 to-primary-600 from-primary-400 hover:bg-primary-600;
   }
 }
 
 /* Mapbox */
 .mapboxgl-popup-content {
   @apply p-0 rounded-lg overflow-hidden border-white border shadow-lg bg-none !important;
+}
+
+.mapboxgl-ctrl-group:not(:empty) {
+  @apply shadow-lg !important;
+}
+
+.mapboxgl-ctrl-group {
+  @apply bg-white/40 bg-blend-soft-light border border-white backdrop-blur-sm backdrop-filter !important;
+}
+
+.mapboxgl-ctrl-group button {
+  @apply w-8 h-8 rounded-none !important;
+}
+
+.mapboxgl-ctrl button:not(:disabled):hover {
+  @apply bg-white !important;
+}
+
+.mapboxgl-ctrl-group button + button {
+  @apply border-t border-white !important;
 }

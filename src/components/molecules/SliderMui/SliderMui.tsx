@@ -3,7 +3,6 @@ import Slider from '@mui/material/Slider'
 export interface ISliderMuiProps {
   initialData: [number, number]
   step: number
-  value: [number, number]
   onChange: (event: Event, value: number | number[]) => void
   className?: string
   labelFormat?: (value: number) => string
@@ -26,7 +25,6 @@ export const shorten = (value: number) => {
 export const addDollar = (value: string) => `$${value}`
 
 const SliderMui = ({
-  value,
   onChange,
   initialData,
   step,
@@ -37,7 +35,6 @@ const SliderMui = ({
     defaultValue={initialData}
     min={initialData[0]}
     max={initialData[1]}
-    value={value}
     step={step}
     onChange={onChange}
     valueLabelDisplay='on'

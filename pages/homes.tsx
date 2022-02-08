@@ -1,9 +1,20 @@
+/**
+ *
+ * Idea: The components don't have to use hooks that query data when state changes.
+ * We should use observables.
+ *
+ * How to do ComponentDidMount???
+ */
+
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/dist/client/router'
 import { MapLocation } from 'src/components/organisms/Mapbox/Mapbox'
 import ProductListingPage from 'src/components/templates/ProductListingPage'
 import { getQueryParam } from 'src/lib/util'
+import { useEffect } from 'react'
+
+import { ticker$ } from 'src/store/homes/homeStreams'
 
 export interface FilterState {
   search: string
@@ -33,6 +44,16 @@ const Homes: NextPage = () => {
   const router = useRouter()
   const search = getQueryParam(router.query.search, 'New York')
   console.log('search', search)
+
+  // useEffect(() => {
+  //   console.log('Subscribing ticker$')
+  //   const ticSub = ticker$.subscribe(console.log)
+
+  //   return () => {
+  //     console.log('unsubscribe from ticker$')
+  //     ticSub.unsubscribe()
+  //   }
+  // }, [])
 
   const initiaLatitude = getQueryParam(router.query.lat, '40.7128')
   const initialLongitude = getQueryParam(router.query.lng, '-74.0060')
@@ -82,11 +103,7 @@ const Homes: NextPage = () => {
 
   return (
     <div>
-      <ProductListingPage
-        search={search}
-        initiaLatitude={+initiaLatitude}
-        initialLongitude={+initialLongitude}
-      />
+      <ProductListingPage />
     </div>
   )
 }

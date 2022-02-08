@@ -1,5 +1,6 @@
 import { Popover } from '@headlessui/react'
-import { ReactElement } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useMemo } from 'react'
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
   PopoverButton,
@@ -235,40 +236,47 @@ const MenuPopoverPanel = ({
   )
 }
 
-const Navbar = () => (
-  <nav className='fixed top-0 z-20 flex items-center justify-center w-full h-16 bg-white border-b-2 border-white shadow-sm border-opacity-30 bg-opacity-80 backdrop-filter backdrop-blur '>
-    <div className='relative w-full'>
-      <div className='container flex items-center justify-center w-full h-6 mx-auto'>
-        <div className='hidden w-full py-2 md:flex'>
-          <Popover.Group className='z-40 flex items-center space-x-4'>
-            {menu.map((item) => (
-              <PopoverParent key={item.title}>
-                <PopoverButton>{item.title}</PopoverButton>
-                <MenuPopoverPanel items={item.submenu} />
-              </PopoverParent>
-            ))}
-          </Popover.Group>
-          <Popover.Group className='z-40 flex items-center ml-auto space-x-4'>
-            {menu2.map((item) => (
-              <PopoverParent key={item.title}>
-                <PopoverButton>
-                  {item.titleComponent || item.title}
-                </PopoverButton>
-                <MenuPopoverPanel items={item.submenu} />
-              </PopoverParent>
-            ))}
-          </Popover.Group>
+const Navbar = () => {
+  const url = useRouter().pathname
+  const navCls = useMemo(() => url === '/' && 'fixed', [url])
+
+  return (
+    <nav
+      className={`${navCls} z-30 flex items-center justify-center w-full h-16 bg-white border-b-2 border-white top border-opacity-30 bg-opacity-80 backdrop-filter backdrop-blur`}
+    >
+      <div className='relative w-full'>
+        <div className='container flex items-center justify-center w-full h-6 mx-auto'>
+          <div className='hidden w-full py-2 md:flex'>
+            <Popover.Group className='z-40 flex items-center space-x-4'>
+              {menu.map((item) => (
+                <PopoverParent key={item.title}>
+                  <PopoverButton>{item.title}</PopoverButton>
+                  <MenuPopoverPanel items={item.submenu} />
+                </PopoverParent>
+              ))}
+            </Popover.Group>
+            <Popover.Group className='z-40 flex items-center ml-auto space-x-4'>
+              {menu2.map((item) => (
+                <PopoverParent key={item.title}>
+                  <PopoverButton>
+                    {item.titleComponent || item.title}
+                  </PopoverButton>
+                  <MenuPopoverPanel items={item.submenu} />
+                </PopoverParent>
+              ))}
+            </Popover.Group>
+          </div>
+          <Link href='/' className='absolute font-black text-primary-600 '>
+            {/* ZILLOW */}
+            <img
+              src='https://s.zillowstatic.com/pfs/static/z-logo-default.svg'
+              className='w-full h-full'
+            />
+          </Link>
         </div>
-        <Link href='/' className='absolute font-black text-primary-600 '>
-          {/* ZILLOW */}
-          <img
-            src='https://s.zillowstatic.com/pfs/static/z-logo-default.svg'
-            className='w-full h-full'
-          />
-        </Link>
       </div>
-    </div>
-  </nav>
-)
+    </nav>
+  )
+}
 
 export default Navbar

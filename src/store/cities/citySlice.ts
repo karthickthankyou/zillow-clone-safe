@@ -5,6 +5,16 @@ import { GetCitiesQuery, SearchCitiesQuery } from 'src/generated/graphql'
 import { UseQueryState } from 'urql'
 import { RootState } from '..'
 
+export type MapLocation = {
+  longitude: number
+  latitude: number
+  zoom: number
+  height: number
+  width: number
+  ne: [number, number]
+  sw: [number, number]
+}
+
 export type CitySlice = {
   citySearchText: string
   cityOptions: UseQueryState<SearchCitiesQuery>
@@ -15,6 +25,8 @@ export type CitySlice = {
     width?: number
     height?: number
     zoom?: number
+    ne?: [number, number]
+    sw?: [number, number]
   }
   popularCities: UseQueryState<GetCitiesQuery>
 }
@@ -76,12 +88,14 @@ const citySlice = createSlice({
       state,
       action: PayloadAction<Omit<CitySlice['selectedCity'], 'displayName'>>
     ) => {
-      const { lat, lng, zoom, width, height } = action.payload
+      const { lat, lng, zoom, width, height, ne, sw } = action.payload
       if (lat) state.selectedCity.lat = lat
       if (lng) state.selectedCity.lng = lng
       if (zoom) state.selectedCity.zoom = zoom
       if (width) state.selectedCity.width = width
       if (height) state.selectedCity.height = height
+      if (ne) state.selectedCity.ne = ne
+      if (sw) state.selectedCity.sw = sw
     },
   },
 })
@@ -100,34 +114,6 @@ export const selectCitySearchText = (state: RootState) =>
 export const selectMap = (state: RootState) => {
   const { lat, lng, width, height, zoom } = state.city.selectedCity
   return { latitude: lat, longitude: lng, width, height, zoom }
-}
-
-export const selectBounds = (state: RootState) => {
-  const {
-    lat: latitude,
-    lng: longitude,
-    width = 100,
-    height = 100,
-    zoom,
-  } = state.city.selectedCity
-  const webMercatorViewport = new WebMercatorViewport({
-    width: width * 0.95,
-    height: height * 0.95,
-    latitude,
-    longitude,
-    zoom,
-    fovy: 2,
-    // bearing: 0,
-    // altitude: 20,
-    // pitch: -40,
-    // fovy: 45,
-    // position: [longitude, latitude],
-    // nearZMultiplier: 0.1,
-    // farZMultiplier: 0.1,
-  })
-
-  const [ne, sw] = webMercatorViewport.getBounds()
-  return [ne, sw]
 }
 
 export const selectCityOptions = (state: RootState) => {
