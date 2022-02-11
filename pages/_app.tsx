@@ -46,18 +46,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   const client = createClient({
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
-    exchanges: [
-      ...defaultExchanges,
-      dedupExchange,
-      devtoolsExchange,
-      cacheExchange({}),
-      fetchExchange,
-    ],
+    exchanges: [devtoolsExchange, ...defaultExchanges],
     fetchOptions: {
       // @ts-ignore
       headers,
     },
   })
+
   return (
     <Provider value={client}>
       <ReduxProvider store={store}>

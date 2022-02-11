@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { WebMercatorViewport } from 'react-map-gl'
 import { GetCitiesQuery, SearchCitiesQuery } from 'src/generated/graphql'
 import { UseQueryState } from 'urql'
 import { RootState } from '..'
@@ -17,22 +16,28 @@ export type MapLocation = {
 
 export type CitySlice = {
   citySearchText: string
+  cityList: {
+    data: { lat: number; lng: number; displayName: string }[]
+    fetching: boolean
+    error?: any
+  }
   cityOptions: UseQueryState<SearchCitiesQuery>
   selectedCity: {
     displayName: string
     lat?: number
     lng?: number
-    width?: number
-    height?: number
     zoom?: number
-    ne?: [number, number]
-    sw?: [number, number]
+    bounds?: [[number, number], [number, number]]
   }
   popularCities: UseQueryState<GetCitiesQuery>
 }
 
 const initialState: CitySlice = {
   citySearchText: '',
+  cityList: {
+    data: [],
+    fetching: false,
+  },
   cityOptions: {
     data: {
       search_cities: [],
@@ -43,6 +48,10 @@ const initialState: CitySlice = {
   selectedCity: {
     displayName: '',
     zoom: 12,
+    bounds: [
+      [0, 0],
+      [0, 0],
+    ],
   },
   popularCities: {
     data: { cities: [] },
@@ -60,6 +69,10 @@ const citySlice = createSlice({
       action: PayloadAction<CitySlice['citySearchText']>
     ) => {
       state.citySearchText = action.payload
+    },
+    setCityList: (state, action: PayloadAction<CitySlice['cityList']>) => {
+      // @ts-ignore
+      state.cityList = action.payload
     },
     setCityOptions: (
       state,
@@ -88,14 +101,11 @@ const citySlice = createSlice({
       state,
       action: PayloadAction<Omit<CitySlice['selectedCity'], 'displayName'>>
     ) => {
-      const { lat, lng, zoom, width, height, ne, sw } = action.payload
+      const { lat, lng, zoom, bounds } = action.payload
       if (lat) state.selectedCity.lat = lat
       if (lng) state.selectedCity.lng = lng
       if (zoom) state.selectedCity.zoom = zoom
-      if (width) state.selectedCity.width = width
-      if (height) state.selectedCity.height = height
-      if (ne) state.selectedCity.ne = ne
-      if (sw) state.selectedCity.sw = sw
+      if (bounds) state.selectedCity.bounds = bounds
     },
   },
 })
@@ -106,15 +116,19 @@ export const {
   setSelectedCity,
   setPopularCities,
   setMapLocation,
+  setCityList,
 } = citySlice.actions
 
 export const selectCitySearchText = (state: RootState) =>
   state.city.citySearchText
 
 export const selectMap = (state: RootState) => {
-  const { lat, lng, width, height, zoom } = state.city.selectedCity
-  return { latitude: lat, longitude: lng, width, height, zoom }
+  const { lat, lng, zoom } = state.city.selectedCity
+  return { latitude: lat, longitude: lng, zoom }
 }
+
+export const selectCityList = (state: RootState): CitySlice['cityList'] =>
+  state.city.cityList
 
 export const selectCityOptions = (state: RootState) => {
   const { data, fetching, error } = state.city.cityOptions
@@ -130,8 +144,11 @@ export const selectCityOptions = (state: RootState) => {
   }
 }
 
-export const selectSelectedCity = (state: RootState) => state.city.selectedCity
-export const selectPopularCities = (state: RootState) =>
-  state.city.popularCities
+export const selectSelectedCity = (
+  state: RootState
+): CitySlice['selectedCity'] => state.city.selectedCity
+export const selectPopularCities = (
+  state: RootState
+): CitySlice['popularCities'] => state.city.popularCities
 
 export default citySlice.reducer

@@ -1,4 +1,12 @@
-import { createContext, ReactElement, useContext, useMemo } from 'react'
+import {
+  createContext,
+  ReactElement,
+  useContext,
+  useMemo,
+  ReactChild,
+  ReactNode,
+  JSX,
+} from 'react'
 
 // import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight'
 import { useScroll } from 'src/hooks'
@@ -75,7 +83,7 @@ const LeftArrow = ({
 }
 
 export type HScrollBodyProps = {
-  children?: ReactElement | ReactElement[]
+  children?: JSX.Element<{ id: string }>[] | JSX.Element<{ id: string }>
   className?: string
 }
 
@@ -89,6 +97,11 @@ const HScrollBody = ({ children, className }: HScrollBodyProps) => {
   //   if (showRight) return 'shadow-inner-r'
   //   return 'shadow-inner-l'
   // }, [showLeft, showRight])
+  const renderChildren: JSX.Element[] = (() => {
+    if (!children) return []
+    if (!Array.isArray(children)) return [children]
+    return children
+  })()
 
   return (
     <div
@@ -96,8 +109,8 @@ const HScrollBody = ({ children, className }: HScrollBodyProps) => {
       onScroll={scrollListener}
       className={`flex w-full py-3 space-x-2 overflow-x-scroll snap-x snap-mandatory scrollbar-hide ${className}`}
     >
-      {children.map((child) => (
-        <div key={child.props.key} className='flex-shrink-0 snap-start'>
+      {renderChildren?.map((child) => (
+        <div key={child.props.id} className='flex-shrink-0 snap-start'>
           {child}
         </div>
       ))}

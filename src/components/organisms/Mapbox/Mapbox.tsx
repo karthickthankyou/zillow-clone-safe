@@ -1,21 +1,17 @@
-import React, { useCallback, useState } from 'react'
-import ReactMapGL, {
-  NavigationControl,
-  WebMercatorViewport,
-} from 'react-map-gl'
+import React, { useState } from 'react'
+import ReactMapGL, { NavigationControl, MapRef } from 'react-map-gl'
 import MapPopup from 'src/components/molecules/Popup'
 import MapMarker from 'src/components/molecules/MapMarker'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useTransition, animated } from 'react-spring'
-import debounce from 'lodash.debounce'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
 import { useAppDispatch } from 'src/store'
 import { setMapLocation } from 'src/store/cities/citySlice'
 
+// import { useFetchHomes } from 'src/store/streams'
 import { useHomesMap } from 'src/store/homes/homeHooks'
 import mapStyle from './mapLight.json'
-import { dividerClasses } from '@mui/material'
 
 const accessToken =
   'pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ'
@@ -40,49 +36,26 @@ const MapBox = () => {
   /**
    * Responsibilities
    *
-   * 1. Send map location to redux.
+   * 1. Manage map location locally to avoid updating redux store multiple times a second! Someone can listen to that day else where in the application.
+   * 2. Send map location to redux store when user interaction stops.
    * 2. Fetch data using useHomesMap
    *
    *  */
 
   // Local state
   const [viewport, setViewPort] = useState({
-    width: '100%',
-    height: 900,
     longitude: -74.006,
     latitude: 40.7128,
     zoom: 12,
   })
 
+  const ref = React.useRef<MapRef | null>(null)
+
   const dispatch = useAppDispatch()
-  const debouncedSave = useCallback(
-    debounce((v) => {
-      const webMercatorViewport = new WebMercatorViewport({
-        width: v.width * 0.95,
-        height: v.height * 0.95,
-        latitude: v.latitude,
-        longitude: v.longitude,
-        zoom: v.zoom,
-      })
 
-      const [ne, sw]: [[number, number], [number, number]] =
-        webMercatorViewport.getBounds()
-      dispatch(
-        setMapLocation({
-          lat: v.latitude,
-          lng: v.longitude,
-          zoom: v.zoom,
-          width: v.width,
-          height: v.height,
-          ne,
-          sw,
-        })
-      )
-    }, 500),
-    []
-  )
+  // useFetchHomes()
 
-  const { data, fetching, error, stale } = useHomesMap()
+  const { data, fetching } = useHomesMap()
 
   const highlightedHome = { data: { id: 88 } }
 
@@ -104,17 +77,34 @@ const MapBox = () => {
         {...viewport}
         onViewportChange={(v) => {
           setViewPort(v)
-          debouncedSave(v)
         }}
         dragPan
         scrollZoom={false}
         width='100%'
         height='100%'
+        ref={(el) => {
+          ref.current = el
+        }}
         // pitch={45}
         mapboxApiAccessToken={accessToken}
         mapStyle={mapStyle}
+        onInteractionStateChange={(state) => {
+          if (!state.isDragging) {
+            const mapbounds = ref.current?.getMap().getBounds().toArray()
+            const { longitude, latitude, zoom } = viewport
+
+            dispatch(
+              setMapLocation({
+                lng: longitude,
+                lat: latitude,
+                zoom,
+                bounds: mapbounds,
+              })
+            )
+          }
+        }}
       >
-        <NavigationControl showCompass={false} className='z-30 p-2 ' />{' '}
+        <NavigationControl showCompass={false} className='z-30 p-2 ' />
         {fetching && (
           <div className='absolute top-0 right-0 flex justify-end w-10 h-10 p-2 text-gray-700 '>
             <RefreshIcon className='w-full h-full transform rotate-180 animate-spin' />

@@ -7,11 +7,12 @@ import { useAppSelector } from 'src/store'
 import {
   CitySlice,
   selectCityOptions,
+  selectCityList,
   setCitySearchText,
   setSelectedCity,
   setMapLocation,
 } from 'src/store/cities/citySlice'
-import { useSearchCity } from 'src/store/cities/cityHooks'
+
 import { useRouter } from 'next/dist/client/router'
 
 export interface IHeroProps {}
@@ -21,10 +22,10 @@ const Hero = () => {
 
   /** Selectors */
   const cityOptions = useAppSelector(selectCityOptions)
+  const cityList = useAppSelector(selectCityList)
 
   /** Hooks */
   const router = useRouter()
-  useSearchCity()
 
   return (
     <div className='flex flex-col items-center justify-center w-screen h-screen bg-fixed bg-cover -z-10 bg-opacity-80 bg-hero '>
@@ -33,11 +34,11 @@ const Hero = () => {
           Change starts <br /> <em>here</em>
         </div>
 
-        <Autocomplete<CitySlice['selectedCity'], false, false, false>
-          options={cityOptions.data}
+        <Autocomplete<CitySlice['cityList'], false, false, false>
+          options={cityList.data}
           getOptionLabel={(x) => x.displayName}
           onInputChange={(_, v) => dispatch(setCitySearchText(v))}
-          loading={cityOptions.fetching}
+          loading={cityList.fetching}
           onChange={(_, v) => {
             const { displayName, lat, lng } = v!
 

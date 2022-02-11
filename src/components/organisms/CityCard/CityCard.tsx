@@ -1,7 +1,7 @@
 import Image from 'src/components/atoms/Image'
 import Link from 'src/components/atoms/Link'
 import { Cities } from 'src/generated/graphql'
-import { OptionalExceptFor, OptionalPick } from 'src/lib/util'
+import { OptionalExceptFor } from 'src/lib/util'
 
 export type ICityCardProps = OptionalExceptFor<Cities, 'displayName'>
 

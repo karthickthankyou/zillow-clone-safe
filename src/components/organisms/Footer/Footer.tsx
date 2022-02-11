@@ -16,30 +16,30 @@ const Icon = ({ IconInput }: { IconInput: IconType }) => (
 
 const FooterLink = ({ text }: { text: string }) => (
   <Link href='/' className='block text-gray-600 hover:text-gray-900'>
-    <li>{text}</li>
+    {text}
   </Link>
 )
 
-const footerItems = [
-  'About',
-  'Zestimates',
-  'Research',
-  'Careers',
-  'Help',
-  'Advertise',
-  'Fair Housing Guide',
-  'Terms of use',
-  'Privacy Portal',
-  'Cookie Preference',
-  'Blog',
-  'AI',
-  'Mobile Apps',
-  'Trulia',
-  'StreetEasy',
-  'HotPads',
-  'Out East',
-  'ShowingTime',
-]
+// const footerItems = [
+//   'About',
+//   'Zestimates',
+//   'Research',
+//   'Careers',
+//   'Help',
+//   'Advertise',
+//   'Fair Housing Guide',
+//   'Terms of use',
+//   'Privacy Portal',
+//   'Cookie Preference',
+//   'Blog',
+//   'AI',
+//   'Mobile Apps',
+//   'Trulia',
+//   'StreetEasy',
+//   'HotPads',
+//   'Out East',
+//   'ShowingTime',
+// ]
 
 const Footer = ({ className }: { className?: string }) => (
   <footer className={` bg-gray-100 ${className}`}>
@@ -47,28 +47,38 @@ const Footer = ({ className }: { className?: string }) => (
       <div className='flex py-12'>
         <div className='grid flex-grow space-y-4 text-sm text-gray-500 md:gap-2 lg:grid-cols-4 md:grid-cols-2 md:space-y-0'>
           <ul className='block'>
-            {footerItems.slice(0, 5).map((item) => (
+            {['About', 'Zestimates', 'Research', 'Careers', 'Help'].map(
+              (item) => (
+                <li key={item}>
+                  <FooterLink key={item} text={item} />
+                </li>
+              )
+            )}
+          </ul>
+          <ul className='block'>
+            {[
+              'Advertise',
+              'Fair Housing Guide',
+              'Terms of use',
+              'Privacy Portal',
+              'Cookie Preference',
+            ].map((item) => (
               <li key={item}>
                 <FooterLink key={item} text={item} />
               </li>
             ))}
           </ul>
           <ul className='block'>
-            {footerItems.slice(5, 10).map((item) => (
-              <li key={item}>
-                <FooterLink key={item} text={item} />
-              </li>
-            ))}
+            {['Blog', 'AI', 'Mobile Apps', 'Trulia', 'StreetEasy'].map(
+              (item) => (
+                <li key={item}>
+                  <FooterLink key={item} text={item} />
+                </li>
+              )
+            )}
           </ul>
           <ul className='block'>
-            {footerItems.slice(10, 15).map((item) => (
-              <li key={item}>
-                <FooterLink key={item} text={item} />
-              </li>
-            ))}
-          </ul>
-          <ul className='block'>
-            {footerItems.slice(15, 18).map((item) => (
+            {['HotPads', 'Out East', 'ShowingTime'].map((item) => (
               <li key={item}>
                 <FooterLink key={item} text={item} />
               </li>

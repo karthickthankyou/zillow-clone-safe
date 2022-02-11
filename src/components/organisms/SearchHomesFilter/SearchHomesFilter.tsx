@@ -3,30 +3,34 @@ import MenuItem from 'src/components/molecules/MenuItem'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   CitySlice,
+  selectCityList,
   selectCityOptions,
   setCitySearchText,
   setSelectedCity,
 } from 'src/store/cities/citySlice'
-import { useSearchCity } from 'src/store/cities/cityHooks'
+
 import SliderMui from 'src/components/molecules/SliderMui'
 import {
   addDollar,
   shorten,
 } from 'src/components/molecules/SliderMui/SliderMui'
+// import { useFetchCities } from 'src/store/streams'
 
 export interface ISearchHomesFilterProps {}
 
 const SearchHomesFilter = () => {
   const dispatch = useAppDispatch()
   const cityOptions = useAppSelector(selectCityOptions)
-  useSearchCity()
+  const cityList = useAppSelector(selectCityList)
+  // useFetchCities()
+
   return (
     <div className='relative z-10 flex items-center gap-12 mb-2 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
       <Autocomplete<CitySlice['selectedCity'], false, false, false>
-        options={cityOptions.data}
+        options={cityList.data}
         getOptionLabel={(x) => x.displayName}
         onInputChange={(_, v) => dispatch(setCitySearchText(v))}
-        loading={cityOptions.fetching}
+        loading={cityList.fetching}
         onChange={(_, v) => {
           if (v) dispatch(setSelectedCity(v))
         }}

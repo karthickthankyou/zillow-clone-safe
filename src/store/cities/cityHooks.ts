@@ -13,18 +13,18 @@ import {
   selectSelectedCity,
 } from './citySlice'
 
-export const useSearchCity = () => {
-  const dispatch = useAppDispatch()
-  const searchTerm = useAppSelector(selectCitySearchText)
+// export const useSearchCity = () => {
+//   const dispatch = useAppDispatch()
+//   const searchTerm = useAppSelector(selectCitySearchText)
 
-  const [{ data, fetching, error, stale }] = useSearchCitiesQuery({
-    variables: { search: searchTerm },
-  })
+//   const [{ data, fetching, error, stale }] = useSearchCitiesQuery({
+//     variables: { search: searchTerm },
+//   })
 
-  useEffect(() => {
-    dispatch(setCityOptions({ data, fetching, error, stale }))
-  }, [data, dispatch, error, fetching, stale])
-}
+//   useEffect(() => {
+//     dispatch(setCityOptions({ data, fetching, error, stale }))
+//   }, [data, dispatch, error, fetching, stale])
+// }
 
 export const usePopularCities = () => {
   const dispatch = useAppDispatch()

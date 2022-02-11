@@ -14,6 +14,8 @@ import { SkipNavLink, SkipNavContent } from '@reach/skip-nav'
 import { usePopularCities } from 'src/store/cities/cityHooks'
 import { useAppSelector } from 'src/store'
 import { selectPopularCities } from 'src/store/cities/citySlice'
+import React from 'react'
+// import { useFetchCities } from 'src/store/streams'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -32,6 +34,8 @@ const Home: NextPage = ({
 
   const [show, el] = useTriggerOnScroll()
 
+  // useFetchCities()
+
   return (
     <div>
       <NextSeo
@@ -46,6 +50,7 @@ const Home: NextPage = ({
 
       <main>
         <Hero />
+
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>
             {fetching

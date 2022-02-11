@@ -5,12 +5,23 @@ import {
   distinctUntilChanged,
   from,
   map,
+  mergeMap,
   pairwise,
+  throttleTime,
+  filter,
+  tap,
+  catchError,
+  EMPTY,
+  merge,
+  of,
 } from 'rxjs'
+
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 import userReducer from './user'
 import cityReducer from './cities/citySlice'
 import homesReducer from './homes/homeSlice'
+import { createObservables } from './streams'
 
 export const store = configureStore({
   reducer: {
@@ -24,18 +35,6 @@ export const store = configureStore({
     }),
 })
 
-export const store$ = from(store)
-
-const city$ = store$.pipe(
-  map((state) => state.city),
-  debounceTime(500),
-  distinctUntilChanged(),
-  pairwise()
-)
-const cityListener = city$.subscribe((v) =>
-  console.log('Cities changed listened from inside provider: ', v)
-)
-
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 export type AppThunk<ReturnType = void> = ThunkAction<
@@ -47,6 +46,12 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+
+export const store$ = from(store)
+const { city$, mapHomes$ } = createObservables(store$)
+
+city$.subscribe()
+mapHomes$.subscribe()
 
 // Questions about synchronous Redux
 // https://stackoverflow.com/questions/34570758/why-do-we-need-middleware-for-async-flow-in-redux

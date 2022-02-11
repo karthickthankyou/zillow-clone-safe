@@ -46,6 +46,7 @@
     "@turf/turf": "^6.5.0",
     "@urql/devtools": "^2.0.3",
     "@urql/exchange-graphcache": "^4.3.6",
+    "axios": "^0.25.0",
     "firebase": "^9.5.0",
     "graphql": "^16.2.0",
     "immer": "^9.0.12",
