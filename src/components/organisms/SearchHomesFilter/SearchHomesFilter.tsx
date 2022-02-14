@@ -22,7 +22,6 @@ const SearchHomesFilter = () => {
   const dispatch = useAppDispatch()
   const cityOptions = useAppSelector(selectCityOptions)
   const cityList = useAppSelector(selectCityList)
-  // useFetchCities()
 
   return (
     <div className='relative z-10 flex items-center gap-12 mb-2 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
@@ -32,7 +31,14 @@ const SearchHomesFilter = () => {
         onInputChange={(_, v) => dispatch(setCitySearchText(v))}
         loading={cityList.fetching}
         onChange={(_, v) => {
-          if (v) dispatch(setSelectedCity(v))
+          if (v)
+            dispatch(
+              setSelectedCity({
+                displayName: v.displayName,
+                latitude: v.lat,
+                longitude: v.lng,
+              })
+            )
         }}
         className='rounded-lg'
       />
@@ -43,8 +49,8 @@ const SearchHomesFilter = () => {
 
           <SliderMui
             onChange={(e, v) => console.log(v)}
-            step={100}
-            initialData={[0, 1000]}
+            step={10_000}
+            initialData={[0, 1_000_000]}
             className='mt-12 '
             labelFormat={(sliderValue) => `${addDollar(shorten(sliderValue))}`}
           />

@@ -41,10 +41,17 @@ const Hero = () => {
           loading={cityList.fetching}
           onChange={(_, v) => {
             const { displayName, lat, lng } = v!
+            console.log('city list: ', displayName, lat, lng)
 
             if (v) {
-              dispatch(setSelectedCity(v))
-              dispatch(setMapLocation({ lat, lng }))
+              dispatch(
+                setSelectedCity({
+                  displayName,
+                  latitude: lat,
+                  longitude: lng,
+                })
+              )
+              // dispatch(setMapLocation({ lat, lng }))
               router.push(
                 {
                   pathname: '/homes',

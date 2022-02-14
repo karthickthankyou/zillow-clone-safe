@@ -1,11 +1,12 @@
-import { useHomesList } from 'src/store/homes/homeHooks'
+import { useAppSelector } from 'src/store'
+import { selectHomesList } from 'src/store/homes/homeSlice'
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
 const ProductListingResult = () => {
-  const { data, fetching, error } = useHomesList()
+  const { data, fetching, error } = useAppSelector(selectHomesList)
 
-  const NO_RESULTS = !fetching && data?.homes.length === 0
+  const NO_RESULTS = !fetching && data?.length === 0
 
   if (error) {
     return <div>Something went wrong.</div>
@@ -26,7 +27,7 @@ const ProductListingResult = () => {
     <div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'>
       {fetching
         ? [1, 2, 3, 4, 5, 6].map((item) => <PropertyCardSkeleton key={item} />)
-        : data?.homes.map((item) => (
+        : data?.map((item) => (
             <PropertyCard
               id={item.id}
               key={item.id}

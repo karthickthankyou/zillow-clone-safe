@@ -48,10 +48,11 @@ export const useAppDispatch = () => useDispatch<AppDispatch>()
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const store$ = from(store)
-const { city$, mapHomes$ } = createObservables(store$)
+const { city$, homesList$, homesMap$ } = createObservables(store$)
 
 city$.subscribe()
-mapHomes$.subscribe()
+homesList$.subscribe()
+homesMap$.subscribe()
 
 // Questions about synchronous Redux
 // https://stackoverflow.com/questions/34570758/why-do-we-need-middleware-for-async-flow-in-redux

@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UseQueryState } from 'urql'
+
 import {
   SearchHomesByLocationQuery,
   SearchHomesByLocationDetailedQuery,
@@ -8,20 +8,24 @@ import {
 import { RootState } from '..'
 
 type HomeType = {
-  homesMap: UseQueryState<SearchHomesByLocationQuery>[0]
-  homesList: UseQueryState<SearchHomesByLocationDetailedQuery>[0]
+  homesMap: {
+    fetching?: boolean
+    error?: any
+    data?: SearchHomesByLocationQuery['homes']
+  }
+  homesList: {
+    fetching?: boolean
+    error?: any
+    data?: SearchHomesByLocationDetailedQuery['homes']
+  }
 }
 
 const initialState: HomeType = {
   homesMap: {
     data: [],
-    fetching: false,
-    stale: false,
   },
   homesList: {
     data: [],
-    fetching: false,
-    stale: false,
   },
 }
 
@@ -30,12 +34,16 @@ const homeSlice = createSlice({
   initialState,
   reducers: {
     setHomesMap: (state, action: PayloadAction<HomeType['homesMap']>) => {
-      // @ts-ignore
-      state.homesMap = action.payload
+      const { data, fetching, error } = action.payload
+      if (data) state.homesMap.data = data
+      if (error) state.homesMap.error = error
+      if (!(fetching === undefined)) state.homesMap.fetching = fetching
     },
     setHomesList: (state, action: PayloadAction<HomeType['homesList']>) => {
-      // @ts-ignore
-      state.homesMap = action.payload
+      const { data, fetching, error } = action.payload
+      if (data) state.homesList.data = data
+      if (error) state.homesList.error = error
+      if (!(fetching === undefined)) state.homesList.fetching = fetching
     },
   },
 })

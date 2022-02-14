@@ -1,16 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import ReactMapGL, { NavigationControl, MapRef } from 'react-map-gl'
 import MapPopup from 'src/components/molecules/Popup'
 import MapMarker from 'src/components/molecules/MapMarker'
+import _debounce from 'lodash/debounce'
+// import debounce from 'lodash/debounce'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useTransition, animated } from 'react-spring'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
-import { useAppDispatch } from 'src/store'
-import { setMapLocation } from 'src/store/cities/citySlice'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import {
+  setMapLocation,
+  selectSelectedCity,
+  CitySlice,
+  selectMapPosition,
+  setMapBounds,
+} from 'src/store/cities/citySlice'
+import { selectHomesMap } from 'src/store/homes/homeSlice'
 
-// import { useFetchHomes } from 'src/store/streams'
-import { useHomesMap } from 'src/store/homes/homeHooks'
 import mapStyle from './mapLight.json'
 
 const accessToken =
@@ -43,32 +50,48 @@ const MapBox = () => {
    *  */
 
   // Local state
-  const [viewport, setViewPort] = useState({
-    longitude: -74.006,
-    latitude: 40.7128,
+  const [viewport, setViewPort] = useState(() => ({
+    latitude: 0,
+    longitude: 0,
     zoom: 12,
-  })
+  }))
 
+  const mapPosition = useAppSelector(selectSelectedCity)
+  const homesMap = useAppSelector(selectHomesMap)
   const ref = React.useRef<MapRef | null>(null)
-
   const dispatch = useAppDispatch()
-
-  // useFetchHomes()
-
-  const { data, fetching } = useHomesMap()
 
   const highlightedHome = { data: { id: 88 } }
 
-  const markersTransitions = useTransition(data?.homes, {
-    keys: (home) => home?.id || '3',
+  const markersTransitions = useTransition(homesMap.data, {
+    keys: (home) => home.id,
     from: { opacity: 0, transform: 'translateY(-6px)' },
     enter: { opacity: 1, transform: 'translateY(0px)' },
     leave: { opacity: 0, transform: 'translateY(-6px)' },
-    config: {
-      duration: 200,
-    },
     trail: 100,
   })
+
+  /**
+   * Sync the location. Store -> Map.
+   */
+  useEffect(() => {
+    setViewPort((state) => ({
+      latitude: mapPosition?.latitude || 40.7128,
+      longitude: mapPosition?.longitude || -74.006,
+      zoom: state.zoom,
+    }))
+  }, [mapPosition])
+
+  const debouncedDispatchBounds = useCallback(
+    _debounce(() => {
+      dispatch(setMapBounds(ref.current?.getMap().getBounds().toArray()))
+    }, 300),
+    []
+  )
+
+  useEffect(() => {
+    debouncedDispatchBounds()
+  }, [debouncedDispatchBounds, viewport])
 
   return (
     <div className='relative w-full h-screen'>
@@ -88,31 +111,11 @@ const MapBox = () => {
         // pitch={45}
         mapboxApiAccessToken={accessToken}
         mapStyle={mapStyle}
-        onInteractionStateChange={(state) => {
-          if (!state.isDragging) {
-            const mapbounds = ref.current?.getMap().getBounds().toArray()
-            const { longitude, latitude, zoom } = viewport
-
-            dispatch(
-              setMapLocation({
-                lng: longitude,
-                lat: latitude,
-                zoom,
-                bounds: mapbounds,
-              })
-            )
-          }
-        }}
       >
         <NavigationControl showCompass={false} className='z-30 p-2 ' />
-        {fetching && (
+        {homesMap.fetching && (
           <div className='absolute top-0 right-0 flex justify-end w-10 h-10 p-2 text-gray-700 '>
             <RefreshIcon className='w-full h-full transform rotate-180 animate-spin' />
-          </div>
-        )}
-        {!fetching && data?.homes.length === 0 && (
-          <div className='absolute top-0 right-0 flex justify-end p-2 text-gray-700 '>
-            <div>No properties found.</div>
           </div>
         )}
         {markersTransitions((style, marker) => (

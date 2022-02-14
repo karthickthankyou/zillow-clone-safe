@@ -33,6 +33,7 @@
     "gql:codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.1",
     "@graphql-codegen/typescript-urql": "^3.4.2",
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",

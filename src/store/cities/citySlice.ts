@@ -24,11 +24,14 @@ export type CitySlice = {
   cityOptions: UseQueryState<SearchCitiesQuery>
   selectedCity: {
     displayName: string
-    lat?: number
-    lng?: number
-    zoom?: number
-    bounds?: [[number, number], [number, number]]
+    latitude?: number
+    longitude?: number
   }
+  mapPosition?: {
+    latitude?: number
+    longitude?: number
+  }
+  mapBounds?: [[number, number], [number, number]]
   popularCities: UseQueryState<GetCitiesQuery>
 }
 
@@ -48,11 +51,11 @@ const initialState: CitySlice = {
   selectedCity: {
     displayName: '',
     zoom: 12,
-    bounds: [
-      [0, 0],
-      [0, 0],
-    ],
   },
+  mapBounds: [
+    [0, 0],
+    [0, 0],
+  ],
   popularCities: {
     data: { cities: [] },
     fetching: false,
@@ -85,10 +88,10 @@ const citySlice = createSlice({
       state,
       action: PayloadAction<CitySlice['selectedCity']>
     ) => {
-      const { displayName, lat, lng } = action.payload
+      const { displayName, latitude, longitude } = action.payload
       state.selectedCity.displayName = displayName
-      state.selectedCity.lat = lat
-      state.selectedCity.lng = lng
+      state.selectedCity.latitude = latitude
+      state.selectedCity.longitude = longitude
     },
     setPopularCities: (
       state,
@@ -97,15 +100,16 @@ const citySlice = createSlice({
       // @ts-ignore
       state.popularCities = action.payload
     },
+    setMapBounds: (state, action) => {
+      state.mapBounds = action.payload
+    },
     setMapLocation: (
       state,
       action: PayloadAction<Omit<CitySlice['selectedCity'], 'displayName'>>
     ) => {
-      const { lat, lng, zoom, bounds } = action.payload
-      if (lat) state.selectedCity.lat = lat
-      if (lng) state.selectedCity.lng = lng
-      if (zoom) state.selectedCity.zoom = zoom
-      if (bounds) state.selectedCity.bounds = bounds
+      const { latitude, longitude } = action.payload
+      if (latitude) state.selectedCity.latitude = latitude
+      if (longitude) state.selectedCity.longitude = longitude
     },
   },
 })
@@ -117,14 +121,15 @@ export const {
   setPopularCities,
   setMapLocation,
   setCityList,
+  setMapBounds,
 } = citySlice.actions
 
 export const selectCitySearchText = (state: RootState) =>
   state.city.citySearchText
 
 export const selectMap = (state: RootState) => {
-  const { lat, lng, zoom } = state.city.selectedCity
-  return { latitude: lat, longitude: lng, zoom }
+  const { latitude, longitude, zoom } = state.city.selectedCity
+  return { latitude, longitude, zoom }
 }
 
 export const selectCityList = (state: RootState): CitySlice['cityList'] =>
@@ -147,6 +152,13 @@ export const selectCityOptions = (state: RootState) => {
 export const selectSelectedCity = (
   state: RootState
 ): CitySlice['selectedCity'] => state.city.selectedCity
+
+export const selectMapPosition = (state: RootState): CitySlice['mapPosition'] =>
+  state.city.mapPosition
+
+export const selectMapBounds = (state: RootState): CitySlice['mapBounds'] =>
+  state.city.mapBounds
+
 export const selectPopularCities = (
   state: RootState
 ): CitySlice['popularCities'] => state.city.popularCities

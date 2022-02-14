@@ -43,7 +43,6 @@ export type FilterAction =
 const Homes: NextPage = () => {
   const router = useRouter()
   const search = getQueryParam(router.query.search, 'New York')
-  console.log('search', search)
 
   // useEffect(() => {
   //   console.log('Subscribing ticker$')
