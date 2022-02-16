@@ -14,10 +14,6 @@ export type MapLocation = {
   longitude: number
   latitude: number
   zoom: number
-  height: number
-  width: number
-  ne: [number, number]
-  sw: [number, number]
 }
 
 export type CitySlice = {
@@ -32,11 +28,10 @@ export type CitySlice = {
     latitude?: number
     longitude?: number
   }
-  mapPosition?: {
-    latitude?: number
-    longitude?: number
-  }
+  mapLocation?: MapLocation
   mapBounds?: [[number, number], [number, number]]
+  highlightedHome?: number | null | undefined
+  highlightedHomeId?: number | null | undefined
   homesFilter?: Partial<typeof filterDefaultValues>
   popularCities: UseQueryState<GetCitiesQuery>
 }
@@ -72,6 +67,15 @@ const citySlice = createSlice({
     ) => {
       state.citySearchText = action.payload
     },
+    setHighlightedHome: (state, action: PayloadAction<number>) => {
+      state.highlightedHome = action.payload
+    },
+    setHighlightedHomeId: (
+      state,
+      action: PayloadAction<CitySlice['highlightedHomeId']>
+    ) => {
+      state.highlightedHomeId = action.payload
+    },
     setCityList: (state, action: PayloadAction<CitySlice['cityList']>) => {
       // @ts-ignore
       state.cityList = action.payload
@@ -79,6 +83,7 @@ const citySlice = createSlice({
     setHomesFilter: (state, action) => {
       state.homesFilter = action.payload
     },
+
     setSelectedCity: (
       state,
       action: PayloadAction<CitySlice['selectedCity']>
@@ -100,11 +105,9 @@ const citySlice = createSlice({
     },
     setMapLocation: (
       state,
-      action: PayloadAction<Omit<CitySlice['selectedCity'], 'displayName'>>
+      action: PayloadAction<CitySlice['mapLocation']>
     ) => {
-      const { latitude, longitude } = action.payload
-      if (latitude) state.selectedCity.latitude = latitude
-      if (longitude) state.selectedCity.longitude = longitude
+      state.mapLocation = action.payload
     },
   },
 })
@@ -117,10 +120,14 @@ export const {
   setCityList,
   setMapBounds,
   setHomesFilter,
+  setHighlightedHome,
+  setHighlightedHomeId,
 } = citySlice.actions
 
 export const selectCitySearchText = (state: RootState) =>
   state.city.citySearchText
+export const selectHighlightedHome = (state: RootState) =>
+  state.city.highlightedHome
 
 export const selectMap = (state: RootState) => {
   const { latitude, longitude } = state.city.selectedCity
@@ -134,8 +141,8 @@ export const selectSelectedCity = (
   state: RootState
 ): CitySlice['selectedCity'] => state.city.selectedCity
 
-export const selectMapPosition = (state: RootState): CitySlice['mapPosition'] =>
-  state.city.mapPosition
+export const selectMapLocation = (state: RootState): CitySlice['mapLocation'] =>
+  state.city.mapLocation
 
 export const selectMapBounds = (state: RootState): CitySlice['mapBounds'] =>
   state.city.mapBounds
@@ -172,17 +179,5 @@ export const selectFilters = createSelector(
     return whereConditions
   }
 )
-
-export const selectPopularCities = (
-  state: RootState
-): CitySlice['popularCities'] => state.city.popularCities
-
-export const selectMapWhere = (state: RootState) => {
-  const [ne, sw] = state.city.mapBounds!
-  return {
-    lat: { _gt: ne[1], _lt: sw[1] },
-    lng: { _gt: ne[0], _lt: sw[0] },
-  }
-}
 
 export default citySlice.reducer

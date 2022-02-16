@@ -1,23 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import {
-  debounceTime,
-  distinct,
-  distinctUntilChanged,
-  from,
-  map,
-  mergeMap,
-  pairwise,
-  throttleTime,
-  filter,
-  tap,
-  catchError,
-  EMPTY,
-  merge,
-  of,
-} from 'rxjs'
+import { from } from 'rxjs'
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
-import axios from 'axios'
 import userReducer from './user'
 import cityReducer from './cities/citySlice'
 import { createObservables } from './streams'

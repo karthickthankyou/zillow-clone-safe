@@ -7,7 +7,9 @@ export default {
   component: SearchHomesFilter,
 } as ComponentMeta<typeof SearchHomesFilter>
 
-const Template: ComponentStory<typeof SearchHomesFilter> = (args) => <SearchHomesFilter {...args} />
+const Template: ComponentStory<typeof SearchHomesFilter> = () => (
+  <SearchHomesFilter />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

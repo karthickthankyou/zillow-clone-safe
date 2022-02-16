@@ -1,6 +1,6 @@
 import { useSearchHomesByLocationDetailedQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
-import { selectFilters, selectMapWhere } from 'src/store/cities/citySlice'
+import { selectFilters } from 'src/store/cities/citySlice'
 
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
