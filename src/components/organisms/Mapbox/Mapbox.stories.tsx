@@ -1,23 +1,16 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { SbReduxProvider } from 'src/lib/sb'
 import Mapbox from './Mapbox'
 
 export default {
   title: 'organisms/Mapbox',
   component: Mapbox,
+  decorators: [SbReduxProvider],
 } as ComponentMeta<typeof Mapbox>
 
-const Template: ComponentStory<typeof Mapbox> = (args) => <Mapbox {...args} />
+const Template: ComponentStory<typeof Mapbox> = () => <Mapbox />
 
 export const Primary = Template.bind({})
-Primary.args = {
-  latitude: 42.36,
-  longitude: -71.058884,
-  zoom: 12,
-  markers: [
-    { id: '1', latitude: 42.360081, longitude: -71.0583 },
-    { id: '2', latitude: 42.360081, longitude: -71.0585 },
-  ],
-  className: 'h-screen',
-}
+Primary.args = {}
 Primary.parameters = {}

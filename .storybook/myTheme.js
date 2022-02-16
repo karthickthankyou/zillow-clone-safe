@@ -44,7 +44,7 @@ export default create({
   inputTextColor: gray800,
   inputBorderRadius: 4,
 
-  brandTitle: 'Ultimate CRA Boilerplate',
+  brandTitle: 'Zillow clone',
   brandUrl: 'https://iamkarthick.com',
   //   brandImage: 'https://place-hold.it/350x150',
 })

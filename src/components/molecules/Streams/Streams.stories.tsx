@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Streams from './Streams'
 
 export default {
-  title: 'src/components/molecules/Streams',
+  title: 'molecules/Streams',
   component: Streams,
 } as ComponentMeta<typeof Streams>
 

@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import SearchHomesFilter from './SearchHomesFilter'
 
 export default {
-  title: 'src/components/organisms/SearchHomesFilter',
+  title: 'organisms/SearchHomesFilter',
   component: SearchHomesFilter,
 } as ComponentMeta<typeof SearchHomesFilter>
 

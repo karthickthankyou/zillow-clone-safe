@@ -29,3 +29,7 @@ export const parameters = {
   },
   layout: 'fullscreen',
 }
+
+/**
+ * This document for msw: https://blog.logrocket.com/using-storybook-and-mock-service-worker-for-mocked-api-responses/
+ */

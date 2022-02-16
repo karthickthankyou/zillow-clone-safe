@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Popup from './Popup'
 
 export default {
-  title: 'src/components/molecules/Popup',
+  title: 'molecules/Popup',
   component: Popup,
 } as ComponentMeta<typeof Popup>
 
