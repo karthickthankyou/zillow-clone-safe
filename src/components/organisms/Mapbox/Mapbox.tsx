@@ -9,15 +9,19 @@ import { useTransition, animated } from 'react-spring'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
 import { useAppDispatch, useAppSelector } from 'src/store'
+
 import {
   setMapLocation,
   selectSelectedCity,
   CitySlice,
   selectMapPosition,
   setMapBounds,
+  selectMapWhere,
+  selectMapBounds,
+  selectFilters,
 } from 'src/store/cities/citySlice'
-import { selectHomesMap } from 'src/store/homes/homeSlice'
 
+import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
 import mapStyle from './mapLight.json'
 
 const accessToken =
@@ -57,19 +61,11 @@ const MapBox = () => {
   }))
 
   const mapPosition = useAppSelector(selectSelectedCity)
-  const homesMap = useAppSelector(selectHomesMap)
+
   const ref = React.useRef<MapRef | null>(null)
   const dispatch = useAppDispatch()
 
   const highlightedHome = { data: { id: 88 } }
-
-  const markersTransitions = useTransition(homesMap.data, {
-    keys: (home) => home.id,
-    from: { opacity: 0, transform: 'translateY(-6px)' },
-    enter: { opacity: 1, transform: 'translateY(0px)' },
-    leave: { opacity: 0, transform: 'translateY(-6px)' },
-    trail: 100,
-  })
 
   /**
    * Sync the location. Store -> Map.
@@ -93,6 +89,21 @@ const MapBox = () => {
     debouncedDispatchBounds()
   }, [debouncedDispatchBounds, viewport])
 
+  const whereCondition = useAppSelector(selectFilters)
+
+  const [{ data: homesMap, fetching }] = useSearchHomesByLocationQuery({
+    variables: {
+      where: whereCondition,
+    },
+  })
+  const markersTransitions = useTransition(homesMap?.homes, {
+    keys: (home) => home?.id || 2,
+    from: { opacity: 0, transform: 'translateY(-6px)' },
+    enter: { opacity: 1, transform: 'translateY(0px)' },
+    leave: { opacity: 0, transform: 'translateY(-6px)' },
+    trail: 100,
+  })
+
   return (
     <div className='relative w-full h-screen'>
       <ReactMapGL
@@ -113,7 +124,7 @@ const MapBox = () => {
         mapStyle={mapStyle}
       >
         <NavigationControl showCompass={false} className='z-30 p-2 ' />
-        {homesMap.fetching && (
+        {fetching && (
           <div className='absolute top-0 right-0 flex justify-end w-10 h-10 p-2 text-gray-700 '>
             <RefreshIcon className='w-full h-full transform rotate-180 animate-spin' />
           </div>

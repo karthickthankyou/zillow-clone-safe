@@ -6,11 +6,9 @@ import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
 import { useAppSelector } from 'src/store'
 import {
   CitySlice,
-  selectCityOptions,
   selectCityList,
   setCitySearchText,
   setSelectedCity,
-  setMapLocation,
 } from 'src/store/cities/citySlice'
 
 import { useRouter } from 'next/dist/client/router'
@@ -21,11 +19,12 @@ const Hero = () => {
   const dispatch = useDispatch()
 
   /** Selectors */
-  const cityOptions = useAppSelector(selectCityOptions)
-  const cityList = useAppSelector(selectCityList)
+  const { data: cityList, fetching, error } = useAppSelector(selectCityList)
 
   /** Hooks */
   const router = useRouter()
+
+  type CityList = CitySlice['cityList']['data']
 
   return (
     <div className='flex flex-col items-center justify-center w-screen h-screen bg-fixed bg-cover -z-10 bg-opacity-80 bg-hero '>
@@ -34,28 +33,33 @@ const Hero = () => {
           Change starts <br /> <em>here</em>
         </div>
 
-        <Autocomplete<CitySlice['cityList'], false, false, false>
-          options={cityList.data}
+        <Autocomplete<
+          CitySlice['cityList']['data'][number],
+          false,
+          false,
+          false
+        >
+          options={cityList}
           getOptionLabel={(x) => x.displayName}
           onInputChange={(_, v) => dispatch(setCitySearchText(v))}
-          loading={cityList.fetching}
+          loading={fetching}
+          isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
           onChange={(_, v) => {
-            const { displayName, lat, lng } = v!
-            console.log('city list: ', displayName, lat, lng)
+            const { displayName, latitude, longitude } = v!
 
             if (v) {
               dispatch(
                 setSelectedCity({
                   displayName,
-                  latitude: lat,
-                  longitude: lng,
+                  latitude,
+                  longitude,
                 })
               )
               // dispatch(setMapLocation({ lat, lng }))
               router.push(
                 {
                   pathname: '/homes',
-                  query: { search: displayName, lat, lng },
+                  query: { search: displayName, latitude, longitude },
                 },
                 '/homes'
               )

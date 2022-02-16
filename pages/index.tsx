@@ -3,19 +3,13 @@ import Head from 'next/head'
 import { NextSeo } from 'next-seo'
 import Hero from 'src/components/templates/Hero'
 import Cities from 'src/components/templates/Cities'
-import Navbar from 'src/components/organisms/Navbar'
 import CityCard, { CityCardShadow } from 'src/components/organisms/CityCard'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
-import Footer from 'src/components/organisms/Footer'
-import { SkipNavLink, SkipNavContent } from '@reach/skip-nav'
-import { usePopularCities } from 'src/store/cities/cityHooks'
-import { useAppSelector } from 'src/store'
-import { selectPopularCities } from 'src/store/cities/citySlice'
 import React from 'react'
-// import { useFetchCities } from 'src/store/streams'
+import { useGetCitiesQuery } from 'src/generated/graphql'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -24,17 +18,9 @@ export const getStaticProps: GetStaticProps = async () => ({
 const Home: NextPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const {
-    data: citiesData,
-    fetching,
-    error,
-  } = useAppSelector(selectPopularCities)
-
-  usePopularCities()
+  const [{ data: citiesData, fetching }] = useGetCitiesQuery()
 
   const [show, el] = useTriggerOnScroll()
-
-  // useFetchCities()
 
   return (
     <div>

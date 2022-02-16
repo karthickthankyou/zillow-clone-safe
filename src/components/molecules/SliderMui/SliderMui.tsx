@@ -1,4 +1,5 @@
 import Slider from '@mui/material/Slider'
+import React from 'react'
 
 export interface ISliderMuiProps {
   initialData: [number, number]
@@ -6,6 +7,7 @@ export interface ISliderMuiProps {
   onChange: (event: Event, value: number | number[]) => void
   className?: string
   labelFormat?: (value: number) => string
+  value: number[]
 }
 
 export const shorten = (value: number) => {
@@ -30,12 +32,14 @@ const SliderMui = ({
   step,
   className,
   labelFormat,
+  value,
 }: ISliderMuiProps) => (
   <Slider
     defaultValue={initialData}
     min={initialData[0]}
     max={initialData[1]}
     step={step}
+    value={value}
     onChange={onChange}
     valueLabelDisplay='on'
     valueLabelFormat={labelFormat}
@@ -50,5 +54,7 @@ const SliderMui = ({
     }}
   />
 )
+
+SliderMui.displayName = 'SliderMui'
 
 export default SliderMui

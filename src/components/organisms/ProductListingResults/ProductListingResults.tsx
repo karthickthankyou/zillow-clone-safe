@@ -1,12 +1,19 @@
+import { useSearchHomesByLocationDetailedQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
-import { selectHomesList } from 'src/store/homes/homeSlice'
+import { selectFilters, selectMapWhere } from 'src/store/cities/citySlice'
+
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
 const ProductListingResult = () => {
-  const { data, fetching, error } = useAppSelector(selectHomesList)
+  const whereCondition = useAppSelector(selectFilters)
+  const [{ data, fetching, error }] = useSearchHomesByLocationDetailedQuery({
+    variables: {
+      where: whereCondition,
+    },
+  })
 
-  const NO_RESULTS = !fetching && data?.length === 0
+  const NO_RESULTS = !fetching && data?.homes.length === 0
 
   if (error) {
     return <div>Something went wrong.</div>
@@ -27,7 +34,7 @@ const ProductListingResult = () => {
     <div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'>
       {fetching
         ? [1, 2, 3, 4, 5, 6].map((item) => <PropertyCardSkeleton key={item} />)
-        : data?.map((item) => (
+        : data?.homes.map((item) => (
             <PropertyCard
               id={item.id}
               key={item.id}

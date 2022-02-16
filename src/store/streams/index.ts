@@ -1,6 +1,5 @@
 import {
   catchError,
-  combineLatest,
   debounceTime,
   distinctUntilChanged,
   filter,
@@ -11,24 +10,15 @@ import {
   switchMap,
   tap,
 } from 'rxjs'
-import { createUrqlClient } from 'src/lib/urql'
-import {
-  SearchHomesByLocationQuery,
-  SearchHomesByLocationDocument,
-  SearchHomesByLocationDetailedQuery,
-  SearchHomesByLocationDetailedDocument,
-} from 'src/generated/graphql'
 
 import { AsyncUser } from 'src/types'
 import { CitySlice, setCityList } from '../cities/citySlice'
-import { setHomesMap, setHomesList } from '../homes/homeSlice'
 import { store } from '..'
 
 export const createObservables = (
   store$: Observable<{
     user: AsyncUser
     city: CitySlice
-    homes: { homesMap: any; homesList: any }
   }>
 ) => {
   const mapHomesWhere$ = store$.pipe(
@@ -42,51 +32,6 @@ export const createObservables = (
         lng: { _gt: ne[0], _lt: sw[0] },
       }
     })
-  )
-
-  const homesMap$ = mapHomesWhere$.pipe(
-    tap(() => store.dispatch(setHomesMap({ fetching: true }))),
-    switchMap((whereCond) => {
-      const client = createUrqlClient()
-      return client
-        .query<SearchHomesByLocationQuery>(SearchHomesByLocationDocument, {
-          where: whereCond,
-        })
-        .toPromise()
-    }),
-
-    tap((value) =>
-      store.dispatch(
-        setHomesMap({
-          data: value.data?.homes,
-          fetching: false,
-          error: value.error,
-        })
-      )
-    )
-  )
-  const homesList$ = mapHomesWhere$.pipe(
-    tap(() => store.dispatch(setHomesList({ fetching: true }))),
-    switchMap((whereCond) => {
-      const client = createUrqlClient()
-      return client
-        .query<SearchHomesByLocationDetailedQuery>(
-          SearchHomesByLocationDetailedDocument,
-          {
-            where: whereCond,
-          }
-        )
-        .toPromise()
-    }),
-    tap((value) =>
-      store.dispatch(
-        setHomesList({
-          data: value.data?.homes,
-          fetching: false,
-          error: value.error,
-        })
-      )
-    )
   )
 
   const city$ = store$.pipe(
@@ -107,8 +52,8 @@ export const createObservables = (
       value.features.length > 0
         ? value.features.map((features: any) => ({
             displayName: features.place_name,
-            lng: features.geometry.coordinates[0],
-            lat: features.geometry.coordinates[1],
+            longitude: features.geometry.coordinates[0],
+            latitude: features.geometry.coordinates[1],
           }))
         : []
     ),
@@ -118,5 +63,50 @@ export const createObservables = (
     retry(2),
     catchError((e) => of(null))
   )
-  return { city$, homesMap$, homesList$ }
+  return { city$ }
 }
+
+// const homesMap$ = mapHomesWhere$.pipe(
+//   tap(() => store.dispatch(setHomesMap({ fetching: true }))),
+//   switchMap((whereCond) => {
+//     const client = createUrqlClient()
+//     return client
+//       .query<SearchHomesByLocationQuery>(SearchHomesByLocationDocument, {
+//         where: whereCond,
+//       })
+//       .toPromise()
+//   }),
+
+//   tap((value) =>
+//     store.dispatch(
+//       setHomesMap({
+//         data: value.data?.homes,
+//         fetching: false,
+//         error: value.error,
+//       })
+//     )
+//   )
+// )
+// const homesList$ = mapHomesWhere$.pipe(
+//   tap(() => store.dispatch(setHomesList({ fetching: true }))),
+//   switchMap((whereCond) => {
+//     const client = createUrqlClient()
+//     return client
+//       .query<SearchHomesByLocationDetailedQuery>(
+//         SearchHomesByLocationDetailedDocument,
+//         {
+//           where: whereCond,
+//         }
+//       )
+//       .toPromise()
+//   }),
+//   tap((value) =>
+//     store.dispatch(
+//       setHomesList({
+//         data: value.data?.homes,
+//         fetching: false,
+//         error: value.error,
+//       })
+//     )
+//   )
+// )

@@ -7,7 +7,6 @@ import {
 } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
 import {
-  setCityOptions,
   selectCitySearchText,
   setPopularCities,
   selectSelectedCity,
@@ -26,11 +25,11 @@ import {
 //   }, [data, dispatch, error, fetching, stale])
 // }
 
-export const usePopularCities = () => {
-  const dispatch = useAppDispatch()
-  const [{ data, fetching, error, stale }] = useGetCitiesQuery()
+// export const usePopularCities = () => {
+//   const dispatch = useAppDispatch()
+//   const [{ data, fetching, error, stale }] = useGetCitiesQuery()
 
-  useEffect(() => {
-    dispatch(setPopularCities({ data, fetching, error, stale }))
-  }, [data, dispatch, error, fetching, stale])
-}
+//   useEffect(() => {
+//     dispatch(setPopularCities({ data, fetching, error, stale }))
+//   }, [data, dispatch, error, fetching, stale])
+// }
