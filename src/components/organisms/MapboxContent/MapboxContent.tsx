@@ -46,7 +46,7 @@ const MapboxContent = () => {
         </div>
       )}
       {error && (
-        <div className='absolute top-0 right-0 flex justify-end w-full h-10 p-2 text-gray-700 '>
+        <div className='absolute top-0 right-0 flex justify-end w-full h-10 p-2 text-red-700 bg-red-200/50 '>
           Someting went wrong.
         </div>
       )}

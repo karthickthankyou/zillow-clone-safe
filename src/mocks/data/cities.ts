@@ -1,4 +1,4 @@
-export const getCities = {
+export const getCitiesMockData = {
   cities: [
     {
       displayName: 'New York!',

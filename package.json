@@ -17,7 +17,7 @@
     "type:check": "tsc",
     "validate": "npm-run-all --parallel type:check format:check lint test:ci buildci",
     "validate-nobuild": "npm-run-all --parallel type:check format:check lint test:ci",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",
     "prepare": "husky install",
     "chromatic": "chromatic --exit-zero-on-changes",

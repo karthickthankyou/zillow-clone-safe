@@ -1,7 +1,7 @@
 import type { AppProps } from 'next/app'
 import {
   createClient,
-  Provider,
+  Provider as UrqlProvider,
   defaultExchanges,
   fetchExchange,
   dedupExchange,
@@ -60,7 +60,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   })
 
   return (
-    <Provider value={client}>
+    <UrqlProvider value={client}>
       <ReduxProvider store={store}>
         <Layout>
           <Streams />
@@ -68,7 +68,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <Component {...pageProps} />
         </Layout>
       </ReduxProvider>
-    </Provider>
+    </UrqlProvider>
   )
 }
 

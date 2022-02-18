@@ -3,9 +3,10 @@ import yourTheme from './myTheme'
 import * as NextImage from 'next/image'
 import { addDecorator } from '@storybook/react'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
-import { urqlDecorator } from '@urql/storybook-addon'
+import { handlers } from 'src/mocks/handlers'
+// import { urqlDecorator } from '@urql/storybook-addon'
 
-addDecorator(urqlDecorator)
+// addDecorator(urqlDecorator)
 
 const OriginalNextImage = NextImage.default
 
@@ -21,6 +22,23 @@ Object.defineProperty(NextImage, 'default', {
   ),
 })
 
+/**
+ * Initiaze msw in storybook
+ */
+initialize({
+  serviceWorker: {
+    url: '../public/mockServiceWorker.js',
+  },
+  onUnhandledRequest: ({ method, url }) => {
+    console.error(`Unhandled ${method} request to ${url}.
+
+        This exception has been only logged in the console, however, it's strongly recommended to resolve this error as you don't want unmocked data in Storybook stories.
+        If you wish to mock an error response, please refer to this guide: https://mswjs.io/docs/recipes/mocking-error-responses
+      `)
+  },
+})
+export const decorators = [mswDecorator]
+
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
@@ -33,24 +51,17 @@ export const parameters = {
     theme: yourTheme,
   },
   layout: 'fullscreen',
+  msw: {
+    handlers: handlers,
+  },
 }
 
-// if (!global.process) {
-//   const { mswWorker } = require('../src/mocks/mswWorker')
-//   mswWorker.start()
-// }
+if (typeof global.process === 'undefined') {
+  console.log('[MSW] Starting worker...')
+  const { mswWorker } = require('../src/mocks/mswWorker')
+  mswWorker.start()
+}
 
 /**
  * This document for msw: https://blog.logrocket.com/using-storybook-and-mock-service-worker-for-mocked-api-responses/
  */
-
-// Initialize MSW
-initialize({
-  serviceWorker: {
-    url: '../public/mockServiceWorker.js',
-  },
-})
-
-addDecorator(mswDecorator)
-// Provide the MSW addon decorator globally
-// export const decorators = [mswDecorator]

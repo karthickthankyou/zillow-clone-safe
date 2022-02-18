@@ -1,5 +1,6 @@
 import React from 'react'
 import { searchHomesByLocationMockData } from 'src/mocks/data/homes'
+import { mswWorker } from 'src/mocks/mswWorker'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
@@ -7,7 +8,9 @@ import { SbReduxProvider } from 'src/lib/sb'
 import {
   mockSearchHomesByLocation,
   mockSearchHomesByLocationErrors,
+  mockSearchHomesByLocationFetching,
 } from 'src/mocks/handlers'
+
 import {} from '@urql/storybook-addon'
 import { namedOperations } from 'src/generated/graphql'
 import { matchQuery } from 'src/lib/util'
@@ -22,28 +25,24 @@ export default {
 const Template: ComponentStory<typeof Mapbox> = () => <Mapbox />
 
 export const Primary = Template.bind({})
-Primary.args = {}
-Primary.parameters = {
-  urql: (op: any) => {
-    if (matchQuery(op, namedOperations.Query.SearchHomesByLocation))
-      return {
-        data: searchHomesByLocationMockData,
-      }
+Primary.decorators = [
+  (Story) => {
+    mswWorker.use(mockSearchHomesByLocation)
+    return <Story />
   },
-}
+]
+
 export const Fetching = Template.bind({})
-Fetching.args = {}
-Fetching.parameters = {
-  urql: (op: any) => {
-    if (matchQuery(op, namedOperations.Query.SearchHomesByLocation))
-      return new Promise(() => {})
+Fetching.decorators = [
+  (Story) => {
+    mswWorker.use(mockSearchHomesByLocationFetching)
+    return <Story />
   },
-}
+]
 export const Error = Template.bind({})
-Error.args = {}
-Error.parameters = {
-  urql: (op: any) => {
-    if (matchQuery(op, namedOperations.Query.SearchHomesByLocation))
-      return { errors: ['Something went wrong.'] }
+Error.decorators = [
+  (Story) => {
+    mswWorker.use(mockSearchHomesByLocationErrors)
+    return <Story />
   },
-}
+]
