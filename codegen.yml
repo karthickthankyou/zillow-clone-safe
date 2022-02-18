@@ -9,6 +9,7 @@ generates:
     plugins:
       - 'typescript'
       - 'typescript-operations'
+      - 'named-operations-object'
       - 'typescript-urql'
     config:
       pureMagicComment: true

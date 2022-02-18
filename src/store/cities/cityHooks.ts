@@ -85,8 +85,8 @@ export const useViewport = (
    */
   useEffect(() => {
     setViewPort((state) => ({
-      latitude: overrideProp.latitude || 40.7128,
-      longitude: overrideProp.longitude || -74.006,
+      latitude: overrideProp?.latitude || 40.7128,
+      longitude: overrideProp?.longitude || -74.006,
       zoom: state.zoom,
     }))
   }, [overrideProp, setViewPort])

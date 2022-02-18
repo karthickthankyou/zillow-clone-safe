@@ -32,6 +32,7 @@ const CityCard = ({
     <Image
       className='h-full transition-all duration-700 scale-110 group-hover:brightness-110 brightness-95 group-hover:scale-100'
       alt=''
+      priority={false}
       src={image || ''}
     />
     <div className='absolute bottom-0 pt-24 pb-3 pl-3 pr-24 text-white bg-gradient-to-tr from-primary-800 via-transparent to-transparent'>

@@ -18,6 +18,12 @@ import Layout from 'src/components/templates/Layout'
 import Streams from 'src/components/molecules/Streams'
 import { store } from '../src/store'
 
+// if (process.env.NEXT_PUBLIC_API_MOCKING) {
+//   import('../src/mocks').then(({ setupMockServer }) => {
+//     setupMockServer()
+//   })
+// }
+
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [token, settoken] = useState('')
 

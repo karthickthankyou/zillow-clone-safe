@@ -20,11 +20,13 @@ const MapboxContent = () => {
    * Query homes and create animated markers.
    */
   const whereCondition = useAppSelector(selectFilters)
-  const [{ data: homesMap, fetching }] = useSearchHomesByLocationQuery({
+  const [{ data: homesMap, fetching, error }] = useSearchHomesByLocationQuery({
     variables: {
       where: whereCondition,
     },
   })
+
+  console.log('map data: ', homesMap, fetching)
 
   const markersTransitions = useTransition(homesMap?.homes, {
     keys: (home) => home?.id || 2,
@@ -40,7 +42,12 @@ const MapboxContent = () => {
       <NavigationControl showCompass={false} className='z-30 p-2 ' />
       {fetching && (
         <div className='absolute top-0 right-0 flex justify-end w-10 h-10 p-2 text-gray-700 '>
-          <RefreshIcon className='w-full h-full transform animate-spin' />
+          <RefreshIcon className='w-full h-full animate-spin-reverse' />
+        </div>
+      )}
+      {error && (
+        <div className='absolute top-0 right-0 flex justify-end w-full h-10 p-2 text-gray-700 '>
+          Someting went wrong.
         </div>
       )}
       {markersTransitions((style, marker) => (

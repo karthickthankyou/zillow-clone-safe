@@ -13,3 +13,6 @@ export type OptionalPick<T, K extends PropertyKey> = Pick<
 
 export type OptionalExceptFor<T, TRequired extends keyof T> = Partial<T> &
   Pick<T, TRequired>
+
+export const matchQuery = (op: any, queryname: string) =>
+  op.query.definitions[0].name.value === queryname

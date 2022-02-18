@@ -7,12 +7,14 @@ import BadgeCheckIcon from '@heroicons/react/outline/BadgeCheckIcon'
 import Footer from 'src/components/organisms/Footer'
 import useTriggerOnScroll from 'src/hooks'
 import CityCard from 'src/components/organisms/CityCard'
+import { SbReduxProvider } from 'src/lib/sb'
 import Hero from './Hero'
 import Cities from '../Cities'
 
 export default {
   title: 'templates/Hero',
   component: Hero,
+  decorators: [SbReduxProvider],
 } as ComponentMeta<typeof Hero>
 
 const Template: ComponentStory<typeof Hero> = () => {
