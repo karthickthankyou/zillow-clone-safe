@@ -9,6 +9,8 @@ const runtimeCaching = require('next-pwa/cache')
 
 const { withSentryConfig } = require('@sentry/nextjs')
 
+const prod = process.env.NODE_ENV === 'production'
+
 const moduleExports = withPWA({
   // Your existing module.exports
   reactStrictMode: true,
@@ -18,7 +20,8 @@ const moduleExports = withPWA({
     register: true,
     skipWaiting: true,
     runtimeCaching,
-    disable: process.env.NODE_ENV === 'development',
+    // disable: process.env.NODE_ENV === 'development',
+    disable: !prod,
     buildExcludes: [/middleware-manifest.json$/],
     maximumFileSizeToCacheInBytes: 3000000,
   },

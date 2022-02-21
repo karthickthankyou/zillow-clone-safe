@@ -1,10 +1,9 @@
 import React from 'react'
-import { render } from '@testing-library/react'
 import SliderMui from './SliderMui'
 
 describe('SliderMui Component', () => {
-  test('SliderMui renders', () => {
-    render(
+  beforeEach(() => {
+    cy.mount(
       <SliderMui
         initialData={[0, 100]}
         step={12}
@@ -13,4 +12,5 @@ describe('SliderMui Component', () => {
       />
     )
   })
+  it('SliderMui renders', () => {})
 })

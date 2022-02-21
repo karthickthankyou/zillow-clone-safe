@@ -1,4 +1,3 @@
-import { ReactElement } from 'react'
 import HScroll, { HScrollBodyProps } from 'src/components/molecules/HScroll'
 
 export interface ICitiesProps {

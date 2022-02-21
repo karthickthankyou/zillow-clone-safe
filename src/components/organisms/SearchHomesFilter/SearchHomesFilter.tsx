@@ -13,15 +13,13 @@ import {
 } from 'src/store/cities/citySlice'
 
 import SliderMui from 'src/components/molecules/SliderMui'
-import {
-  addDollar,
-  shorten,
-} from 'src/components/molecules/SliderMui/SliderMui'
+
 import { useForm, Controller } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { FilterIcon } from '@heroicons/react/solid'
 import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
+import { addDollar, shortenNumber } from 'src/lib/util'
 
 export interface ISearchHomesFilterProps {}
 
@@ -137,7 +135,7 @@ const SearchHomesFilter = () => {
                 initialData={filterDefaultValues.price}
                 className='mt-12 '
                 labelFormat={(sliderValue) =>
-                  `${addDollar(shorten(sliderValue))}`
+                  `${addDollar(shortenNumber(sliderValue))}`
                 }
               />
             </div>

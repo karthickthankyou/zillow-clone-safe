@@ -83,28 +83,3 @@ input[type='checkbox'] {
     @apply text-white transition-all bg-gradient-to-tr via-primary-500 to-primary-600 from-primary-400 hover:bg-primary-600;
   }
 }
-
-/* Mapbox */
-.mapboxgl-popup-content {
-  @apply p-0 rounded-lg overflow-hidden border-white border shadow-lg bg-none !important;
-}
-
-.mapboxgl-ctrl-group:not(:empty) {
-  @apply shadow-lg !important;
-}
-
-.mapboxgl-ctrl-group {
-  @apply bg-white/40 bg-blend-soft-light border border-white backdrop-blur-sm backdrop-filter !important;
-}
-
-.mapboxgl-ctrl-group button {
-  @apply w-8 h-8 rounded-none !important;
-}
-
-.mapboxgl-ctrl button:not(:disabled):hover {
-  @apply bg-white !important;
-}
-
-.mapboxgl-ctrl-group button + button {
-  @apply border-t border-white !important;
-}

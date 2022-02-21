@@ -10,22 +10,6 @@ export interface ISliderMuiProps {
   value: number[]
 }
 
-export const shorten = (value: number) => {
-  const units = ['', 'K', 'M']
-
-  let unitIndex = 0
-  let scaledValue = value
-
-  while (scaledValue >= 1000 && unitIndex < units.length - 1) {
-    unitIndex += 1
-    scaledValue = Math.round((scaledValue / 1000) * 100) / 100
-  }
-
-  return `${scaledValue} ${units[unitIndex]}`
-}
-
-export const addDollar = (value: string) => `$${value}`
-
 const SliderMui = ({
   onChange,
   initialData,

@@ -16,3 +16,19 @@ export type OptionalExceptFor<T, TRequired extends keyof T> = Partial<T> &
 
 export const matchQuery = (op: any, queryname: string) =>
   op.query.definitions[0].name.value === queryname
+
+export const shortenNumber = (value: number) => {
+  const units = ['', 'K', 'M']
+
+  let unitIndex = 0
+  let scaledValue = value
+
+  while (scaledValue >= 1000 && unitIndex < units.length - 1) {
+    unitIndex += 1
+    scaledValue = Math.round((scaledValue / 1000) * 100) / 100
+  }
+
+  return `${scaledValue} ${units[unitIndex]}`
+}
+
+export const addDollar = (value: string) => `$${value}`

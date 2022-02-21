@@ -1,19 +1,12 @@
 import type { AppProps } from 'next/app'
-import {
-  createClient,
-  Provider as UrqlProvider,
-  defaultExchanges,
-  fetchExchange,
-  dedupExchange,
-} from 'urql'
+import { createClient, Provider as UrqlProvider, defaultExchanges } from 'urql'
 import { devtoolsExchange } from '@urql/devtools'
-import { cacheExchange } from '@urql/exchange-graphcache'
 import { onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { auth } from 'src/config/firebase'
-import 'src/globals.css'
 import { Provider as ReduxProvider } from 'react-redux'
 import Layout from 'src/components/templates/Layout'
+import 'src/globals.css'
 
 import Streams from 'src/components/molecules/Streams'
 import { store } from '../src/store'

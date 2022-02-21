@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "noImplicitAny": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "types": ["cypress", "@testing-library/cypress"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

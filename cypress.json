@@ -1,1 +1,9 @@
-{}
+{
+  "projectId": "4jfqfq",
+  "component": {
+    "componentFolder": "src",
+    "testFiles": "**/*spec.{js,jsx,ts,tsx}",
+    "viewportWidth": 1200,
+    "viewportHeight": 800
+  }
+}
