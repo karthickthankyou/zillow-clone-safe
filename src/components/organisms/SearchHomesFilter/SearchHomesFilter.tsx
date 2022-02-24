@@ -5,11 +5,9 @@ import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   CitySlice,
   selectCityList,
-  selectMapBounds,
   setCitySearchText,
-  setSelectedCity,
   setHomesFilter,
-  selectFilters,
+  setMapLocation,
 } from 'src/store/cities/citySlice'
 
 import SliderMui from 'src/components/molecules/SliderMui'
@@ -112,11 +110,7 @@ const SearchHomesFilter = () => {
         onChange={(_, v) => {
           if (v)
             dispatch(
-              setSelectedCity({
-                displayName: v.displayName,
-                latitude: v.latitude,
-                longitude: v.longitude,
-              })
+              setMapLocation({ latitude: v.latitude, longitude: v.longitude })
             )
         }}
         className='rounded-lg'
@@ -148,7 +142,7 @@ const SearchHomesFilter = () => {
         render={({ field: { onChange, value } }) => (
           <MenuItem title='Year built'>
             <div>
-              <div className='font-semibold'>Price range</div>
+              <div className='font-semibold'>Year built</div>
               <SliderMui
                 onChange={onChange}
                 value={value}
@@ -180,7 +174,7 @@ const SearchHomesFilter = () => {
         )}
       />
       <MenuItem title='Beds & Bath'>
-        <>
+        <div className='space-y-4'>
           <Controller
             name='beds'
             control={control}
@@ -188,16 +182,20 @@ const SearchHomesFilter = () => {
               <RadioGroup
                 value={value}
                 onChange={onChange}
-                className='space-y-2'
+                className='space-y-2 '
               >
-                <RadioGroup.Label>Bedrooms</RadioGroup.Label>
+                <RadioGroup.Label className='font-semibold'>
+                  Bedrooms
+                </RadioGroup.Label>
                 <div className='flex gap-3'>
                   {['1', '2', '3', '4', '5', 'Any'].map((item) => (
                     <RadioGroup.Option key={item} value={`${item}`}>
                       {({ checked }) => (
                         <span
-                          className={`border bg-white rounded-sm p-2 ${
-                            checked ? ' border-primary-500 ' : ' border-white '
+                          className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
+                            checked
+                              ? ' border-primary-600 font-bold shadow-sm text-primary-600'
+                              : ' bg-gray-50 shadow-inner text-gray-600 '
                           }`}
                         >
                           {item}
@@ -219,14 +217,18 @@ const SearchHomesFilter = () => {
                 onChange={onChange}
                 className='space-y-2'
               >
-                <RadioGroup.Label>Bathrooms</RadioGroup.Label>
-                <div className='flex gap-3'>
+                <RadioGroup.Label className='font-semibold'>
+                  Bathrooms
+                </RadioGroup.Label>
+                <div className='flex gap-3 my-2'>
                   {['1', '2', '3', '4', '5', 'Any'].map((item) => (
                     <RadioGroup.Option key={item} value={`${item}`}>
                       {({ checked }) => (
                         <span
-                          className={`border bg-white rounded-sm p-2 ${
-                            checked ? ' border-primary-500 ' : ' border-white '
+                          className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
+                            checked
+                              ? ' border-primary-600 font-bold shadow-sm text-primary-600'
+                              : ' bg-gray-50 shadow-inner text-gray-600 '
                           }`}
                         >
                           {item}
@@ -239,7 +241,7 @@ const SearchHomesFilter = () => {
               </RadioGroup>
             )}
           />
-        </>
+        </div>
       </MenuItem>
 
       {/* <Controller
@@ -261,12 +263,17 @@ const SearchHomesFilter = () => {
       /> */}
 
       <MenuItem title='Home Type'>
-        <fieldset style={{ float: 'left' }}>
-          <legend>With the same name</legend>
+        <fieldset className='space-y-2'>
+          <legend className='font-semibold'>Home type</legend>
           {filterDefaultValues.homeType.map((c) => (
-            <label key={c}>
-              <input type='checkbox' value={c} {...register('homeType')} />
-              {c}
+            <label key={c} className='flex items-start whitespace-nowrap'>
+              <input
+                type='checkbox'
+                className='flex-shrink-0 w-4 h-4 mr-1'
+                value={c}
+                {...register('homeType')}
+              />
+              <div className='text-sm leading-tight'>{c}</div>
             </label>
           ))}
         </fieldset>

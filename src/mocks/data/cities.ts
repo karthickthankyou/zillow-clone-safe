@@ -92,3 +92,38 @@ export const getCitiesMockData = {
     },
   ],
 }
+
+export const mockSearchCities = {
+  features: [
+    {
+      place_name: 'Northwest, Michigan, United States',
+      geometry: {
+        coordinates: [-83.7629, 43.0447],
+      },
+    },
+    {
+      place_name: 'Northwest, Indiana, United States',
+      geometry: {
+        coordinates: [-86.6167, 38.6667],
+      },
+    },
+    {
+      place_name: 'NW Jr College, Mississippi, United States',
+      geometry: {
+        coordinates: [-89.97, 34.62],
+      },
+    },
+    {
+      place_name: 'Northwest Junior College, Mississippi, United States',
+      geometry: {
+        coordinates: [-89.97, 34.62],
+      },
+    },
+    {
+      place_name: 'Northwest Plaza, Missouri, United States',
+      geometry: {
+        coordinates: [-90.39, 38.74],
+      },
+    },
+  ],
+}

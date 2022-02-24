@@ -8,6 +8,7 @@ import {
   CitySlice,
   selectCityList,
   setCitySearchText,
+  setMapLocation,
   setSelectedCity,
 } from 'src/store/cities/citySlice'
 
@@ -49,8 +50,7 @@ const Hero = () => {
 
             if (v) {
               dispatch(
-                setSelectedCity({
-                  displayName,
+                setMapLocation({
                   latitude,
                   longitude,
                 })

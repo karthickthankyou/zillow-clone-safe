@@ -19,6 +19,7 @@ const SliderMui = ({
   value,
 }: ISliderMuiProps) => (
   <Slider
+    data-testid='slider'
     defaultValue={initialData}
     min={initialData[0]}
     max={initialData[1]}
@@ -28,13 +29,13 @@ const SliderMui = ({
     valueLabelDisplay='on'
     valueLabelFormat={labelFormat}
     classes={{
-      root: `h-0.5 w-56 border-0 ${className}`,
+      root: `h-0.5 w-56 mx-3 border-0 ${className}`,
       thumb:
-        'rounded-sm border-primary-600 border-2 bg-white p-2 hover:shadow-none focus:shadow-none active:shadow-none',
-      track: 'text-primary-600',
+        'rounded-sm border-black border-2 bg-white p-2 hover:shadow-none hover:border-primary-600 hover:bg-primary-50 focus:shadow-none active:shadow-none',
+      track: 'text-black ',
       rail: 'bg-gray-400',
       valueLabel:
-        'text-primary-600 shadow-md bg-white border border-primary-600 before:border-primary-600 before:border-b before:border-r active:shadow-none before:pt-1',
+        'text-black shadow-md bg-white border border-black before:border-black before:border-b before:border-r active:shadow-none before:pt-1',
     }}
   />
 )

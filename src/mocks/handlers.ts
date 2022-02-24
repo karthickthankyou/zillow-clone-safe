@@ -1,10 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import { graphql } from 'msw'
-import { namedOperations } from 'src/generated/graphql'
-import { getCitiesMockData } from './data/cities'
+import { graphql, rest } from 'msw'
+import { Homes, namedOperations } from 'src/generated/graphql'
+import { getCitiesMockData, mockSearchCities } from './data/cities'
 import {
   searchHomesByLocationMockData,
   searchHomesResultsMockData,
+  homesMockData,
 } from './data/homes'
 
 const zillowAPI = graphql.link(
@@ -18,9 +19,49 @@ export const mockGetCities = zillowAPI.query(getCities, (req, res, ctx) =>
   res(ctx.data(getCitiesMockData))
 )
 
+export const searchCities = rest.get(
+  'https://api.mapbox.com/geocoding/v5/mapbox.places/:searchTerm.json',
+  (req, res, ctx) => {
+    const { searchTerm } = req.params
+    console.log('searchTerm', searchTerm)
+
+    return res(ctx.json(mockSearchCities))
+  }
+)
+
+const applyFilter = (allHomes: Partial<Homes>[], whereConditions: any) => {
+  const { id, lat, lng, beds, bath, price, sqft, yearBuilt } = whereConditions
+  let homes = allHomes
+
+  // if (lat)
+  if (price)
+    // homes.filter(home=>)
+
+    homes = homes.filter(
+      (home) => home.price! >= price._gte && home.price! <= price._lte
+    )
+  if (sqft)
+    homes = homes.filter(
+      (home) => home.sqft! >= sqft._gte && home.sqft! <= sqft._lte
+    )
+  if (yearBuilt)
+    homes = homes.filter(
+      (home) =>
+        home.yearBuilt >= yearBuilt._gte && home.yearBuilt <= yearBuilt._lte
+    )
+  if (beds) homes = homes.filter((home) => home.beds! >= beds._gte)
+  if (bath) homes = homes.filter((home) => home.bath! >= bath._gte)
+
+  return homes
+}
+
 export const mockSearchHomesByLocation = zillowAPI.query(
   SearchHomesByLocation,
-  (req, res, ctx) => res(ctx.data(searchHomesByLocationMockData))
+  (req, res, ctx) => {
+    const { homes } = homesMockData
+    const filteredHomes = applyFilter(homes, req.variables.where)
+    return res(ctx.data({ homes: filteredHomes }))
+  }
 )
 
 export const mockSearchHomesByLocationErrors = zillowAPI.query(
@@ -35,17 +76,9 @@ export const mockSearchHomesByLocationFetching = zillowAPI.query(
 export const mockSearchHomesByLocationDetailed = zillowAPI.query(
   SearchHomesByLocationDetailed,
   (req, res, ctx) => {
-    let { homes } = searchHomesResultsMockData
-    const { id, lat, lng, beds, bath, price, sqft } = req.variables.where
-    console.log('req.variables: ', req.variables)
-    if (price)
-      homes = homes.filter(
-        (home) => home.price >= price._gte && home.price <= price._lte
-      )
-    if (beds) homes = homes.filter((home) => home.beds >= beds._gte)
-
-    console.log('where', id, lat, lng, beds, bath, price, sqft, homes)
-    return res(ctx.data({ homes }))
+    const { homes } = homesMockData
+    const filteredHomes = applyFilter(homes, req.variables.where)
+    return res(ctx.data({ homes: filteredHomes }))
   }
 )
 
@@ -53,4 +86,5 @@ export const handlers = [
   mockGetCities,
   mockSearchHomesByLocation,
   mockSearchHomesByLocationDetailed,
+  searchCities,
 ]

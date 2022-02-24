@@ -48,6 +48,7 @@ export const createObservables = (
           ).then((response) => response.json())
         : of([])
     ),
+    tap((v) => console.log('tapping: ', v)),
     map((value) =>
       value.features.length > 0
         ? value.features.map((features: any) => ({

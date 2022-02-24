@@ -1,6 +1,7 @@
-import { Transition, Popover } from '@headlessui/react'
+import { Popover as HeadlessPopover, Transition } from '@headlessui/react'
 import { createContext, ReactElement, useContext } from 'react'
 import Link from 'src/components/atoms/Link'
+import { ChevronRightIcon } from '@heroicons/react/solid'
 
 /** Context for prop sharing among the children */
 const DataContext = createContext({ open: false })
@@ -10,26 +11,35 @@ export interface IPopoverMenuItemProps {}
 const PopoverButton = ({
   children,
   href,
+  showIcon = false,
 }: {
   children: string | ReactElement
   href?: string
+  showIcon?: boolean
 }) => {
   const { open } = useContext(DataContext)
   return (
-    <Popover.Button
-      className={`py-1 hover:text-black ${
-        open ? 'border-b text-black border-black' : 'text-gray-700'
+    <HeadlessPopover.Button
+      className={`py-1 hover:text-primary-700 ${
+        open ? ' text-primary-600' : 'text-gray-700'
       }`}
     >
       {href ? <Link href={href}>{children}</Link> : children}
-    </Popover.Button>
+      {showIcon && (
+        <ChevronRightIcon
+          className={`inline w-4 h-4 ml-2 rotate-90 ${
+            open ? '-rotate-90' : 'rotate-90'
+          }`}
+        />
+      )}
+    </HeadlessPopover.Button>
   )
 }
 
 const PopoverOverlay = () => {
   const { open } = useContext(DataContext)
   return (
-    <Popover.Overlay
+    <HeadlessPopover.Overlay
       className={`${
         open ? 'opacity-30 fixed inset-0' : 'opacity-0'
       }  backdrop-filter backdrop-blur-sm`}
@@ -44,35 +54,28 @@ const PopoverPanel = ({
   children: string | ReactElement | ReactElement[]
   className?: string
 }) => (
-  // const { open } = useContext(DataContext)
-  <Transition
-    enter='transition-all duration-200 ease-out'
-    enterFrom='transform opacity-0 top-full'
-    enterTo='transform opacity-100'
-    leave='transition-all duration-200 ease-out'
-    leaveFrom='transform opacity-100'
-    leaveTo='transform opacity-0 top-0 top-full'
-    className={`absolute px-2 -mx-2 z-10 gap-6 pt-2 pb-6 bg-white top-12 bg-opacity-90 backdrop-filter backdrop-blur ${className}`}
+  <HeadlessPopover.Panel
+    className={`flex p-3 space-y-2 rounded-b-sm shadow-lg border-2 border-white justify-center absolute z-10 gap-6 bg-white/90 top-11 ${className}`}
   >
-    <Popover.Panel className='flex justify-center gap-6'>
-      {children}
-    </Popover.Panel>
-  </Transition>
+    {children}
+  </HeadlessPopover.Panel>
 )
 
-const PopoverParent = ({
+const Popover = ({
   children,
   className,
 }: {
   children: ReactElement | ReactElement[]
   className?: string
 }) => (
-  <Popover className={className}>
-    {(open) => (
-      <DataContext.Provider value={open}>{children}</DataContext.Provider>
+  <HeadlessPopover className={className}>
+    {(state) => (
+      <DataContext.Provider value={state}>{children}</DataContext.Provider>
     )}
-  </Popover>
+  </HeadlessPopover>
 )
 
-export default PopoverParent
-export { PopoverButton, PopoverOverlay, PopoverPanel }
+const PopoverGroup = HeadlessPopover.Group
+
+export default Popover
+export { PopoverButton, PopoverOverlay, PopoverPanel, PopoverGroup }

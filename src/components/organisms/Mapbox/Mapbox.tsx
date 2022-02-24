@@ -23,6 +23,7 @@ const MapBox = () => {
    * useViewport gets override map location.
    */
   const updatedMapPosition = useAppSelector(selectMapLocation)!
+  console.log('updatedMapPosition', updatedMapPosition)
   const [viewport, setViewPort, ref] = useViewport(updatedMapPosition)
 
   /**
