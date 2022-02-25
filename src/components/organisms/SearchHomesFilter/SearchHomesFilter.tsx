@@ -26,36 +26,37 @@ import Sidebar from 'src/components/molecules/Sidebar'
 
 export interface ISearchHomesFilterProps {}
 
+const homeTypes = [
+  'Single Family Home',
+  'Condo',
+  'Multi Family',
+  'Townhouse',
+  'Mobile Manufactured',
+  'Lot Land',
+  'Farm Ranch',
+  'Coop',
+  'Unknown',
+  'Apartment',
+].sort() as (
+  | 'Single Family Home'
+  | 'Condo'
+  | 'Multi Family'
+  | 'Townhouse'
+  | 'Mobile Manufactured'
+  | 'Lot Land'
+  | 'Farm Ranch'
+  | 'Coop'
+  | 'Unknown'
+  | 'Apartment'
+)[]
+
 export const filterDefaultValues = {
   price: [0, 10_000_000] as [number, number],
   yearBuilt: [1900, 2020] as [number, number],
   sqft: [0, 10_000] as [number, number],
   beds: 'Any' as '1' | '2' | '3' | '4' | '5' | 'Any',
   bath: 'Any' as '1' | '2' | '3' | '4' | '5' | 'Any',
-  homeType: {
-    'Single Family Home': true,
-    Condo: true,
-    'Multi Family': true,
-    Townhouse: true,
-    'Mobile Manufactured': true,
-    'Lot Land': true,
-    'Farm Ranch': true,
-    Coop: true,
-    Unknown: true,
-    Apartment: true,
-  } as {
-    [homeTypeKey in
-      | 'Single Family Home'
-      | 'Condo'
-      | 'Multi Family'
-      | 'Townhouse'
-      | 'Mobile Manufactured'
-      | 'Lot Land'
-      | 'Farm Ranch'
-      | 'Coop'
-      | 'Unknown'
-      | 'Apartment']: boolean
-  },
+  homeType: homeTypes,
 }
 
 export const FilterButtonWithBadge = ({
@@ -164,18 +165,22 @@ export const FilterBath = ({ value, onChange }: any) => (
 const FilterHomeType = ({ value, onChange }: any) => (
   <fieldset className='space-y-2'>
     <legend className='font-semibold'>Home type</legend>
-    {Object.keys(filterDefaultValues.homeType).map((c) => (
+    {filterDefaultValues.homeType.map((c) => (
       <label key={c} className='flex items-start whitespace-nowrap'>
         <input
-          onChange={(e) => {
-            onChange({ ...value, [c]: !value[c] })
+          onChange={() => {
+            const exists = value.includes(c)
+            const newArr = exists
+              ? value.filter((item: string) => item !== c)
+              : [...value, c]
+            onChange(newArr.sort())
           }}
-          checked={value[c]}
+          checked={value.includes(c)}
           type='checkbox'
           className='flex-shrink-0 w-4 h-4 mr-1'
-          value={c}
+          value={value[c]}
         />
-        <div className='text-sm leading-tight'>{c}</div>
+        <div className='text-sm leading-tight select-none'>{c}</div>
       </label>
     ))}
   </fieldset>
@@ -184,11 +189,9 @@ const FilterHomeType = ({ value, onChange }: any) => (
 const SearchHomesFilter = () => {
   const dispatch = useAppDispatch()
   const [showSidebar, setShowSidebar] = useState(false)
-
   const cityList = useAppSelector(selectCityList)
 
   const {
-    register,
     watch,
     control,
     formState: { dirtyFields },
@@ -225,9 +228,7 @@ const SearchHomesFilter = () => {
   }, [dispatch, input$])
 
   useEffect(() => {
-    console.log('filterData', filterData, dirtyFields)
     // Add map bounds into the data as default parameters.
-
     input$.next({ data: filterData, dirtyData: dirtyFields })
   }, [dirtyFields, filterData, input$])
 
