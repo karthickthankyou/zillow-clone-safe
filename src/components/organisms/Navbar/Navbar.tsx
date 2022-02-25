@@ -1,11 +1,16 @@
-import { Popover } from '@headlessui/react'
+// import { Popover } from '@headlessui/react'
 import { useRouter } from 'next/router'
-import { ReactElement, useMemo } from 'react'
+import { ReactElement, useMemo, useState } from 'react'
+import { Disclosure } from '@headlessui/react'
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
   PopoverButton,
-  PopoverPanel,
+  PopoverGroup,
+  PopoverPanelMainMenu,
 } from 'src/components/molecules/PopoverMenuItem'
+import Sidebar from 'src/components/molecules/Sidebar'
+import MenuIcon from '@heroicons/react/outline/MenuIcon'
+import ChevronDownIcon from '@heroicons/react/outline/ChevronDownIcon'
 
 export interface INavbarProps {}
 
@@ -217,7 +222,7 @@ const MenuPopoverPanel = ({
   if (!items) return null
 
   return (
-    <PopoverPanel className='w-full py-3'>
+    <PopoverPanelMainMenu className='w-full py-3'>
       <div className='container flex gap-6 mx-auto'>
         {items.map((item) => (
           <div key={item.title}>
@@ -232,30 +237,76 @@ const MenuPopoverPanel = ({
           </div>
         ))}
       </div>
-    </PopoverPanel>
+    </PopoverPanelMainMenu>
   )
 }
 
 const Navbar = () => {
   const url = useRouter().pathname
-  const navCls = useMemo(() => url === '/' && 'fixed', [url])
+  const navCls = useMemo(() => (url === '/' ? 'fixed' : 'relative'), [url])
+  const [open, setOpen] = useState(true)
 
   return (
     <nav
-      className={`${navCls} z-30 flex items-center justify-center w-full h-16 bg-white border-b-2 border-white top border-opacity-30 bg-opacity-80 backdrop-filter backdrop-blur`}
+      className={`${navCls} z-30  flex items-center justify-center w-full h-16 bg-white/90 border-b-2 border-white/80 top`}
     >
       <div className='relative w-full'>
+        <Sidebar open={open} setOpen={setOpen}>
+          <div className='flex flex-col items-start'>
+            {[...menu, ...menu2].map((item) => (
+              <Disclosure key={item.title}>
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button className='flex items-center justify-between w-full py-2'>
+                      {item.title}
+                      <ChevronDownIcon
+                        className={`w-5 h-5  text-gray-500 ${
+                          open && 'rotate-180'
+                        }`}
+                      />
+                    </Disclosure.Button>
+                    <Disclosure.Panel
+                      key={item.title}
+                      className='text-gray-500'
+                    >
+                      {/* {item.title} */}
+                      <div className='flex flex-col items-start ml-2'>
+                        {item.submenu?.map((item2) => (
+                          <Disclosure key={item2.title}>
+                            <Disclosure.Button className='py-2'>
+                              {item2.title}
+                            </Disclosure.Button>
+                            <Disclosure.Panel
+                              key={item2.title}
+                              className='text-gray-500'
+                            >
+                              {item2.submenu?.map((item3) => (
+                                <div className='ml-2' key={item3.subtitle}>
+                                  {item3.subtitle}
+                                </div>
+                              ))}
+                            </Disclosure.Panel>
+                          </Disclosure>
+                        ))}
+                      </div>
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
+            ))}
+          </div>
+        </Sidebar>
         <div className='container flex items-center justify-center w-full h-6 mx-auto'>
-          <div className='hidden w-full py-2 md:flex'>
-            <Popover.Group className='z-40 flex items-center space-x-4'>
+          <div className='hidden w-full py-2 lg:flex'>
+            <PopoverGroup className='z-40 flex items-center space-x-4'>
               {menu.map((item) => (
                 <PopoverParent key={item.title}>
                   <PopoverButton>{item.title}</PopoverButton>
                   <MenuPopoverPanel items={item.submenu} />
                 </PopoverParent>
               ))}
-            </Popover.Group>
-            <Popover.Group className='z-40 flex items-center ml-auto space-x-4'>
+            </PopoverGroup>
+            <PopoverGroup className='z-40 flex items-center ml-auto space-x-4'>
               {menu2.map((item) => (
                 <PopoverParent key={item.title}>
                   <PopoverButton>
@@ -264,7 +315,12 @@ const Navbar = () => {
                   <MenuPopoverPanel items={item.submenu} />
                 </PopoverParent>
               ))}
-            </Popover.Group>
+            </PopoverGroup>
+          </div>
+          <div className='flex justify-end w-full lg:hidden'>
+            <button type='button' onClick={() => setOpen((open) => !open)}>
+              <MenuIcon className='w-10 h-10 p-2' />
+            </button>
           </div>
           <Link href='/' className='absolute font-black text-primary-600 '>
             {/* ZILLOW */}

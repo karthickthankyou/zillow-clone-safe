@@ -1,8 +1,11 @@
-import PopoverParent, {
+import PopoverParent from './PopoverMenuItem'
+
+export {
   PopoverButton,
   PopoverOverlay,
   PopoverPanel,
+  PopoverPanelMainMenu,
+  PopoverGroup,
 } from './PopoverMenuItem'
 
 export default PopoverParent
-export { PopoverButton, PopoverOverlay, PopoverPanel }

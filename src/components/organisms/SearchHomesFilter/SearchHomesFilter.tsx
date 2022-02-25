@@ -9,6 +9,10 @@ import {
   setHomesFilter,
   setMapLocation,
 } from 'src/store/cities/citySlice'
+import PopoverMenu, {
+  PopoverButton,
+  PopoverPanel,
+} from 'src/components/molecules/PopoverMenuItem'
 
 import SliderMui from 'src/components/molecules/SliderMui'
 
@@ -100,7 +104,7 @@ const SearchHomesFilter = () => {
   }, [dirtyFields, filterData, input$])
 
   return (
-    <div className='relative z-10 flex items-center gap-12 mb-2 bg-white bg-opacity-90 backdrop-filter backdrop-blur-sm'>
+    <div className='relative flex items-center gap-12 mb-2 bg-white '>
       <Autocomplete<CitySlice['cityList']['data'][number], false, false, false>
         options={cityList.data}
         getOptionLabel={(x) => x.displayName}
@@ -119,21 +123,24 @@ const SearchHomesFilter = () => {
         name='price'
         control={control}
         render={({ field: { onChange, value } }) => (
-          <MenuItem title='Price'>
-            <div>
-              <div className='font-semibold'>Price range</div>
-              <SliderMui
-                step={10_000}
-                onChange={onChange}
-                value={value}
-                initialData={filterDefaultValues.price}
-                className='mt-12 '
-                labelFormat={(sliderValue) =>
-                  `${addDollar(shortenNumber(sliderValue))}`
-                }
-              />
-            </div>
-          </MenuItem>
+          <PopoverMenu>
+            <PopoverButton>Price</PopoverButton>
+            <PopoverPanel>
+              <div>
+                <div className='font-semibold'>Price range</div>
+                <SliderMui
+                  step={10_000}
+                  onChange={onChange}
+                  value={value}
+                  initialData={filterDefaultValues.price}
+                  className='mt-12 '
+                  labelFormat={(sliderValue) =>
+                    `${addDollar(shortenNumber(sliderValue))}`
+                  }
+                />
+              </div>
+            </PopoverPanel>
+          </PopoverMenu>
         )}
       />
       <Controller

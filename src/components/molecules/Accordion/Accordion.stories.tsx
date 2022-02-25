@@ -7,8 +7,13 @@ export default {
   component: Accordion,
 } as ComponentMeta<typeof Accordion>
 
-const Template: ComponentStory<typeof Accordion> = () => <Accordion />
+const Template: ComponentStory<typeof Accordion> = (args) => (
+  <Accordion {...args} />
+)
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  title: 'Helo World',
+  children: <div>Children</div>,
+}
 Primary.parameters = {}

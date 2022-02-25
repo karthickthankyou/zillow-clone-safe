@@ -32,7 +32,7 @@ const MapBox = () => {
   useDispatchMapBoundsWhenViewportChanges(viewport, ref, setMapBounds)
 
   return (
-    <div className='relative w-full h-screen'>
+    <div className='w-full h-screen '>
       <ReactMapGL
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...viewport}
