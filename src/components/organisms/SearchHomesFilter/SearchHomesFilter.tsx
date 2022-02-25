@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import Autocomplete from 'src/components/molecules/Autocomplete'
-import MenuItem from 'src/components/molecules/MenuItem'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   CitySlice,
@@ -19,9 +18,10 @@ import SliderMui from 'src/components/molecules/SliderMui'
 import { useForm, Controller } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
-import { FilterIcon } from '@heroicons/react/solid'
+import { FilterIcon } from '@heroicons/react/outline'
 import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
 import { addDollar, shortenNumber } from 'src/lib/util'
+import Sidebar from 'src/components/molecules/Sidebar'
 
 export interface ISearchHomesFilterProps {}
 
@@ -57,6 +57,7 @@ export const filterDefaultValues = {
 }
 const SearchHomesFilter = () => {
   const dispatch = useAppDispatch()
+  const [showSidebar, setShowSidebar] = useState(false)
 
   const cityList = useAppSelector(selectCityList)
 
@@ -105,6 +106,9 @@ const SearchHomesFilter = () => {
 
   return (
     <div className='relative flex items-center gap-12 mb-2 bg-white '>
+      <Sidebar open={showSidebar} setOpen={setShowSidebar}>
+        <div>Hello there</div>
+      </Sidebar>
       <Autocomplete<CitySlice['cityList']['data'][number], false, false, false>
         options={cityList.data}
         getOptionLabel={(x) => x.displayName}
@@ -123,7 +127,7 @@ const SearchHomesFilter = () => {
         name='price'
         control={control}
         render={({ field: { onChange, value } }) => (
-          <PopoverMenu>
+          <PopoverMenu className='hidden md:block'>
             <PopoverButton>Price</PopoverButton>
             <PopoverPanel>
               <div>
@@ -147,153 +151,156 @@ const SearchHomesFilter = () => {
         name='yearBuilt'
         control={control}
         render={({ field: { onChange, value } }) => (
-          <MenuItem title='Year built'>
-            <div>
-              <div className='font-semibold'>Year built</div>
-              <SliderMui
-                onChange={onChange}
-                value={value}
-                initialData={filterDefaultValues.yearBuilt}
-                step={10}
-                className='mt-12 '
-              />
-            </div>
-          </MenuItem>
+          <PopoverMenu className='hidden md:block'>
+            <PopoverButton>Year built</PopoverButton>
+            <PopoverPanel>
+              <div>
+                <div className='font-semibold'>Year built</div>
+                <SliderMui
+                  onChange={onChange}
+                  value={value}
+                  initialData={filterDefaultValues.yearBuilt}
+                  step={10}
+                  className='mt-12 '
+                />
+              </div>
+            </PopoverPanel>
+          </PopoverMenu>
         )}
       />
       <Controller
         name='sqft'
         control={control}
         render={({ field: { onChange, value } }) => (
-          <MenuItem title='Sqft'>
-            <div>
-              <div className='font-semibold'>Square feet</div>
-              <SliderMui
-                onChange={onChange}
-                value={value}
-                initialData={filterDefaultValues.sqft}
-                step={100}
-                className='mt-12 '
-                labelFormat={(sliderValue) => `${sliderValue} sqft`}
-              />
-            </div>
-          </MenuItem>
+          <PopoverMenu className='hidden md:block'>
+            <PopoverButton>Sqft</PopoverButton>
+            <PopoverPanel>
+              <div>
+                <div className='font-semibold'>Year built</div>
+                <SliderMui
+                  onChange={onChange}
+                  value={value}
+                  initialData={filterDefaultValues.sqft}
+                  step={10}
+                  className='mt-12 '
+                />
+              </div>
+            </PopoverPanel>
+          </PopoverMenu>
         )}
       />
-      <MenuItem title='Beds & Bath'>
-        <div className='space-y-4'>
-          <Controller
-            name='beds'
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <RadioGroup
-                value={value}
-                onChange={onChange}
-                className='space-y-2 '
-              >
-                <RadioGroup.Label className='font-semibold'>
-                  Bedrooms
-                </RadioGroup.Label>
-                <div className='flex gap-3'>
-                  {['1', '2', '3', '4', '5', 'Any'].map((item) => (
-                    <RadioGroup.Option key={item} value={`${item}`}>
-                      {({ checked }) => (
-                        <span
-                          className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
-                            checked
-                              ? ' border-primary-600 font-bold shadow-sm text-primary-600'
-                              : ' bg-gray-50 shadow-inner text-gray-600 '
-                          }`}
-                        >
-                          {item}
-                          {item !== 'Any' && '+'}
-                        </span>
-                      )}
-                    </RadioGroup.Option>
-                  ))}
-                </div>
-              </RadioGroup>
-            )}
-          />
-          <Controller
-            name='bath'
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <RadioGroup
-                value={value}
-                onChange={onChange}
-                className='space-y-2'
-              >
-                <RadioGroup.Label className='font-semibold'>
-                  Bathrooms
-                </RadioGroup.Label>
-                <div className='flex gap-3 my-2'>
-                  {['1', '2', '3', '4', '5', 'Any'].map((item) => (
-                    <RadioGroup.Option key={item} value={`${item}`}>
-                      {({ checked }) => (
-                        <span
-                          className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
-                            checked
-                              ? ' border-primary-600 font-bold shadow-sm text-primary-600'
-                              : ' bg-gray-50 shadow-inner text-gray-600 '
-                          }`}
-                        >
-                          {item}
-                          {item !== 'Any' && '+'}
-                        </span>
-                      )}
-                    </RadioGroup.Option>
-                  ))}
-                </div>
-              </RadioGroup>
-            )}
-          />
-        </div>
-      </MenuItem>
 
-      {/* <Controller
-        key={c}
-        name='homeType'
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <label key={c}>
-            {console.log('value', value)}
-            <input
-              type='checkbox'
-              onChange={onChange}
-              value={value}
-              checked={value && value.includes(c)}
+      <PopoverMenu className='hidden lg:block'>
+        <PopoverButton>Beds & Bath</PopoverButton>
+        <PopoverPanel>
+          <div className='space-y-4'>
+            <Controller
+              name='beds'
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <RadioGroup
+                  value={value}
+                  onChange={onChange}
+                  className='space-y-2 '
+                >
+                  <RadioGroup.Label className='font-semibold'>
+                    Bedrooms
+                  </RadioGroup.Label>
+                  <div className='flex gap-3'>
+                    {['1', '2', '3', '4', '5', 'Any'].map((item) => (
+                      <RadioGroup.Option key={item} value={`${item}`}>
+                        {({ checked }) => (
+                          <span
+                            className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
+                              checked
+                                ? ' border-primary-600 font-bold shadow-sm text-primary-600'
+                                : ' bg-gray-50 shadow-inner text-gray-600 '
+                            }`}
+                          >
+                            {item}
+                            {item !== 'Any' && '+'}
+                          </span>
+                        )}
+                      </RadioGroup.Option>
+                    ))}
+                  </div>
+                </RadioGroup>
+              )}
             />
-            {c}
-          </label>
-        )}
-      /> */}
+            <Controller
+              name='bath'
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <RadioGroup
+                  value={value}
+                  onChange={onChange}
+                  className='space-y-2'
+                >
+                  <RadioGroup.Label className='font-semibold'>
+                    Bathrooms
+                  </RadioGroup.Label>
+                  <div className='flex gap-3 my-2'>
+                    {['1', '2', '3', '4', '5', 'Any'].map((item) => (
+                      <RadioGroup.Option key={item} value={`${item}`}>
+                        {({ checked }) => (
+                          <span
+                            className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
+                              checked
+                                ? ' border-primary-600 font-bold shadow-sm text-primary-600'
+                                : ' bg-gray-50 shadow-inner text-gray-600 '
+                            }`}
+                          >
+                            {item}
+                            {item !== 'Any' && '+'}
+                          </span>
+                        )}
+                      </RadioGroup.Option>
+                    ))}
+                  </div>
+                </RadioGroup>
+              )}
+            />
+          </div>
+        </PopoverPanel>
+      </PopoverMenu>
 
-      <MenuItem title='Home Type'>
-        <fieldset className='space-y-2'>
-          <legend className='font-semibold'>Home type</legend>
-          {filterDefaultValues.homeType.map((c) => (
-            <label key={c} className='flex items-start whitespace-nowrap'>
-              <input
-                type='checkbox'
-                className='flex-shrink-0 w-4 h-4 mr-1'
-                value={c}
-                {...register('homeType')}
-              />
-              <div className='text-sm leading-tight'>{c}</div>
-            </label>
-          ))}
-        </fieldset>
-      </MenuItem>
-      <button type='button' className='ml-auto text-primary-600'>
-        <FilterIcon className='w-5 h-5 lg:hidden' />
-      </button>
-      {Object.keys(dirtyFields).length > 0 && (
-        <button type='button' onClick={() => reset()}>
-          reset
+      <PopoverMenu className='hidden lg:block'>
+        <PopoverButton>Home type</PopoverButton>
+        <PopoverPanel>
+          <fieldset className='space-y-2'>
+            <legend className='font-semibold'>Home type</legend>
+            {filterDefaultValues.homeType.map((c) => (
+              <label key={c} className='flex items-start whitespace-nowrap'>
+                <input
+                  type='checkbox'
+                  className='flex-shrink-0 w-4 h-4 mr-1'
+                  value={c}
+                  {...register('homeType')}
+                />
+                <div className='text-sm leading-tight'>{c}</div>
+              </label>
+            ))}
+          </fieldset>
+        </PopoverPanel>
+      </PopoverMenu>
+      <div className='flex items-center gap-2 ml-auto space-x-2'>
+        {Object.keys(dirtyFields).length > 0 && (
+          <button
+            className='px-2 py-1 text-sm border rounded-full border-primary-600 text-primary-600'
+            type='button'
+            onClick={() => reset()}
+          >
+            Reset
+          </button>
+        )}
+        <button
+          type='button'
+          className=' text-primary-600'
+          onClick={() => setShowSidebar((state) => !state)}
+        >
+          <FilterIcon className='w-5 h-5 lg:hidden' />
         </button>
-      )}
-      {/**/}
+      </div>
     </div>
   )
 }

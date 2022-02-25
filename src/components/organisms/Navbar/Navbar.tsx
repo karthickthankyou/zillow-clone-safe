@@ -1,7 +1,7 @@
 // import { Popover } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { ReactElement, useMemo, useState } from 'react'
-import { Disclosure } from '@headlessui/react'
+
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
   PopoverButton,
@@ -9,8 +9,8 @@ import PopoverParent, {
   PopoverPanelMainMenu,
 } from 'src/components/molecules/PopoverMenuItem'
 import Sidebar from 'src/components/molecules/Sidebar'
+import Accordion from 'src/components/molecules/Accordion'
 import MenuIcon from '@heroicons/react/outline/MenuIcon'
-import ChevronDownIcon from '@heroicons/react/outline/ChevronDownIcon'
 
 export interface INavbarProps {}
 
@@ -186,32 +186,6 @@ const menu2: MenuType = [
       },
     ],
   },
-  { title: 'Advertise', submenu: [] },
-  { title: 'Help', submenu: [] },
-  {
-    title: 'login',
-    titleComponent: (
-      <Link
-        href='/login'
-        className='px-4 py-1.5 text-sm text-black capitalize bg-white rounded-full text-bold'
-      >
-        Login
-      </Link>
-    ),
-    submenu: [],
-  },
-  {
-    title: 'join now',
-    titleComponent: (
-      <Link
-        href='/signup'
-        className='px-4 py-1.5 text-sm text-white capitalize border rounded-full text-bold border-primary-500 bg-primary-500'
-      >
-        Join now
-      </Link>
-    ),
-    submenu: [],
-  },
 ]
 
 const MenuPopoverPanel = ({
@@ -226,11 +200,15 @@ const MenuPopoverPanel = ({
       <div className='container flex gap-6 mx-auto'>
         {items.map((item) => (
           <div key={item.title}>
-            <div className='font-bold' key={item.title}>
+            <div className='mb-2 font-semibold' key={item.title}>
               {item.title}
             </div>
             {item.submenu.map((subitem) => (
-              <a href={subitem.url} className='block' key={subitem.subtitle}>
+              <a
+                href={subitem.url}
+                className='block my-1'
+                key={subitem.subtitle}
+              >
                 {subitem.subtitle}
               </a>
             ))}
@@ -254,46 +232,48 @@ const Navbar = () => {
         <Sidebar open={open} setOpen={setOpen}>
           <div className='flex flex-col items-start'>
             {[...menu, ...menu2].map((item) => (
-              <Disclosure key={item.title}>
-                {({ open }) => (
-                  <>
-                    <Disclosure.Button className='flex items-center justify-between w-full py-2'>
-                      {item.title}
-                      <ChevronDownIcon
-                        className={`w-5 h-5  text-gray-500 ${
-                          open && 'rotate-180'
-                        }`}
-                      />
-                    </Disclosure.Button>
-                    <Disclosure.Panel
-                      key={item.title}
-                      className='text-gray-500'
-                    >
-                      {/* {item.title} */}
-                      <div className='flex flex-col items-start ml-2'>
-                        {item.submenu?.map((item2) => (
-                          <Disclosure key={item2.title}>
-                            <Disclosure.Button className='py-2'>
-                              {item2.title}
-                            </Disclosure.Button>
-                            <Disclosure.Panel
-                              key={item2.title}
-                              className='text-gray-500'
-                            >
-                              {item2.submenu?.map((item3) => (
-                                <div className='ml-2' key={item3.subtitle}>
-                                  {item3.subtitle}
-                                </div>
-                              ))}
-                            </Disclosure.Panel>
-                          </Disclosure>
-                        ))}
-                      </div>
-                    </Disclosure.Panel>
-                  </>
-                )}
-              </Disclosure>
+              <Accordion key={item.title} title={item.title}>
+                <div className='flex flex-col items-start'>
+                  {item.submenu?.map((item2) => (
+                    <Accordion key={item2.title} title={item2.title}>
+                      {item2.submenu?.map((item3) => (
+                        <a
+                          href={item3.url}
+                          className='block py-1 ml-2'
+                          key={item3.subtitle}
+                        >
+                          {item3.subtitle}
+                        </a>
+                      ))}
+                    </Accordion>
+                  ))}
+                </div>
+              </Accordion>
             ))}
+            <Link
+              href='/advertise'
+              className='py-1.5 font-medium text-gray-600 capitalize'
+            >
+              Advertise
+            </Link>
+            <Link
+              href='/help'
+              className='py-1.5 font-medium text-gray-600 capitalize'
+            >
+              Help
+            </Link>
+            <Link
+              href='/login'
+              className='py-2 w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
+            >
+              Login
+            </Link>
+            <Link
+              href='/signup'
+              className='py-2 w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
+            >
+              Join now
+            </Link>
           </div>
         </Sidebar>
         <div className='container flex items-center justify-center w-full h-6 mx-auto'>
@@ -307,19 +287,45 @@ const Navbar = () => {
               ))}
             </PopoverGroup>
             <PopoverGroup className='z-40 flex items-center ml-auto space-x-4'>
-              {menu2.map((item) => (
-                <PopoverParent key={item.title}>
-                  <PopoverButton>
-                    {item.titleComponent || item.title}
-                  </PopoverButton>
-                  <MenuPopoverPanel items={item.submenu} />
-                </PopoverParent>
-              ))}
+              <>
+                {menu2.map((item) => (
+                  <PopoverParent key={item.title}>
+                    <PopoverButton>
+                      {item.titleComponent || item.title}
+                    </PopoverButton>
+                    <MenuPopoverPanel items={item.submenu} />
+                  </PopoverParent>
+                ))}
+                <Link
+                  href='/advertise'
+                  className='py-1.5 font-medium text-gray-600 capitalize'
+                >
+                  Advertise
+                </Link>
+                <Link
+                  href='/help'
+                  className='py-1.5 font-medium text-gray-600 capitalize'
+                >
+                  Help
+                </Link>
+                <Link
+                  href='/login'
+                  className='py-1.5 px-4 text-sm rounded-full border border-primary-600 font-medium text-primary-600 capitalize'
+                >
+                  Login
+                </Link>
+                <Link
+                  href='/signup'
+                  className='py-1.5 px-4 text-sm rounded-full bg-primary-500 border border-primary-500 text-white font-medium capitalize'
+                >
+                  Join now
+                </Link>
+              </>
             </PopoverGroup>
           </div>
           <div className='flex justify-end w-full lg:hidden'>
             <button type='button' onClick={() => setOpen((open) => !open)}>
-              <MenuIcon className='w-10 h-10 p-2' />
+              <MenuIcon className='w-8 h-8 text-primary-600' />
             </button>
           </div>
           <Link href='/' className='absolute font-black text-primary-600 '>
