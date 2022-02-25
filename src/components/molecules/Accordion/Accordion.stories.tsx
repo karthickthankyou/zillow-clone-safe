@@ -46,7 +46,7 @@ const AccordionListTemplateLoose: ComponentStory<typeof Accordion> = () => (
 )
 const NestedAccordionListTemplate: ComponentStory<typeof Accordion> = () => (
   <Wrapper>
-    <Accordion title='Click me to reveal more.' className='py-3'>
+    <Accordion title='I have an accodion' className='py-3'>
       <Accordion title='Click me too.' className='py-3'>
         <Accordion title='I have a simple body. 🙄' className='py-3'>
           <div>Body 1</div>
