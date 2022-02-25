@@ -222,7 +222,7 @@ const MenuPopoverPanel = ({
 const Navbar = () => {
   const url = useRouter().pathname
   const navCls = useMemo(() => (url === '/' ? 'fixed' : 'relative'), [url])
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   return (
     <nav

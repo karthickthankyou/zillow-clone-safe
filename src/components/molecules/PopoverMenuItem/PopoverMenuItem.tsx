@@ -26,15 +26,17 @@ const PopoverButton = ({
   children,
   href,
   showIcon = false,
+  className,
 }: {
   children: string | ReactElement
   href?: string
   showIcon?: boolean
+  className?: string
 }) => {
   const { open } = useContext(DataContext)
   return (
     <HeadlessPopover.Button
-      className={`py-1 select-none hover:text-primary-700 rounded-none ${
+      className={`${className} py-1 select-none hover:text-primary-700 rounded-none ${
         open ? 'border-b border-primary-600 text-primary-600' : 'text-gray-700'
       }`}
     >
