@@ -21,7 +21,7 @@ const ProductListingResult = () => {
 
   if (NO_RESULTS) {
     return (
-      <div className='flex flex-col items-center justify-center h-2/3'>
+      <div className='flex flex-col items-center justify-center py-24 h-2/3'>
         <div className='text-2xl font-light'>No matching properties found.</div>
         <div className='mt-2 text-sm text-gray-600'>
           Try modifying the filters.

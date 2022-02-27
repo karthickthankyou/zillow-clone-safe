@@ -32,7 +32,8 @@
     "cypress:unit": "npm run gen-tailwind && cypress open-ct",
     "e2e": "start-server-and-test dev http://localhost:3000 cypress",
     "e2e:headless": "start-server-and-test dev http://localhost:3000 cypress:headless",
-    "gql:codegen": "graphql-codegen --config codegen.yml"
+    "gql:codegen": "graphql-codegen --config codegen.yml",
+    "nyc": "npx nyc report --reporter=text-summary"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",

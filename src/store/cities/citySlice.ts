@@ -119,6 +119,8 @@ export const selectCitySearchText = (state: RootState) =>
   state.city.citySearchText
 export const selectHighlightedHome = (state: RootState) =>
   state.city.highlightedHome
+export const selectHighlightedHomeId = (state: RootState) =>
+  state.city.highlightedHomeId
 
 export const selectCityList = (state: RootState): CitySlice['cityList'] =>
   state.city.cityList

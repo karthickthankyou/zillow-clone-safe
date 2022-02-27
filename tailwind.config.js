@@ -64,8 +64,10 @@ module.exports = {
         176: '44rem',
         192: '48rem',
         208: '52rem',
+        '90p': '90%',
       },
       height: {
+        screen50: '50vh',
         screen80: '80vh',
         screen90: '90vh',
       },

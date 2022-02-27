@@ -1,18 +1,18 @@
 import { useTransition, animated } from 'react-spring'
-
-import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
+import {
+  useGetHomeByIdQuery,
+  useSearchHomesByLocationQuery,
+} from 'src/generated/graphql'
 import { useAppSelector, useAppDispatch } from 'src/store'
 import { NavigationControl } from 'react-map-gl'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import {
   selectFilters,
-  selectHighlightedHome,
+  selectHighlightedHomeId,
   setHighlightedHomeId,
 } from 'src/store/cities/citySlice'
 import MapMarker from 'src/components/molecules/MapMarker'
 import MapPopup from 'src/components/molecules/Popup'
-
-export interface IMapboxContentProps {}
 
 const MapboxContent = () => {
   const dispatch = useAppDispatch()
@@ -26,17 +26,22 @@ const MapboxContent = () => {
     },
   })
 
-  console.log('map data: ', homesMap, fetching)
+  const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
 
-  const markersTransitions = useTransition(homesMap?.homes, {
-    keys: (home) => home?.id || 2,
+  const [highlightedHomeDetails] = useGetHomeByIdQuery({
+    variables: {
+      id: highlightedHomeId,
+    },
+  })
+
+  const markersTransitions = useTransition(homesMap?.homes || [], {
+    keys: (home) => home.id,
     from: { opacity: 0, transform: 'translateY(-6px)' },
     enter: { opacity: 1, transform: 'translateY(0px)' },
     leave: { opacity: 0, transform: 'translateY(-6px)' },
     trail: 100,
   })
 
-  const highlightedHome = useAppSelector(selectHighlightedHome)
   return (
     <>
       <NavigationControl showCompass={false} className='z-30 p-2 ' />
@@ -52,18 +57,20 @@ const MapboxContent = () => {
       )}
       {markersTransitions((style, marker) => (
         <>
-          {highlightedHome === marker?.id && (
-            <MapPopup marker={marker} highlightedHome={highlightedHome} />
+          {highlightedHomeId === marker.id && (
+            <MapPopup
+              marker={marker}
+              highlightedHome={highlightedHomeDetails}
+            />
           )}
           <animated.div key={marker?.id} style={style}>
             {/* FIX */}
             <MapMarker
-              lat={marker?.lat || 0}
-              lng={marker?.lng || 0}
-              highlighted={highlightedHome === marker?.id}
-              mouseHoverAction={() =>
-                dispatch(setHighlightedHomeId(marker?.id))
-              }
+              lat={marker.lat}
+              lng={marker.lng}
+              style={marker.style}
+              highlighted={highlightedHomeId === marker.id}
+              mouseHoverAction={() => dispatch(setHighlightedHomeId(marker.id))}
               mouseLeaveAction={() => dispatch(setHighlightedHomeId(null))}
             />
           </animated.div>

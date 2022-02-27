@@ -13,9 +13,9 @@ const ProductListingPage = () => (
     />
     <div className='container mx-auto'>
       <SearchHomesFilter />
-      <div className='flex gap-5'>
-        <div className='flex-1 hidden lg:block'>
-          <div className='sticky top-0 col-span-1 overflow-hidden rounded'>
+      <div className='flex flex-col gap-5 lg:flex-row'>
+        <div className='flex-1 lg:block'>
+          <div className='sticky top-0 w-full col-span-1 overflow-hidden rounded h-screen50 lg:h-screen '>
             <Mapbox />
           </div>
         </div>

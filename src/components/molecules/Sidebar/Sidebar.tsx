@@ -7,10 +7,11 @@ import { XIcon } from '@heroicons/react/outline'
 export interface ISidebar2Props {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  children: ReactElement | ReactElement[]
+  children: ReactElement | (ReactElement | null)[]
+  className?: string
 }
 
-const Sidebar2 = ({ open, setOpen, children }: ISidebar2Props) => (
+const Sidebar2 = ({ open, setOpen, children, className }: ISidebar2Props) => (
   <Transition.Root show={open} as={Fragment}>
     <Dialog
       as='div'
@@ -60,7 +61,9 @@ const Sidebar2 = ({ open, setOpen, children }: ISidebar2Props) => (
                   <XIcon className='w-6 h-6' aria-hidden='true' />
                 </button>
               </div>
-              <div className='flex flex-col h-full p-2 overflow-y-scroll bg-white shadow-xl'>
+              <div
+                className={`flex flex-col h-full p-2 pb-12 overflow-y-scroll bg-white shadow-xl ${className}`}
+              >
                 {children}
               </div>
             </div>

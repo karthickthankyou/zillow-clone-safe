@@ -3,7 +3,7 @@ import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import { Properties } from 'src/generated/graphql'
 import { useAppDispatch } from 'src/store'
-import { useHomesDetailed } from 'src/store/homes/homeHooks'
+import { setHighlightedHomeId } from 'src/store/cities/citySlice'
 
 export type IPropertyCardProps = Partial<Properties>
 
@@ -16,14 +16,14 @@ const PropertyCard = ({
   sqft,
 }: IPropertyCardProps) => {
   const dispatch = useAppDispatch()
-  const setHighlightedHome = (value: number | null | undefined) =>
-    dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
+  // const setHighlightedHome = (value: number | null | undefined) =>
+  //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
 
   return (
     <div
-    // onMouseOver={() => setHighlightedHome(id)}
-    // onFocus={() => setHighlightedHome(id)}
-    // onMouseLeave={() => setHighlightedHome(null)}
+      onMouseOver={() => dispatch(setHighlightedHomeId(id))}
+      onFocus={() => dispatch(setHighlightedHomeId(id))}
+      onMouseLeave={() => dispatch(setHighlightedHomeId(null))}
     >
       <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
         <Image

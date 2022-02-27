@@ -23,7 +23,6 @@ const MapBox = () => {
    * useViewport gets override map location.
    */
   const updatedMapPosition = useAppSelector(selectMapLocation)!
-  console.log('updatedMapPosition', updatedMapPosition)
   const [viewport, setViewPort, ref] = useViewport(updatedMapPosition)
 
   /**
@@ -32,27 +31,25 @@ const MapBox = () => {
   useDispatchMapBoundsWhenViewportChanges(viewport, ref, setMapBounds)
 
   return (
-    <div className='w-full h-screen '>
-      <ReactMapGL
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...viewport}
-        onViewportChange={(v) => {
-          setViewPort(v)
-        }}
-        dragPan
-        scrollZoom={false}
-        width='100%'
-        height='100%'
-        ref={(el) => {
-          ref.current = el
-        }}
-        // pitch={45}
-        mapboxApiAccessToken={accessToken}
-        mapStyle={mapStyle}
-      >
-        <MapboxContent />
-      </ReactMapGL>
-    </div>
+    <ReactMapGL
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...viewport}
+      onViewportChange={(v) => {
+        setViewPort(v)
+      }}
+      dragPan
+      scrollZoom={false}
+      width='100%'
+      height='100%'
+      ref={(el) => {
+        ref.current = el
+      }}
+      // pitch={45}
+      mapboxApiAccessToken={accessToken}
+      mapStyle={mapStyle}
+    >
+      <MapboxContent />
+    </ReactMapGL>
   )
 }
 

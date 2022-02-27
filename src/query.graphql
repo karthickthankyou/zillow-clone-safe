@@ -67,6 +67,7 @@ query SearchHomesByLocation(
     id
     lat
     lng
+    style
   }
 }
 
