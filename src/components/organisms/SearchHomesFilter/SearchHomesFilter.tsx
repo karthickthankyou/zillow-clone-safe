@@ -18,13 +18,14 @@ import {
   FilterButton,
   useDispatchHomeFilter,
   LocationSearch,
+  DirtyMarker,
 } from './filterUtils'
 
 const SearchHomesFilter = () => {
   const {
     watch,
     control,
-    formState: { dirtyFields },
+    formState: { dirtyFields, isDirty },
     reset,
   } = useForm({
     defaultValues: filterDefaultValues,
@@ -50,6 +51,20 @@ const SearchHomesFilter = () => {
           control={control}
           render={({ field: { onChange, value } }) => (
             <FilterHomeType value={value} onChange={onChange} />
+          )}
+        />
+        <Controller
+          name='beds'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FilterBeds value={value} onChange={onChange} />
+          )}
+        />
+        <Controller
+          name='bath'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <FilterBath value={value} onChange={onChange} />
           )}
         />
         <Controller
@@ -118,7 +133,7 @@ const SearchHomesFilter = () => {
           <PopoverMenu className='hidden md:block'>
             <FilterButtonWithBadge
               showBadge={Boolean(dirtyFields.yearBuilt)}
-              title='Year builts'
+              title='Year built'
             />
             <PopoverPanel>
               <div className='w-56'>
@@ -146,7 +161,7 @@ const SearchHomesFilter = () => {
         )}
       />
 
-      <PopoverMenu className='hidden lg:block'>
+      <PopoverMenu className='hidden md:block'>
         <FilterButtonWithBadge
           showBadge={Boolean(dirtyFields.bath || dirtyFields.beds)}
           title='Beds & Bath'
@@ -171,7 +186,7 @@ const SearchHomesFilter = () => {
         </PopoverPanel>
       </PopoverMenu>
 
-      <PopoverMenu>
+      <PopoverMenu className='hidden md:block'>
         <FilterButtonWithBadge
           showBadge={Boolean(dirtyFields.homeType)}
           title='Home type'
@@ -189,7 +204,10 @@ const SearchHomesFilter = () => {
       </PopoverMenu>
       <div className='flex items-center ml-auto space-x-2'>
         {Object.keys(dirtyFields).length > 0 && <ResetButton reset={reset} />}
-        <FilterButton setShowSidebar={setShowSidebar} />
+        <div className='relative'>
+          <DirtyMarker isDirty={isDirty} />
+          <FilterButton setShowSidebar={setShowSidebar} />
+        </div>
       </div>
     </div>
   )

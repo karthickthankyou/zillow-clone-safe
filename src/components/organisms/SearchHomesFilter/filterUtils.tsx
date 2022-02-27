@@ -261,3 +261,8 @@ export const LocationSearch = () => {
     />
   )
 }
+
+export const DirtyMarker = ({ isDirty }: { isDirty: boolean }) =>
+  isDirty ? (
+    <div className='absolute top-0 w-2 h-2 rounded-full left-full bg-red-500/50' />
+  ) : null
