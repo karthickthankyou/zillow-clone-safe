@@ -13,7 +13,7 @@ export interface IPopupProps {
 const RenderData = ({ data }: { data: GetHomeByIdQuery }) => (
   <div className='flex flex-col '>
     <img src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />
-    <div className='flex flex-col mt-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
+    <div className='flex flex-col p-2 bg-white/50 backdrop-filter backdrop-blur-sm filter'>
       <div className='mb-1 text-lg font-semibold leading-none'>
         ${data?.homes_by_pk?.price.toLocaleString()}
       </div>
@@ -30,7 +30,7 @@ const RenderData = ({ data }: { data: GetHomeByIdQuery }) => (
 const Skeleton = () => (
   <div className='flex flex-col text-gray-200'>
     <img src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />
-    <div className='flex flex-col mt-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
+    <div className='flex flex-col p-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
       <div className='w-3/4 mb-1 text-lg font-semibold leading-none bg-gray-200 animate-pulse'>
         -
       </div>

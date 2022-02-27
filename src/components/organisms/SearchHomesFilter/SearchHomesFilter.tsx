@@ -130,7 +130,7 @@ const SearchHomesFilter = () => {
         name='yearBuilt'
         control={control}
         render={({ field: { onChange, value } }) => (
-          <PopoverMenu className='hidden md:block'>
+          <PopoverMenu className='hidden lg:block'>
             <FilterButtonWithBadge
               showBadge={Boolean(dirtyFields.yearBuilt)}
               title='Year built'
@@ -147,7 +147,7 @@ const SearchHomesFilter = () => {
         name='sqft'
         control={control}
         render={({ field: { onChange, value } }) => (
-          <PopoverMenu className='hidden md:block'>
+          <PopoverMenu className='hidden lg:block'>
             <FilterButtonWithBadge
               showBadge={Boolean(dirtyFields.sqft)}
               title='Sqft'
