@@ -64,6 +64,7 @@ const MapBox = () => {
           setViewport(v)
         }}
         dragPan
+        dragRotate={false}
         scrollZoom={false}
         width='100%'
         height='100%'
