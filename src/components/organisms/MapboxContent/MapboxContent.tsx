@@ -1,4 +1,4 @@
-import { Ref } from 'react'
+import { Ref, useContext } from 'react'
 import { useTransition, animated, config } from 'react-spring'
 
 import {
@@ -21,7 +21,9 @@ import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import PlusIcon from '@heroicons/react/outline/PlusIcon'
 import MinusIcon from '@heroicons/react/outline/MinusIcon'
 
-const MapboxContent = ({ viewport }) => {
+import { MapContext } from 'src/components/organisms/Mapbox/Mapbox'
+
+const MapboxContent = () => {
   const dispatch = useAppDispatch()
   /**
    * Query homes and create animated markers.
@@ -30,6 +32,8 @@ const MapboxContent = ({ viewport }) => {
   const [{ data: homesMap, fetching, error }] = useSearchHomesByLocationQuery({
     variables: filterVariables,
   })
+
+  const [_viewport, setViewport] = useContext(MapContext)
 
   const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
 
@@ -119,13 +123,10 @@ const MapboxContent = ({ viewport }) => {
           className='rounded-none hover:bg-white'
           type='button'
           onClick={() => {
-            dispatch(
-              setMapLocation({
-                latitude: viewport.latitude,
-                longitude: viewport.longitude,
-                zoom: viewport.zoom + 1,
-              })
-            )
+            setViewport((state) => ({
+              ...state,
+              zoom: state.zoom + 1,
+            }))
           }}
         >
           <PlusIcon className='w-8 h-8 p-1.5 ' />
@@ -134,13 +135,10 @@ const MapboxContent = ({ viewport }) => {
           className='rounded-none hover:bg-white'
           type='button'
           onClick={() => {
-            dispatch(
-              setMapLocation({
-                latitude: viewport.latitude,
-                longitude: viewport.longitude,
-                zoom: viewport.zoom - 1,
-              })
-            )
+            setViewport((state) => ({
+              ...state,
+              zoom: state.zoom - 1,
+            }))
           }}
         >
           <MinusIcon className='w-8 h-8 p-1.5 ' />
@@ -149,13 +147,11 @@ const MapboxContent = ({ viewport }) => {
           className='rounded-none hover:bg-white'
           type='button'
           onClick={() => {
-            dispatch(
-              setMapLocation({
-                latitude: 39.0119,
-                longitude: -98.4842,
-                zoom: 3,
-              })
-            )
+            setViewport({
+              latitude: 39.0119,
+              longitude: -98.4842,
+              zoom: 3,
+            })
           }}
         >
           <GlobeIcon className='w-8 h-8 p-1.5 ' />

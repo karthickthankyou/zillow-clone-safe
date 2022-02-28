@@ -25,9 +25,10 @@ const AutocompleteComponent = <
 ) => (
   <Autocomplete
     classes={{
-      listbox: 'p-0 bg-opacity-90 backdrop-filter backdrop-blur max-h-64',
+      listbox:
+        'p-0 bg-opacity-90 bg-white/50 backdrop-filter backdrop-blur max-h-64',
       option: 'hover:bg-white bg-opacity-100',
-      paper: 'rounded-sm shadow-md border border-white mt-1 bg-transparent',
+      paper: 'rounded-md shadow-md border border-white mt-1 bg-transparent',
     }}
     handleHomeEndKeys
     filterOptions={(x) => x}

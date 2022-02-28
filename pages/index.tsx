@@ -8,7 +8,7 @@ import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useGetCitiesQuery } from 'src/generated/graphql'
 import HScroll from 'src/components/molecules/HScroll'
 import ReactMapGL from 'react-map-gl'
@@ -30,6 +30,13 @@ const Home: NextPage = ({
   const [show, el] = useTriggerOnScroll()
   const [plan, setPlan] = useState<'BUY' | 'SELL' | 'RENT'>('BUY')
 
+  const interactiveMapRef = useRef(null)
+
+  const executeScroll = () =>
+    interactiveMapRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    })
+
   return (
     <div>
       <NextSeo
@@ -43,7 +50,7 @@ const Home: NextPage = ({
       </Head>
 
       <main>
-        <Hero className='-mt-16' />
+        <Hero className='-mt-16' executeScroll={executeScroll} />
 
         <div className='container mx-auto mb-24 mt-36'>
           <div className='max-w-md text-4xl font-semibold '>
@@ -57,11 +64,11 @@ const Home: NextPage = ({
           </p>
         </div>
 
-        <div className='w-screen h-screen'>
+        <div className='w-screen h-screen ' ref={interactiveMapRef}>
           <MapBox />
         </div>
 
-        <div className='container mx-auto space-y-24'>
+        <div className='container mx-auto mt-12 space-y-24'>
           {/* <Cities title='Buy a home' description=''>
             <HScroll className='mt-2'>
               <HScroll.Arrow

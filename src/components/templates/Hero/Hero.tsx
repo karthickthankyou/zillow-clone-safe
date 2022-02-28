@@ -1,4 +1,5 @@
 import Autocomplete from 'src/components/molecules/Autocomplete'
+import MapIcon from '@heroicons/react/outline/MapIcon'
 
 import { useDispatch } from 'react-redux'
 import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
@@ -13,12 +14,14 @@ import {
 } from 'src/store/cities/citySlice'
 
 import { useRouter } from 'next/dist/client/router'
+import Link from 'src/components/atoms/Link'
 
 export interface IHeroProps {
   className?: string
+  executeScroll: () => void
 }
 
-const Hero = ({ className }: IHeroProps) => {
+const Hero = ({ className, executeScroll }: IHeroProps) => {
   const dispatch = useDispatch()
 
   /** Selectors */
@@ -57,6 +60,7 @@ const Hero = ({ className }: IHeroProps) => {
                 setMapLocation({
                   latitude,
                   longitude,
+                  zoom: 10,
                 })
               )
               // dispatch(setMapLocation({ lat, lng }))
@@ -69,8 +73,16 @@ const Hero = ({ className }: IHeroProps) => {
               )
             }
           }}
-          className='w-full mt-12 rounded-lg'
+          className='w-full mt-12 rounded-md'
         />
+        <button
+          type='button'
+          onClick={() => executeScroll()}
+          className='w-full px-4 py-2 mt-6 font-bold text-white underline rounded-md underline-offset-4 hover:bg-black/20'
+        >
+          Or, Use the interactive map.
+          <MapIcon className='inline w-8 h-8 p-1 animate-pulse' />
+        </button>
       </div>
       <ArrowCircleDownIcon className='bottom-0 w-8 h-8 text-white justify-self-stretch animate-bounce' />
     </div>
