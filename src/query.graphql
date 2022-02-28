@@ -52,22 +52,31 @@ query SearchPropertiesByLocation(
 
 query SearchHomesByLocation(
   $distinct_on: [homes_select_column!]
-  $limit: Int
+  $homesLimit: Int
+  $citiesLimit: Int
   $offset: Int
   $order_by: [homes_order_by!]
-  $where: homes_bool_exp
+  $homesWhere: homes_bool_exp
+  $citiesWhere: cities_bool_exp
 ) {
   homes(
     distinct_on: $distinct_on
-    limit: $limit
+    limit: $homesLimit
     offset: $offset
     order_by: $order_by
-    where: $where
+    where: $homesWhere
   ) {
     id
     lat
     lng
     style
+  }
+  cities(limit: $citiesLimit, where: $citiesWhere) {
+    id
+    lat
+    lng
+    displayName
+    propertiesCount
   }
 }
 

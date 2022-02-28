@@ -8,9 +8,13 @@ import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
-import React from 'react'
+import React, { useState } from 'react'
 import { useGetCitiesQuery } from 'src/generated/graphql'
 import HScroll from 'src/components/molecules/HScroll'
+import ReactMapGL from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css'
+import { RadioGroup } from '@headlessui/react'
+import MapBox from 'src/components/organisms/Mapbox/Mapbox'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -20,8 +24,11 @@ const Home: NextPage = ({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const [{ data: citiesData, fetching }] = useGetCitiesQuery()
+  const accessToken =
+    'pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ'
 
   const [show, el] = useTriggerOnScroll()
+  const [plan, setPlan] = useState<'BUY' | 'SELL' | 'RENT'>('BUY')
 
   return (
     <div>
@@ -37,6 +44,9 @@ const Home: NextPage = ({
 
       <main>
         <Hero />
+        <div className='w-screen h-screen'>
+          <MapBox />
+        </div>
 
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>

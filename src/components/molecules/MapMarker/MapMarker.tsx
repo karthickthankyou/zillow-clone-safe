@@ -27,10 +27,10 @@ const MapMarker = ({
       <MarkerIcon
         onMouseOver={mouseHoverAction}
         onMouseLeave={mouseLeaveAction}
-        className={`w-5 h-5 transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative ${
+        className={`w-5 h-5 transition-all shadow-2xl cursor-pointer ease-in-out duration-200 relative ${
           highlighted
             ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded  '
-            : 'text-primary-900 opacity-70'
+            : 'text-primary-900 opacity-90'
         }`}
       />
     </Marker>

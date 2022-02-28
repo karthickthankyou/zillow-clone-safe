@@ -6,8 +6,9 @@ import {
   GetCitiesQuery,
   Homes_Bool_Exp,
   InputMaybe,
+  SearchHomesByLocationQueryVariables,
 } from 'src/generated/graphql'
-import { UseQueryState } from 'urql'
+import { UseQueryArgs, UseQueryState } from 'urql'
 import { RootState } from '..'
 
 export type MapLocation = {
@@ -140,13 +141,21 @@ export const selectFilters = createSelector(
     (state: RootState) => state.city.mapBounds,
     (state: RootState) => state.city.homesFilter,
   ],
-  (mapBounds, filter) => {
+  (
+    mapBounds,
+    filter
+  ): Omit<
+    UseQueryArgs<SearchHomesByLocationQueryVariables>,
+    'query'
+  >['variables'] => {
     const [ne, sw] = mapBounds as [number, number][]
     const { beds, bath, sqft, price, yearBuilt, homeType } = filter!
     const bedsInt = Number.isNaN(+beds!) ? 0 : +beds!
     const bathInt = Number.isNaN(+bath!) ? 0 : +bath!
 
-    const whereConditions: InputMaybe<Homes_Bool_Exp> = {
+    const area = Math.abs(ne[1] - sw[1]) * Math.abs(ne[0] - sw[0])
+    const showCityCounts = area > 1
+    const homesWhere: InputMaybe<Homes_Bool_Exp> = {
       lat: {
         _gt: ne[1],
         _lt: sw[1],
@@ -156,15 +165,21 @@ export const selectFilters = createSelector(
         _lt: sw[0],
       },
     }
-    if (beds) whereConditions.beds = { _gte: bedsInt }
-    if (bath) whereConditions.bath = { _gte: bathInt }
-    if (sqft) whereConditions.sqft = { _gte: sqft[0], _lte: sqft[1] }
-    if (price) whereConditions.price = { _gte: price[0], _lte: price[1] }
+    const citiesWhere = { lat: homesWhere.lat, lng: homesWhere.lng }
+    if (beds) homesWhere.beds = { _gte: bedsInt }
+    if (bath) homesWhere.bath = { _gte: bathInt }
+    if (sqft) homesWhere.sqft = { _gte: sqft[0], _lte: sqft[1] }
+    if (price) homesWhere.price = { _gte: price[0], _lte: price[1] }
     if (yearBuilt)
-      whereConditions.yearBuilt = { _gte: yearBuilt[0], _lte: yearBuilt[1] }
-    if (homeType) whereConditions.style = { _in: homeType }
+      homesWhere.yearBuilt = { _gte: yearBuilt[0], _lte: yearBuilt[1] }
+    if (homeType) homesWhere.style = { _in: homeType }
 
-    return whereConditions
+    return {
+      homesWhere,
+      citiesWhere,
+      homesLimit: area <= 3 ? 50 : 0,
+      citiesLimit: area > 1 ? 50 : 0,
+    }
   }
 )
 

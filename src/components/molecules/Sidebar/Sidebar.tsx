@@ -13,7 +13,7 @@ export interface ISidebarProps {
 const Header = ({
   children,
   setOpen,
-}: Pick<ISidebarProps, 'children' | 'setOpen'>) => (
+}: Partial<ISidebarProps, 'children' | 'setOpen'>) => (
   <div className='flex items-center p-2 border-b'>
     <div>{children}</div>
     <button

@@ -3135,14 +3135,16 @@ export type SearchPropertiesByLocationQuery = { __typename?: 'query_root', searc
 
 export type SearchHomesByLocationQueryVariables = Exact<{
   distinct_on?: InputMaybe<Array<Homes_Select_Column> | Homes_Select_Column>;
-  limit?: InputMaybe<Scalars['Int']>;
+  homesLimit?: InputMaybe<Scalars['Int']>;
+  citiesLimit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Homes_Order_By> | Homes_Order_By>;
-  where?: InputMaybe<Homes_Bool_Exp>;
+  homesWhere?: InputMaybe<Homes_Bool_Exp>;
+  citiesWhere?: InputMaybe<Cities_Bool_Exp>;
 }>;
 
 
-export type SearchHomesByLocationQuery = { __typename?: 'query_root', homes: Array<{ __typename?: 'homes', id: number, lat: number, lng: number, style: string }> };
+export type SearchHomesByLocationQuery = { __typename?: 'query_root', homes: Array<{ __typename?: 'homes', id: number, lat: number, lng: number, style: string }>, cities: Array<{ __typename?: 'cities', id: number, lat: any, lng: any, displayName: string, propertiesCount: number }> };
 
 export type SearchHomesByLocationDetailedQueryVariables = Exact<{
   distinct_on?: InputMaybe<Array<Homes_Select_Column> | Homes_Select_Column>;
@@ -3240,18 +3242,25 @@ export function useSearchPropertiesByLocationQuery(options: Omit<Urql.UseQueryAr
   return Urql.useQuery<SearchPropertiesByLocationQuery>({ query: SearchPropertiesByLocationDocument, ...options });
 };
 export const SearchHomesByLocationDocument = /*#__PURE__*/ gql`
-    query SearchHomesByLocation($distinct_on: [homes_select_column!], $limit: Int, $offset: Int, $order_by: [homes_order_by!], $where: homes_bool_exp) {
+    query SearchHomesByLocation($distinct_on: [homes_select_column!], $homesLimit: Int, $citiesLimit: Int, $offset: Int, $order_by: [homes_order_by!], $homesWhere: homes_bool_exp, $citiesWhere: cities_bool_exp) {
   homes(
     distinct_on: $distinct_on
-    limit: $limit
+    limit: $homesLimit
     offset: $offset
     order_by: $order_by
-    where: $where
+    where: $homesWhere
   ) {
     id
     lat
     lng
     style
+  }
+  cities(limit: $citiesLimit, where: $citiesWhere) {
+    id
+    lat
+    lng
+    displayName
+    propertiesCount
   }
 }
     `;

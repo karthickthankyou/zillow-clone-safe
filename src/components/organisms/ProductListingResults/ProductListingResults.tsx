@@ -6,10 +6,10 @@ import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
 const ProductListingResult = () => {
-  const whereCondition = useAppSelector(selectFilters)
+  const variables = useAppSelector(selectFilters)
   const [{ data, fetching, error }] = useSearchHomesByLocationDetailedQuery({
     variables: {
-      where: whereCondition,
+      where: variables?.homesWhere,
     },
   })
 
