@@ -12,9 +12,6 @@ import { useRouter } from 'next/dist/client/router'
 import { MapLocation } from 'src/components/organisms/Mapbox/Mapbox'
 import ProductListingPage from 'src/components/templates/ProductListingPage'
 import { getQueryParam } from 'src/lib/util'
-import { useEffect } from 'react'
-
-import { ticker$ } from 'src/store/homes/homeStreams'
 
 export interface FilterState {
   search: string

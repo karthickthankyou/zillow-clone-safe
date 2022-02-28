@@ -46,62 +46,67 @@ const SearchHomesFilter = () => {
         setOpen={setShowSidebar}
         className='space-y-6'
       >
-        <Controller
-          name='homeType'
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FilterHomeType value={value} onChange={onChange} />
-          )}
-        />
-        <Controller
-          name='beds'
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FilterBeds value={value} onChange={onChange} />
-          )}
-        />
-        <Controller
-          name='bath'
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FilterBath value={value} onChange={onChange} />
-          )}
-        />
-        <Controller
-          name='price'
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FilterPrice
-              value={value}
-              onChange={onChange}
-              className='px-6 mt-10'
-            />
-          )}
-        />
-        <Controller
-          name='yearBuilt'
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FilterYear
-              value={value}
-              onChange={onChange}
-              className='px-6 mt-10'
-            />
-          )}
-        />
-        <Controller
-          name='sqft'
-          control={control}
-          render={({ field: { onChange, value } }) => (
-            <FilterSqft
-              value={value}
-              onChange={onChange}
-              className='px-6 mt-10'
-            />
-          )}
-        />
+        <Sidebar.Header setOpen={setShowSidebar}>Filter</Sidebar.Header>
+        <Sidebar.Body>
+          <Controller
+            name='homeType'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FilterHomeType value={value} onChange={onChange} />
+            )}
+          />
+          <Controller
+            name='beds'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FilterBeds value={value} onChange={onChange} />
+            )}
+          />
+          <Controller
+            name='bath'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FilterBath value={value} onChange={onChange} />
+            )}
+          />
+          <Controller
+            name='price'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FilterPrice
+                value={value}
+                onChange={onChange}
+                className='px-6 mt-10'
+              />
+            )}
+          />
+          <Controller
+            name='yearBuilt'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FilterYear
+                value={value}
+                onChange={onChange}
+                className='px-6 mt-10'
+              />
+            )}
+          />
+          <Controller
+            name='sqft'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <FilterSqft
+                value={value}
+                onChange={onChange}
+                className='px-6 mt-10'
+              />
+            )}
+          />
+        </Sidebar.Body>
         {Object.keys(dirtyFields).length > 0 ? (
-          <ResetButton reset={reset} />
+          <Sidebar.Footer>
+            <ResetButton reset={reset} />
+          </Sidebar.Footer>
         ) : null}
       </Sidebar>
 
@@ -191,7 +196,6 @@ const SearchHomesFilter = () => {
           showBadge={Boolean(dirtyFields.homeType)}
           title='Home type'
         />
-
         <PopoverPanel>
           <Controller
             name='homeType'
@@ -203,7 +207,7 @@ const SearchHomesFilter = () => {
         </PopoverPanel>
       </PopoverMenu>
       <div className='flex items-center ml-auto space-x-2'>
-        {Object.keys(dirtyFields).length > 0 && <ResetButton reset={reset} />}
+        {isDirty && <ResetButton reset={reset} />}
         <div className='relative'>
           <DirtyMarker isDirty={isDirty} />
           <FilterButton setShowSidebar={setShowSidebar} />

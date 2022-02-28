@@ -10,6 +10,7 @@ import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
 import React from 'react'
 import { useGetCitiesQuery } from 'src/generated/graphql'
+import HScroll from 'src/components/molecules/HScroll'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -39,20 +40,37 @@ const Home: NextPage = ({
 
         <div className='container mx-auto space-y-24'>
           <Cities title='Buy a home' description=''>
-            {fetching
-              ? ['1', '2', '3', '4'].map((item) => (
-                  <CityCardShadow key={item} />
-                ))
-              : citiesData?.cities?.map((city) => (
-                  <CityCard
-                    key={city.displayName}
-                    displayName={city.displayName}
-                    lat={city.lat}
-                    lng={city.lng}
-                    propertiesCount={city.propertiesCount}
-                    image={city.image || ''}
-                  />
-                ))}
+            <HScroll className='mt-2'>
+              <HScroll.Arrow
+                className='absolute right-0 h-full'
+                right
+                distance={300}
+              />
+              <HScroll.Arrow
+                className='absolute left-0 h-full '
+                distance={300}
+              />
+              <HScroll.Body className='gap-4 mb-12'>
+                {fetching
+                  ? ['1', '2', '3', '4'].map((item) => (
+                      <HScroll.Child key={item}>
+                        <CityCardShadow />
+                      </HScroll.Child>
+                    ))
+                  : citiesData?.cities?.map((city) => (
+                      <HScroll.Child key={city.displayName}>
+                        <CityCard
+                          key={city.displayName}
+                          displayName={city.displayName}
+                          lat={city.lat}
+                          lng={city.lng}
+                          propertiesCount={city.propertiesCount}
+                          image={city.image || ''}
+                        />
+                      </HScroll.Child>
+                    ))}
+              </HScroll.Body>
+            </HScroll>
           </Cities>
 
           {/* <Cities

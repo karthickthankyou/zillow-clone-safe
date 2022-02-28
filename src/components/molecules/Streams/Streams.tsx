@@ -11,7 +11,9 @@ import { store$ } from 'src/store'
 
 const Streams = () => {
   useEffect(() => {
-    console.log('`````````STREAMS`````````')
+    console.log(`---STREAMS---
+Delete the streams component if you dont want.
+    `)
   }, [])
 
   return null

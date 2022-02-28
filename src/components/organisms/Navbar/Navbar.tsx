@@ -230,51 +230,56 @@ const Navbar = () => {
     >
       <div className='relative w-full'>
         <Sidebar open={open} setOpen={setOpen}>
-          <div className='flex flex-col items-start'>
-            {[...menu, ...menu2].map((item) => (
-              <Accordion key={item.title} title={item.title}>
-                <div className='flex flex-col items-start'>
-                  {item.submenu?.map((item2) => (
-                    <Accordion key={item2.title} title={item2.title}>
-                      {item2.submenu?.map((item3) => (
-                        <a
-                          href={item3.url}
-                          className='block py-1 ml-2'
-                          key={item3.subtitle}
-                        >
-                          {item3.subtitle}
-                        </a>
-                      ))}
-                    </Accordion>
-                  ))}
-                </div>
-              </Accordion>
-            ))}
-            <Link
-              href='/advertise'
-              className='py-1.5 font-medium text-gray-600 capitalize'
-            >
-              Advertise
-            </Link>
-            <Link
-              href='/help'
-              className='py-1.5 font-medium text-gray-600 capitalize'
-            >
-              Help
-            </Link>
+          <Sidebar.Header setOpen={setOpen} />
+          <Sidebar.Body>
+            <div className='flex flex-col items-start'>
+              {[...menu, ...menu2].map((item) => (
+                <Accordion key={item.title} title={item.title}>
+                  <div className='flex flex-col items-start'>
+                    {item.submenu?.map((item2) => (
+                      <Accordion key={item2.title} title={item2.title}>
+                        {item2.submenu?.map((item3) => (
+                          <a
+                            href={item3.url}
+                            className='block py-1 ml-2'
+                            key={item3.subtitle}
+                          >
+                            {item3.subtitle}
+                          </a>
+                        ))}
+                      </Accordion>
+                    ))}
+                  </div>
+                </Accordion>
+              ))}
+              <Link
+                href='/advertise'
+                className='py-1.5 font-medium text-gray-600 capitalize'
+              >
+                Advertise
+              </Link>
+              <Link
+                href='/help'
+                className='py-1.5 font-medium text-gray-600 capitalize'
+              >
+                Help
+              </Link>
+            </div>
+          </Sidebar.Body>
+          <Sidebar.Footer>
             <Link
               href='/login'
-              className='py-2 w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
+              className='py-2 block w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
             >
               Login
             </Link>
             <Link
               href='/signup'
-              className='py-2 w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
+              className='py-2 block w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
             >
               Join now
             </Link>
-          </div>
+          </Sidebar.Footer>
         </Sidebar>
         <div className='container flex items-center justify-center w-full h-6 mx-auto'>
           <div className='hidden w-full py-2 lg:flex'>

@@ -13,6 +13,16 @@ export const useScroll = (): [
   const [scrollPos, setScrollPos] = useState<[number, number]>([0, 0])
   const scrollEl = useRef<HTMLDivElement>(null)
 
+  useEffect(() => {
+    const element = scrollEl.current
+    element?.addEventListener('wheel', (e) => e.preventDefault)
+
+    return () => {
+      element?.removeEventListener('wheel', (e) => e.preventDefault)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const scroll = (distance: number) => {
     if (scrollEl.current) {
       const leftPos = scrollEl.current.scrollLeft + distance

@@ -32,7 +32,7 @@ const SliderMui = ({
       classes={{
         root: `h-0.5 w-full border-0`,
         thumb:
-          'rounded-sm border-black border w-5 h-5 bg-white hover:shadow-none hover:border-primary-600 hover:bg-primary-50 focus:shadow-none active:shadow-none',
+          'rounded-sm border-black border w-5 h-5 bg-white hover:shadow-none hover:border-primary-600 hover:bg-primary-50 focus:bg-primary-300 active:bg-primary-300',
         track: 'text-gray-800',
         rail: 'bg-gray-400',
         valueLabel:
