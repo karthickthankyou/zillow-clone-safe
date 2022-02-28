@@ -88,7 +88,7 @@ const HomeMarkers = ({
     keys: (home) => home.id,
     from: { opacity: 0, transform: 'translateY(-6px)' },
     enter: { opacity: 1, transform: 'translateY(0px)' },
-    leave: { opacity: 0, transform: 'translateY(-6px)' },
+    leave: { opacity: 0 },
     trail: 50,
     config: config.molasses,
   })
@@ -134,7 +134,9 @@ const CityMarkers = ({
     if (!highlightedCityId) return cities
 
     const item = cities.find((city) => city.id === highlightedCityId)
-    return [...cities.filter((city) => city.id !== highlightedCityId), item!]
+
+    if (!item) return cities
+    return [...cities.filter((city) => city.id !== highlightedCityId), item]
   }, [highlightedCityId, cities])
 
   const cityMarkersTransitions = useTransition(reorderedCities, {
@@ -160,9 +162,9 @@ const CityMarkers = ({
         })
       }}
     >
-      <Marker latitude={marker.lat} longitude={marker.lng}>
+      <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
         <div
-          className='flex flex-col items-center justify-center p-3 text-white transition-all border-2 border-black rounded-full shadow-xl cursor-pointer group hover:scale-125 hover:bg-black shadow-gray-600 aspect-square bg-black/80'
+          className='flex flex-col items-center justify-center'
           onMouseOver={() => {
             setHighlightedCityId(marker.id)
           }}
@@ -173,12 +175,17 @@ const CityMarkers = ({
           {/* Very hard to get the order on hover. CSS does not seem to work.
           We can reorder the item which is so messy.
           https://stackoverflow.com/questions/69900689/react-map-gl-how-to-rise-map-marker-to-top-when-hover */}
-          <div className='flex items-center justify-center'>
+          <div className='flex items-center justify-center p-3 text-white transition-all border-2 border-black rounded-full shadow-xl cursor-pointer group-hover:scale-125 group-hover:bg-black shadow-gray-600 bg-black/80'>
             {marker.propertiesCount}
             <HomeIcon className='w-5 h-5 ml-1' />
           </div>
-          <div className='hidden text-xs text-white/60 group-hover:block'>
+        </div>
+        <div className='absolute hidden p-1 mt-4 font-semibold text-center text-black -translate-x-1/2 rounded-md shadow-xl left-1/2 backdrop-blur backdrop-filter bg-gray-300/40 group-hover:block'>
+          <div className='text-sm font-bold whitespace-nowrap'>
             {marker.displayName}
+          </div>
+          <div className='mt-1 text-xs font-light whitespace-nowrap'>
+            Click to zoom in
           </div>
         </div>
       </Marker>
