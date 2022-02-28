@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { MapRef } from 'react-map-gl'
 import { catchError, debounceTime, EMPTY, map, Subject } from 'rxjs'
 
-import { useAppDispatch } from '..'
+import { useAppDispatch, useAppSelector } from '..'
 import { DEBOUNCE_DELAY } from '../static'
-import { MapLocation } from './citySlice'
+import { MapLocation, selectMapLocation } from './citySlice'
 
 // export const useSearchCity = () => {
 //   const dispatch = useAppDispatch()
@@ -63,9 +63,7 @@ export const useDispatchMapBoundsWhenViewportChanges = (
   }, [pipeline$, viewport])
 }
 
-export const useViewport = (
-  overrideProp: MapLocation
-): [
+export const useViewport = (): [
   MapLocation,
   React.Dispatch<React.SetStateAction<MapLocation>>,
   React.MutableRefObject<MapRef | null>
@@ -77,19 +75,20 @@ export const useViewport = (
   const [viewport, setViewPort] = useState(() => ({
     latitude: 0,
     longitude: 0,
-    zoom: 3,
+    zoom: 4,
   }))
 
   /**
-   * Override viewport with overrideProp.
+   * Update viewport.
    */
-  // 39.0119° N, 98.4842° W
+  const updatedMapPosition = useAppSelector(selectMapLocation)!
+
   useEffect(() => {
-    setViewPort((state) => ({
-      latitude: overrideProp?.latitude || 39.0119,
-      longitude: overrideProp?.longitude || -98.4842,
-      zoom: overrideProp?.zoom || state.zoom,
+    setViewPort(() => ({
+      latitude: updatedMapPosition.latitude,
+      longitude: updatedMapPosition.longitude,
+      zoom: updatedMapPosition.zoom,
     }))
-  }, [overrideProp, setViewPort])
+  }, [updatedMapPosition, setViewPort])
   return [viewport, setViewPort, ref]
 }

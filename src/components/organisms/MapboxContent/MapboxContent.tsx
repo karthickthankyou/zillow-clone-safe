@@ -13,12 +13,15 @@ import {
   selectHighlightedHomeId,
   setHighlightedHomeId,
   setMapLocation,
+  setMapZoom,
 } from 'src/store/cities/citySlice'
 import MapMarker from 'src/components/molecules/MapMarker'
 import MapPopup from 'src/components/molecules/Popup'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
+import PlusIcon from '@heroicons/react/outline/PlusIcon'
+import MinusIcon from '@heroicons/react/outline/MinusIcon'
 
-const MapboxContent = ({ mapRef }: { mapRef: Ref<MapRef> | undefined }) => {
+const MapboxContent = ({ viewport }) => {
   const dispatch = useAppDispatch()
   /**
    * Query homes and create animated markers.
@@ -43,7 +46,7 @@ const MapboxContent = ({ mapRef }: { mapRef: Ref<MapRef> | undefined }) => {
     leave: { opacity: 0, transform: 'translateY(-6px)' },
     trail: 50,
     duration: 500,
-    config: config.gentle,
+    config: config.molasses,
   })
   const cityMarkersTransitions = useTransition(homesMap?.cities || [], {
     keys: (city) => city.id,
@@ -57,8 +60,6 @@ const MapboxContent = ({ mapRef }: { mapRef: Ref<MapRef> | undefined }) => {
 
   return (
     <>
-      <NavigationControl showCompass={false} className='z-30 p-2 ' />
-
       {fetching && (
         <div className='absolute top-0 right-0 flex justify-end w-10 h-10 p-2 text-gray-700 '>
           <RefreshIcon className='w-full h-full animate-spin-reverse' />
@@ -112,21 +113,55 @@ const MapboxContent = ({ mapRef }: { mapRef: Ref<MapRef> | undefined }) => {
           </Marker>
         </animated.div>
       ))}
-      <button
-        type='button'
-        className='border border-white bg-white/30'
-        onClick={() => {
-          dispatch(
-            setMapLocation({
-              latitude: 39.0119,
-              longitude: -98.4842,
-              zoom: 3,
-            })
-          )
-        }}
-      >
-        <GlobeIcon className='absolute top-0 right-0 z-20 w-10 h-10 p-2' />
-      </button>
+
+      <div className='absolute top-0 left-0 z-20 flex flex-col m-2 border border-white divide-y divide-white rounded shadow-lg bg-white/50 backdrop-blur backdrop-filter'>
+        <button
+          className='rounded-none hover:bg-white'
+          type='button'
+          onClick={() => {
+            dispatch(
+              setMapLocation({
+                latitude: viewport.latitude,
+                longitude: viewport.longitude,
+                zoom: viewport.zoom + 1,
+              })
+            )
+          }}
+        >
+          <PlusIcon className='w-8 h-8 p-1.5 ' />
+        </button>
+        <button
+          className='rounded-none hover:bg-white'
+          type='button'
+          onClick={() => {
+            dispatch(
+              setMapLocation({
+                latitude: viewport.latitude,
+                longitude: viewport.longitude,
+                zoom: viewport.zoom - 1,
+              })
+            )
+          }}
+        >
+          <MinusIcon className='w-8 h-8 p-1.5 ' />
+        </button>
+        <button
+          className='rounded-none hover:bg-white'
+          type='button'
+          onClick={() => {
+            dispatch(
+              setMapLocation({
+                latitude: 39.0119,
+                longitude: -98.4842,
+                zoom: 3,
+              })
+            )
+          }}
+        >
+          <GlobeIcon className='w-8 h-8 p-1.5 ' />
+        </button>
+      </div>
+      {/* <NavigationControl showCompass={false} className='z-30 p-2' /> */}
     </>
   )
 }

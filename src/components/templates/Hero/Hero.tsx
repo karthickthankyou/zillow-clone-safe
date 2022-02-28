@@ -14,9 +14,11 @@ import {
 
 import { useRouter } from 'next/dist/client/router'
 
-export interface IHeroProps {}
+export interface IHeroProps {
+  className?: string
+}
 
-const Hero = () => {
+const Hero = ({ className }: IHeroProps) => {
   const dispatch = useDispatch()
 
   /** Selectors */
@@ -28,7 +30,9 @@ const Hero = () => {
   type CityList = CitySlice['cityList']['data']
 
   return (
-    <div className='flex flex-col items-center justify-center w-screen h-screen bg-fixed bg-cover -z-10 bg-opacity-80 bg-hero '>
+    <div
+      className={`flex flex-col items-center justify-center w-screen h-screen bg-fixed bg-cover -z-10 bg-opacity-80 bg-hero ${className}`}
+    >
       <div className='my-auto'>
         <div className='text-5xl font-black tracking-tight text-center text-white sm:text-6xl md:max-w-lg lg:text-7xl leading-90p'>
           Change starts <br /> <em>here</em>

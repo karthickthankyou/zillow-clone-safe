@@ -43,13 +43,26 @@ const Home: NextPage = ({
       </Head>
 
       <main>
-        <Hero />
+        <Hero className='-mt-16' />
+
+        <div className='container mx-auto mb-24 mt-36'>
+          <div className='max-w-md text-4xl font-semibold '>
+            {/* Biggest housing listing in entire USA. */}
+            <em className='select-none text-luxury'>Millions</em> of for-sale
+            and rental listings all over the United States.
+          </div>
+          <p className='max-w-md mt-4 text-gray-600'>
+            Whether you’re buying, selling or renting, we can help you move
+            forward.
+          </p>
+        </div>
+
         <div className='w-screen h-screen'>
           <MapBox />
         </div>
 
         <div className='container mx-auto space-y-24'>
-          <Cities title='Buy a home' description=''>
+          {/* <Cities title='Buy a home' description=''>
             <HScroll className='mt-2'>
               <HScroll.Arrow
                 className='absolute right-0 h-full'
@@ -81,7 +94,7 @@ const Home: NextPage = ({
                     ))}
               </HScroll.Body>
             </HScroll>
-          </Cities>
+          </Cities> */}
 
           {/* <Cities
             title='Pick your style'

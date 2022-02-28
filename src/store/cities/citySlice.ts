@@ -14,7 +14,7 @@ import { RootState } from '..'
 export type MapLocation = {
   longitude: number
   latitude: number
-  zoom?: number
+  zoom: number
 }
 
 export type CitySlice = {
@@ -25,7 +25,7 @@ export type CitySlice = {
     error?: any
   }
   selectedCity?: string
-  mapLocation?: MapLocation
+  mapLocation: MapLocation
   mapBounds?: [[number, number], [number, number]]
   highlightedHome?: number | null | undefined
   highlightedHomeId?: number | null | undefined
@@ -43,6 +43,11 @@ const initialState: CitySlice = {
     [0, 0],
     [0, 0],
   ],
+  mapLocation: {
+    latitude: 39.0119,
+    longitude: -98.4842,
+    zoom: 3,
+  },
   popularCities: {
     data: { cities: [] },
     fetching: false,
@@ -98,8 +103,10 @@ const citySlice = createSlice({
       state,
       action: PayloadAction<CitySlice['mapLocation']>
     ) => {
-      console.log('Action payload: ', action.payload)
       state.mapLocation = action.payload
+    },
+    setMapZoom: (state, action: PayloadAction<number>) => {
+      state.mapLocation.zoom += action.payload
     },
   },
 })
@@ -109,6 +116,7 @@ export const {
   setSelectedCity,
   setPopularCities,
   setMapLocation,
+  setMapZoom,
   setCityList,
   setMapBounds,
   setHomesFilter,

@@ -1,5 +1,9 @@
 import React from 'react'
-import ReactMapGL, { FlyToInterpolator, EasingFunction } from 'react-map-gl'
+import ReactMapGL, {
+  FlyToInterpolator,
+  EasingFunction,
+  TransitionInterpolator,
+} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { useAppSelector } from 'src/store'
@@ -19,15 +23,10 @@ const accessToken =
 export type MarkerType = { id: string; lat: number; lng: number }[]
 
 const MapBox = () => {
-  /**
-   * useViewport gets override map location.
-   */
-  const updatedMapPosition = useAppSelector(selectMapLocation)!
-  const [viewport, setViewPort, mapRef] = useViewport(updatedMapPosition)
+  /** useViewport feeds viewport state to the map. */
+  const [viewport, setViewPort, mapRef] = useViewport()
 
-  /**
-   * Dispatch map bounds when viewport changes.
-   */
+  /** Dispatch map bounds when viewport changes. */
   useDispatchMapBoundsWhenViewportChanges(viewport, mapRef, setMapBounds)
 
   return (
@@ -44,14 +43,14 @@ const MapBox = () => {
       ref={(el) => {
         mapRef.current = el
       }}
-      transitionInterpolator={new FlyToInterpolator()}
-      transitionDuration={600}
-      transitionEasing={(t: number) => t * t}
+      // transitionInterpolator={new TransitionInterpolator()}
+      // transitionDuration={600}
+      // transitionEasing={(t: number) => Math.sin((t * Math.PI) / 2)}
       // pitch={45}
       mapboxApiAccessToken={accessToken}
       mapStyle={mapStyle}
     >
-      <MapboxContent mapRef={mapRef} />
+      <MapboxContent viewport={viewport} />
     </ReactMapGL>
   )
 }
