@@ -7,8 +7,8 @@ export default {
   component: ProductListingResults,
 } as ComponentMeta<typeof ProductListingResults>
 
-const Template: ComponentStory<typeof ProductListingResults> = (args) => (
-  <ProductListingResults {...args} />
+const Template: ComponentStory<typeof ProductListingResults> = () => (
+  <ProductListingResults />
 )
 
 export const Primary = Template.bind({})

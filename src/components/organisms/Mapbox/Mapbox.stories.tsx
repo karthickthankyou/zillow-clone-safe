@@ -1,5 +1,4 @@
 import React from 'react'
-import { searchHomesByLocationMockData } from 'src/mocks/data/homes'
 import { mswWorker } from 'src/mocks/mswWorker'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
@@ -12,8 +11,6 @@ import {
 } from 'src/mocks/handlers'
 
 import {} from '@urql/storybook-addon'
-import { namedOperations } from 'src/generated/graphql'
-import { matchQuery } from 'src/lib/util'
 import Mapbox from './Mapbox'
 
 export default {
@@ -22,7 +19,11 @@ export default {
   decorators: [SbReduxProvider],
 } as ComponentMeta<typeof Mapbox>
 
-const Template: ComponentStory<typeof Mapbox> = () => <Mapbox />
+const Template: ComponentStory<typeof Mapbox> = () => (
+  <Mapbox>
+    <div>Hi</div>
+  </Mapbox>
+)
 
 export const Primary = Template.bind({})
 Primary.decorators = [

@@ -54,10 +54,12 @@ query SearchHomesByLocation(
   $distinct_on: [homes_select_column!]
   $homesLimit: Int
   $citiesLimit: Int
+  $statesLimit: Int
   $offset: Int
   $order_by: [homes_order_by!]
   $homesWhere: homes_bool_exp
-  $citiesWhere: cities_bool_exp
+  $citiesWhere: location_stats_bool_exp
+  $statesWhere: location_stats_bool_exp
 ) {
   homes(
     distinct_on: $distinct_on
@@ -71,12 +73,17 @@ query SearchHomesByLocation(
     lng
     style
   }
-  cities(limit: $citiesLimit, where: $citiesWhere) {
+  cities: location_stats(limit: $citiesLimit, where: $citiesWhere) {
     id
     lat
     lng
-    displayName
-    propertiesCount
+    totalHomes
+  }
+  states: location_stats(limit: $statesLimit, where: $statesWhere) {
+    id
+    lat
+    lng
+    totalHomes
   }
 }
 

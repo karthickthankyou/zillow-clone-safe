@@ -7,7 +7,9 @@ export default {
   component: PopoverFullWidth,
 } as ComponentMeta<typeof PopoverFullWidth>
 
-const Template: ComponentStory<typeof PopoverFullWidth> = (args) => <PopoverFullWidth {...args} />
+const Template: ComponentStory<typeof PopoverFullWidth> = (args) => (
+  <PopoverFullWidth {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

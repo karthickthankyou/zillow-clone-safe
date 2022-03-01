@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof SliderMui>
 
 const Template: ComponentStory<typeof SliderMui> = ({ initialData }) => {
-  const { watch, control } = useForm({
+  const { control } = useForm({
     defaultValues: {
       slider: initialData,
     },

@@ -1,5 +1,4 @@
-import { Menu, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
+import { Menu } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/solid'
 
 const Example = () => (

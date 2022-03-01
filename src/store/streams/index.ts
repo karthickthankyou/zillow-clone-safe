@@ -21,19 +21,6 @@ export const createObservables = (
     city: CitySlice
   }>
 ) => {
-  const mapHomesWhere$ = store$.pipe(
-    map((state) => state?.city?.mapBounds),
-    distinctUntilChanged(),
-    debounceTime(300),
-    map((bounds) => {
-      const [ne, sw] = bounds!
-      return {
-        lat: { _gt: ne[1], _lt: sw[1] },
-        lng: { _gt: ne[0], _lt: sw[0] },
-      }
-    })
-  )
-
   const city$ = store$.pipe(
     map((state) => state?.city.citySearchText),
     distinctUntilChanged(),
@@ -48,7 +35,7 @@ export const createObservables = (
           ).then((response) => response.json())
         : of([])
     ),
-    tap((v) => console.log('tapping: ', v)),
+    // tap((v) => console.log('tapping: ', v)),
     map((value) =>
       value.features.length > 0
         ? value.features.map((features: any) => ({
@@ -62,7 +49,7 @@ export const createObservables = (
       store.dispatch(setCityList({ data: value, fetching: false }))
     ),
     retry(2),
-    catchError((e) => of(null))
+    catchError(() => of(null))
   )
   return { city$ }
 }

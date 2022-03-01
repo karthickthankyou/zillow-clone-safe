@@ -1,26 +1,13 @@
-import React, { useMemo, SetStateAction, Dispatch } from 'react'
-import ReactMapGL, {
-  // MapProvider,
-  FlyToInterpolator,
-  EasingFunction,
-  TransitionInterpolator,
-  MapRef,
-} from 'react-map-gl'
+import React, { useMemo, SetStateAction, Dispatch, ReactElement } from 'react'
+import ReactMapGL, { MapRef } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { useAppSelector } from 'src/store'
-
-import {
-  MapLocation,
-  selectMapLocation,
-  setMapBounds,
-} from 'src/store/cities/citySlice'
+import { MapLocation, setMapBounds } from 'src/store/cities/citySlice'
 
 import {
   useDispatchMapBoundsWhenViewportChanges,
   useViewport,
 } from 'src/store/cities/cityHooks'
-import MapboxContent from '../MapboxContent'
 import mapStyle from './mapLight.json'
 
 const accessToken =
@@ -43,7 +30,7 @@ export const MapContext = React.createContext<MapContextType>([
   null,
 ])
 
-const MapBox = () => {
+const MapBox = ({ children }: { children: ReactElement | ReactElement[] }) => {
   /** useViewport feeds viewport state to the map. */
   const [viewport, setViewport, mapRef] = useViewport()
 
@@ -60,7 +47,7 @@ const MapBox = () => {
       <ReactMapGL
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...viewport}
-        onViewportChange={(v) => {
+        onViewportChange={(v: any) => {
           setViewport(v)
         }}
         dragPan
@@ -78,7 +65,7 @@ const MapBox = () => {
         mapboxApiAccessToken={accessToken}
         mapStyle={mapStyle}
       >
-        <MapboxContent />
+        {children}
       </ReactMapGL>
     </MapContext.Provider>
   )

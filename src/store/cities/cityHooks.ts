@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { MapRef } from 'react-map-gl'
 import { catchError, debounceTime, EMPTY, map, Subject } from 'rxjs'
 
+import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
+
 import { DEBOUNCE_DELAY } from '../static'
-import { MapLocation, selectMapLocation } from './citySlice'
+import { MapLocation, selectMapLocation, selectFilters } from './citySlice'
 
 // export const useSearchCity = () => {
 //   const dispatch = useAppDispatch()
@@ -91,4 +93,12 @@ export const useViewport = (): [
     }))
   }, [updatedMapPosition, setViewPort])
   return [viewport, setViewPort, ref]
+}
+
+export const useMapData = () => {
+  const filterVariables = useAppSelector(selectFilters)
+  const [{ data, fetching, error }] = useSearchHomesByLocationQuery({
+    variables: filterVariables,
+  })
+  return { data, fetching, error }
 }

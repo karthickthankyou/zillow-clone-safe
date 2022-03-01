@@ -254,7 +254,11 @@ export const LocationSearch = () => {
       onChange={(_, v) => {
         if (v)
           dispatch(
-            setMapLocation({ latitude: v.latitude, longitude: v.longitude })
+            setMapLocation({
+              latitude: v.latitude,
+              longitude: v.longitude,
+              zoom: 12,
+            })
           )
       }}
       className='rounded-lg'

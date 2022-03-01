@@ -1,4 +1,4 @@
-import HScroll, { HScrollBodyProps } from 'src/components/molecules/HScroll'
+import { HScrollBodyProps } from '../../molecules/HScroll'
 
 export interface ICitiesProps {
   title: string

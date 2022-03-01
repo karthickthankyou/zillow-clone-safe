@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 declare namespace Cypress {
   interface Chainable<Subject = string> {
-    mount(children): Chainable<any>
-    reactComponent(): Chainable<any>
-    setTransactionAmountRange(min: number, max: number): Chainable<any>
-    setSlider(value: number | number[]): Chainable<void>
+    mount(children): Chainable<string>
+    reactComponent(): Chainable<string>
+    setTransactionAmountRange(min: number, max: number): Chainable<string>
   }
 }

@@ -7,7 +7,7 @@ export default {
   component: Streams,
 } as ComponentMeta<typeof Streams>
 
-const Template: ComponentStory<typeof Streams> = (args) => <Streams {...args} />
+const Template: ComponentStory<typeof Streams> = () => <Streams />
 
 export const Primary = Template.bind({})
 Primary.args = {}

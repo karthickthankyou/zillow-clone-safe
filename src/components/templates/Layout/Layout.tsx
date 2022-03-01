@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
 import Navbar from '../../organisms/Navbar'
 import Footer from '../../organisms/Footer'

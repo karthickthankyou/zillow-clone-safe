@@ -30,13 +30,13 @@ export const useScroll = (): [
     }
   }
 
-  const getScrollWidthEnd = (scrollElement: RefObject<HTMLDivElement>) => {
-    if (scrollElement?.current) {
-      const { scrollWidth, clientWidth } = scrollElement.current
-      return scrollWidth - clientWidth
-    }
-    return 0
-  }
+  // const getScrollWidthEnd = (scrollElement: RefObject<HTMLDivElement>) => {
+  //   if (scrollElement?.current) {
+  //     const { scrollWidth, clientWidth } = scrollElement.current
+  //     return scrollWidth - clientWidth
+  //   }
+  //   return 0
+  // }
 
   const scrollListesener = () => {
     const start = scrollEl.current ? scrollEl?.current.scrollLeft : 0

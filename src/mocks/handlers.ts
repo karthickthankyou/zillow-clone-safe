@@ -1,12 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import { graphql, rest } from 'msw'
-import { Homes, namedOperations } from 'src/generated/graphql'
+import { Homes, namedOperations } from '../generated/graphql'
 import { getCitiesMockData, mockSearchCities } from './data/cities'
-import {
-  searchHomesByLocationMockData,
-  searchHomesResultsMockData,
-  homesMockData,
-} from './data/homes'
+import { homesMockData } from './data/homes'
 
 const zillowAPI = graphql.link(
   'https://zillow-karthick.herokuapp.com/v1/graphql'
@@ -21,22 +17,14 @@ export const mockGetCities = zillowAPI.query(getCities, (req, res, ctx) =>
 
 export const searchCities = rest.get(
   'https://api.mapbox.com/geocoding/v5/mapbox.places/:searchTerm.json',
-  (req, res, ctx) => {
-    const { searchTerm } = req.params
-    console.log('searchTerm', searchTerm)
-
-    return res(ctx.json(mockSearchCities))
-  }
+  (req, res, ctx) => res(ctx.json(mockSearchCities))
 )
 
 const applyFilter = (allHomes: Partial<Homes>[], whereConditions: any) => {
-  const { id, lat, lng, beds, bath, price, sqft, yearBuilt } = whereConditions
+  const { beds, bath, price, sqft, yearBuilt } = whereConditions
   let homes = allHomes
 
-  // if (lat)
   if (price)
-    // homes.filter(home=>)
-
     homes = homes.filter(
       (home) => home.price! >= price._gte && home.price! <= price._lte
     )

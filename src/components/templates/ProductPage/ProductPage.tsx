@@ -67,13 +67,9 @@ const ProductPage = () => (
             </>
           )}
         </Disclosure>
-        <Mapbox
-          latitude={40.7128}
-          longitude={-74}
-          zoom={12}
-          markers={[{ id: '1', latitude: 40.7128, longitude: -74 }]}
-          className='h-96'
-        />
+        <Mapbox>
+          <div>Hello</div>
+        </Mapbox>
         <div className='grid grid-cols-2 gap-3'>
           <div>
             <div className='text-xl font-bold'>Get a call back.</div>

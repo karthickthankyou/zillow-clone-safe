@@ -4,6 +4,10 @@ import Layout from './Layout'
 
 describe('Layout Component', () => {
   test('Layout renders', () => {
-    render(<Layout />)
+    render(
+      <Layout>
+        <div>Hello</div>
+      </Layout>
+    )
   })
 })

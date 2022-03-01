@@ -43,17 +43,17 @@ const ProductPageCarousel = () => {
             />
           ))}
         </HScroll.Body>
-        <HScroll.LeftArrow className='absolute right-0 z-10 h-full'>
+        <HScroll.Arrow className='absolute right-0 z-10 h-full'>
           <div className='flex items-center justify-center w-8 h-8 bg-white rounded-full opacity-90'>
             &gt;
           </div>
-        </HScroll.LeftArrow>
+        </HScroll.Arrow>
 
-        <HScroll.RightArrow className='absolute left-0 z-10 h-full'>
+        <HScroll.Arrow right className='absolute left-0 z-10 h-full'>
           <div className='flex items-center justify-center w-8 h-8 bg-white rounded-full opacity-90'>
             &lt;
           </div>
-        </HScroll.RightArrow>
+        </HScroll.Arrow>
       </HScroll>
     </div>
   )

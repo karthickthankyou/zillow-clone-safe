@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof Autocomplete>
 
 const Template: ComponentStory<typeof Autocomplete> = (args) => {
-  const { watch, control } = useForm({
+  const { control } = useForm({
     defaultValues: {
       autocomplete: null,
     },

@@ -5,6 +5,7 @@ import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 import {} from '@react-icons/all-files/'
 import Link from 'src/components/atoms/Link'
 import Brand from 'src/components/atoms/Brand'
+import Image from 'src/components/atoms/Image'
 
 export interface ISignInProps {}
 
@@ -14,7 +15,7 @@ const SignIn = () => (
       <div className='mt-32 text-center'>
         <Brand className='text-center text-black' />
       </div>
-      <img
+      <Image
         alt=''
         src='https://res.cloudinary.com/thankyou/image/upload/v1640791791/nike/wallpapers/alexander-andrews-A3DPhhAL6Zg-unsplash_lngmew.png'
         className='absolute inset-0 top-0 object-cover h-full'

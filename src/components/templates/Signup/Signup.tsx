@@ -5,13 +5,14 @@ import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 import {} from '@react-icons/all-files/'
 import Link from 'src/components/atoms/Link'
 import Brand from 'src/components/atoms/Brand'
-import { selectUser, signin, googleSignin } from 'src/store/user'
+import { googleSignin } from 'src/store/user'
 
 export interface ISignUpProps {}
 
 const SignUp = () => (
   <div className='grid h-screen grid-cols-2 bg-primary-900'>
     <div className='relative w-full h-full bg-cover rounded bg-primary-50'>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         alt=''
         src='https://res.cloudinary.com/thankyou/image/upload/v1640845175/nike/joel-filipe-RFDP7_80v5A-unsplash_ucp0oa.webp'

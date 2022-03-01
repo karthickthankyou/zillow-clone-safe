@@ -333,14 +333,17 @@ const Navbar = () => {
             </PopoverGroup>
           </div>
           <div className='flex justify-end w-full lg:hidden'>
-            <button type='button' onClick={() => setOpen((open) => !open)}>
+            <button type='button' onClick={() => setOpen((state) => !state)}>
               <MenuIcon className='w-8 h-8 text-primary-600' />
             </button>
           </div>
           <Link href='/' className='absolute font-black text-primary-600 '>
             {/* ZILLOW */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src='https://s.zillowstatic.com/pfs/static/z-logo-default.svg'
+              alt=''
+              src='https://res.cloudinary.com/thankyou/image/upload/v1640842631/nike/z-logo_zkpauf.svg'
+              // src='https://res.cloudinary.com/thankyou/image/upload/c_scale,q_41,w_117/v1646143724/nike/zillogo_l4dodw.svg'
               className='w-full h-full'
             />
           </Link>

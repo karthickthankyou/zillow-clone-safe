@@ -7,8 +7,7 @@ import { store as actualStore } from '../store'
 
 export const mountWithProviders = (
   children: ReactElement,
-  store: any = actualStore,
-  options = {}
+  store: any = actualStore
 ) =>
   mount(
     <Provider value={client}>

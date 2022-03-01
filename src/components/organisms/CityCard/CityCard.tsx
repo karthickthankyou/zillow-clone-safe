@@ -16,7 +16,6 @@ export const CityCardShadow = () => (
 )
 
 const CityCard = ({
-  id,
   image = 'https://res.cloudinary.com/thankyou/image/upload/v1640715615/nike/cities/newyork_zqnljo.jpg',
   displayName = 'New York',
   lat = 40.79224,

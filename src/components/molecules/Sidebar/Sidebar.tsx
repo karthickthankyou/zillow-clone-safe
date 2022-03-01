@@ -6,20 +6,20 @@ import { XIcon } from '@heroicons/react/outline'
 export interface ISidebarProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  children: (string | ReactElement | null) | (string | ReactElement)[]
+  children: (string | ReactElement | null) | (string | ReactElement | null)[]
   className?: string
 }
 
 const Header = ({
   children,
   setOpen,
-}: Partial<ISidebarProps, 'children' | 'setOpen'>) => (
+}: Partial<Pick<ISidebarProps, 'children' | 'setOpen'>>) => (
   <div className='flex items-center p-2 border-b'>
     <div>{children}</div>
     <button
       type='button'
       className='ml-auto text-gray-500 rounded-md hover:text-gray-500 focus:ring-2 focus:ring-indigo-500'
-      onClick={() => setOpen(false)}
+      onClick={() => setOpen && setOpen(false)}
     >
       <XIcon className='w-6 h-6' aria-hidden='true' />
     </button>

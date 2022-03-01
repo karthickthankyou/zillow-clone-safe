@@ -15,7 +15,7 @@
     "format:check": "npm run prettier -- --check",
     "format:fix": "npm run prettier -- --write",
     "type:check": "tsc",
-    "validate": "npm-run-all --parallel type:check format:check lint test:ci buildci",
+    "validate": "npm-run-all --parallel type:check format:check lint",
     "validate-nobuild": "npm-run-all --parallel type:check format:check lint test:ci",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",

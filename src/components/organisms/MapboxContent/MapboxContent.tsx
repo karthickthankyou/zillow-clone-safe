@@ -4,14 +4,12 @@ import HomeIcon from '@heroicons/react/outline/HomeIcon'
 
 import {
   useGetHomeByIdQuery,
-  useSearchHomesByLocationQuery,
   SearchHomesByLocationQuery,
 } from 'src/generated/graphql'
 import { useAppSelector, useAppDispatch } from 'src/store'
 import { Marker } from 'react-map-gl'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import {
-  selectFilters,
   selectHighlightedHomeId,
   setHighlightedHomeId,
 } from 'src/store/cities/citySlice'
@@ -27,7 +25,7 @@ export const PanelContainer = ({
   children,
 }: {
   children: ReactElement | ReactElement[]
-}) => <div className='h-full'>{children}</div>
+}) => <div className='h-full '>{children}</div>
 
 export const PanelChild = ({
   children,
@@ -63,23 +61,23 @@ export const PanelChild = ({
       'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center text-center',
   }
   return (
-    <div className={`absolute ${classes[position!]} ${className}`}>
+    <div className={`absolute p-4 ${classes[position!]} ${className}`}>
       {children}
     </div>
   )
 }
 
-const Fetching = ({ fetching }: { fetching: boolean }) =>
+export const Fetching = ({ fetching }: { fetching: boolean }) =>
   fetching ? <RefreshIcon className='w-10 h-10 animate-spin-reverse' /> : null
 
-const Error = ({ error }: { error: any }) =>
+export const Error = ({ error }: { error: any }) =>
   error ? (
     <div className='text-white bg-red-600 rounded-full'>
       Someting went wrong.
     </div>
   ) : null
 
-const HomeMarkers = ({
+export const HomeMarkers = ({
   homes,
 }: {
   homes: SearchHomesByLocationQuery['homes']
@@ -98,7 +96,7 @@ const HomeMarkers = ({
 
   const [highlightedHomeDetails] = useGetHomeByIdQuery({
     variables: {
-      id: highlightedHomeId,
+      id: highlightedHomeId!,
     },
   })
 
@@ -121,12 +119,12 @@ const HomeMarkers = ({
   ))
 }
 
-const CityMarkers = ({
+export const CityMarkers = ({
   cities,
 }: {
   cities: SearchHomesByLocationQuery['cities']
 }) => {
-  const [highlightedCityId, setHighlightedCityId] = useState<number | null>(
+  const [highlightedCityId, setHighlightedCityId] = useState<string | null>(
     null
   )
 
@@ -148,7 +146,7 @@ const CityMarkers = ({
     config: config.wobbly,
   })
 
-  const [_viewport, setViewport] = useContext(MapContext)
+  const [, setViewport] = useContext(MapContext)
 
   return cityMarkersTransitions((style, marker) => (
     <animated.div
@@ -176,14 +174,12 @@ const CityMarkers = ({
           We can reorder the item which is so messy.
           https://stackoverflow.com/questions/69900689/react-map-gl-how-to-rise-map-marker-to-top-when-hover */}
           <div className='flex items-center justify-center p-3 text-white transition-all border-2 border-black rounded-full shadow-xl cursor-pointer group-hover:scale-125 group-hover:bg-black shadow-gray-600 bg-black/80'>
-            {marker.propertiesCount}
+            {marker.totalHomes}
             <HomeIcon className='w-5 h-5 ml-1' />
           </div>
         </div>
         <div className='absolute hidden p-1 mt-4 font-semibold text-center text-black -translate-x-1/2 rounded-md shadow-xl left-1/2 backdrop-blur backdrop-filter bg-gray-300/40 group-hover:block'>
-          <div className='text-sm font-bold whitespace-nowrap'>
-            {marker.displayName}
-          </div>
+          <div className='text-sm font-bold whitespace-nowrap'>{marker.id}</div>
           <div className='mt-1 text-xs font-light whitespace-nowrap'>
             Click to zoom in
           </div>
@@ -194,7 +190,7 @@ const CityMarkers = ({
 }
 
 export const ZoomControls = () => {
-  const [_viewport, setViewport] = useContext(MapContext)
+  const [, setViewport] = useContext(MapContext)
   return (
     <div className='flex flex-col border border-white divide-y divide-white rounded shadow-lg bg-white/50 backdrop-blur backdrop-filter'>
       <button
@@ -237,39 +233,3 @@ export const ZoomControls = () => {
     </div>
   )
 }
-
-const MapboxContent = () => {
-  /**
-   * Query homes and create animated markers.
-   */
-  const filterVariables = useAppSelector(selectFilters)
-  const [{ data: homesMap, fetching, error }] = useSearchHomesByLocationQuery({
-    variables: filterVariables,
-  })
-
-  return (
-    <>
-      <HomeMarkers homes={homesMap?.homes || []} />
-      <CityMarkers cities={homesMap?.cities || []} />
-      <PanelContainer>
-        <PanelChild position='center-bottom'>
-          <Fetching fetching={fetching} />
-          <Error error={error} />
-        </PanelChild>
-        <PanelChild position='left-top'>
-          <ZoomControls />
-        </PanelChild>
-        <PanelChild position='right-center'>
-          <ZoomControls />
-        </PanelChild>
-        <PanelChild position='right-bottom'>
-          <div className='max-w-md mt-auto text-3xl font-bold leading-tight '>
-            Biggest list of homes all over the world.
-          </div>
-        </PanelChild>
-      </PanelContainer>
-    </>
-  )
-}
-
-export default MapboxContent

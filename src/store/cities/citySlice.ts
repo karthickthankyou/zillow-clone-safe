@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { filterDefaultValues } from 'src/components/organisms/SearchHomesFilter/SearchHomesFilter'
+import { filterDefaultValues } from 'src/components/organisms/SearchHomesFilter/filterUtils'
 import {
   GetCitiesQuery,
   Homes_Bool_Exp,
@@ -162,7 +162,6 @@ export const selectFilters = createSelector(
     const bathInt = Number.isNaN(+bath!) ? 0 : +bath!
 
     const area = Math.abs(ne[1] - sw[1]) * Math.abs(ne[0] - sw[0])
-    const showCityCounts = area > 1
     const homesWhere: InputMaybe<Homes_Bool_Exp> = {
       lat: {
         _gt: ne[1],
@@ -173,7 +172,7 @@ export const selectFilters = createSelector(
         _lt: sw[0],
       },
     }
-    const citiesWhere = { lat: homesWhere.lat, lng: homesWhere.lng }
+
     if (beds) homesWhere.beds = { _gte: bedsInt }
     if (bath) homesWhere.bath = { _gte: bathInt }
     if (sqft) homesWhere.sqft = { _gte: sqft[0], _lte: sqft[1] }
@@ -182,11 +181,16 @@ export const selectFilters = createSelector(
       homesWhere.yearBuilt = { _gte: yearBuilt[0], _lte: yearBuilt[1] }
     if (homeType) homesWhere.style = { _in: homeType }
 
+    const citiesWhere = { lat: homesWhere.lat, lng: homesWhere.lng }
+    const statesWhere = { lat: homesWhere.lat, lng: homesWhere.lng }
+
     return {
       homesWhere,
       citiesWhere,
+      statesWhere,
       homesLimit: area <= 3 ? 50 : 0,
-      citiesLimit: area > 1 ? 50 : 0,
+      citiesLimit: area > 1 && area < 6 ? 50 : 0,
+      statesLimit: area > 5 ? 50 : 0,
     }
   }
 )

@@ -10,11 +10,9 @@ import {
   selectCityList,
   setCitySearchText,
   setMapLocation,
-  setSelectedCity,
 } from 'src/store/cities/citySlice'
 
 import { useRouter } from 'next/dist/client/router'
-import Link from 'src/components/atoms/Link'
 
 export interface IHeroProps {
   className?: string
@@ -25,12 +23,10 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
   const dispatch = useDispatch()
 
   /** Selectors */
-  const { data: cityList, fetching, error } = useAppSelector(selectCityList)
+  const { data: cityList, fetching } = useAppSelector(selectCityList)
 
   /** Hooks */
   const router = useRouter()
-
-  type CityList = CitySlice['cityList']['data']
 
   return (
     <div

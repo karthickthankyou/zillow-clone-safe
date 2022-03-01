@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import Link, { LinkProps } from 'next/link'
-import { Url } from 'url'
 
 export interface ILinkProps {
   href: LinkProps['href']

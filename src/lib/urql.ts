@@ -1,10 +1,4 @@
-import {
-  createClient,
-  Provider,
-  defaultExchanges,
-  fetchExchange,
-  dedupExchange,
-} from 'urql'
+import { createClient, defaultExchanges } from 'urql'
 import { devtoolsExchange } from '@urql/devtools'
 
 // const headers = token

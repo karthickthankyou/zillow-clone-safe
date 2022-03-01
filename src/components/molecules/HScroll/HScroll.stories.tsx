@@ -51,16 +51,16 @@ const childrenItems: ReactElement[] = [
 
 const Template: ComponentStory<typeof HScroll> = () => (
   <HScroll>
-    <HScroll.RightArrow className='absolute left-0 h-full '>
+    <HScroll.Arrow right className='absolute left-0 h-full '>
       <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
         &lt;
       </div>
-    </HScroll.RightArrow>
-    <HScroll.LeftArrow className='absolute right-0 h-full'>
+    </HScroll.Arrow>
+    <HScroll.Arrow className='absolute right-0 h-full'>
       <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
         &gt;
       </div>
-    </HScroll.LeftArrow>
+    </HScroll.Arrow>
     <HScroll.Body>{[<div key='1'>Helo</div>]}</HScroll.Body>
   </HScroll>
 )
@@ -70,16 +70,16 @@ const Template2: ComponentStory<typeof HScroll> = () => (
     <div className='flex py-2'>
       <h2 className='font-bold'>Some Title</h2>
       <div className='flex ml-auto space-x-2'>
-        <HScroll.RightArrow>
+        <HScroll.Arrow right>
           <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
             &lt;
           </div>
-        </HScroll.RightArrow>
-        <HScroll.LeftArrow>
+        </HScroll.Arrow>
+        <HScroll.Arrow>
           <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
             &gt;
           </div>
-        </HScroll.LeftArrow>
+        </HScroll.Arrow>
       </div>
     </div>
     <HScroll.Body className='pb-24'>

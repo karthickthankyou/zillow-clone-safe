@@ -27,9 +27,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           const jwtToken = await user.getIdToken()
           settoken(jwtToken)
 
-          const idTokenResult = await user.getIdTokenResult()
-          const hasuraClaim =
-            idTokenResult.claims['https://hasura.io/jwt/claims']
+          // const idTokenResult = await user.getIdTokenResult()
+          // const hasuraClaim =
+          //   idTokenResult.claims['https://hasura.io/jwt/claims']
         } else {
           settoken('')
         }

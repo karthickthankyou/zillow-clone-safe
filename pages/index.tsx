@@ -1,42 +1,45 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
+import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { NextSeo } from 'next-seo'
 import Hero from 'src/components/templates/Hero'
-import Cities from 'src/components/templates/Cities'
-import CityCard, { CityCardShadow } from 'src/components/organisms/CityCard'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import useTriggerOnScroll from 'src/hooks'
 import Image from 'src/components/atoms/Image'
-import React, { useRef, useState } from 'react'
-import { useGetCitiesQuery } from 'src/generated/graphql'
-import HScroll from 'src/components/molecules/HScroll'
-import ReactMapGL from 'react-map-gl'
+import React, { useRef } from 'react'
+
 import 'mapbox-gl/dist/mapbox-gl.css'
-import { RadioGroup } from '@headlessui/react'
-import MapBox from 'src/components/organisms/Mapbox/Mapbox'
+import Mapbox from 'src/components/organisms/Mapbox/Mapbox'
+import { useMapData } from 'src/store/cities/cityHooks'
+
+import {
+  HomeMarkers,
+  CityMarkers,
+  PanelContainer,
+  PanelChild,
+  Fetching,
+  Error,
+  ZoomControls,
+} from 'src/components/organisms/MapboxContent/MapboxContent'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
 })
 
-const Home: NextPage = ({
-  data,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const [{ data: citiesData, fetching }] = useGetCitiesQuery()
-  const accessToken =
-    'pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ'
+// {}: InferGetStaticPropsType<typeof getStaticProps>
 
-  const [show, el] = useTriggerOnScroll()
-  const [plan, setPlan] = useState<'BUY' | 'SELL' | 'RENT'>('BUY')
+const Home: NextPage = () => {
+  const [, el] = useTriggerOnScroll()
+  // const [plan, setPlan] = useState<'BUY' | 'SELL' | 'RENT'>('BUY')
 
-  const interactiveMapRef = useRef(null)
+  const interactiveMapRef = useRef<HTMLDivElement | null>(null)
 
   const executeScroll = () =>
     interactiveMapRef.current?.scrollIntoView({
       behavior: 'smooth',
     })
 
+  const { data: homesMap, fetching: mapFetching, error } = useMapData()
   return (
     <div>
       <NextSeo
@@ -65,7 +68,22 @@ const Home: NextPage = ({
         </div>
 
         <div className='w-screen h-screen ' ref={interactiveMapRef}>
-          <MapBox />
+          <Mapbox>
+            <HomeMarkers homes={homesMap?.homes || []} />
+            <CityMarkers cities={homesMap?.cities || []} />
+            <PanelContainer>
+              <PanelChild position='center-bottom'>
+                <Fetching fetching={mapFetching} />
+                <Error error={error} />
+              </PanelChild>
+              <PanelChild position='left-top'>
+                <ZoomControls />
+              </PanelChild>
+              <PanelChild position='right-center'>
+                <ZoomControls />
+              </PanelChild>
+            </PanelContainer>
+          </Mapbox>
         </div>
 
         <div className='container mx-auto mt-12 space-y-24'>
