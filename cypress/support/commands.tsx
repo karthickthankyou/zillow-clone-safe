@@ -28,16 +28,16 @@ import '@testing-library/cypress/add-commands'
 
 import { mount as cypressMount } from '@cypress/react'
 import { Provider as ReduxProvider } from 'react-redux'
-import { Provider } from 'urql'
+import { Provider as UrqlProvider } from 'urql'
 import { client } from 'src/config/urql'
 import { store as actualStore } from 'src/store'
 import { ReactElement } from 'react'
 
 Cypress.Commands.add('mount', (children: ReactElement) =>
   cypressMount(
-    <Provider value={client}>
+    <UrqlProvider value={client}>
       <ReduxProvider store={actualStore}>{children}</ReduxProvider>
-    </Provider>
+    </UrqlProvider>
   )
 )
 

@@ -4,6 +4,6 @@ import { HomeMarkers } from './MapboxContent'
 
 describe('MapboxContent Component', () => {
   test('MapboxContent renders', () => {
-    render(<HomeMarkers homes={[]} />)
+    render(<HomeMarkers />)
   })
 })

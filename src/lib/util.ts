@@ -32,3 +32,12 @@ export const shortenNumber = (value: number) => {
 }
 
 export const addDollar = (value: string) => `$${value}`
+
+export const bringHighlightedItemToFront = (id: any, items: { id: any }[]) => {
+  if (!id) return items
+
+  const itemFound = items.find((item) => item.id === id)
+
+  if (!itemFound) return items
+  return [...items.filter((item) => item.id !== id), itemFound]
+}

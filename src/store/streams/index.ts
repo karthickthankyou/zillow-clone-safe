@@ -12,42 +12,42 @@ import {
 } from 'rxjs'
 
 import { AsyncUser } from 'src/types'
-import { CitySlice, setCityList } from '../cities/citySlice'
-import { store } from '..'
+import { CitySlice } from '../cities/citySlice'
+import { store, StoreObservableType } from '..'
+import { setMapSearchOptions } from '../map/mapSlice'
+import { MapSearch, PlaceTypesType, placeTypeZoom } from '../static'
 
-export const createObservables = (
-  store$: Observable<{
-    user: AsyncUser
-    city: CitySlice
-  }>
-) => {
+export const createObservables = (store$: StoreObservableType) => {
   const city$ = store$.pipe(
-    map((state) => state?.city.citySearchText),
+    map((state) => state.map.searchText),
     distinctUntilChanged(),
     // throttleTime(500),
     filter((text) => text.length > 0),
     debounceTime(500),
-    tap(() => store.dispatch(setCityList({ data: [], fetching: true }))),
+    tap(() =>
+      store.dispatch(setMapSearchOptions({ data: [], fetching: true }))
+    ),
     switchMap((searchText) =>
       searchText
         ? fetch(
-            `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchText}.json?country=us&types=place&fuzzyMatch=true&access_token=pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ`
+            `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchText}.json?country=us&fuzzyMatch=true&access_token=pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ`
           ).then((response) => response.json())
         : of([])
     ),
     // tap((v) => console.log('tapping: ', v)),
-    map((value) =>
+    map((value): MapSearch[] =>
       value.features.length > 0
         ? value.features.map((features: any) => ({
             displayName: features.place_name,
             longitude: features.geometry.coordinates[0],
             latitude: features.geometry.coordinates[1],
+            zoom: placeTypeZoom[features.place_type[0] as PlaceTypesType] || 6,
           }))
         : []
     ),
-    map((value) =>
-      store.dispatch(setCityList({ data: value, fetching: false }))
-    ),
+    map((value) => {
+      store.dispatch(setMapSearchOptions({ data: value, fetching: false }))
+    }),
     retry(2),
     catchError(() => of(null))
   )

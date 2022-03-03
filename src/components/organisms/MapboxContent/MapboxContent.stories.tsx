@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { SbReduxProvider } from 'src/lib/sb'
-import { PanelContainer, PanelChild } from './MapboxContent'
+import { PanelContainer, Panel } from './MapboxContent'
 
 export default {
   title: 'organisms/MapboxContent',
@@ -11,9 +11,9 @@ export default {
 
 const Template: ComponentStory<typeof PanelContainer> = () => (
   <PanelContainer>
-    <PanelChild position='center-bottom'>
+    <Panel position='center-bottom'>
       <div>Hello</div>
-    </PanelChild>
+    </Panel>
   </PanelContainer>
 )
 

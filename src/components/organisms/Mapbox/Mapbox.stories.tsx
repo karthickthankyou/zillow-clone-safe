@@ -11,6 +11,7 @@ import {
 } from 'src/mocks/handlers'
 
 import {} from '@urql/storybook-addon'
+import { MapProvider } from 'src/store/map/mapContext'
 import Mapbox from './Mapbox'
 
 export default {
@@ -20,9 +21,11 @@ export default {
 } as ComponentMeta<typeof Mapbox>
 
 const Template: ComponentStory<typeof Mapbox> = () => (
-  <Mapbox>
-    <div>Hi</div>
-  </Mapbox>
+  <MapProvider>
+    <Mapbox>
+      <div>Hello</div>
+    </Mapbox>
+  </MapProvider>
 )
 
 export const Primary = Template.bind({})

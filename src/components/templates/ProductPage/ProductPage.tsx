@@ -16,6 +16,7 @@ import {
   otherDetails,
 } from './data'
 import Details from './Details'
+import { MapProvider } from 'src/store/map/mapContext'
 
 export interface IProductPageProps {}
 
@@ -67,9 +68,11 @@ const ProductPage = () => (
             </>
           )}
         </Disclosure>
-        <Mapbox>
-          <div>Hello</div>
-        </Mapbox>
+        <MapProvider>
+          <Mapbox>
+            <div>Hello</div>
+          </Mapbox>
+        </MapProvider>
         <div className='grid grid-cols-2 gap-3'>
           <div>
             <div className='text-xl font-bold'>Get a call back.</div>

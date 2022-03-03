@@ -1,14 +1,14 @@
+import { Popup } from 'react-map-gl'
+import { UseQueryState } from 'urql/dist/types/hooks/useQuery'
 import {
   SearchHomesByLocationQuery,
   GetHomeByIdQuery,
 } from 'src/generated/graphql'
-import { Popup } from 'react-map-gl'
-import { UseQueryState } from 'urql/dist/types/hooks/useQuery'
 import Image from 'src/components/atoms/Image'
 
 export interface IPopupProps {
   marker: SearchHomesByLocationQuery['homes'][number]
-  highlightedHome?: UseQueryState<GetHomeByIdQuery, object>
+  highlightedHomeData?: UseQueryState<GetHomeByIdQuery, object>
 }
 
 const RenderData = ({ data }: { data: GetHomeByIdQuery }) => (
@@ -43,8 +43,8 @@ const Skeleton = () => (
   </div>
 )
 
-const PopupComponent = ({ marker, highlightedHome }: IPopupProps) => {
-  const { data, fetching, error } = highlightedHome!
+const PopupComponent = ({ marker, highlightedHomeData }: IPopupProps) => {
+  const { data, fetching, error } = highlightedHomeData!
   return (
     <Popup
       latitude={marker.lat}

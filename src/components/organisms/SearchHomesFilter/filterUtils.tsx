@@ -4,16 +4,18 @@ import { RadioGroup } from '@headlessui/react'
 import { PopoverButton } from 'src/components/molecules/PopoverMenuItem'
 import { addDollar, shortenNumber } from 'src/lib/util'
 import { FilterIcon } from '@heroicons/react/outline'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
 import { useAppDispatch, useAppSelector } from 'src/store'
+import { CitySlice, setHomesFilter } from 'src/store/cities/citySlice'
 import {
-  CitySlice,
-  selectCityList,
-  setCitySearchText,
-  setHomesFilter,
-  setMapLocation,
-} from 'src/store/cities/citySlice'
+  selectSearchText,
+  selectMapSearchOptions,
+  MapSlice,
+  setViewport,
+  setMapSearchSelected,
+  setSearchText,
+} from 'src/store/map/mapSlice'
 
 const homeTypes = [
   'Single Family Home',
@@ -209,6 +211,7 @@ export const FilterButton = ({ setShowSidebar }: any) => (
 
 export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
   const dispatch = useAppDispatch()
+  console.log('Come on.../')
 
   const [input$] = useState(
     () =>
@@ -228,6 +231,7 @@ export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
             Object.entries(data).filter(([key]) => keys.includes(key))
           )
         }),
+        tap((v) => console.log('setHomesFilter: ', v)),
         tap((v) => dispatch(setHomesFilter(v))),
         catchError(() => EMPTY)
       )
@@ -237,29 +241,31 @@ export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
 
   useEffect(() => {
     // Add map bounds into the data as default parameters.
+
     input$.next({ data: filterData, dirtyData: dirtyFields })
   }, [dirtyFields, filterData, input$])
 }
 
 export const LocationSearch = () => {
   const dispatch = useAppDispatch()
-  const cityList = useAppSelector(selectCityList)
+  const cityList = useAppSelector(selectMapSearchOptions)
   return (
-    <Autocomplete<CitySlice['cityList']['data'][number], false, false, false>
+    <Autocomplete<
+      MapSlice['mapSearchOptions']['data'][number],
+      false,
+      false,
+      false
+    >
       options={cityList.data}
       getOptionLabel={(x) => x.displayName}
-      onInputChange={(_, v) => dispatch(setCitySearchText(v))}
+      onInputChange={(_, v) => dispatch(setSearchText(v))}
       loading={cityList.fetching}
       isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
       onChange={(_, v) => {
-        if (v)
-          dispatch(
-            setMapLocation({
-              latitude: v.latitude,
-              longitude: v.longitude,
-              zoom: 12,
-            })
-          )
+        if (v) {
+          const { displayName, latitude, longitude, zoom } = v
+          dispatch(setViewport({ latitude, longitude, zoom }))
+        }
       }}
       className='rounded-lg'
     />

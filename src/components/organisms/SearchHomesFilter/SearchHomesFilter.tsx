@@ -2,7 +2,7 @@ import PopoverMenu, {
   PopoverPanel,
 } from 'src/components/molecules/PopoverMenuItem'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Sidebar from 'src/components/molecules/Sidebar'
 import {
@@ -217,4 +217,4 @@ const SearchHomesFilter = () => {
   )
 }
 
-export default SearchHomesFilter
+export default memo(SearchHomesFilter)

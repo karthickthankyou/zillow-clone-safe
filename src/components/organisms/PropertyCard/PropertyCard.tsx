@@ -3,7 +3,7 @@ import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import { Properties } from 'src/generated/graphql'
 import { useAppDispatch } from 'src/store'
-import { setHighlightedHomeId } from 'src/store/cities/citySlice'
+import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export type IPropertyCardProps = Partial<Properties>
 

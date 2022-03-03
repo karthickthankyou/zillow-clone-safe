@@ -5,17 +5,19 @@ import { NextSeo } from 'next-seo'
 import SearchHomesFilter from 'src/components/organisms/SearchHomesFilter'
 import {
   HomeMarkers,
-  CityMarkers,
   PanelContainer,
-  PanelChild,
+  Panel,
   Fetching,
   Error,
   ZoomControls,
+  CityMarkers,
+  StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 
 import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
 import { selectFilters } from 'src/store/cities/citySlice'
+import { MapProvider } from 'src/store/map/mapContext'
 
 // Get search, lat, lng from query string
 const ProductListingPage = () => {
@@ -35,19 +37,22 @@ const ProductListingPage = () => {
         <div className='flex flex-col gap-5 lg:flex-row'>
           <div className='flex-1 lg:block'>
             <div className='sticky top-0 w-full col-span-1 overflow-hidden rounded h-screen50 lg:h-screen '>
-              <Mapbox>
-                <HomeMarkers homes={homesMap?.homes || []} />
-                <CityMarkers cities={homesMap?.cities || []} />
-                <PanelContainer>
-                  <PanelChild position='center-bottom'>
-                    <Fetching fetching={fetching} />
-                    <Error error={error} />
-                  </PanelChild>
-                  <PanelChild position='left-top'>
-                    <ZoomControls />
-                  </PanelChild>
-                </PanelContainer>
-              </Mapbox>
+              <MapProvider>
+                <Mapbox>
+                  <HomeMarkers />
+                  <CityMarkers />
+                  <StateMarkers />
+                  <PanelContainer>
+                    <Panel position='center-bottom'>
+                      <Fetching />
+                      <Error />
+                    </Panel>
+                    <Panel position='left-top'>
+                      <ZoomControls />
+                    </Panel>
+                  </PanelContainer>
+                </Mapbox>
+              </MapProvider>
             </div>
           </div>
           <div className='flex-1'>

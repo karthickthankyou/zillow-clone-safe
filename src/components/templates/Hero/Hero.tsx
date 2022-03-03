@@ -5,12 +5,15 @@ import { useDispatch } from 'react-redux'
 import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
 
 import { useAppSelector } from 'src/store'
+import { CitySlice } from 'src/store/cities/citySlice'
 import {
-  CitySlice,
-  selectCityList,
-  setCitySearchText,
-  setMapLocation,
-} from 'src/store/cities/citySlice'
+  setViewport,
+  selectSearchText,
+  selectMapSearchOptions,
+  setSearchText,
+  MapSlice,
+  setMapSearchSelected,
+} from 'src/store/map/mapSlice'
 
 import { useRouter } from 'next/dist/client/router'
 
@@ -23,7 +26,7 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
   const dispatch = useDispatch()
 
   /** Selectors */
-  const { data: cityList, fetching } = useAppSelector(selectCityList)
+  const { data: cityList, fetching } = useAppSelector(selectMapSearchOptions)
 
   /** Hooks */
   const router = useRouter()
@@ -38,32 +41,35 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
         </div>
 
         <Autocomplete<
-          CitySlice['cityList']['data'][number],
+          MapSlice['mapSearchOptions']['data'][number],
           false,
           false,
           false
         >
           options={cityList}
           getOptionLabel={(x) => x.displayName}
-          onInputChange={(_, v) => dispatch(setCitySearchText(v))}
+          onInputChange={(_, v) => dispatch(setSearchText(v))}
           loading={fetching}
           isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
           onChange={(_, v) => {
-            const { displayName, latitude, longitude } = v!
+            const { displayName, latitude, longitude, zoom } = v!
 
             if (v) {
               dispatch(
-                setMapLocation({
+                setViewport({
                   latitude,
                   longitude,
-                  zoom: 10,
+                  zoom,
                 })
               )
-              // dispatch(setMapLocation({ lat, lng }))
               router.push(
                 {
                   pathname: '/homes',
-                  query: { search: displayName, latitude, longitude },
+                  query: {
+                    search: displayName,
+                    latitude,
+                    longitude,
+                  },
                 },
                 '/homes'
               )

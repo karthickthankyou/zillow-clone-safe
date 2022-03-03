@@ -1,16 +1,8 @@
-/* eslint-disable react/jsx-props-no-spreading */
+import { useMapData } from 'src/store/home/homeNetwork'
 
-// import {
-//   debounceTime,
-//   distinct,
-//   distinctUntilChanged,
-//   map,
-//   pairwise,
-// } from 'rxjs'
-// import { store$ } from 'src/store'
-
-const Streams = () => null
+const Streams = () => {
+  useMapData()
+  return null
+}
 
 export default Streams
-
-// (v) => (w) => (x) => console.log('Middleware: ', v, w, x)
