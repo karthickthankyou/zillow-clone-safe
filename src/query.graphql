@@ -52,34 +52,34 @@ query SearchPropertiesByLocation(
 
 query SearchHomesByLocation(
   $distinct_on: [homes_select_column!]
-  $homesLimit: Int
-  $citiesLimit: Int
-  $statesLimit: Int
+  $limit: Int
   $offset: Int
   $order_by: [homes_order_by!]
-  $homesWhere: homes_bool_exp
-  $citiesWhere: location_stats_bool_exp
-  $statesWhere: location_stats_bool_exp
+  $where: homes_bool_exp
 ) {
   homes(
     distinct_on: $distinct_on
-    limit: $homesLimit
+    limit: $limit
     offset: $offset
     order_by: $order_by
-    where: $homesWhere
+    where: $where
   ) {
     id
     lat
     lng
     style
   }
-  cities: location_stats(limit: $citiesLimit, where: $citiesWhere) {
+}
+query SearchCitiesByLocation($limit: Int, $where: location_stats_bool_exp) {
+  cities: location_stats(limit: $limit, where: $where) {
     id
     lat
     lng
     totalHomes
   }
-  states: location_stats(limit: $statesLimit, where: $statesWhere) {
+}
+query SearchStatesByLocation($limit: Int, $where: location_stats_bool_exp) {
+  states: location_stats(limit: $limit, where: $where) {
     id
     lat
     lng
@@ -117,5 +117,13 @@ query GetHomeById($id: Int!) {
     sqft
     bath
     beds
+  }
+}
+
+query GetRegionById($id: String!) {
+  location_stats_by_pk(id: $id) {
+    id
+    totalHomes
+    bedsPrice
   }
 }

@@ -1,3 +1,5 @@
+import { ReactElement } from 'react'
+
 export type CounterStatus = 'idle' | 'loading' | 'failed'
 
 export type User = {
@@ -21,3 +23,5 @@ export type AsyncData<T> = {
 }
 
 export type AsyncUser = AsyncData<User>
+
+export type Children = ReactElement | ReactElement[] | string

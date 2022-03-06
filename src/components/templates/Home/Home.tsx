@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import { MapProvider } from 'src/store/map/mapContext'
@@ -11,25 +10,22 @@ import {
   PanelContainer,
   Error,
   ZoomControls,
+  StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
-import useTriggerOnScroll from 'src/hooks'
+import { useScrollTo } from 'src/hooks'
+import Container from 'src/components/atoms/Container'
 import Hero from '../Hero'
 
 export interface IHomeProps {}
 
 const Home = () => {
-  const [, el] = useTriggerOnScroll()
-  const interactiveMapRef = useRef<HTMLDivElement | null>(null)
+  const [interactiveMapRef, scrollToMap] = useScrollTo()
 
-  const executeScroll = () =>
-    interactiveMapRef.current?.scrollIntoView({
-      behavior: 'smooth',
-    })
   return (
     <div>
       <main>
-        <Hero className='-mt-16' executeScroll={executeScroll} />
-        <div className='container mx-auto mb-24 mt-36'>
+        <Hero className='-mt-16' executeScroll={scrollToMap} />
+        <Container className='mt-48 mb-36'>
           <div className='max-w-md text-4xl font-semibold '>
             {/* Biggest housing listing in entire USA. */}
             <em className='select-none text-luxury'>Millions</em> of for-sale
@@ -39,13 +35,14 @@ const Home = () => {
             Whether you’re buying, selling or renting, we can help you move
             forward.
           </p>
-        </div>
+        </Container>
 
         <div className='w-screen h-screen ' ref={interactiveMapRef}>
           <MapProvider>
             <Mapbox>
               <HomeMarkers />
               <CityMarkers />
+              <StateMarkers />
 
               <PanelContainer>
                 <Panel position='center-bottom'>
@@ -112,10 +109,7 @@ const Home = () => {
             }
             btnText='Post your first listing free'
           />
-          <div
-            ref={el}
-            className='flex flex-col items-center justify-center h-96'
-          >
+          <div className='flex flex-col items-center justify-center h-96'>
             <div className='text-4xl font-bold tracking-tighter text-luxury'>
               Most visited rental network
             </div>

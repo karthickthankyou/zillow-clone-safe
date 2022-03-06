@@ -5,14 +5,11 @@ import { useDispatch } from 'react-redux'
 import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
 
 import { useAppSelector } from 'src/store'
-import { CitySlice } from 'src/store/cities/citySlice'
 import {
   setViewport,
-  selectSearchText,
   selectMapSearchOptions,
   setSearchText,
   MapSlice,
-  setMapSearchSelected,
 } from 'src/store/map/mapSlice'
 
 import { useRouter } from 'next/dist/client/router'

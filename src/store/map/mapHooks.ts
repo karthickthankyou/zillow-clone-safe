@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { MapRef } from 'react-map-gl'
-import { catchError, debounceTime, EMPTY, Subject, map, tap } from 'rxjs'
+import { catchError, debounceTime, EMPTY, Subject, map } from 'rxjs'
 import { useAppDispatch, useAppSelector } from '..'
 import { selectViewport, setViewport, setBounds } from './mapSlice'
 import { DEBOUNCE_DELAY, Viewport } from '../static'
@@ -18,7 +18,6 @@ export const useDispatchMapBounds = ({ viewport }: { viewport: Viewport }) => {
     const subscription = pipeline$
       .pipe(
         debounceTime(DEBOUNCE_DELAY),
-        tap(() => console.log('Bounds changed')),
         map(() => mapObj.getBounds().toArray()),
         catchError(() => EMPTY)
       )

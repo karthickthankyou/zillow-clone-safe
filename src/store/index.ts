@@ -3,7 +3,6 @@ import { from } from 'rxjs'
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import userReducer from './user'
-import cityReducer from './cities/citySlice'
 import mapReducer from './map/mapSlice'
 import homeReducer from './home/homeSlice'
 import { createObservables } from './streams'
@@ -11,7 +10,6 @@ import { createObservables } from './streams'
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    city: cityReducer,
     map: mapReducer,
     home: homeReducer,
   },

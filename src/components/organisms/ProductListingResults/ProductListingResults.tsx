@@ -1,16 +1,14 @@
 import { useSearchHomesByLocationDetailedQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
-import { selectFilters } from 'src/store/cities/citySlice'
+import { selectHomeFilters } from 'src/store/home/homeSlice'
 
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
 const ProductListingResult = () => {
-  const variables = useAppSelector(selectFilters)
+  const variables = useAppSelector(selectHomeFilters)
   const [{ data, fetching, error }] = useSearchHomesByLocationDetailedQuery({
-    variables: {
-      where: variables?.homesWhere,
-    },
+    variables,
   })
 
   const NO_RESULTS = !fetching && data?.homes.length === 0

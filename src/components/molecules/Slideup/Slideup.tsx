@@ -1,9 +1,10 @@
-import { ReactNode, RefObject } from 'react'
+import { ReactNode } from 'react'
 import { Transition } from '@headlessui/react'
+import useTriggerOnScroll from 'src/hooks'
 
 interface Props {
-  show: boolean
   children: ReactNode
+  triggerPoint?: number
   transition?: {
     enter: string
     enterFrom: string
@@ -12,7 +13,6 @@ interface Props {
     leaveFrom: string
     leaveTo: string
   }
-  ref?: RefObject<HTMLDivElement>
 }
 
 const transitionDefault = {
@@ -24,11 +24,22 @@ const transitionDefault = {
   leaveTo: 'opacity-0 translate-y-3',
 }
 
-const SlideUp = ({ show, children, transition = transitionDefault }: Props) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <Transition show={show} {...transition}>
-    {children}
-  </Transition>
-)
+const SlideUp = ({
+  children,
+  triggerPoint = 0.75,
+  transition = transitionDefault,
+}: Props) => {
+  const [show, el] = useTriggerOnScroll({ triggerPoint })
+
+  return (
+    <>
+      <div ref={el} />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <Transition show={show} {...transition}>
+        {children}
+      </Transition>
+    </>
+  )
+}
 
 export default SlideUp

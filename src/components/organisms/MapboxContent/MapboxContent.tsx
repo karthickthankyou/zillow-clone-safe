@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from 'react'
+import { ReactElement } from 'react'
 import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
 
@@ -12,27 +12,26 @@ import MapPopup from 'src/components/molecules/Popup'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import PlusIcon from '@heroicons/react/outline/PlusIcon'
 import MinusIcon from '@heroicons/react/outline/MinusIcon'
+import {
+  useFetchHomesMap,
+  useFetchCitiesMap,
+  useFetchStatesMap,
+} from 'src/store/home/homeNetwork'
+
+import { resetMap, zoomIn, zoomOut, setViewport } from 'src/store/map/mapSlice'
 
 import {
-  resetMap,
-  zoomIn,
-  zoomOut,
-  setViewport,
-  showStates,
-  showCities,
-} from 'src/store/map/mapSlice'
-
-import {
-  selectMapResultsHomes,
   selectHighlightedHomeId,
+  selectHighlightedCityId,
   setHighlightedHomeId,
-  selectMapResultsCities,
   setHighlightedCityId,
   selectHighlightedStateId,
-  selectMapResultsStates,
   setHighlightedStateId,
-  selectMapResultsFetching,
-  selectMapResultsError,
+  selectMapFetching,
+  selectMapError,
+  selectHomesMap,
+  selectCitiesMap,
+  selectStatesMap,
 } from 'src/store/home/homeSlice'
 import { bringHighlightedItemToFront } from 'src/lib/util'
 
@@ -85,7 +84,7 @@ export const Panel = ({
 }
 
 export const Fetching = () => {
-  const fetching = useAppSelector(selectMapResultsFetching)
+  const fetching = useAppSelector(selectMapFetching)
   return fetching ? (
     <div className='p-1 text-white border border-black rounded-full shadow-xl bg-black/80'>
       <RefreshIcon className='w-8 h-8 animate-spin-reverse' />
@@ -94,7 +93,7 @@ export const Fetching = () => {
 }
 
 export const Error = () => {
-  const error = useAppSelector(selectMapResultsError)
+  const error = useAppSelector(selectMapError)
   return error ? (
     <div className='px-4 py-2 text-white bg-red-600 rounded-full shadow-xl'>
       Someting went wrong.
@@ -103,7 +102,9 @@ export const Error = () => {
 }
 
 export const HomeMarkers = () => {
-  const homes = useAppSelector(selectMapResultsHomes)
+  useFetchHomesMap()
+  const homes = useAppSelector(selectHomesMap).data?.homes || []
+  const dispatch = useAppDispatch()
 
   const markersTransitions = useTransition(homes || [], {
     keys: (home) => home.id,
@@ -114,7 +115,6 @@ export const HomeMarkers = () => {
     config: config.molasses,
   })
 
-  const dispatch = useAppDispatch()
   const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
 
   const [highlightedHomeDetails] = useGetHomeByIdQuery({
@@ -146,17 +146,11 @@ export const HomeMarkers = () => {
 }
 
 export const CityMarkers = () => {
+  useFetchCitiesMap()
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(showCities(true))
-    return () => {
-      dispatch(showCities(false))
-    }
-  }, [dispatch])
-
-  const highlightedCityId = useAppSelector(selectHighlightedHomeId)
-  const items = useAppSelector(selectMapResultsCities)
+  const highlightedCityId = useAppSelector(selectHighlightedCityId)
+  const items = useAppSelector(selectCitiesMap).data?.cities || []
   const reorderedItems = bringHighlightedItemToFront(
     highlightedCityId,
     items
@@ -213,19 +207,13 @@ export const CityMarkers = () => {
   ))
 }
 export const StateMarkers = () => {
+  useFetchStatesMap()
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(showStates(true))
-    return () => {
-      dispatch(showStates(false))
-    }
-  }, [dispatch])
-
-  const highlightedCityId = useAppSelector(selectHighlightedStateId)
-  const items = useAppSelector(selectMapResultsStates)
+  const highlightedStateId = useAppSelector(selectHighlightedStateId)
+  const items = useAppSelector(selectStatesMap).data?.states || []
   const reorderedItems = bringHighlightedItemToFront(
-    highlightedCityId,
+    highlightedStateId,
     items
   ) as typeof items
   const ZOOM_LEVEL = 7
@@ -281,7 +269,10 @@ export const StateMarkers = () => {
 }
 
 export const ZoomControls = () => {
+  const zoomLevel = useAppSelector((state) => state.map.viewport.zoom)
   const dispatch = useAppDispatch()
+
+  const zoomOutDisabled = zoomLevel < 3
 
   return (
     <div className='flex flex-col border border-white divide-y divide-white rounded shadow-lg bg-white/50 backdrop-blur backdrop-filter'>
@@ -293,8 +284,9 @@ export const ZoomControls = () => {
         <PlusIcon className='w-8 h-8 p-1.5 ' />
       </button>
       <button
-        className='rounded-none hover:bg-white'
+        className='rounded-none hover:bg-white disabled:opacity-50'
         type='button'
+        disabled={zoomOutDisabled}
         onClick={() => dispatch(zoomOut())}
       >
         <MinusIcon className='w-8 h-8 p-1.5 ' />
@@ -309,3 +301,31 @@ export const ZoomControls = () => {
     </div>
   )
 }
+
+// export const ZoomMessage = ({
+//   zoomLimit = 2,
+//   children,
+// }: {
+//   zoomLimit?: number
+//   children: Children
+// }) => {
+//   const zoomLevel = useAppSelector((state) => state.map.viewport.zoom)
+//   const dispatch = useAppDispatch()
+//   if (zoomLevel > zoomLimit) return null
+//   return (
+//     <button
+//       type='button'
+//       onClick={() => dispatch(resetMap())}
+//       className='px-4 py-2 bg-white rounded-full shadow-2xl shadow-black/50'
+//     >
+//       {children}
+//     </button>
+//   )
+// }
+
+// export const NoHomesMessage = ({ children }: { children: Children }) => {
+//   const homes = useAppSelector((state) => state.home.mapResults.data?.homes)
+//   const homesShowing = useAppSelector((state) => state.map.show.homes)
+//   if (homesShowing && !homes?.length) return children
+//   return null
+// }

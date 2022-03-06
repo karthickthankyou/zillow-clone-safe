@@ -1,7 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { SearchHomesByLocationQuery } from 'src/generated/graphql'
-import { UseQueryResponse } from 'urql'
 import { RootState } from '..'
 import { Viewport, MapSearch } from '../static'
 
@@ -13,11 +11,6 @@ export interface MapSlice {
     data: MapSearch[]
     fetching: boolean
     error?: any
-  }
-  show: {
-    homes: boolean
-    cities: boolean
-    states: boolean
   }
   mapSearchSelected?: MapSearch
 }
@@ -36,11 +29,6 @@ const initialState: MapSlice = {
   mapSearchOptions: {
     data: [],
     fetching: false,
-  },
-  show: {
-    homes: false,
-    cities: false,
-    states: false,
   },
 }
 
@@ -81,15 +69,6 @@ const mapSlice = createSlice({
     resetMap: (state) => {
       state.viewport = initialState.viewport
     },
-    showHomes: (state, action: PayloadAction<MapSlice['show']['homes']>) => {
-      state.show.homes = action.payload
-    },
-    showCities: (state, action: PayloadAction<MapSlice['show']['homes']>) => {
-      state.show.cities = action.payload
-    },
-    showStates: (state, action: PayloadAction<MapSlice['show']['homes']>) => {
-      state.show.states = action.payload
-    },
   },
 })
 
@@ -106,9 +85,6 @@ export const {
   zoomIn,
   zoomOut,
   setMapSearchSelected,
-  showStates,
-  showCities,
-  showHomes,
 } = mapSlice.actions
 
 /**

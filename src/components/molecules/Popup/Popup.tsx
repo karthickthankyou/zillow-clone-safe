@@ -28,6 +28,7 @@ const RenderData = ({ data }: { data: GetHomeByIdQuery }) => (
     </div>
   </div>
 )
+
 const Skeleton = () => (
   <div className='flex flex-col text-gray-200'>
     <Image src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />

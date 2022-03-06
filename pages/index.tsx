@@ -1,29 +1,7 @@
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { NextSeo } from 'next-seo'
-import Hero from 'src/components/templates/Hero'
-import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
-import { BadgeCheckIcon } from '@heroicons/react/solid'
-import useTriggerOnScroll from 'src/hooks'
-import Image from 'src/components/atoms/Image'
-import React, { useRef } from 'react'
-
-import 'mapbox-gl/dist/mapbox-gl.css'
-import Mapbox from 'src/components/organisms/Mapbox/Mapbox'
-import { useMapData } from 'src/store/home/homeNetwork'
-
-import {
-  HomeMarkers,
-  CityMarkers,
-  StateMarkers,
-  PanelContainer,
-  Panel,
-  Fetching,
-  Error,
-  ZoomControls,
-} from 'src/components/organisms/MapboxContent/MapboxContent'
-import { MapProvider } from 'src/store/map/mapContext'
-import { MapContext } from 'react-map-gl'
+import React from 'react'
 import Home from 'src/components/templates/Home'
 
 export const getStaticProps: GetStaticProps = async () => ({
@@ -47,4 +25,4 @@ const HomePage: NextPage = () => (
   </div>
 )
 
-export default Home
+export default HomePage

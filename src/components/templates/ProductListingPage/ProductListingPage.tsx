@@ -16,12 +16,12 @@ import {
 
 import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
-import { selectFilters } from 'src/store/cities/citySlice'
+import { selectHomeFilters } from 'src/store/home/homeSlice'
 import { MapProvider } from 'src/store/map/mapContext'
 
 // Get search, lat, lng from query string
 const ProductListingPage = () => {
-  const filterVariables = useAppSelector(selectFilters)
+  const filterVariables = useAppSelector(selectHomeFilters)
   const [{ data: homesMap, fetching, error }] = useSearchHomesByLocationQuery({
     variables: filterVariables,
   })

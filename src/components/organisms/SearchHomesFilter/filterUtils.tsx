@@ -4,16 +4,14 @@ import { RadioGroup } from '@headlessui/react'
 import { PopoverButton } from 'src/components/molecules/PopoverMenuItem'
 import { addDollar, shortenNumber } from 'src/lib/util'
 import { FilterIcon } from '@heroicons/react/outline'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { CitySlice, setHomesFilter } from 'src/store/cities/citySlice'
+import { setHomesFilter } from 'src/store/home/homeSlice'
 import {
-  selectSearchText,
   selectMapSearchOptions,
   MapSlice,
   setViewport,
-  setMapSearchSelected,
   setSearchText,
 } from 'src/store/map/mapSlice'
 
@@ -211,7 +209,6 @@ export const FilterButton = ({ setShowSidebar }: any) => (
 
 export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
   const dispatch = useAppDispatch()
-  console.log('Come on.../')
 
   const [input$] = useState(
     () =>

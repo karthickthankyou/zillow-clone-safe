@@ -3512,14 +3512,10 @@ export type SearchPropertiesByLocationQuery = {
 
 export type SearchHomesByLocationQueryVariables = Exact<{
   distinct_on?: InputMaybe<Array<Homes_Select_Column> | Homes_Select_Column>
-  homesLimit?: InputMaybe<Scalars['Int']>
-  citiesLimit?: InputMaybe<Scalars['Int']>
-  statesLimit?: InputMaybe<Scalars['Int']>
+  limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
   order_by?: InputMaybe<Array<Homes_Order_By> | Homes_Order_By>
-  homesWhere?: InputMaybe<Homes_Bool_Exp>
-  citiesWhere?: InputMaybe<Location_Stats_Bool_Exp>
-  statesWhere?: InputMaybe<Location_Stats_Bool_Exp>
+  where?: InputMaybe<Homes_Bool_Exp>
 }>
 
 export type SearchHomesByLocationQuery = {
@@ -3531,6 +3527,15 @@ export type SearchHomesByLocationQuery = {
     lng: number
     style: string
   }>
+}
+
+export type SearchCitiesByLocationQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
+}>
+
+export type SearchCitiesByLocationQuery = {
+  __typename?: 'query_root'
   cities: Array<{
     __typename?: 'location_stats'
     id: string
@@ -3538,6 +3543,15 @@ export type SearchHomesByLocationQuery = {
     lng: any
     totalHomes: any
   }>
+}
+
+export type SearchStatesByLocationQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
+}>
+
+export type SearchStatesByLocationQuery = {
+  __typename?: 'query_root'
   states: Array<{
     __typename?: 'location_stats'
     id: string
@@ -3587,6 +3601,23 @@ export type GetHomeByIdQuery = {
     | undefined
 }
 
+export type GetRegionByIdQueryVariables = Exact<{
+  id: Scalars['String']
+}>
+
+export type GetRegionByIdQuery = {
+  __typename?: 'query_root'
+  location_stats_by_pk?:
+    | {
+        __typename?: 'location_stats'
+        id: string
+        totalHomes: any
+        bedsPrice: any
+      }
+    | null
+    | undefined
+}
+
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
@@ -3594,8 +3625,11 @@ export const namedOperations = {
     getCities: 'getCities',
     SearchPropertiesByLocation: 'SearchPropertiesByLocation',
     SearchHomesByLocation: 'SearchHomesByLocation',
+    SearchCitiesByLocation: 'SearchCitiesByLocation',
+    SearchStatesByLocation: 'SearchStatesByLocation',
     SearchHomesByLocationDetailed: 'SearchHomesByLocationDetailed',
     GetHomeById: 'GetHomeById',
+    GetRegionById: 'GetRegionById',
   },
 }
 
@@ -3691,38 +3725,22 @@ export function useSearchPropertiesByLocationQuery(
 export const SearchHomesByLocationDocument = /*#__PURE__*/ gql`
   query SearchHomesByLocation(
     $distinct_on: [homes_select_column!]
-    $homesLimit: Int
-    $citiesLimit: Int
-    $statesLimit: Int
+    $limit: Int
     $offset: Int
     $order_by: [homes_order_by!]
-    $homesWhere: homes_bool_exp
-    $citiesWhere: location_stats_bool_exp
-    $statesWhere: location_stats_bool_exp
+    $where: homes_bool_exp
   ) {
     homes(
       distinct_on: $distinct_on
-      limit: $homesLimit
+      limit: $limit
       offset: $offset
       order_by: $order_by
-      where: $homesWhere
+      where: $where
     ) {
       id
       lat
       lng
       style
-    }
-    cities: location_stats(limit: $citiesLimit, where: $citiesWhere) {
-      id
-      lat
-      lng
-      totalHomes
-    }
-    states: location_stats(limit: $statesLimit, where: $statesWhere) {
-      id
-      lat
-      lng
-      totalHomes
     }
   }
 `
@@ -3735,6 +3753,50 @@ export function useSearchHomesByLocationQuery(
 ) {
   return Urql.useQuery<SearchHomesByLocationQuery>({
     query: SearchHomesByLocationDocument,
+    ...options,
+  })
+}
+export const SearchCitiesByLocationDocument = /*#__PURE__*/ gql`
+  query SearchCitiesByLocation($limit: Int, $where: location_stats_bool_exp) {
+    cities: location_stats(limit: $limit, where: $where) {
+      id
+      lat
+      lng
+      totalHomes
+    }
+  }
+`
+
+export function useSearchCitiesByLocationQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SearchCitiesByLocationQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<SearchCitiesByLocationQuery>({
+    query: SearchCitiesByLocationDocument,
+    ...options,
+  })
+}
+export const SearchStatesByLocationDocument = /*#__PURE__*/ gql`
+  query SearchStatesByLocation($limit: Int, $where: location_stats_bool_exp) {
+    states: location_stats(limit: $limit, where: $where) {
+      id
+      lat
+      lng
+      totalHomes
+    }
+  }
+`
+
+export function useSearchStatesByLocationQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SearchStatesByLocationQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<SearchStatesByLocationQuery>({
+    query: SearchStatesByLocationDocument,
     ...options,
   })
 }
@@ -3791,6 +3853,24 @@ export function useGetHomeByIdQuery(
 ) {
   return Urql.useQuery<GetHomeByIdQuery>({
     query: GetHomeByIdDocument,
+    ...options,
+  })
+}
+export const GetRegionByIdDocument = /*#__PURE__*/ gql`
+  query GetRegionById($id: String!) {
+    location_stats_by_pk(id: $id) {
+      id
+      totalHomes
+      bedsPrice
+    }
+  }
+`
+
+export function useGetRegionByIdQuery(
+  options: Omit<Urql.UseQueryArgs<GetRegionByIdQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetRegionByIdQuery>({
+    query: GetRegionByIdDocument,
     ...options,
   })
 }

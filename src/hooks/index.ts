@@ -56,10 +56,11 @@ export const useScroll = (): [
   return [scrollPos, scrollEl, scrollListesener, scroll]
 }
 
-export default function useTriggerOnScroll(): [
-  boolean,
-  RefObject<HTMLDivElement>
-] {
+export default function useTriggerOnScroll({
+  triggerPoint,
+}: {
+  triggerPoint: number
+}): [boolean, RefObject<HTMLDivElement>] {
   const [triggered, setTriggered] = useState<boolean>(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -82,7 +83,8 @@ export default function useTriggerOnScroll(): [
     function hasScrolledTo(element: HTMLElement) {
       if (!element) return false
       const { top } = getOffset(element)
-      const offset = window.innerHeight / 2
+      // const offset = 0
+      const offset = window.innerHeight * triggerPoint
       return top - offset <= window.pageYOffset
     }
 
@@ -100,10 +102,20 @@ export default function useTriggerOnScroll(): [
     }
     setTimeout(() => {
       window.addEventListener('scroll', onScroll)
-    }, 100)
+    }, 10)
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
-  }, [ref, triggered])
+  }, [ref, triggerPoint, triggered])
   return [triggered, ref]
+}
+
+export const useScrollTo = () => {
+  const interactiveMapRef = useRef<HTMLDivElement | null>(null)
+
+  const executeScroll = () =>
+    interactiveMapRef.current?.scrollIntoView({
+      behavior: 'smooth',
+    })
+  return [interactiveMapRef, executeScroll] as const
 }

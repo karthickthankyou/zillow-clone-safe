@@ -1,7 +1,6 @@
 import { ReactElement } from 'react'
 import Image from 'src/components/atoms/Image'
 import SlideUp from 'src/components/molecules/Slideup/Slideup'
-import useTriggerOnScroll from 'src/hooks'
 
 export interface IBannerHomeLoanProps {
   reverse?: boolean
@@ -24,8 +23,6 @@ const BannerHomeLoan = ({
     ? 'items-end text-right'
     : 'items-start text-left'
 
-  const [show, el] = useTriggerOnScroll()
-
   return (
     <div className={`flex gap-6 bg-opacity-25 bg-contain h-144 ${flexClass}`}>
       <div className={`transform ${skewClass} flex-1`}>
@@ -37,9 +34,8 @@ const BannerHomeLoan = ({
       </div>
       <div
         className={`flex flex-col justify-center flex-1 p-3 ${textAlignClass} `}
-        ref={el}
       >
-        <SlideUp show={show}>
+        <SlideUp>
           <div className='text-4xl font-semibold tracking-tighter text-gradient bg-gradient-to-tr via-black to-primary-500 from-primary-500'>
             {title}
           </div>

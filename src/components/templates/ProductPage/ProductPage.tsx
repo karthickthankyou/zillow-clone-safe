@@ -5,6 +5,7 @@ import ProductPageCarousel from 'src/components/organisms/ProductPageCarousel'
 import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
 import HScroll from 'src/components/molecules/HScroll'
+import { MapProvider } from 'src/store/map/mapContext'
 import {
   features as featuresData,
   interiors as interiorsData,
@@ -16,7 +17,6 @@ import {
   otherDetails,
 } from './data'
 import Details from './Details'
-import { MapProvider } from 'src/store/map/mapContext'
 
 export interface IProductPageProps {}
 

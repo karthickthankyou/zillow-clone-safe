@@ -4,15 +4,12 @@ import {
   distinctUntilChanged,
   filter,
   map,
-  Observable,
   of,
   retry,
   switchMap,
   tap,
 } from 'rxjs'
 
-import { AsyncUser } from 'src/types'
-import { CitySlice } from '../cities/citySlice'
 import { store, StoreObservableType } from '..'
 import { setMapSearchOptions } from '../map/mapSlice'
 import { MapSearch, PlaceTypesType, placeTypeZoom } from '../static'
