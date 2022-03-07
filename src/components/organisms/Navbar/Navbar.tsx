@@ -1,7 +1,7 @@
 // import { Popover } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { ReactElement, useMemo, useState } from 'react'
-
+import { useAppDispatch, useAppSelector } from 'src/store'
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
   PopoverButton,
@@ -11,6 +11,8 @@ import PopoverParent, {
 import Sidebar from 'src/components/molecules/Sidebar'
 import Accordion from 'src/components/molecules/Accordion'
 import MenuIcon from '@heroicons/react/outline/MenuIcon'
+import { selectUser, signout } from 'src/store/user'
+import { getInitials } from 'src/lib/util'
 
 export interface INavbarProps {}
 
@@ -227,6 +229,8 @@ const Navbar = () => {
     [pathWithFixedNav, url]
   )
   const [open, setOpen] = useState(false)
+  const user = useAppSelector(selectUser)
+  const dispatch = useAppDispatch()
 
   return (
     <nav
@@ -271,18 +275,26 @@ const Navbar = () => {
             </div>
           </Sidebar.Body>
           <Sidebar.Footer>
-            <Link
-              href='/login'
-              className='py-2 block w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
-            >
-              Login
-            </Link>
-            <Link
-              href='/signup'
-              className='py-2 block w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
-            >
-              Join now
-            </Link>
+            {!user.data.uid ? (
+              <>
+                <Link
+                  href='/login'
+                  className='py-2 block w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
+                >
+                  Login
+                </Link>
+                <Link
+                  href='/signup'
+                  className='py-2 block w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
+                >
+                  Join now
+                </Link>
+              </>
+            ) : (
+              <button type='button' onClick={() => dispatch(signout())}>
+                Logout
+              </button>
+            )}
           </Sidebar.Footer>
         </Sidebar>
         <div className='container flex items-center justify-center w-full h-6 mx-auto'>
@@ -317,18 +329,29 @@ const Navbar = () => {
                 >
                   Help
                 </Link>
-                <Link
-                  href='/login'
-                  className='py-1.5 px-4 text-sm rounded-full border border-primary-600 font-medium text-primary-600 capitalize'
-                >
-                  Login
-                </Link>
-                <Link
-                  href='/signup'
-                  className='py-1.5 px-4 text-sm rounded-full bg-primary-500 border border-primary-500 text-white font-medium capitalize'
-                >
-                  Join now
-                </Link>
+                {!user.data.uid ? (
+                  <>
+                    <Link
+                      href='/login'
+                      className='py-1.5 px-4 text-sm rounded-full border border-primary-600 font-medium text-primary-600 capitalize'
+                    >
+                      Login
+                    </Link>
+                    <Link
+                      href='/signup'
+                      className='py-1.5 px-4 text-sm rounded-full bg-primary-500 border border-primary-500 text-white font-medium capitalize'
+                    >
+                      Join now
+                    </Link>
+                  </>
+                ) : (
+                  <button
+                    type='button'
+                    className='w-6 h-6 text-xs border rounded-full shadow-inner border-primary-500 text-primary-600'
+                  >
+                    {getInitials(user.data.displayName || '')}
+                  </button>
+                )}
               </>
             </PopoverGroup>
           </div>

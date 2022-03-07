@@ -1,11 +1,11 @@
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
-import { Properties } from 'src/generated/graphql'
+import { Homes } from 'src/generated/graphql'
 import { useAppDispatch } from 'src/store'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
-export type IPropertyCardProps = Partial<Properties>
+export type IPropertyCardProps = Partial<Homes>
 
 const PropertyCard = ({
   id,
@@ -34,6 +34,7 @@ const PropertyCard = ({
         />
         <button
           type='button'
+          onClick={() => console.log('id: ', id)}
           className='absolute top-0 right-0 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
         >
           <HeartIconReg className='w-8 h-8 p-1' />

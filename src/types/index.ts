@@ -25,3 +25,16 @@ export type AsyncData<T> = {
 export type AsyncUser = AsyncData<User>
 
 export type Children = ReactElement | ReactElement[] | string
+
+export type NotificationType = {
+  id: string
+  message: Children
+  type?: 'success' | 'error' | 'info' | 'warning'
+  position?:
+    | 'top-right'
+    | 'top-left'
+    | 'top-center'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'bottom-center'
+}

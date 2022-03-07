@@ -127,3 +127,13 @@ query GetRegionById($id: String!) {
     bedsPrice
   }
 }
+
+mutation InsertUserHome(
+  $homeId: Int
+  $uid: uuid
+  $type: user_homes_types_enum
+) {
+  insert_user_homes_one(object: { homeId: $homeId, uid: $uid, type: $type }) {
+    id
+  }
+}

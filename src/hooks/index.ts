@@ -1,4 +1,22 @@
 import { RefObject, useEffect, useRef, useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  Subject,
+  tap,
+  delay,
+} from 'rxjs'
+import { useAppDispatch } from 'src/store'
+import {
+  addNotification,
+  removeNotification,
+  resetNotification,
+} from 'src/store/utils/utilsStore'
+import { NotificationType } from 'src/types'
 
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -118,4 +136,38 @@ export const useScrollTo = () => {
       behavior: 'smooth',
     })
   return [interactiveMapRef, executeScroll] as const
+}
+
+const notifySubject$ = new Subject<Omit<NotificationType, 'id'>>()
+export const notify = ({
+  message,
+  type = 'info',
+  position = 'bottom-center',
+}: Omit<NotificationType, 'id'>) => {
+  // Add map bounds into the data as default parameters.
+  notifySubject$.next({ message, type, position })
+}
+
+export const useNotification = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const subscription = notifySubject$
+      .pipe(
+        debounceTime(100),
+        distinctUntilChanged(),
+        map((v) => ({ ...v, id: uuidv4() })),
+        tap((v) => dispatch(addNotification(v))),
+        delay(4000),
+        tap((v) => dispatch(removeNotification(v.id))),
+        catchError(() => EMPTY)
+      )
+      .subscribe()
+    return () => {
+      dispatch(resetNotification())
+      subscription.unsubscribe()
+    }
+  }, [dispatch])
+
+  return [notify]
 }

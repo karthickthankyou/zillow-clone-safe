@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import { MapProvider } from 'src/store/map/mapContext'
+import ScrollBanner from 'src/components/molecules/ScrollBanner'
 import Mapbox from 'src/components/organisms/Mapbox'
 import {
   CityMarkers,
@@ -14,6 +16,7 @@ import {
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
+
 import Hero from '../Hero'
 
 export interface IHomeProps {}
@@ -32,8 +35,12 @@ const Home = () => {
             and rental listings all over the United States.
           </div>
           <p className='max-w-md mt-4 text-gray-600'>
-            Whether you’re buying, selling or renting, we can help you move
-            forward.
+            Whether you’re{' '}
+            <ScrollBanner
+              input={['buying', 'selling', 'renting']}
+              className='font-bold text-primary-600 '
+            />
+            , we can help you move forward.
           </p>
         </Container>
 

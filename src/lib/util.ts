@@ -41,3 +41,9 @@ export const bringHighlightedItemToFront = (id: any, items: { id: any }[]) => {
   if (!itemFound) return items
   return [...items.filter((item) => item.id !== id), itemFound]
 }
+
+export const getInitials = (text: string) =>
+  text
+    .split(' ')
+    .map((n) => n[0])
+    .join('')

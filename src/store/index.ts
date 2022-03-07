@@ -5,13 +5,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import userReducer from './user'
 import mapReducer from './map/mapSlice'
 import homeReducer from './home/homeSlice'
-import { createObservables } from './streams'
+import utilReducer from './utils/utilsStore'
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     map: mapReducer,
     home: homeReducer,
+    utils: utilReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -33,10 +34,6 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
 
 export const store$ = from(store)
 export type StoreObservableType = typeof store$
-
-const { city$ } = createObservables(store$)
-
-city$.subscribe()
 
 // Questions about synchronous Redux
 // https://stackoverflow.com/questions/34570758/why-do-we-need-middleware-for-async-flow-in-redux

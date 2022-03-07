@@ -6,8 +6,10 @@ import { useEffect, useState } from 'react'
 import { auth } from 'src/config/firebase'
 import { Provider as ReduxProvider } from 'react-redux'
 import Layout from 'src/components/templates/Layout'
+
 import 'src/globals.css'
 
+import Notifications from 'src/components/molecules/Notification'
 import { store } from '../src/store'
 
 // if (process.env.NEXT_PUBLIC_API_MOCKING) {
@@ -26,9 +28,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           const jwtToken = await user.getIdToken()
           settoken(jwtToken)
 
-          // const idTokenResult = await user.getIdTokenResult()
-          // const hasuraClaim =
-          //   idTokenResult.claims['https://hasura.io/jwt/claims']
+          const idTokenResult = await user.getIdTokenResult()
+          const hasuraClaim =
+            idTokenResult.claims['https://hasura.io/jwt/claims']
+          console.log('hasuraClaim', hasuraClaim)
         } else {
           settoken('')
         }
@@ -41,6 +44,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         Authorization: `Bearer ${token}`,
       }
     : {}
+  console.log('headers', headers)
 
   const client = createClient({
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
@@ -57,6 +61,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Layout>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
+          <Notifications />
         </Layout>
       </ReduxProvider>
     </UrqlProvider>

@@ -1,11 +1,21 @@
 import SliderMui from 'src/components/molecules/SliderMui'
+
 import Autocomplete from 'src/components/molecules/Autocomplete'
 import { RadioGroup } from '@headlessui/react'
 import { PopoverButton } from 'src/components/molecules/PopoverMenuItem'
 import { addDollar, shortenNumber } from 'src/lib/util'
 import { FilterIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
-import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  EMPTY,
+  map,
+  Subject,
+  tap,
+  delay,
+} from 'rxjs'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setHomesFilter } from 'src/store/home/homeSlice'
 import {
@@ -14,6 +24,8 @@ import {
   setViewport,
   setSearchText,
 } from 'src/store/map/mapSlice'
+import { useSearchPlaces } from 'src/store/map/mapHooks'
+import { NotificationType } from 'src/types'
 
 const homeTypes = [
   'Single Family Home',
@@ -244,6 +256,7 @@ export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
 }
 
 export const LocationSearch = () => {
+  useSearchPlaces()
   const dispatch = useAppDispatch()
   const cityList = useAppSelector(selectMapSearchOptions)
   return (
@@ -260,7 +273,7 @@ export const LocationSearch = () => {
       isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
       onChange={(_, v) => {
         if (v) {
-          const { displayName, latitude, longitude, zoom } = v
+          const { latitude, longitude, zoom } = v
           dispatch(setViewport({ latitude, longitude, zoom }))
         }
       }}

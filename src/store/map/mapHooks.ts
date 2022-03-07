@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '..'
 import { selectViewport, setViewport, setBounds } from './mapSlice'
 import { DEBOUNCE_DELAY, Viewport } from '../static'
 import { useMap } from './mapContext'
+import { searchPlaces$ } from '../streams'
 
 export const useDispatchMapBounds = ({ viewport }: { viewport: Viewport }) => {
   const dispatch = useAppDispatch()
@@ -45,4 +46,13 @@ export const useInitializeViewport = () => {
   const mapRef = useRef<MapRef>(null)
 
   return { viewport, setViewport: setViewportFn, mapRef }
+}
+
+export const useSearchPlaces = () => {
+  useEffect(() => {
+    const subscription = searchPlaces$.subscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [])
 }

@@ -43,6 +43,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<User | null>) => {
+      console.log('setUser', action.payload)
       state.data.uid = action.payload?.uid || null
       state.data.displayName = action.payload?.displayName || null
       state.fulfilled = true

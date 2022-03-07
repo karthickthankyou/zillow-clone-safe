@@ -5,13 +5,13 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyA-geRxdk1SOwNsDZ0zZNUvOxxvyD6yZrc',
-  authDomain: 'ultimate-cra-boilerplate.firebaseapp.com',
-  projectId: 'ultimate-cra-boilerplate',
-  storageBucket: 'ultimate-cra-boilerplate.appspot.com',
-  messagingSenderId: '1006590721329',
-  appId: '1:1006590721329:web:8f2ab4d76166dd15f08410',
-  measurementId: 'G-PT42MDEJ9T',
+  apiKey: 'AIzaSyAI95p-yl6U-kavucE-V81QkUL6uRSGRxE',
+  authDomain: 'zillow-clone-karthick.firebaseapp.com',
+  projectId: 'zillow-clone-karthick',
+  storageBucket: 'zillow-clone-karthick.appspot.com',
+  messagingSenderId: '654953459891',
+  appId: '1:654953459891:web:388170cdf0de9c4b7ac0c6',
+  measurementId: 'G-T62TR0KDWT',
 }
 
 // Initialize Firebase

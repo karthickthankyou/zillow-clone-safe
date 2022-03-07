@@ -66,12 +66,14 @@
     "react-dom": "17.0.2",
     "react-fast-compare": "^3.2.0",
     "react-hook-form": "^7.24.0",
+    "react-hot-toast": "^2.2.0",
     "react-map-gl": "^6.1.18",
     "react-redux": "^7.2.6",
     "react-spring": "^9.4.2",
     "rxjs": "^7.5.2",
     "title": "^3.4.4",
     "urql": "^2.0.6",
+    "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
@@ -99,6 +101,7 @@
     "@types/mapbox-gl": "^2.6.0",
     "@types/node": "16.11.10",
     "@types/react": "17.0.37",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "autoprefixer": "^10.4.1",
