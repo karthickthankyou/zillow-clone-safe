@@ -13,6 +13,7 @@ import {
 } from 'src/store/map/mapSlice'
 
 import { useRouter } from 'next/dist/client/router'
+import { LocationSearch } from 'src/components/organisms/SearchHomesFilter/filterUtils'
 
 export interface IHeroProps {
   className?: string
@@ -23,7 +24,7 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
   const dispatch = useDispatch()
 
   /** Selectors */
-  const { data: cityList, fetching } = useAppSelector(selectMapSearchOptions)
+  const cityList = useAppSelector(selectMapSearchOptions)
 
   /** Hooks */
   const router = useRouter()
@@ -37,19 +38,25 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
           Change starts <br /> <em>here</em>
         </div>
 
-        <Autocomplete<
+        <LocationSearch
+          className='mt-12'
+          onChange={() => router.push({ pathname: '/homes' }, '/homes')}
+        />
+
+        {/* <Autocomplete<
           MapSlice['mapSearchOptions']['data'][number],
           false,
           false,
           false
         >
-          options={cityList}
+          options={cityList.data}
           getOptionLabel={(x) => x.displayName}
           onInputChange={(_, v) => dispatch(setSearchText(v))}
-          loading={fetching}
+          loading={cityList.fetching}
           isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
           onChange={(_, v) => {
             const { displayName, latitude, longitude, zoom } = v!
+            console.log('onChange: ', v)
 
             if (v) {
               dispatch(
@@ -73,7 +80,7 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
             }
           }}
           className='w-full mt-12 rounded-md'
-        />
+        /> */}
         <button
           type='button'
           onClick={() => executeScroll()}

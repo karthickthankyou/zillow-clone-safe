@@ -138,7 +138,7 @@ export const HomeMarkers = () => {
           style={marker.style}
           highlighted={highlightedHomeId === marker.id}
           mouseHoverAction={() => dispatch(setHighlightedHomeId(marker.id))}
-          mouseLeaveAction={() => dispatch(setHighlightedHomeId(null))}
+          mouseLeaveAction={() => null}
         />
       </animated.div>
     </>

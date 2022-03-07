@@ -11,7 +11,7 @@ const ScrollBanner = ({ input, className }: IScrollBannerProps) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setSelected((prev) => (prev + 1) % input.length)
-    }, 4000)
+    }, 2000)
 
     return () => {
       clearInterval(interval)

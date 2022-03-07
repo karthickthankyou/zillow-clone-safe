@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from 'src/config/firebase'
 import { useAppDispatch } from '..'
@@ -15,4 +15,30 @@ export const useUserListener = () => {
     })
     return unsubscribe
   }, [dispatch])
+}
+
+export const useGetAuthHeader = () => {
+  const [token, settoken] = useState('')
+
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          const jwtToken = await user.getIdToken()
+          settoken(jwtToken)
+
+          // const idTokenResult = await user.getIdTokenResult()
+          // const hasuraClaim =
+          //   idTokenResult.claims['https://hasura.io/jwt/claims']
+        } else {
+          settoken('')
+        }
+      }),
+    []
+  )
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  }
+  return token ? headers : {}
 }

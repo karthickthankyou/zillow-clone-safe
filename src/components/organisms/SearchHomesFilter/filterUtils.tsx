@@ -255,7 +255,13 @@ export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
   }, [dirtyFields, filterData, input$])
 }
 
-export const LocationSearch = () => {
+export const LocationSearch = ({
+  onChange,
+  className,
+}: {
+  onChange?: () => void
+  className?: string
+}) => {
   useSearchPlaces()
   const dispatch = useAppDispatch()
   const cityList = useAppSelector(selectMapSearchOptions)
@@ -275,9 +281,10 @@ export const LocationSearch = () => {
         if (v) {
           const { latitude, longitude, zoom } = v
           dispatch(setViewport({ latitude, longitude, zoom }))
+          if (onChange) onChange()
         }
       }}
-      className='rounded-lg'
+      className={`rounded-lg ${className}`}
     />
   )
 }

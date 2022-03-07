@@ -20,48 +20,41 @@ import { selectHomeFilters } from 'src/store/home/homeSlice'
 import { MapProvider } from 'src/store/map/mapContext'
 
 // Get search, lat, lng from query string
-const ProductListingPage = () => {
-  const filterVariables = useAppSelector(selectHomeFilters)
-  const [{ data: homesMap, fetching, error }] = useSearchHomesByLocationQuery({
-    variables: filterVariables,
-  })
-
-  return (
-    <div>
-      <NextSeo
-        title='Zillow refactor project.'
-        description='A short description goes here which says what goes here.'
-      />
-      <div className='container mx-auto'>
-        <SearchHomesFilter />
-        <div className='flex flex-col gap-5 lg:flex-row'>
-          <div className='flex-1 lg:block'>
-            <div className='sticky top-0 w-full col-span-1 overflow-hidden rounded h-screen50 lg:h-screen '>
-              <MapProvider>
-                <Mapbox>
-                  <HomeMarkers />
-                  <CityMarkers />
-                  <StateMarkers />
-                  <PanelContainer>
-                    <Panel position='center-bottom'>
-                      <Fetching />
-                      <Error />
-                    </Panel>
-                    <Panel position='left-top'>
-                      <ZoomControls />
-                    </Panel>
-                  </PanelContainer>
-                </Mapbox>
-              </MapProvider>
-            </div>
+const ProductListingPage = () => (
+  <div>
+    <NextSeo
+      title='Zillow refactor project.'
+      description='A short description goes here which says what goes here.'
+    />
+    <div className='container mx-auto'>
+      <SearchHomesFilter />
+      <div className='flex flex-col gap-5 lg:flex-row'>
+        <div className='flex-1 lg:block'>
+          <div className='sticky top-0 w-full col-span-1 overflow-hidden rounded h-screen50 lg:h-screen '>
+            <MapProvider>
+              <Mapbox>
+                <HomeMarkers />
+                <CityMarkers />
+                <StateMarkers />
+                <PanelContainer>
+                  <Panel position='center-bottom'>
+                    <Fetching />
+                    <Error />
+                  </Panel>
+                  <Panel position='left-top'>
+                    <ZoomControls />
+                  </Panel>
+                </PanelContainer>
+              </Mapbox>
+            </MapProvider>
           </div>
-          <div className='flex-1'>
-            <ProductListingResult />
-          </div>
+        </div>
+        <div className='flex-1'>
+          <ProductListingResult />
         </div>
       </div>
     </div>
-  )
-}
+  </div>
+)
 
 export default ProductListingPage
