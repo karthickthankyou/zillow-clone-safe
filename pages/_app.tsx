@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 import { createClient, Provider as UrqlProvider, defaultExchanges } from 'urql'
+
 import { devtoolsExchange } from '@urql/devtools'
 
 import { Provider as ReduxProvider } from 'react-redux'
@@ -16,6 +17,17 @@ import { store } from '../src/store'
 //     setupMockServer()
 //   })
 // }
+
+// const wsClient = createWSClient({
+//   url: 'ws://zillow-karthick.herokuapp.com/v1/graphql',
+// })
+// subscriptionExchange({
+//   forwardSubscription: (operation) => ({
+//     subscribe: (sink) => ({
+//       unsubscribe: wsClient.subscribe(operation, sink),
+//     }),
+//   }),
+// }),
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const headers = useGetAuthHeader()
@@ -42,3 +54,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 }
 
 export default MyApp
+
+/**
+ * Getting the subscriptions to work in urql with hasura is hard.
+ * https://github.com/hasura/graphql-engine/discussions/6996
+ *
+ * Good urql post:
+ * https://levelup.gitconnected.com/urql-the-highly-customizable-and-versatile-graphql-client-69e4e3406904
+ */

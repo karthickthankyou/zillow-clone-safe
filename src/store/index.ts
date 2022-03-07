@@ -6,6 +6,7 @@ import userReducer from './user'
 import mapReducer from './map/mapSlice'
 import homeReducer from './home/homeSlice'
 import utilReducer from './utils/utilsStore'
+import userHomeReducer from './userHome/userHomeSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     map: mapReducer,
     home: homeReducer,
     utils: utilReducer,
+    userHome: userHomeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

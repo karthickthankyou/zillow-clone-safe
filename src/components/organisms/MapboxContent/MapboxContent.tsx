@@ -121,6 +121,7 @@ export const HomeMarkers = () => {
     variables: {
       id: highlightedHomeId!,
     },
+    pause: !highlightedHomeId,
   })
 
   return markersTransitions((style, marker) => (
@@ -138,7 +139,7 @@ export const HomeMarkers = () => {
           style={marker.style}
           highlighted={highlightedHomeId === marker.id}
           mouseHoverAction={() => dispatch(setHighlightedHomeId(marker.id))}
-          mouseLeaveAction={() => null}
+          mouseLeaveAction={() => dispatch(setHighlightedHomeId(null))}
         />
       </animated.div>
     </>

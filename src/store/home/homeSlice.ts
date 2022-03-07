@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import produce from 'immer'
 import { filterDefaultValues } from 'src/components/organisms/SearchHomesFilter/filterUtils'
 import {
   GetHomeByIdQuery,
@@ -13,13 +14,15 @@ import {
   SearchCitiesByLocationQueryVariables,
   Location_Stats_Bool_Exp,
   Homes_Bool_Exp,
+  SearchHomesByLocationDetailedQuery,
 } from 'src/generated/graphql'
 import { UseQueryArgs, UseQueryResponse } from 'urql'
 import { RootState } from '..'
 
-export type HomeSliceType = {
+export interface HomeSliceType {
   homesFilter?: Partial<typeof filterDefaultValues>
   homes: UseQueryResponse<SearchHomesByLocationQuery, object>[0]
+  homesDetailed: UseQueryResponse<SearchHomesByLocationDetailedQuery, object>[0]
   cities: UseQueryResponse<SearchCitiesByLocationQuery, object>[0]
   states: UseQueryResponse<SearchStatesByLocationQuery, object>[0]
   hoverStates: {
@@ -34,6 +37,10 @@ export type HomeSliceType = {
 const initialState: HomeSliceType = {
   homesFilter: {},
   homes: {
+    fetching: false,
+    stale: false,
+  },
+  homesDetailed: {
     fetching: false,
     stale: false,
   },
@@ -69,6 +76,13 @@ const homeSlice = createSlice({
       // @ts-ignore
       state.homes = action.payload
     },
+    setHomesDetailed: (
+      state,
+      action: PayloadAction<HomeSliceType['homesDetailed']>
+    ) => {
+      // @ts-ignore
+      state.homesDetailed = action.payload
+    },
     setCities: (state, action: PayloadAction<HomeSliceType['cities']>) => {
       // @ts-ignore
       state.cities = action.payload
@@ -101,6 +115,7 @@ const homeSlice = createSlice({
 export const {
   setHomesFilter,
   setHomes,
+  setHomesDetailed,
   setCities,
   setStates,
   setHighlightedHomeId,
@@ -110,6 +125,8 @@ export const {
 
 /** Selectors */
 export const selectHomesMap = (state: RootState) => state.home.homes
+export const selectHomesDetailed = (state: RootState) =>
+  state.home.homesDetailed
 export const selectCitiesMap = (state: RootState) => state.home.cities
 export const selectStatesMap = (state: RootState) => state.home.states
 
@@ -117,6 +134,48 @@ export const selectMapFetching = createSelector(
   [selectHomesMap, selectCitiesMap, selectStatesMap],
   (homes, cities, states) =>
     homes.fetching || cities.fetching || states.fetching
+)
+
+// type HomesDetailedType = HomeSliceType['homesDetailed']
+
+export type HomesWishlisted = HomeSliceType['homesDetailed'] & {
+  data?:
+    | (HomeSliceType['homesDetailed']['data'] & {
+        homes: Array<{ wishlisted?: boolean }>
+      })
+    | undefined
+}
+
+export const selectHomesDetailedWishlisted = createSelector(
+  [selectHomesDetailed, (state: RootState) => state.userHome.wishlisted],
+  (homesDetailed, wishlisted): HomesWishlisted => {
+    const wishlistedIds =
+      wishlisted.data?.wishlisted.map((home) => home.id) || []
+
+    const homesUpdated = homesDetailed.data?.homes.map((home) => {
+      const isWishlisted = wishlistedIds.includes(home.id)
+      if (!isWishlisted) return home
+
+      return {
+        ...home,
+        wishlisted: true,
+      }
+    })
+
+    // return {
+    //   ...homesDetailed,
+    //   data: {
+    //     ...homesDetailed.data,
+    //     homes: homesUpdated || homesDetailed.data?.homes || [],
+    //   },
+    // }
+
+    return produce(homesDetailed, (homesDetailedDraft) => {
+      if (homesDetailedDraft?.data?.homes) {
+        homesDetailedDraft.data.homes = homesUpdated!
+      }
+    })
+  }
 )
 export const selectMapError = createSelector(
   [selectHomesMap, selectCitiesMap, selectStatesMap],

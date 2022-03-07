@@ -4,6 +4,7 @@ import {
   useSearchHomesByLocationQuery,
   useSearchCitiesByLocationQuery,
   useSearchStatesByLocationQuery,
+  useSearchHomesByLocationDetailedQuery,
 } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
 
@@ -15,6 +16,7 @@ import {
   selectCitiesFilters,
   selectHomeFilters,
   selectStatesFilters,
+  setHomesDetailed,
 } from './homeSlice'
 
 export const useFetchHomesMap = () => {
@@ -64,4 +66,16 @@ export const useGetHighlightedData = () => {
       id: highlightedHomeId!,
     },
   })
+}
+
+export const useHomesDetailed = () => {
+  const variables = useAppSelector(selectHomeFilters)
+  const [{ data, fetching, error, stale }] =
+    useSearchHomesByLocationDetailedQuery({
+      variables,
+    })
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(setHomesDetailed({ data, fetching, error, stale }))
+  }, [data, dispatch, error, fetching, stale])
 }

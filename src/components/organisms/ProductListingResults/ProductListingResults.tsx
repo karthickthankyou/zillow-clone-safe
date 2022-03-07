@@ -1,15 +1,26 @@
-import { useSearchHomesByLocationDetailedQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
-import { selectHomeFilters } from 'src/store/home/homeSlice'
+import { useHomesDetailed } from 'src/store/home/homeNetwork'
+import {
+  selectHomesDetailed,
+  selectHomesDetailedWishlisted,
+} from 'src/store/home/homeSlice'
+
+import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
 
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
 const ProductListingResult = () => {
-  const variables = useAppSelector(selectHomeFilters)
-  const [{ data, fetching, error }] = useSearchHomesByLocationDetailedQuery({
-    variables,
-  })
+  useGetWishlisted()
+  useHomesDetailed()
+
+  const { data, fetching, error } = useAppSelector(
+    selectHomesDetailedWishlisted
+  )
+
+  // data?.homes.map(item => {
+  //   console.log(item.)
+  // })
 
   const NO_RESULTS = !fetching && data?.homes.length === 0
 
@@ -41,6 +52,7 @@ const ProductListingResult = () => {
               beds={item.beds}
               price={item.price}
               sqft={item.sqft}
+              wishlisted={item.wishlisted}
             />
           ))}
     </div>

@@ -1,11 +1,19 @@
+/* eslint-disable camelcase */
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
-import { Homes } from 'src/generated/graphql'
-import { useAppDispatch } from 'src/store'
+import {
+  Homes,
+  useInsertUserHomeMutation,
+  User_Homes_Types_Enum,
+} from 'src/generated/graphql'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
+import { selectUser } from 'src/store/user'
 
-export type IPropertyCardProps = Partial<Homes>
+export type IPropertyCardProps = Partial<Homes> & {
+  wishlisted?: boolean
+}
 
 const PropertyCard = ({
   id,
@@ -14,10 +22,14 @@ const PropertyCard = ({
   bath,
   price,
   sqft,
+  wishlisted,
 }: IPropertyCardProps) => {
   const dispatch = useAppDispatch()
   // const setHighlightedHome = (value: number | null | undefined) =>
   //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
+  const [, updateHomeMutation] = useInsertUserHomeMutation()
+
+  const user = useAppSelector(selectUser)
 
   return (
     <div
@@ -34,7 +46,17 @@ const PropertyCard = ({
         />
         <button
           type='button'
-          onClick={() => console.log('id: ', id)}
+          onClick={() => {
+            const hId = id
+            const { uid } = user.data
+            if (!hId || !uid) return
+
+            updateHomeMutation({
+              hId,
+              type: User_Homes_Types_Enum.Wishlisted,
+              uid,
+            })
+          }}
           className='absolute top-0 right-0 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
         >
           <HeartIconReg className='w-8 h-8 p-1' />

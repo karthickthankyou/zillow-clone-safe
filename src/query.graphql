@@ -102,11 +102,21 @@ query GetRegionById($id: String!) {
 }
 
 mutation InsertUserHome(
-  $homeId: Int
-  $uid: uuid
-  $type: user_homes_types_enum
+  $hId: Int!
+  $uid: String!
+  $type: user_homes_types_enum!
 ) {
-  insert_user_homes_one(object: { homeId: $homeId, uid: $uid, type: $type }) {
+  insert_user_homes_one(object: { hId: $hId, uid: $uid, type: $type }) {
     id
+  }
+}
+
+# ($uid: String!)
+query GetWishlistedHomes($uid: String!) {
+  wishlisted: user_homes(
+    where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+  ) {
+    id
+    hId
   }
 }

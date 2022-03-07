@@ -25,7 +25,6 @@ export type Scalars = {
   jsonb: any
   smallint: any
   timestamptz: any
-  uuid: any
 }
 
 /** Boolean expression to compare columns of type "Float". All fields are combined with logical 'AND'. */
@@ -2577,12 +2576,12 @@ export type Timestamptz_Comparison_Exp = {
 export type User_Homes = {
   __typename?: 'user_homes'
   createdAt: Scalars['timestamptz']
+  hId: Scalars['Int']
   /** An object relationship */
   home: Homes
-  homeId: Scalars['Int']
   id: Scalars['Int']
   type: User_Homes_Types_Enum
-  uid: Scalars['uuid']
+  uid: Scalars['String']
   updatedAt: Scalars['timestamptz']
   /** An object relationship */
   user_homes_type: User_Homes_Types
@@ -2620,7 +2619,7 @@ export type User_Homes_Aggregate_FieldsCountArgs = {
 /** aggregate avg on columns */
 export type User_Homes_Avg_Fields = {
   __typename?: 'user_homes_avg_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
 }
 
@@ -2630,11 +2629,11 @@ export type User_Homes_Bool_Exp = {
   _not?: InputMaybe<User_Homes_Bool_Exp>
   _or?: InputMaybe<Array<User_Homes_Bool_Exp>>
   createdAt?: InputMaybe<Timestamptz_Comparison_Exp>
+  hId?: InputMaybe<Int_Comparison_Exp>
   home?: InputMaybe<Homes_Bool_Exp>
-  homeId?: InputMaybe<Int_Comparison_Exp>
   id?: InputMaybe<Int_Comparison_Exp>
   type?: InputMaybe<User_Homes_Types_Enum_Comparison_Exp>
-  uid?: InputMaybe<Uuid_Comparison_Exp>
+  uid?: InputMaybe<String_Comparison_Exp>
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>
   user_homes_type?: InputMaybe<User_Homes_Types_Bool_Exp>
 }
@@ -2647,18 +2646,18 @@ export enum User_Homes_Constraint {
 
 /** input type for incrementing numeric columns in table "user_homes" */
 export type User_Homes_Inc_Input = {
-  homeId?: InputMaybe<Scalars['Int']>
+  hId?: InputMaybe<Scalars['Int']>
   id?: InputMaybe<Scalars['Int']>
 }
 
 /** input type for inserting data into table "user_homes" */
 export type User_Homes_Insert_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>
+  hId?: InputMaybe<Scalars['Int']>
   home?: InputMaybe<Homes_Obj_Rel_Insert_Input>
-  homeId?: InputMaybe<Scalars['Int']>
   id?: InputMaybe<Scalars['Int']>
   type?: InputMaybe<User_Homes_Types_Enum>
-  uid?: InputMaybe<Scalars['uuid']>
+  uid?: InputMaybe<Scalars['String']>
   updatedAt?: InputMaybe<Scalars['timestamptz']>
   user_homes_type?: InputMaybe<User_Homes_Types_Obj_Rel_Insert_Input>
 }
@@ -2667,9 +2666,9 @@ export type User_Homes_Insert_Input = {
 export type User_Homes_Max_Fields = {
   __typename?: 'user_homes_max_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
-  homeId?: Maybe<Scalars['Int']>
+  hId?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['Int']>
-  uid?: Maybe<Scalars['uuid']>
+  uid?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
@@ -2677,9 +2676,9 @@ export type User_Homes_Max_Fields = {
 export type User_Homes_Min_Fields = {
   __typename?: 'user_homes_min_fields'
   createdAt?: Maybe<Scalars['timestamptz']>
-  homeId?: Maybe<Scalars['Int']>
+  hId?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['Int']>
-  uid?: Maybe<Scalars['uuid']>
+  uid?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
@@ -2702,8 +2701,8 @@ export type User_Homes_On_Conflict = {
 /** Ordering options when selecting data from "user_homes". */
 export type User_Homes_Order_By = {
   createdAt?: InputMaybe<Order_By>
+  hId?: InputMaybe<Order_By>
   home?: InputMaybe<Homes_Order_By>
-  homeId?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   type?: InputMaybe<Order_By>
   uid?: InputMaybe<Order_By>
@@ -2721,7 +2720,7 @@ export enum User_Homes_Select_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
-  HomeId = 'homeId',
+  HId = 'hId',
   /** column name */
   Id = 'id',
   /** column name */
@@ -2735,38 +2734,38 @@ export enum User_Homes_Select_Column {
 /** input type for updating data in table "user_homes" */
 export type User_Homes_Set_Input = {
   createdAt?: InputMaybe<Scalars['timestamptz']>
-  homeId?: InputMaybe<Scalars['Int']>
+  hId?: InputMaybe<Scalars['Int']>
   id?: InputMaybe<Scalars['Int']>
   type?: InputMaybe<User_Homes_Types_Enum>
-  uid?: InputMaybe<Scalars['uuid']>
+  uid?: InputMaybe<Scalars['String']>
   updatedAt?: InputMaybe<Scalars['timestamptz']>
 }
 
 /** aggregate stddev on columns */
 export type User_Homes_Stddev_Fields = {
   __typename?: 'user_homes_stddev_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_pop on columns */
 export type User_Homes_Stddev_Pop_Fields = {
   __typename?: 'user_homes_stddev_pop_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_samp on columns */
 export type User_Homes_Stddev_Samp_Fields = {
   __typename?: 'user_homes_stddev_samp_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate sum on columns */
 export type User_Homes_Sum_Fields = {
   __typename?: 'user_homes_sum_fields'
-  homeId?: Maybe<Scalars['Int']>
+  hId?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['Int']>
 }
 
@@ -2819,6 +2818,7 @@ export enum User_Homes_Types_Constraint {
 
 export enum User_Homes_Types_Enum {
   Contacted = 'CONTACTED',
+  RemovedFromWishlist = 'REMOVED_FROM_WISHLIST',
   Viewed = 'VIEWED',
   Wishlisted = 'WISHLISTED',
 }
@@ -2904,7 +2904,7 @@ export enum User_Homes_Update_Column {
   /** column name */
   CreatedAt = 'createdAt',
   /** column name */
-  HomeId = 'homeId',
+  HId = 'hId',
   /** column name */
   Id = 'id',
   /** column name */
@@ -2918,35 +2918,22 @@ export enum User_Homes_Update_Column {
 /** aggregate var_pop on columns */
 export type User_Homes_Var_Pop_Fields = {
   __typename?: 'user_homes_var_pop_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate var_samp on columns */
 export type User_Homes_Var_Samp_Fields = {
   __typename?: 'user_homes_var_samp_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate variance on columns */
 export type User_Homes_Variance_Fields = {
   __typename?: 'user_homes_variance_fields'
-  homeId?: Maybe<Scalars['Float']>
+  hId?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
-}
-
-/** Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'. */
-export type Uuid_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['uuid']>
-  _gt?: InputMaybe<Scalars['uuid']>
-  _gte?: InputMaybe<Scalars['uuid']>
-  _in?: InputMaybe<Array<Scalars['uuid']>>
-  _is_null?: InputMaybe<Scalars['Boolean']>
-  _lt?: InputMaybe<Scalars['uuid']>
-  _lte?: InputMaybe<Scalars['uuid']>
-  _neq?: InputMaybe<Scalars['uuid']>
-  _nin?: InputMaybe<Array<Scalars['uuid']>>
 }
 
 export type MyQueryQueryVariables = Exact<{ [key: string]: never }>
@@ -3083,9 +3070,9 @@ export type GetRegionByIdQuery = {
 }
 
 export type InsertUserHomeMutationVariables = Exact<{
-  homeId?: InputMaybe<Scalars['Int']>
-  uid?: InputMaybe<Scalars['uuid']>
-  type?: InputMaybe<User_Homes_Types_Enum>
+  hId: Scalars['Int']
+  uid: Scalars['String']
+  type: User_Homes_Types_Enum
 }>
 
 export type InsertUserHomeMutation = {
@@ -3094,6 +3081,15 @@ export type InsertUserHomeMutation = {
     | { __typename?: 'user_homes'; id: number }
     | null
     | undefined
+}
+
+export type GetWishlistedHomesQueryVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type GetWishlistedHomesQuery = {
+  __typename?: 'query_root'
+  wishlisted: Array<{ __typename?: 'user_homes'; id: number; hId: number }>
 }
 
 export const namedOperations = {
@@ -3106,6 +3102,7 @@ export const namedOperations = {
     SearchHomesByLocationDetailed: 'SearchHomesByLocationDetailed',
     GetHomeById: 'GetHomeById',
     GetRegionById: 'GetRegionById',
+    GetWishlistedHomes: 'GetWishlistedHomes',
   },
   Mutation: {
     InsertUserHome: 'InsertUserHome',
@@ -3297,11 +3294,11 @@ export function useGetRegionByIdQuery(
 }
 export const InsertUserHomeDocument = /*#__PURE__*/ gql`
   mutation InsertUserHome(
-    $homeId: Int
-    $uid: uuid
-    $type: user_homes_types_enum
+    $hId: Int!
+    $uid: String!
+    $type: user_homes_types_enum!
   ) {
-    insert_user_homes_one(object: { homeId: $homeId, uid: $uid, type: $type }) {
+    insert_user_homes_one(object: { hId: $hId, uid: $uid, type: $type }) {
       id
     }
   }
@@ -3312,4 +3309,26 @@ export function useInsertUserHomeMutation() {
     InsertUserHomeMutation,
     InsertUserHomeMutationVariables
   >(InsertUserHomeDocument)
+}
+export const GetWishlistedHomesDocument = /*#__PURE__*/ gql`
+  query GetWishlistedHomes($uid: String!) {
+    wishlisted: user_homes(
+      where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+    ) {
+      id
+      hId
+    }
+  }
+`
+
+export function useGetWishlistedHomesQuery(
+  options: Omit<
+    Urql.UseQueryArgs<GetWishlistedHomesQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<GetWishlistedHomesQuery>({
+    query: GetWishlistedHomesDocument,
+    ...options,
+  })
 }
