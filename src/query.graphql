@@ -106,8 +106,17 @@ mutation InsertUserHome(
   $uid: String!
   $type: user_homes_types_enum!
 ) {
-  insert_user_homes_one(object: { hId: $hId, uid: $uid, type: $type }) {
+  insert_user_homes_one(
+    object: { hId: $hId, uid: $uid, type: $type }
+    on_conflict: {
+      constraint: user_homes_home_id_uid_key
+      update_columns: [hId, type]
+    }
+  ) {
     id
+    type
+    uid
+    hId
   }
 }
 
@@ -116,6 +125,17 @@ query GetWishlistedHomes($uid: String!) {
   wishlisted: user_homes(
     where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
   ) {
+    id
+    hId
+  }
+}
+
+mutation RemoveWishlist($id: Int!) {
+  update_user_homes_by_pk(
+    pk_columns: { id: $id }
+    _set: { type: REMOVED_FROM_WISHLIST }
+  ) {
+    type
     id
     hId
   }

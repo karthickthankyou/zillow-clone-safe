@@ -1,9 +1,8 @@
 import { useAppSelector } from 'src/store'
 import { useHomesDetailed } from 'src/store/home/homeNetwork'
-import {
-  selectHomesDetailed,
-  selectHomesDetailedWishlisted,
-} from 'src/store/home/homeSlice'
+import { selectHomesDetailed } from 'src/store/home/homeSlice'
+
+import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 
 import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
 
@@ -14,13 +13,11 @@ const ProductListingResult = () => {
   useGetWishlisted()
   useHomesDetailed()
 
-  const { data, fetching, error } = useAppSelector(
-    selectHomesDetailedWishlisted
-  )
+  const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
-  // data?.homes.map(item => {
-  //   console.log(item.)
-  // })
+  const { data, fetching, error } = useAppSelector(selectHomesDetailed)
+
+  console.log('Data: ', data)
 
   const NO_RESULTS = !fetching && data?.homes.length === 0
 
@@ -52,7 +49,9 @@ const ProductListingResult = () => {
               beds={item.beds}
               price={item.price}
               sqft={item.sqft}
-              wishlisted={item.wishlisted}
+              wishlisted={wishlistedHomes?.wishlisted.find(
+                (wishlistedItem) => wishlistedItem.hId === item.id
+              )}
             />
           ))}
     </div>

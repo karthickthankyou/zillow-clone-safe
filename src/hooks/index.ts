@@ -171,3 +171,13 @@ export const useNotification = () => {
 
   return [notify]
 }
+
+export const useKeypress = (key: any, action: () => void) => {
+  useEffect(() => {
+    const onKeyup = (e: { key: any }) => {
+      if (e.key === key) action()
+    }
+    window.addEventListener('keyup', onKeyup)
+    return () => window.removeEventListener('keyup', onKeyup)
+  }, [action, key])
+}

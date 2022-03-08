@@ -1,14 +1,18 @@
 import { ReactElement } from 'react'
 import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
+import MapPopup from 'src/components/molecules/Popup'
 
-import { useGetHomeByIdQuery } from 'src/generated/graphql'
+import {
+  useGetHomeByIdQuery,
+  useInsertUserHomeMutation,
+} from 'src/generated/graphql'
 import { useAppSelector, useAppDispatch } from 'src/store'
 import { Marker } from 'react-map-gl'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
 import MapMarker from 'src/components/molecules/MapMarker'
-import MapPopup from 'src/components/molecules/Popup'
+
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import PlusIcon from '@heroicons/react/outline/PlusIcon'
 import MinusIcon from '@heroicons/react/outline/MinusIcon'
@@ -34,6 +38,7 @@ import {
   selectStatesMap,
 } from 'src/store/home/homeSlice'
 import { bringHighlightedItemToFront } from 'src/lib/util'
+import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 
 export const PanelContainer = ({
   children,
@@ -116,6 +121,7 @@ export const HomeMarkers = () => {
   })
 
   const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
+  const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
   const [highlightedHomeDetails] = useGetHomeByIdQuery({
     variables: {
@@ -124,22 +130,28 @@ export const HomeMarkers = () => {
     pause: !highlightedHomeId,
   })
 
+  const getWishlisted = (homeId: number) =>
+    wishlistedHomes?.wishlisted.find(
+      (wishlistedItem) => wishlistedItem.hId === homeId
+    )
+
   return markersTransitions((style, marker) => (
     <>
       {highlightedHomeId === marker.id && (
         <MapPopup
           marker={marker}
           highlightedHomeData={highlightedHomeDetails}
+          closePopup={() => dispatch(setHighlightedHomeId(null))}
+          wishlisted={getWishlisted(marker.id)}
         />
       )}
       <animated.div key={marker.id} style={style}>
         <MapMarker
-          lat={marker.lat}
-          lng={marker.lng}
-          style={marker.style}
+          home={marker}
           highlighted={highlightedHomeId === marker.id}
-          mouseHoverAction={() => dispatch(setHighlightedHomeId(marker.id))}
-          mouseLeaveAction={() => dispatch(setHighlightedHomeId(null))}
+          setHighlighted={() => dispatch(setHighlightedHomeId(marker.id))}
+          removeHighlighted={() => dispatch(setHighlightedHomeId(null))}
+          wishlisted={getWishlisted(marker.id)}
         />
       </animated.div>
     </>

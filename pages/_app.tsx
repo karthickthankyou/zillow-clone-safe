@@ -1,5 +1,10 @@
 import type { AppProps } from 'next/app'
-import { createClient, Provider as UrqlProvider, defaultExchanges } from 'urql'
+import {
+  createClient,
+  Provider as UrqlProvider,
+  defaultExchanges,
+  cacheExchange,
+} from 'urql'
 
 import { devtoolsExchange } from '@urql/devtools'
 
@@ -32,6 +37,16 @@ import { store } from '../src/store'
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const headers = useGetAuthHeader()
 
+  // const cache = cacheExchange({
+  //   optimistic: {
+  //     favoriteTodo: (variables, cache, info) => ({
+  //       __typename: 'Todo',
+  //       id: variables.id,
+  //       favorite: true,
+  //     }),
+  //   },
+  // })
+
   const client = createClient({
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
     exchanges: [devtoolsExchange, ...defaultExchanges],
@@ -61,4 +76,7 @@ export default MyApp
  *
  * Good urql post:
  * https://levelup.gitconnected.com/urql-the-highly-customizable-and-versatile-graphql-client-69e4e3406904
+ *
+ * Offline support:
+ * https://formidable.com/open-source/urql/docs/graphcache/offline/
  */

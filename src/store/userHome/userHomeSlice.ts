@@ -2,6 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { GetWishlistedHomesQuery } from 'src/generated/graphql'
 import { UseQueryResponse } from 'urql'
+import { RootState } from '..'
 
 export type UserHomeSliceType = {
   wishlisted: UseQueryResponse<GetWishlistedHomesQuery, object>[0]
@@ -29,5 +30,8 @@ const userHomeSlice = createSlice({
 })
 
 export const { setWishlistedHomes } = userHomeSlice.actions
+
+export const selectWishlistedHomes = (state: RootState) =>
+  state.userHome.wishlisted
 
 export default userHomeSlice.reducer

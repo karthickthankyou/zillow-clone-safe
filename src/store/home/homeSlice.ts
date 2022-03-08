@@ -136,12 +136,14 @@ export const selectMapFetching = createSelector(
     homes.fetching || cities.fetching || states.fetching
 )
 
-// type HomesDetailedType = HomeSliceType['homesDetailed']
+type HomesDetailedType = NonNullable<
+  HomeSliceType['homesDetailed']['data']
+>['homes'][number] & { wishlisted?: boolean }
 
 export type HomesWishlisted = HomeSliceType['homesDetailed'] & {
   data?:
-    | (HomeSliceType['homesDetailed']['data'] & {
-        homes: Array<{ wishlisted?: boolean }>
+    | (Omit<HomeSliceType['homesDetailed']['data'], 'homes'> & {
+        homes: Array<HomesDetailedType>
       })
     | undefined
 }

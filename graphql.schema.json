@@ -20241,6 +20241,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "user_homes_home_id_uid_key",
+            "description": "unique or primary key constraint",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user_homes_pkey",
             "description": "unique or primary key constraint",
             "isDeprecated": false,

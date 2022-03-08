@@ -2,7 +2,9 @@
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
+import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 import {
+  GetWishlistedHomesQuery,
   Homes,
   useInsertUserHomeMutation,
   User_Homes_Types_Enum,
@@ -10,9 +12,10 @@ import {
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { selectUser } from 'src/store/user'
+import { useKeypress } from 'src/hooks'
 
 export type IPropertyCardProps = Partial<Homes> & {
-  wishlisted?: boolean
+  wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
 }
 
 const PropertyCard = ({
@@ -25,17 +28,19 @@ const PropertyCard = ({
   wishlisted,
 }: IPropertyCardProps) => {
   const dispatch = useAppDispatch()
+
   // const setHighlightedHome = (value: number | null | undefined) =>
   //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
-  const [, updateHomeMutation] = useInsertUserHomeMutation()
+  const [{ fetching }, updateHomeMutation] = useInsertUserHomeMutation()
 
   const user = useAppSelector(selectUser)
+  useKeypress('Escape', () => dispatch(setHighlightedHomeId(null)))
 
   return (
     <div
       onMouseOver={() => dispatch(setHighlightedHomeId(id))}
       onFocus={() => dispatch(setHighlightedHomeId(id))}
-      onMouseLeave={() => dispatch(setHighlightedHomeId(null))}
+      // onMouseLeave={() => dispatch(setHighlightedHomeId(null))}
     >
       <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
         <Image
@@ -53,13 +58,21 @@ const PropertyCard = ({
 
             updateHomeMutation({
               hId,
-              type: User_Homes_Types_Enum.Wishlisted,
+              type: wishlisted
+                ? User_Homes_Types_Enum.RemovedFromWishlist
+                : User_Homes_Types_Enum.Wishlisted,
               uid,
             })
           }}
           className='absolute top-0 right-0 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
         >
-          <HeartIconReg className='w-8 h-8 p-1' />
+          {/* eslint-disable-next-line no-nested-ternary */}
+          {fetching && 'Loading...'}
+          {!wishlisted ? (
+            <HeartIconReg className='w-8 h-8 p-1' />
+          ) : (
+            <HeartIconSolid className='w-8 h-8 p-1 fill-red-600' />
+          )}
         </button>
       </div>
 
