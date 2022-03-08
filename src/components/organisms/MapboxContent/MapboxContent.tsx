@@ -27,7 +27,6 @@ import { resetMap, zoomIn, zoomOut, setViewport } from 'src/store/map/mapSlice'
 import {
   selectHighlightedHomeId,
   selectHighlightedCityId,
-  setHighlightedHomeId,
   setHighlightedCityId,
   selectHighlightedStateId,
   setHighlightedStateId,
@@ -141,7 +140,6 @@ export const HomeMarkers = () => {
         <MapPopup
           marker={marker}
           highlightedHomeData={highlightedHomeDetails}
-          closePopup={() => dispatch(setHighlightedHomeId(null))}
           wishlisted={getWishlisted(marker.id)}
         />
       )}
@@ -149,8 +147,6 @@ export const HomeMarkers = () => {
         <MapMarker
           home={marker}
           highlighted={highlightedHomeId === marker.id}
-          setHighlighted={() => dispatch(setHighlightedHomeId(marker.id))}
-          removeHighlighted={() => dispatch(setHighlightedHomeId(null))}
           wishlisted={getWishlisted(marker.id)}
         />
       </animated.div>

@@ -9,10 +9,10 @@ import {
   useInsertUserHomeMutation,
   User_Homes_Types_Enum,
 } from 'src/generated/graphql'
-import { useAppDispatch, useAppSelector } from 'src/store'
-import { setHighlightedHomeId } from 'src/store/home/homeSlice'
+import { useAppSelector } from 'src/store'
+
 import { selectUser } from 'src/store/user'
-import { useKeypress } from 'src/hooks'
+import { setHightlight, useKeypress } from 'src/hooks'
 
 export type IPropertyCardProps = Partial<Homes> & {
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
@@ -27,20 +27,18 @@ const PropertyCard = ({
   sqft,
   wishlisted,
 }: IPropertyCardProps) => {
-  const dispatch = useAppDispatch()
-
   // const setHighlightedHome = (value: number | null | undefined) =>
   //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
   const [{ fetching }, updateHomeMutation] = useInsertUserHomeMutation()
 
   const user = useAppSelector(selectUser)
-  useKeypress('Escape', () => dispatch(setHighlightedHomeId(null)))
+  useKeypress('Escape', () => setHightlight(null))
 
   return (
     <div
-      onMouseOver={() => dispatch(setHighlightedHomeId(id))}
-      onFocus={() => dispatch(setHighlightedHomeId(id))}
-      // onMouseLeave={() => dispatch(setHighlightedHomeId(null))}
+      onMouseOver={() => setHightlight(id || null)}
+      onFocus={() => setHightlight(id || null)}
+      // onMouseLeave={() => setHightlight(null)}
     >
       <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
         <Image

@@ -12,14 +12,13 @@ import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 import XIcon from '@heroicons/react/outline/XIcon'
-import { useKeypress } from 'src/hooks'
+import { setHightlight, useKeypress } from 'src/hooks'
 import { useAppSelector } from 'src/store'
 import { selectUser } from 'src/store/user'
 
 export interface IPopupProps {
   marker: SearchHomesByLocationQuery['homes'][number]
   highlightedHomeData?: UseQueryState<GetHomeByIdQuery, object>
-  closePopup: () => void
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
 }
 
@@ -41,7 +40,6 @@ const Skeleton = () => (
 const PopupComponent = ({
   marker,
   highlightedHomeData,
-  closePopup,
   wishlisted,
 }: IPopupProps) => {
   const { data, fetching, error } = highlightedHomeData!
@@ -49,7 +47,7 @@ const PopupComponent = ({
     useInsertUserHomeMutation()
   const user = useAppSelector(selectUser)
 
-  useKeypress('Escape', closePopup)
+  useKeypress('Escape', () => setHightlight(null))
   return (
     <div>
       <Popup
@@ -77,7 +75,7 @@ const PopupComponent = ({
               <button
                 type='button'
                 className='absolute top-0 right-0 p-0.5 rounded-bl bg-black/30 hover:bg-black/40'
-                onClick={closePopup}
+                onClick={() => setHightlight(null)}
               >
                 <XIcon className='w-5 h-5 text-white' />
               </button>

@@ -9,6 +9,7 @@ import {
   Subject,
   tap,
   delay,
+  throttleTime,
 } from 'rxjs'
 import { useAppDispatch } from 'src/store'
 import {
@@ -17,6 +18,7 @@ import {
   resetNotification,
 } from 'src/store/utils/utilsStore'
 import { NotificationType } from 'src/types'
+import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -168,8 +170,29 @@ export const useNotification = () => {
       subscription.unsubscribe()
     }
   }, [dispatch])
+}
 
-  return [notify]
+const highlightSubject$ = new Subject<number | null>()
+export const setHightlight = (id: number | null) => {
+  highlightSubject$.next(id)
+}
+
+export const useHighlightHomes = () => {
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const subscription = highlightSubject$
+      .pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        tap((v) => dispatch(setHighlightedHomeId(v))),
+        catchError(() => EMPTY)
+      )
+      .subscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
+  }, [dispatch])
 }
 
 export const useKeypress = (key: any, action: () => void) => {
