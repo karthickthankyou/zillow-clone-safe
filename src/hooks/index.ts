@@ -19,6 +19,7 @@ import {
 } from 'src/store/utils/utilsStore'
 import { NotificationType } from 'src/types'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit'
 
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -172,20 +173,22 @@ export const useNotification = () => {
   }, [dispatch])
 }
 
-const highlightSubject$ = new Subject<number | null>()
-export const setHightlight = (id: number | null) => {
-  highlightSubject$.next(id)
+const debouncedDispatchSubject$ = new Subject<{
+  payload: any
+  type: string
+}>()
+export const debouncedDispatch = (action: { payload: any; type: string }) => {
+  debouncedDispatchSubject$.next(action)
 }
 
-export const useHighlightHomes = () => {
+export const useDebouncedDispatch = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    const subscription = highlightSubject$
+    const subscription = debouncedDispatchSubject$
       .pipe(
         debounceTime(200),
-        distinctUntilChanged(),
-        tap((v) => dispatch(setHighlightedHomeId(v))),
+        tap((v) => dispatch(v)),
         catchError(() => EMPTY)
       )
       .subscribe()

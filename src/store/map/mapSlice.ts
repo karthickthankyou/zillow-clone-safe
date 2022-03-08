@@ -39,6 +39,13 @@ const mapSlice = createSlice({
     setViewport: (state, action: PayloadAction<MapSlice['viewport']>) => {
       state.viewport = action.payload
     },
+    setViewportLocation: (
+      state,
+      action: PayloadAction<Omit<MapSlice['viewport'], 'zoom'>>
+    ) => {
+      state.viewport.latitude = action.payload.latitude
+      state.viewport.longitude = action.payload.longitude
+    },
     setZoom: (state, action: PayloadAction<MapSlice['viewport']['zoom']>) => {
       state.viewport.zoom = action.payload
     },
@@ -85,6 +92,7 @@ export const {
   zoomIn,
   zoomOut,
   setMapSearchSelected,
+  setViewportLocation,
 } = mapSlice.actions
 
 /**

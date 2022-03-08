@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { NextSeo } from 'next-seo'
 import React from 'react'
 import Home from 'src/components/templates/Home'
-import { useHighlightHomes } from 'src/hooks'
+import { useDebouncedDispatch } from 'src/hooks'
 
 export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
@@ -12,7 +12,7 @@ export const getStaticProps: GetStaticProps = async () => ({
 // {}: InferGetStaticPropsType<typeof getStaticProps>
 
 const HomePage: NextPage = () => {
-  useHighlightHomes()
+  useDebouncedDispatch()
   return (
     <div>
       <NextSeo

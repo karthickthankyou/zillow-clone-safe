@@ -12,9 +12,10 @@ import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 import XIcon from '@heroicons/react/outline/XIcon'
-import { setHightlight, useKeypress } from 'src/hooks'
+import { useKeypress, debouncedDispatch } from 'src/hooks'
 import { useAppSelector } from 'src/store'
 import { selectUser } from 'src/store/user'
+import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export interface IPopupProps {
   marker: SearchHomesByLocationQuery['homes'][number]
@@ -47,7 +48,7 @@ const PopupComponent = ({
     useInsertUserHomeMutation()
   const user = useAppSelector(selectUser)
 
-  useKeypress('Escape', () => setHightlight(null))
+  useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
   return (
     <div>
       <Popup
@@ -75,7 +76,7 @@ const PopupComponent = ({
               <button
                 type='button'
                 className='absolute top-0 right-0 p-0.5 rounded-bl bg-black/30 hover:bg-black/40'
-                onClick={() => setHightlight(null)}
+                onClick={() => debouncedDispatch(setHighlightedHomeId(null))}
               >
                 <XIcon className='w-5 h-5 text-white' />
               </button>
@@ -114,6 +115,12 @@ const PopupComponent = ({
                 <div>{data?.homes_by_pk?.beds} bd</div>
                 <div>{data?.homes_by_pk?.bath} ba</div>
               </div>
+              <button
+                type='button'
+                className='px-2 py-1 mt-1 text-xs font-bold text-black uppercase border border-black rounded'
+              >
+                Visit Home
+              </button>
             </div>
           </div>
         )}

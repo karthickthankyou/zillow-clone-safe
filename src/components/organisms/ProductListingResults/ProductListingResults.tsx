@@ -17,8 +17,6 @@ const ProductListingResult = () => {
 
   const { data, fetching, error } = useAppSelector(selectHomesDetailed)
 
-  console.log('Data: ', data)
-
   const NO_RESULTS = !fetching && data?.homes.length === 0
 
   if (error) {

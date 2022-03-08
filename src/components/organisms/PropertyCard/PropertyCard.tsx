@@ -12,7 +12,8 @@ import {
 import { useAppSelector } from 'src/store'
 
 import { selectUser } from 'src/store/user'
-import { setHightlight, useKeypress } from 'src/hooks'
+import { debouncedDispatch, useKeypress } from 'src/hooks'
+import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export type IPropertyCardProps = Partial<Homes> & {
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
@@ -32,13 +33,13 @@ const PropertyCard = ({
   const [{ fetching }, updateHomeMutation] = useInsertUserHomeMutation()
 
   const user = useAppSelector(selectUser)
-  useKeypress('Escape', () => setHightlight(null))
+  useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
 
   return (
     <div
-      onMouseOver={() => setHightlight(id || null)}
-      onFocus={() => setHightlight(id || null)}
-      // onMouseLeave={() => setHightlight(null)}
+      onMouseOver={() => debouncedDispatch(setHighlightedHomeId(id))}
+      onFocus={() => debouncedDispatch(setHighlightedHomeId(id))}
+      onMouseLeave={() => debouncedDispatch(setHighlightedHomeId(null))}
     >
       <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
         <Image

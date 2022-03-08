@@ -95,6 +95,7 @@ const homeSlice = createSlice({
       state,
       action: PayloadAction<HomeSliceType['hoverStates']['highlightedHomeId']>
     ) => {
+      console.log('SEtting highthigins')
       state.hoverStates.highlightedHomeId = action.payload
     },
     setHighlightedCityId: (
@@ -233,7 +234,9 @@ export const selectHomeFilters = createSelector(
       homesWhere.yearBuilt = { _gte: yearBuilt[0], _lte: yearBuilt[1] }
     if (homeType) homesWhere.style = { _in: homeType }
 
-    return { where: homesWhere, limit: zoom >= 11 ? 50 : 0 }
+    const homesLimit = zoom >= 10 ? 50 : 0
+
+    return { where: homesWhere, limit: homesLimit }
   }
 )
 
