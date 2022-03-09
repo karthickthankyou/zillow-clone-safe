@@ -10,10 +10,10 @@ import { NextPage } from 'next'
 // import { NextSeo } from 'next-seo'
 
 import ProductListingPage from 'src/components/templates/ProductListingPage'
-import { useDebouncedDispatch } from 'src/hooks'
+import { useHomesDetailed } from 'src/store/home/homeNetwork'
 
 const Homes: NextPage = () => {
-  useDebouncedDispatch()
+  useHomesDetailed()
   return <ProductListingPage />
 }
 

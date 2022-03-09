@@ -140,3 +140,28 @@ mutation RemoveWishlist($id: Int!) {
     hId
   }
 }
+
+query GetHome($id: Int!) {
+  homes_by_pk(id: $id) {
+    address
+    bath
+    beds
+    city
+    createdAt
+    description
+    facts
+    features
+    id
+    lat
+    lng
+    lotSize
+    price
+    priceSqft
+    sqft
+    state
+    style
+    updatedAt
+    yearBuilt
+    zipcode
+  }
+}

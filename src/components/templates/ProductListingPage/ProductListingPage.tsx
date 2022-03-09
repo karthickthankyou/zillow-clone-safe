@@ -14,9 +14,6 @@ import {
   StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 
-import { useSearchHomesByLocationQuery } from 'src/generated/graphql'
-import { useAppSelector } from 'src/store'
-import { selectHomeFilters } from 'src/store/home/homeSlice'
 import { MapProvider } from 'src/store/map/mapContext'
 
 // Get search, lat, lng from query string

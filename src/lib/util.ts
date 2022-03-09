@@ -47,3 +47,5 @@ export const getInitials = (text: string) =>
     .split(' ')
     .map((n) => n[0])
     .join('')
+
+export const toAcres = (sqft: number) => (sqft / 43560).toFixed(2)

@@ -1,18 +1,12 @@
 import { useAppSelector } from 'src/store'
-import { useHomesDetailed } from 'src/store/home/homeNetwork'
 import { selectHomesDetailed } from 'src/store/home/homeSlice'
 
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
-
-import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
 
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
 const ProductListingResult = () => {
-  useGetWishlisted()
-  useHomesDetailed()
-
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
   const { data, fetching, error } = useAppSelector(selectHomesDetailed)

@@ -134,8 +134,8 @@ export default function useTriggerOnScroll({
   return [triggered, ref]
 }
 
-export const useScrollTo = () => {
-  const interactiveMapRef = useRef<HTMLDivElement | null>(null)
+export const useScrollTo = <T = HTMLDivElement | null>() => {
+  const interactiveMapRef = useRef<T>(null)
 
   const executeScroll = () =>
     interactiveMapRef.current?.scrollIntoView({
@@ -241,7 +241,6 @@ export const useLongHoverDispatch = () => {
   const disptach = useAppDispatch()
   useEffect(() => {
     const sub = highlightHome$.subscribe((v) => {
-      console.log('Hovered over 500ms', v)
       disptach(v)
     })
 

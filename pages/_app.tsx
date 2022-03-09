@@ -5,6 +5,7 @@ import {
   defaultExchanges,
   cacheExchange,
 } from 'urql'
+import { ssrCache } from 'src/config/urqlClient'
 
 import { devtoolsExchange } from '@urql/devtools'
 
@@ -16,6 +17,7 @@ import 'src/globals.css'
 import Notifications from 'src/components/molecules/Notification'
 import { useGetAuthHeader } from 'src/store/user/userHooks'
 import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
+import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
 import { store } from '../src/store'
 
 // if (process.env.NEXT_PUBLIC_API_MOCKING) {
@@ -38,6 +40,7 @@ import { store } from '../src/store'
 const Global = () => {
   useDebouncedDispatch()
   useLongHoverDispatch()
+  useGetWishlisted()
   return null
 }
 
@@ -61,6 +64,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       headers,
     },
   })
+
+  if (pageProps.urqlState) {
+    ssrCache.restoreData(pageProps.urqlState)
+  }
 
   return (
     <UrqlProvider value={client}>
