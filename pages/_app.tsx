@@ -15,8 +15,8 @@ import 'src/globals.css'
 
 import Notifications from 'src/components/molecules/Notification'
 import { useGetAuthHeader } from 'src/store/user/userHooks'
+import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
 import { store } from '../src/store'
-import { useDebouncedDispatch } from 'src/hooks'
 
 // if (process.env.NEXT_PUBLIC_API_MOCKING) {
 //   import('../src/mocks').then(({ setupMockServer }) => {
@@ -34,6 +34,12 @@ import { useDebouncedDispatch } from 'src/hooks'
 //     }),
 //   }),
 // }),
+
+const Global = () => {
+  useDebouncedDispatch()
+  useLongHoverDispatch()
+  return null
+}
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const headers = useGetAuthHeader()
@@ -62,6 +68,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <Layout>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
           <Component {...pageProps} />
+          <Global />
           <Notifications />
         </Layout>
       </ReduxProvider>

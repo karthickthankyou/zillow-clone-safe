@@ -2,7 +2,7 @@ import { HScrollBodyProps } from '../../molecules/HScroll'
 
 export interface ICitiesProps {
   title: string
-  description: string
+  description?: string
   children: HScrollBodyProps['children']
 }
 

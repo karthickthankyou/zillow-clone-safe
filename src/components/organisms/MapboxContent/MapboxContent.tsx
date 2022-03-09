@@ -38,6 +38,7 @@ import {
 } from 'src/store/home/homeSlice'
 import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
+import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
 
 export const PanelContainer = ({
   children,
@@ -107,6 +108,7 @@ export const Error = () => {
 
 export const HomeMarkers = () => {
   useFetchHomesMap()
+
   const homes = useAppSelector(selectHomesMap).data?.homes || []
   const dispatch = useAppDispatch()
 
@@ -193,10 +195,13 @@ export const CityMarkers = () => {
         <div
           className='flex flex-col items-center justify-center'
           onMouseOver={() => {
-            dispatch(setHighlightedCityId(marker.id))
+            startLongHoverDispatch(setHighlightedCityId(marker.id))
+          }}
+          onMouseLeave={() => {
+            stopLongHoverDispatch()
           }}
           onFocus={() => {
-            dispatch(setHighlightedCityId(marker.id))
+            startLongHoverDispatch(setHighlightedCityId(marker.id))
           }}
         >
           <div className='flex items-center justify-center px-2 py-1 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>

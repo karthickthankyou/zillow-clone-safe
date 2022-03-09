@@ -10,6 +10,9 @@ import {
   tap,
   delay,
   throttleTime,
+  takeUntil,
+  timer,
+  switchMap,
 } from 'rxjs'
 import { useAppDispatch } from 'src/store'
 import {
@@ -206,4 +209,44 @@ export const useKeypress = (key: any, action: () => void) => {
     window.addEventListener('keyup', onKeyup)
     return () => window.removeEventListener('keyup', onKeyup)
   }, [action, key])
+}
+
+const onHover$ = new Subject<{
+  type: string
+  payload: any
+}>()
+const onLeave$ = new Subject()
+
+const highlightHome$ = onHover$.pipe(
+  switchMap((v) =>
+    timer(200).pipe(
+      takeUntil(onLeave$),
+      map(() => v)
+    )
+  )
+)
+
+export const startLongHoverDispatch = (action: {
+  type: string
+  payload: any
+}) => {
+  onHover$.next(action)
+}
+
+export const stopLongHoverDispatch = () => {
+  onLeave$.next(null)
+}
+
+export const useLongHoverDispatch = () => {
+  const disptach = useAppDispatch()
+  useEffect(() => {
+    const sub = highlightHome$.subscribe((v) => {
+      console.log('Hovered over 500ms', v)
+      disptach(v)
+    })
+
+    return () => {
+      sub.unsubscribe()
+    }
+  }, [disptach])
 }

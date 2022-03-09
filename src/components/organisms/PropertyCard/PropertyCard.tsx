@@ -12,7 +12,12 @@ import {
 import { useAppSelector } from 'src/store'
 
 import { selectUser } from 'src/store/user'
-import { debouncedDispatch, useKeypress } from 'src/hooks'
+import {
+  debouncedDispatch,
+  startLongHoverDispatch,
+  stopLongHoverDispatch,
+  useKeypress,
+} from 'src/hooks'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export type IPropertyCardProps = Partial<Homes> & {
@@ -37,9 +42,9 @@ const PropertyCard = ({
 
   return (
     <div
-      onMouseOver={() => debouncedDispatch(setHighlightedHomeId(id))}
-      onFocus={() => debouncedDispatch(setHighlightedHomeId(id))}
-      onMouseLeave={() => debouncedDispatch(setHighlightedHomeId(null))}
+      onMouseOver={() => startLongHoverDispatch(setHighlightedHomeId(id))}
+      onFocus={() => startLongHoverDispatch(setHighlightedHomeId(id))}
+      onMouseLeave={() => stopLongHoverDispatch(null)}
     >
       <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
         <Image

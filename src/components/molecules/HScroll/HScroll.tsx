@@ -1,6 +1,7 @@
 import React, { createContext, ReactElement, useContext, useMemo } from 'react'
 import { useScroll } from 'src/hooks'
 import ChevronLeftIcon from '@heroicons/react/outline/ChevronLeftIcon'
+import { Children } from 'src/types'
 
 export interface IHScrollProps {
   children: ReactElement[] | ReactElement
@@ -21,7 +22,7 @@ export const useScrollContext = () => {
 
 const getArrowDetails = ({ scrollPos, right, distance }: any) => {
   const show = right ? scrollPos[1] > 0 : scrollPos[0] > 0
-  const scrollDistance = right ? distance : -distance
+  const scrollDistance = right ? -distance : distance
   const arrowClasses = right && 'rotate-180'
   return { show, scrollDistance, arrowClasses }
 }
@@ -29,12 +30,14 @@ const getArrowDetails = ({ scrollPos, right, distance }: any) => {
 const Arrow = ({
   children,
   className,
+  arrowClassName,
   distance = -120,
   right,
 }: {
   children?: ReactElement | string
   distance?: number
   className?: string
+  arrowClassName?: string
   right?: boolean
 }) => {
   const { scrollPos, scroll } = useScrollContext()
@@ -54,7 +57,7 @@ const Arrow = ({
     >
       {children || (
         <ChevronLeftIcon
-          className={`w-10 h-10 p-2 bg-white rounded-full ${arrowClasses}`}
+          className={`w-10 h-10 p-2 bg-white rounded-full ${arrowClasses} ${arrowClassName}`}
         />
       )}
     </button>
@@ -83,9 +86,13 @@ const HScrollBody = ({ children, className }: HScrollBodyProps) => {
   )
 }
 
-const Child = ({ children }: any) => (
-  <div className='flex-shrink-0 snap-start'>{children}</div>
-)
+const Child = ({
+  children,
+  className,
+}: {
+  children: Children
+  className?: string
+}) => <div className={`flex-shrink-0 snap-start ${className}`}>{children}</div>
 
 Child.displayName = 'ScrollChild'
 

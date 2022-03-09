@@ -5,7 +5,11 @@ import {
   SearchHomesByLocationQuery,
   GetWishlistedHomesQuery,
 } from 'src/generated/graphql'
-import { debouncedDispatch } from 'src/hooks'
+import {
+  debouncedDispatch,
+  startLongHoverDispatch,
+  stopLongHoverDispatch,
+} from 'src/hooks'
 import { setViewportLocation } from 'src/store/map/mapSlice'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { useAppDispatch } from 'src/store'
@@ -22,8 +26,6 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
   if (['Coop', 'Apartment'].includes(home.style))
     MarkerIcon = OfficeBuildingIcon
 
-  const dispatch = useAppDispatch()
-
   const highlightedClasses =
     highlighted &&
     'text-primary-700 scale-150 opacity-100  border border-primary-700 rounded bg-white'
@@ -34,8 +36,13 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
   return (
     <Marker latitude={home.lat} longitude={home.lng}>
       <MarkerIcon
-        onMouseOver={() => debouncedDispatch(setHighlightedHomeId(home.id))}
-        onTouchStart={() => debouncedDispatch(setHighlightedHomeId(home.id))}
+        onMouseOver={() =>
+          startLongHoverDispatch(setHighlightedHomeId(home.id))
+        }
+        onTouchStart={() =>
+          startLongHoverDispatch(setHighlightedHomeId(home.id))
+        }
+        onMouseOut={() => stopLongHoverDispatch()}
         // onTouchEnd={() => console.log('Touch end')}
         // onTouchStart={() => console.log('Touched start')}
         onClick={() => {

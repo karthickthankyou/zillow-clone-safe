@@ -34,26 +34,26 @@ const ProductPageCarousel = () => {
       <HScroll className='relative flex gap-2 h-28'>
         <HScroll.Body>
           {data.map((item, index) => (
-            <Image
-              key={item}
-              src={item}
-              alt=''
-              className='h-full border border-white rounded-lg shadow-md w-44'
-              onClick={() => setSelected(index)}
-            />
+            <HScroll.Child key={item}>
+              <Image
+                src={item}
+                alt=''
+                className='h-full border border-white rounded-lg shadow-md w-44'
+                onClick={() => setSelected(index)}
+              />
+            </HScroll.Child>
           ))}
         </HScroll.Body>
-        <HScroll.Arrow className='absolute right-0 z-10 h-full'>
-          <div className='flex items-center justify-center w-8 h-8 bg-white rounded-full opacity-90'>
-            &gt;
-          </div>
-        </HScroll.Arrow>
+        <HScroll.Arrow
+          className='absolute left-0 z-10 h-full -translate-x-1/2'
+          arrowClassName='shadow-md'
+        />
 
-        <HScroll.Arrow right className='absolute left-0 z-10 h-full'>
-          <div className='flex items-center justify-center w-8 h-8 bg-white rounded-full opacity-90'>
-            &lt;
-          </div>
-        </HScroll.Arrow>
+        <HScroll.Arrow
+          right
+          className='absolute right-0 z-10 h-full translate-x-1/2'
+          arrowClassName='shadow-md'
+        />
       </HScroll>
     </div>
   )

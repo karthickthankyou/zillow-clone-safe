@@ -7,6 +7,17 @@ import Mapbox from 'src/components/organisms/Mapbox'
 import HScroll from 'src/components/molecules/HScroll'
 import { MapProvider } from 'src/store/map/mapContext'
 import {
+  CityMarkers,
+  Fetching,
+  HomeMarkers,
+  Panel,
+  PanelContainer,
+  StateMarkers,
+  ZoomControls,
+  Error,
+} from 'src/components/organisms/MapboxContent/MapboxContent'
+import Cities from 'src/components/templates/Cities'
+import {
   features as featuresData,
   interiors as interiorsData,
   propertyDetails,
@@ -25,6 +36,7 @@ const ProductPage = () => (
     <div className='grid grid-cols-3 gap-3'>
       <div className='col-span-2 space-y-12'>
         <ProductPageCarousel />
+        <Details title='Facts and features' content={featuresData} />
         <div>
           <div className='mb-4 text-xl'>About</div>
           <div className='max-w-lg leading-relaxed text-gray-800'>
@@ -40,7 +52,6 @@ const ProductPage = () => (
           </div>
         </div>
 
-        <Details title='Facts and features' content={featuresData} />
         <Disclosure>
           {({ open }) => (
             <>
@@ -68,11 +79,27 @@ const ProductPage = () => (
             </>
           )}
         </Disclosure>
-        <MapProvider>
-          <Mapbox>
-            <div>Hello</div>
-          </Mapbox>
-        </MapProvider>
+        <div className='h-144'>
+          <MapProvider>
+            <Mapbox>
+              <HomeMarkers />
+              <CityMarkers />
+              <StateMarkers />
+              <PanelContainer>
+                <Panel position='center-bottom'>
+                  <Fetching />
+                  <Error />
+                </Panel>
+                <Panel position='left-top'>
+                  <ZoomControls />
+                </Panel>
+                <Panel position='right-center'>
+                  <ZoomControls />
+                </Panel>
+              </PanelContainer>
+            </Mapbox>
+          </MapProvider>
+        </div>
         <div className='grid grid-cols-2 gap-3'>
           <div>
             <div className='text-xl font-bold'>Get a call back.</div>
@@ -203,10 +230,17 @@ const ProductPage = () => (
           </button>
         </div>
       </div>
+      <Cities title='Near by homes'>
+        {['Hello', 'World'].map((item) => (
+          <div className='my-12' key={item}>
+            {item}
+          </div>
+        ))}
+      </Cities>
       <HScroll>
         <HScroll.Body>
           {['Hello', 'World'].map((item) => (
-            <div className='my-96' key={item}>
+            <div className='my-12' key={item}>
               {item}
             </div>
           ))}

@@ -16,6 +16,7 @@ import { useKeypress, debouncedDispatch } from 'src/hooks'
 import { useAppSelector } from 'src/store'
 import { selectUser } from 'src/store/user'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
+import Link from 'src/components/atoms/Link'
 
 export interface IPopupProps {
   marker: SearchHomesByLocationQuery['homes'][number]
@@ -115,12 +116,12 @@ const PopupComponent = ({
                 <div>{data?.homes_by_pk?.beds} bd</div>
                 <div>{data?.homes_by_pk?.bath} ba</div>
               </div>
-              <button
-                type='button'
+              <Link
+                href={`/home/${marker.id}`}
                 className='px-2 py-1 mt-1 text-xs font-bold text-black uppercase border border-black rounded'
               >
                 Visit Home
-              </button>
+              </Link>
             </div>
           </div>
         )}
