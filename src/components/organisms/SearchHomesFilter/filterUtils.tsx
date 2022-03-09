@@ -240,7 +240,6 @@ export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
             Object.entries(data).filter(([key]) => keys.includes(key))
           )
         }),
-        tap((v) => console.log('setHomesFilter: ', v)),
         tap((v) => dispatch(setHomesFilter(v))),
         catchError(() => EMPTY)
       )
@@ -249,8 +248,6 @@ export const useDispatchHomeFilter = ({ filterData, dirtyFields }: any) => {
   }, [dispatch, input$])
 
   useEffect(() => {
-    // Add map bounds into the data as default parameters.
-
     input$.next({ data: filterData, dirtyData: dirtyFields })
   }, [dirtyFields, filterData, input$])
 }

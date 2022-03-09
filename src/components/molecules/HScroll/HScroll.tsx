@@ -110,7 +110,7 @@ const HScroll = ({ children, className }: IHScrollProps) => {
   )
 
   return (
-    <div className={`relative ${className} mb-12`}>
+    <div className={`relative ${className}`}>
       <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>
     </div>
   )

@@ -40,8 +40,6 @@ const FormError = ({ error }: { error: FieldError | undefined }) => {
 
 const AgentContactForm = React.forwardRef(
   ({ homeId }: IAgentContactFormProps, ref: any) => {
-    console.log('Home id: ', homeId)
-
     const {
       register,
       handleSubmit,

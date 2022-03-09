@@ -77,7 +77,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
             pre-qualified
           </Link>
         </div>
-        <div className='flex items-center gap-3 mt-6'>
+        <Link href='agent/5' className='flex items-center gap-3 mt-6'>
           <Image
             className='flex-shrink-0 w-12 h-12 rounded-full'
             alt=''
@@ -92,7 +92,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
               Hunt Real Estate
             </div>
           </div>
-        </div>
+        </Link>
         <button
           className='w-full px-3 py-3 mt-3 rounded-md bg-luxury'
           type='button'

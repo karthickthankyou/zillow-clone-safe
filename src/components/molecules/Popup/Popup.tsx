@@ -118,7 +118,7 @@ const PopupComponent = ({
               </div>
               <Link
                 href={`/home/${marker.id}`}
-                className='px-2 py-1 mt-1 text-xs font-bold text-black uppercase border border-black rounded'
+                className='px-2 py-1 mt-1 text-xs font-bold text-center text-black uppercase border border-black rounded'
               >
                 Visit Home
               </Link>

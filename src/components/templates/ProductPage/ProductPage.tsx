@@ -63,7 +63,7 @@ const ProductPage = () => {
       setViewport({
         latitude: homeData?.lat || 0,
         longitude: homeData?.lng || 0,
-        zoom: 10,
+        zoom: 11,
       })
     )
   }, [dispatch, homeData])
@@ -71,7 +71,7 @@ const ProductPage = () => {
   return (
     <div className='container mx-auto '>
       <div className='grid-cols-3 gap-3 lg:grid'>
-        <div className='col-span-2 space-y-12'>
+        <div className='col-span-2 space-y-6 md:space-y-12'>
           <ProductPageCarousel />
           <MainCard
             className='block lg:hidden'
@@ -79,9 +79,18 @@ const ProductPage = () => {
             scrollToContactForm={scrollToContactForm}
           />
 
-          <Details title='Facts and features' content={featuresData} />
+          <Details
+            title='Facts and features'
+            content={[
+              { title: 'Type', content: homeData?.style },
+              { title: 'Year built', content: homeData?.yearBuilt },
+              { title: 'Beds', content: homeData?.beds },
+              { title: 'Bath', content: homeData?.bath },
+              { title: 'Lot size', content: homeData?.lotSize },
+            ]}
+          />
           <div>
-            <div className='mb-4 text-xl'>About</div>
+            <div className='mb-4 text-xl font-semibold'>About</div>
             <div className='max-w-lg leading-relaxed text-gray-800'>
               {homeData?.description}
             </div>
@@ -91,6 +100,17 @@ const ProductPage = () => {
             {({ open }) => (
               <>
                 <Disclosure.Panel className='space-y-12'>
+                  <div className='p-2 text-xs bg-gray-100'>
+                    Note: All the below content till the contact form is
+                    placeholder text.{' '}
+                    <button
+                      type='button'
+                      className='font-semibold'
+                      onClick={scrollToContactForm}
+                    >
+                      Go to contact form
+                    </button>
+                  </div>
                   <Details title='Interiors' content={interiorsData} />
                   <Details title='Property details' content={propertyDetails} />
                   <Details
@@ -148,7 +168,7 @@ const ProductPage = () => {
           scrollToContactForm={scrollToContactForm}
         />
       </div>
-      <NearByHomes />
+      <NearByHomes homeId={homeData?.id || 0} />
     </div>
   )
 }

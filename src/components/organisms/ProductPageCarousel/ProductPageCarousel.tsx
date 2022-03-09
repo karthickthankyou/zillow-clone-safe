@@ -58,7 +58,7 @@ const ProductPageCarousel = () => {
   const [selected, setSelected] = useState(0)
   return (
     <div>
-      <div className='h-96'>
+      <div className='h-64 md:h-96'>
         <Image
           key={data[selected].id}
           src={data[selected].src}

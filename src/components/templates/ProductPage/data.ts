@@ -1,17 +1,16 @@
 export const features = [
   { title: 'Type', content: ['Single Family'] },
   { title: 'Year built', content: ['1900'] },
-  { title: 'Heating', content: ['Forced air, Gas'] },
-  { title: 'Cooling', content: ['Central'] },
-  { title: 'Parking', content: ['Garage - Detached, Covered'] },
+  { title: 'Bedrooms', content: ['6'] },
+  { title: 'Bathrooms', content: ['6'] },
   { title: 'Lot', content: ['0.73 Acres'] },
   { title: 'Price/sqft', content: ['$125'] },
 ]
 
 export const interiors = [
   { title: 'Total Livable Area', content: ['6,217 sqft'] },
-  { title: 'Bedrooms', content: ['6'] },
-  { title: 'Bathrooms', content: ['6'] },
+  { title: 'Parking', content: ['Garage - Detached, Covered'] },
+
   {
     title: 'Basement',
     content: ['Partially Finished', 'Full, Walk-Out Access'],

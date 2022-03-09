@@ -5,13 +5,14 @@ import { useAppSelector } from 'src/store'
 import { selectHomesDetailed } from 'src/store/home/homeSlice'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 
-export interface INearByHomesProps {}
+export interface INearByHomesProps {
+  homeId: number
+}
 
-const NearByHomes = () => {
+const NearByHomes = ({ homeId }: INearByHomesProps) => {
   const { data, fetching, error } = useAppSelector(selectHomesDetailed)
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
-  console.log(data, wishlistedHomes)
   return (
     <HScroll className='mt-12'>
       <div className='flex items-center justify-between space-x-2'>
@@ -34,24 +35,29 @@ const NearByHomes = () => {
         <>
           {fetching
             ? [1, 2, 3, 4, 5, 6].map((item) => (
-                <PropertyCardSkeleton className='flex-shrink-0' key={item} />
+                <PropertyCardSkeleton
+                  className='flex-shrink-0 w-64'
+                  key={item}
+                />
               ))
-            : data?.homes.map((item) => (
-                <HScroll.Child key={item.id}>
-                  <PropertyCard
-                    id={item.id}
-                    key={item.id}
-                    address={item.address}
-                    bath={item.bath}
-                    beds={item.beds}
-                    price={item.price}
-                    sqft={item.sqft}
-                    wishlisted={wishlistedHomes?.wishlisted.find(
-                      (wishlistedItem) => wishlistedItem.hId === item.id
-                    )}
-                  />
-                </HScroll.Child>
-              ))}
+            : data?.homes
+                .filter((item) => item.id !== homeId)
+                .map((item) => (
+                  <HScroll.Child key={item.id}>
+                    <PropertyCard
+                      id={item.id}
+                      key={item.id}
+                      address={item.address}
+                      bath={item.bath}
+                      beds={item.beds}
+                      price={item.price}
+                      sqft={item.sqft}
+                      wishlisted={wishlistedHomes?.wishlisted.find(
+                        (wishlistedItem) => wishlistedItem.hId === item.id
+                      )}
+                    />
+                  </HScroll.Child>
+                ))}
           {!fetching && !data?.homes.length && (
             <div className='flex items-center justify-center w-full h-96'>
               No nearby properties found.

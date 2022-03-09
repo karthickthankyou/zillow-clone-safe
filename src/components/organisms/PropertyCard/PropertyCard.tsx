@@ -103,7 +103,7 @@ const PropertyCard = ({
 }
 
 export const PropertyCardSkeleton = ({ className }: { className?: string }) => (
-  <div className={`${className && className} w-64`}>
+  <div className={`${className && className}`}>
     <div className='relative overflow-hidden bg-gray-200 border border-white rounded-md shadow-lg h-80 animate-pulse' />
 
     <div className='mt-2 mb-4 ml-1 text-gray-200'>
