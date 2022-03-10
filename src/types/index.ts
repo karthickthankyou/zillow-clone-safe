@@ -39,3 +39,30 @@ export type NotificationType = {
     | 'bottom-left'
     | 'bottom-center'
 }
+
+export type Viewport = {
+  latitude: number
+  longitude: number
+  zoom: number
+}
+
+export type PlaceTypesType =
+  | 'region'
+  | 'postcode'
+  | 'district'
+  | 'place'
+  | 'locality'
+  | 'neighborhood'
+  | 'address'
+  | 'poi'
+
+export type MapSearch = {
+  displayName: string
+} & Viewport
+
+export type MenuType = {
+  [key: string]: {
+    title: string
+    menu: { subtitle: string; url: string }[]
+  }[]
+}

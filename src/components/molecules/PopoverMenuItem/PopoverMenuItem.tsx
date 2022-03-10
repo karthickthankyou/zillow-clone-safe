@@ -92,10 +92,12 @@ const PopoverPanelMainMenu = ({
     leave='transition-all duration-200 ease-out'
     leaveFrom='transform opacity-100'
     leaveTo='transform opacity-0'
-    className={`absolute px-2 inset-x-0 z-40 gap-6 pt-2 pb-6 bg-white/90 top-11 ${className}`}
+    className='absolute inset-x-0 z-40 gap-6 px-2 pt-2 pb-6 bg-white/90 top-11'
   >
-    <HeadlessPopover.Panel className='flex justify-center'>
-      {children}
+    <HeadlessPopover.Panel className='flex justify-center w-full py-3'>
+      <div className={`container flex gap-6 mx-auto  ${className}`}>
+        {children}
+      </div>
     </HeadlessPopover.Panel>
   </Transition>
 )

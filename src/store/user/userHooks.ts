@@ -49,9 +49,9 @@ export const useAuth = () => {
   )
 
   const user = {
-    displayName: authState?.user.displayName,
-    email: authState?.user.email,
-    uid: authState?.user.uid,
+    displayName: authState?.user?.displayName,
+    email: authState?.user?.email,
+    uid: authState?.user?.uid,
   }
 
   return { user, token: authState?.token, claims: authState?.claims }

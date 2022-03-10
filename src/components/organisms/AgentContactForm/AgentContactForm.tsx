@@ -119,7 +119,7 @@ const AgentContactForm = React.forwardRef(
             className='w-full px-2 py-2 mt-4 text-white rounded bg-primary-500'
             type='submit'
           >
-            Contact
+            Send message
           </button>
         </form>
       </div>

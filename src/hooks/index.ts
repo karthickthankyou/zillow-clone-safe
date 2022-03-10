@@ -260,3 +260,12 @@ export const useRedirectLoggedInUsers = () => {
     router.push('/')
   }
 }
+export const useRedirectUnAuthenticatedUsers = () => {
+  const user = useAppSelector(selectUser)
+  const router = useRouter()
+  console.log('user in user page: ', user)
+  if (!user.data.user?.uid) {
+    notify({ message: 'You are not logged in', type: 'warning' })
+    typeof window !== 'undefined' && router.push('/login')
+  }
+}
