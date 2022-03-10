@@ -233,7 +233,7 @@ export const selectHomeFilters = createSelector(
       homesWhere.yearBuilt = { _gte: yearBuilt[0], _lte: yearBuilt[1] }
     if (homeType) homesWhere.style = { _in: homeType }
 
-    const homesLimit = zoom >= 11 ? 50 : 0
+    const homesLimit = zoom >= 10 ? 50 : 0
 
     return { where: homesWhere, limit: homesLimit }
   }
@@ -256,7 +256,7 @@ export const selectCitiesFilters = createSelector(
 
     return {
       where,
-      limit: zoom <= 10.99 && zoom >= 5 ? 50 : 0,
+      limit: zoom <= 9.9999 && zoom >= 5 ? 50 : 0,
     }
   }
 )
@@ -278,7 +278,7 @@ export const selectStatesFilters = createSelector(
 
     return {
       where,
-      limit: zoom < 5 ? 50 : 0,
+      limit: zoom < 4.999 ? 50 : 0,
     }
   }
 )

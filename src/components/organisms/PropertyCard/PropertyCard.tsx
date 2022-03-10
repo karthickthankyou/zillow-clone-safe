@@ -11,7 +11,7 @@ import {
 } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
 
-import { selectUser } from 'src/store/user'
+import { selectUid } from 'src/store/user/userSlice'
 import {
   debouncedDispatch,
   startLongHoverDispatch,
@@ -38,14 +38,14 @@ const PropertyCard = ({
   //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
   const [{ fetching }, updateHomeMutation] = useInsertUserHomeMutation()
 
-  const user = useAppSelector(selectUser)
+  const uid = useAppSelector(selectUid)
   useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
 
   return (
     <div
       onMouseOver={() => startLongHoverDispatch(setHighlightedHomeId(id))}
       onFocus={() => startLongHoverDispatch(setHighlightedHomeId(id))}
-      onMouseLeave={() => stopLongHoverDispatch(null)}
+      onMouseLeave={() => stopLongHoverDispatch()}
     >
       <Link href={`/home/${id}`}>
         <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
@@ -61,7 +61,6 @@ const PropertyCard = ({
               e.stopPropagation()
               e.preventDefault()
               const hId = id
-              const { uid } = user.data
               if (!hId || !uid) return
               updateHomeMutation({
                 hId,

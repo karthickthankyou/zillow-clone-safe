@@ -1,11 +1,5 @@
 import { useRouter } from 'next/router'
-import {
-  Dispatch,
-  ReactElement,
-  SetStateAction,
-  useMemo,
-  useState,
-} from 'react'
+import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
@@ -16,11 +10,16 @@ import PopoverParent, {
 import Sidebar from 'src/components/molecules/Sidebar'
 import Accordion from 'src/components/molecules/Accordion'
 import MenuIcon from '@heroicons/react/outline/MenuIcon'
-import { selectUser, signout } from 'src/store/user'
+import { signout } from 'src/store/user'
 import Initials from 'src/components/molecules/Initials'
 import Brand from 'src/components/atoms/Brand'
-import { Children, User } from 'src/types'
+import { Children } from 'src/types'
 import { MENU_ITEMS } from 'src/store/static'
+import {
+  selectDisplayName,
+  selectUid,
+  selectUserRoles,
+} from 'src/store/user/userSlice'
 
 export interface INavbarProps {}
 
@@ -84,11 +83,13 @@ const ButtonLink = ({ title, url }: { title: string; url: string }) => (
 const NavSidebar = ({
   open,
   setOpen,
-  user,
+  uid,
+  displayName,
 }: {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  user: User | null
+  uid: string | null | undefined
+  displayName: string | null | undefined
 }) => (
   <Sidebar open={open} setOpen={setOpen}>
     <Sidebar.Header setOpen={setOpen} />
@@ -128,7 +129,7 @@ const NavSidebar = ({
       </div>
     </Sidebar.Body>
     <Sidebar.Footer>
-      {!user?.uid ? (
+      {!uid ? (
         <>
           <Link
             href='/login'
@@ -144,10 +145,10 @@ const NavSidebar = ({
           </Link>
         </>
       ) : (
-        <Link href={`/user/${user?.uid}`} className='flex items-center '>
-          <Initials name={user?.displayName || ''} className='mr-2' />
+        <Link href={`/user/${uid}`} className='flex items-center '>
+          <Initials name={displayName || ''} className='mr-2' />
 
-          {user?.displayName || ''}
+          {displayName || ''}
         </Link>
       )}
     </Sidebar.Footer>
@@ -163,11 +164,9 @@ const Navbar = () => {
     [url]
   )
   const [open, setOpen] = useState(false)
-  const user = useAppSelector(selectUser)
-
-  const uid = user.data.user?.uid
-  const displayName = user.data.user?.displayName
-  const roles = user.data.claims?.['x-hasura-allowed-roles']
+  const uid = useAppSelector(selectUid)
+  const userDisplayName = useAppSelector(selectDisplayName)
+  const userRoles = useAppSelector(selectUserRoles)
 
   const dispatch = useAppDispatch()
 
@@ -176,7 +175,12 @@ const Navbar = () => {
       className={`${navCls} z-30 flex items-center justify-center w-full h-16 bg-white/90 border-b-2 border-white/80 top`}
     >
       <div className='relative w-full'>
-        <NavSidebar open={open} setOpen={setOpen} user={user.data.user} />
+        <NavSidebar
+          open={open}
+          setOpen={setOpen}
+          uid={uid}
+          displayName={userDisplayName}
+        />
         <div className='container flex items-center justify-center w-full h-6 mx-auto'>
           <div className='hidden w-full py-2 lg:flex'>
             <PopoverGroup className='z-40 flex items-center space-x-4'>
@@ -199,11 +203,11 @@ const Navbar = () => {
               ) : (
                 <PopoverParent>
                   <PopoverButton>
-                    <Initials name={displayName || ''} size='sm' />
+                    <Initials name={userDisplayName || ''} size='sm' />
                   </PopoverButton>
                   <PopoverPanelMainMenu className='flex-col items-end gap-1'>
                     <SubMenuLink url={`/user/${uid}`}>My Account</SubMenuLink>
-                    {roles?.includes('agent') ? (
+                    {userRoles?.includes('agent') ? (
                       <SubMenuLink url='/homes/new'>Add new home</SubMenuLink>
                     ) : (
                       <SubMenuLink url={`/user/${uid}`}>

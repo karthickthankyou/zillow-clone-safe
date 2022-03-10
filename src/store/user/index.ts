@@ -1,11 +1,6 @@
 import userReducer from './userSlice'
 
 /**
- * Selectors: Feeds data in to the UI.
- */
-export { selectUser } from './userSelectors'
-
-/**
  * Actions: All possible actions we can do in this domain.
  */
 
@@ -24,7 +19,7 @@ export { setUser } from './userSlice'
 /**
  * Hooks: This hook attaches and detaches auth listener.
  */
-export { useAuth } from './userHooks'
+export { useUserListener } from './userHooks'
 
 /**
  * Reducer: The reducer to plug in to the global store.

@@ -126,7 +126,7 @@ export const HomeMarkers = () => {
 
   const [highlightedHomeDetails] = useGetHomeByIdQuery({
     variables: {
-      id: highlightedHomeId!,
+      id: highlightedHomeId || -999,
     },
     pause: !highlightedHomeId,
   })

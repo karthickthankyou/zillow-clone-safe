@@ -8,7 +8,7 @@ import ReactMapGL, {
 } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { Viewport } from 'src/store/static'
+import { Viewport } from 'src/types'
 import { useInitializeViewport } from 'src/store/map/mapHooks'
 import mapStyleLight from './mapLight.json'
 

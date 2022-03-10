@@ -7,7 +7,7 @@ export default {
   component: Notification,
 } as ComponentMeta<typeof Notification>
 
-const Template: ComponentStory<typeof Notification> = (args) => <Notification {...args} />
+const Template: ComponentStory<typeof Notification> = () => <Notification />
 
 export const Primary = Template.bind({})
 Primary.args = {}

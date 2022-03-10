@@ -13,7 +13,6 @@ interface ILayoutProps {
 const NoNavUrls = ['/signup', '/login']
 
 const Layout = ({ children }: ILayoutProps) => {
-  useUserListener()
   const url = useRouter().pathname
 
   return NoNavUrls.includes(url) ? (

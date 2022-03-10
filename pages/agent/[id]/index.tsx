@@ -1,3 +1,5 @@
+import { GetStaticProps } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import AgentListing from 'src/components/templates/AgentListing'
 import { client, ssrCache } from 'src/config/urqlClient'
 import { GetHomeDocument } from 'src/generated/graphql'
@@ -8,9 +10,12 @@ const AgentPage = () => <AgentListing />
 export async function getStaticPaths() {
   return { paths: [], fallback: 'blocking' }
 }
+interface Params extends ParsedUrlQuery {
+  id: string
+}
 
-export async function getStaticProps(context) {
-  const { id } = context.params
+export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
+  const id = context.params?.id
 
   return {
     props: {

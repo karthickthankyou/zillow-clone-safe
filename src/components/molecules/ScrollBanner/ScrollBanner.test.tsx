@@ -4,6 +4,6 @@ import ScrollBanner from './ScrollBanner'
 
 describe('ScrollBanner Component', () => {
   test('ScrollBanner renders', () => {
-    render(<ScrollBanner />)
+    render(<ScrollBanner input={['Hello', 'World']} />)
   })
 })

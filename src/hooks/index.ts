@@ -24,7 +24,8 @@ import { NotificationType } from 'src/types'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit'
 import { useRouter } from 'next/router'
-import { selectUser } from 'src/store/user'
+
+import { selectUid } from 'src/store/user/userSlice'
 
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -136,8 +137,8 @@ export default function useTriggerOnScroll({
   return [triggered, ref]
 }
 
-export const useScrollTo = <T = HTMLDivElement | null>() => {
-  const interactiveMapRef = useRef<T>(null)
+export const useScrollTo = () => {
+  const interactiveMapRef = useRef<HTMLDivElement | null>(null)
 
   const executeScroll = () =>
     interactiveMapRef.current?.scrollIntoView({
@@ -253,18 +254,19 @@ export const useLongHoverDispatch = () => {
 }
 
 export const useRedirectLoggedInUsers = () => {
-  const user = useAppSelector(selectUser)
+  const uid = useAppSelector(selectUid)
   const router = useRouter()
-  if (user.data.user?.uid) {
+  if (uid) {
     notify({ message: 'You are already logged in', type: 'warning' })
     router.push('/')
   }
 }
+
 export const useRedirectUnAuthenticatedUsers = () => {
-  const user = useAppSelector(selectUser)
+  const uid = useAppSelector(selectUid)
   const router = useRouter()
-  console.log('user in user page: ', user)
-  if (!user.data.user?.uid) {
+
+  if (!uid) {
     notify({ message: 'You are not logged in', type: 'warning' })
     typeof window !== 'undefined' && router.push('/login')
   }

@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
+import { RootState } from '..'
 import { AsyncData, AsyncUser, User } from '../../types'
 import {
   signup,
@@ -22,14 +23,12 @@ type Token = {
 
 export type UserSliceType = AsyncData<{
   user: User | null
-  token: Token | null
   claims: Claims | null
 }>
 
 const initialState: UserSliceType = {
   data: {
     user: null,
-    token: null,
     claims: null,
   },
   fulfilled: true,
@@ -110,5 +109,11 @@ export const userSlice = createSlice({
   },
 })
 export const { setUser } = userSlice.actions
+
+export const selectUid = (state: RootState) => state.user.data.user?.uid
+export const selectDisplayName = (state: RootState) =>
+  state.user.data.user?.displayName
+export const selectUserRoles = (state: RootState) =>
+  state.user.data.claims?.['x-hasura-allowed-roles']
 
 export default userSlice.reducer

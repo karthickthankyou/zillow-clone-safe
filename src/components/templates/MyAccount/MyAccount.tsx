@@ -1,8 +1,8 @@
 import Container from 'src/components/atoms/Container'
 import { useAppSelector } from 'src/store'
-import { selectUser } from 'src/store/user'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import Link from 'src/components/atoms/Link'
+import { selectUserRoles } from 'src/store/user/userSlice'
 
 export interface IMyAccountProps {}
 
@@ -17,9 +17,8 @@ const becomeAgentClick = () => {
   })
 }
 
-const MyAccount = ({}: IMyAccountProps) => {
-  const userData = useAppSelector(selectUser)
-  const roles = userData.data.claims?.['x-hasura-allowed-roles']
+const MyAccount = () => {
+  const roles = useAppSelector(selectUserRoles)
   return (
     <Container className='h-screen '>
       <div className='mt-4 mb-2 text-xl'>Agent status</div>

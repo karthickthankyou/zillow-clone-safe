@@ -3,7 +3,7 @@ import { config, animated, useTransition } from 'react-spring'
 
 export interface IScrollBannerProps {
   input: string[]
-  className: string
+  className?: string
 }
 
 const ScrollBanner = ({ input, className }: IScrollBannerProps) => {

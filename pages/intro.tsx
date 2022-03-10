@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 
 import { useAppSelector } from 'src/store'
-import { selectUser } from 'src/store/user'
+import { selectDisplayName } from 'src/store/user/userSlice'
 import Link from 'src/components/atoms/Link'
 import Container from 'src/components/atoms/Container'
 import { Children } from 'src/types'
@@ -12,7 +12,7 @@ const Spaced = ({ children }: { children: Children }) => (
 )
 
 const ProjectIntroduction: NextPage = () => {
-  const userData = useAppSelector(selectUser)
+  const userDisplayName = useAppSelector(selectDisplayName)
 
   return (
     <div>
@@ -22,7 +22,7 @@ const ProjectIntroduction: NextPage = () => {
       />
       <Container className='h-screen'>
         <div className='mt-24 font-serif text-4xl font-medium'>
-          Hello, {userData.data.user?.displayName}.
+          Hello, {userDisplayName || 'Visitor'}.
         </div>
         <Spaced>
           <p className='max-w-md text-sm text-gray-800'>

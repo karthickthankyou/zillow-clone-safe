@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getDatabase, onValue, ref, set } from 'firebase/database'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from 'src/config/firebase'
 import { useAppDispatch } from '..'
 import { setUser } from './userSlice'
 
-export const useAuth = () => {
+export const useUserListener = () => {
   const [authState, setAuthState] =
     useState<{ user: any; token: any; claims: any }>()
 
@@ -30,7 +30,7 @@ export const useAuth = () => {
 
             onValue(metadataRef, async (snapshot) => {
               const data = snapshot.val()
-              if (!data.exists) return
+              if (!data?.exists) return
               const tokenUpdated = await user.getIdToken(true)
               const hasuraClaimUpdated =
                 idTokenResult.claims['https://hasura.io/jwt/claims']
@@ -48,19 +48,24 @@ export const useAuth = () => {
     []
   )
 
-  const user = {
-    displayName: authState?.user?.displayName,
-    email: authState?.user?.email,
-    uid: authState?.user?.uid,
-  }
+  const user = useMemo(
+    () => ({
+      displayName: authState?.user?.displayName,
+      email: authState?.user?.email,
+      uid: authState?.user?.uid,
+    }),
+    [authState]
+  )
 
-  return { user, token: authState?.token, claims: authState?.claims }
-}
-
-export const useUserListener = () => {
-  const user = useAuth()
+  const token = authState?.token
+  const claims = authState?.claims
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(setUser(user))
-  }, [dispatch, user])
+    dispatch(setUser({ user, token, claims }))
+  }, [claims, dispatch, token, user])
+}
+
+export const getToken = async () => {
+  const token = await auth.currentUser?.getIdToken()
+  return token
 }

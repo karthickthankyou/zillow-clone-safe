@@ -21,12 +21,13 @@ import { useGetHomeQuery } from 'src/generated/graphql'
 import { useScrollTo } from 'src/hooks'
 
 import { useRouter } from 'next/router'
-import { toAcres } from 'src/lib/util'
+import { getQueryParam } from 'src/lib/util'
 import { useAppDispatch } from 'src/store'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { useEffect } from 'react'
 import { setViewport } from 'src/store/map/mapSlice'
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
+
 import {
   features as featuresData,
   interiors as interiorsData,
@@ -46,11 +47,12 @@ export interface IProductPageProps {}
 
 const ProductPage = () => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
-  const { id } = useRouter().query
+  const id = getQueryParam(useRouter().query.id)
   const [home] = useGetHomeQuery({
     variables: {
-      id: +id || 0,
+      id: +(id || -999),
     },
+    pause: !id,
   })
 
   const dispatch = useAppDispatch()

@@ -4,6 +4,6 @@ import Initials from './Initials'
 
 describe('Initials Component', () => {
   test('Initials renders', () => {
-    render(<Initials />)
+    render(<Initials name='Karthick Ragavendran' />)
   })
 })

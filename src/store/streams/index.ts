@@ -10,9 +10,10 @@ import {
   tap,
 } from 'rxjs'
 
+import { MapSearch, PlaceTypesType } from 'src/types'
+import { placeTypeZoom } from '../static'
 import { store, store$ } from '..'
 import { setMapSearchOptions } from '../map/mapSlice'
-import { MapSearch, PlaceTypesType, placeTypeZoom } from '../static'
 
 export const searchPlaces$ = store$.pipe(
   map((state) => state.map.searchText),

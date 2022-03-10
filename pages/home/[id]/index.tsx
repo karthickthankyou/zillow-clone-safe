@@ -1,3 +1,5 @@
+import { GetStaticProps } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import Home from 'src/components/templates/ProductPage/ProductPage'
 import { client, ssrCache } from 'src/config/urqlClient'
 import { GetHomeDocument } from 'src/generated/graphql'
@@ -12,14 +14,18 @@ export async function getStaticPaths() {
   return { paths: [], fallback: 'blocking' }
 }
 
+interface Params extends ParsedUrlQuery {
+  id: string
+}
+
 // This function gets called at build time
-export async function getStaticProps(context) {
+export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   // Call an external API endpoint to get posts
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
 
-  const { id } = context.params
+  const id = context.params?.id
   await client.query(GetHomeDocument, { id }).toPromise()
   return {
     props: {

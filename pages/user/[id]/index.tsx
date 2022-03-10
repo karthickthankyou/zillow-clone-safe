@@ -1,17 +1,24 @@
 import { useRedirectUnAuthenticatedUsers } from 'src/hooks'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import MyAccount from 'src/components/templates/MyAccount'
+import { ParsedUrlQuery } from 'querystring'
 
 const UserpagePage = () => {
   useRedirectUnAuthenticatedUsers()
   return <MyAccount />
 }
 
-export async function getStaticPaths() {
-  return { paths: [], fallback: 'blocking' }
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+})
+
+interface Params extends ParsedUrlQuery {
+  id: string
 }
 
-export async function getStaticProps(context) {
-  const { id } = context.params
+export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
+  const id = context.params?.id
   console.log('id', id)
   return {
     props: {},

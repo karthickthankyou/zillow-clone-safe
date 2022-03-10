@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { MapRef } from 'react-map-gl'
 import { catchError, debounceTime, EMPTY, Subject, map } from 'rxjs'
+import { Viewport } from 'src/types'
 import { useAppDispatch, useAppSelector } from '..'
 import { selectViewport, setViewport, setBounds } from './mapSlice'
-import { DEBOUNCE_DELAY, Viewport } from '../static'
+import { DEBOUNCE_DELAY } from '../static'
 import { useMap } from './mapContext'
 import { searchPlaces$ } from '../streams'
 

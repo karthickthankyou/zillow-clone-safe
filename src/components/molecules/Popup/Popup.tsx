@@ -14,7 +14,7 @@ import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 import XIcon from '@heroicons/react/outline/XIcon'
 import { useKeypress, debouncedDispatch } from 'src/hooks'
 import { useAppSelector } from 'src/store'
-import { selectUser } from 'src/store/user'
+import { selectUid } from 'src/store/user/userSlice'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import Link from 'src/components/atoms/Link'
 
@@ -47,7 +47,7 @@ const PopupComponent = ({
   const { data, fetching, error } = highlightedHomeData!
   const [{ fetching: wishlistLoading }, updateHomeMutation] =
     useInsertUserHomeMutation()
-  const user = useAppSelector(selectUser)
+  const uid = useAppSelector(selectUid)
 
   useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
   return (
@@ -88,7 +88,6 @@ const PopupComponent = ({
                 className='absolute top-0 right-0 p-1'
                 onClick={() => {
                   const hId = marker.id
-                  const uid = user.data.user?.uid
                   if (!hId || !uid) return
 
                   updateHomeMutation({

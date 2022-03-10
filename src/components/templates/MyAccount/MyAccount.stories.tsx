@@ -7,7 +7,7 @@ export default {
   component: MyAccount,
 } as ComponentMeta<typeof MyAccount>
 
-const Template: ComponentStory<typeof MyAccount> = (args) => <MyAccount {...args} />
+const Template: ComponentStory<typeof MyAccount> = () => <MyAccount />
 
 export const Primary = Template.bind({})
 Primary.args = {}

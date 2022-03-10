@@ -2,19 +2,21 @@ import { useEffect } from 'react'
 
 import { useGetWishlistedHomesQuery } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
-import { selectUser } from '../user'
+import { selectUid } from '../user/userSlice'
 import { setWishlistedHomes } from './userHomeSlice'
 
 export const useGetWishlisted = () => {
-  const user = useAppSelector(selectUser)
+  const uid = useAppSelector(selectUid)
   const dispatch = useAppDispatch()
 
   const [{ data, fetching, stale, error }] = useGetWishlistedHomesQuery({
     variables: {
-      uid: user.data.user?.uid || '',
+      uid: uid!,
     },
-    pause: !user.data.user?.uid,
+    pause: !uid,
   })
+  console.log('Wishlisted: ', data, uid)
+
   useEffect(() => {
     dispatch(
       setWishlistedHomes({

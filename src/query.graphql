@@ -119,7 +119,6 @@ mutation InsertUserHome(
     hId
   }
 }
-
 # ($uid: String!)
 query GetWishlistedHomes($uid: String!) {
   wishlisted: user_homes(

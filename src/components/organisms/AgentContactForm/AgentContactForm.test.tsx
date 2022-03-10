@@ -4,6 +4,6 @@ import AgentContactForm from './AgentContactForm'
 
 describe('AgentContactForm Component', () => {
   test('AgentContactForm renders', () => {
-    render(<AgentContactForm />)
+    render(<AgentContactForm homeId={34} />)
   })
 })
