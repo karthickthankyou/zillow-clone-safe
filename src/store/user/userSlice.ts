@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
-import { AsyncUser, User } from '../../types'
+import { AsyncData, AsyncUser, User } from '../../types'
 import {
   signup,
   signin,
@@ -10,10 +10,27 @@ import {
   googleSignin,
 } from './userActions'
 
-const initialState: AsyncUser = {
+type Claims = {
+  'x-hasura-default-role': string
+  'x-hasura-user-id': string
+  'x-hasura-allowed-roles': string[]
+}
+
+type Token = {
+  Authorization: string
+}
+
+export type UserSliceType = AsyncData<{
+  user: User | null
+  token: Token | null
+  claims: Claims | null
+}>
+
+const initialState: UserSliceType = {
   data: {
-    uid: null,
-    displayName: null,
+    user: null,
+    token: null,
+    claims: null,
   },
   fulfilled: true,
   loading: false,
@@ -42,10 +59,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<User | null>) => {
+    setUser: (state, action: PayloadAction<UserSliceType['data']>) => {
       console.log('setUser', action.payload)
-      state.data.uid = action.payload?.uid || null
-      state.data.displayName = action.payload?.displayName || null
+      state.data = action.payload
       state.fulfilled = true
       state.loading = false
       state.error = false

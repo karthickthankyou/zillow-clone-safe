@@ -4,6 +4,6 @@ import NearByHomes from './NearByHomes'
 
 describe('NearByHomes Component', () => {
   test('NearByHomes renders', () => {
-    render(<NearByHomes />)
+    render(<NearByHomes homeId={23} />)
   })
 })

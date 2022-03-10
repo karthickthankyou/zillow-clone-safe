@@ -5,6 +5,7 @@ export type CounterStatus = 'idle' | 'loading' | 'failed'
 export type User = {
   uid: string | null
   displayName: string | null
+  email: string | null
 }
 
 export type SigninInfo = {

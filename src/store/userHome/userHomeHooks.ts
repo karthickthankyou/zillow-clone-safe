@@ -11,9 +11,9 @@ export const useGetWishlisted = () => {
 
   const [{ data, fetching, stale, error }] = useGetWishlistedHomesQuery({
     variables: {
-      uid: user.data.uid || '',
+      uid: user.data.user?.uid || '',
     },
-    pause: !user.data.uid,
+    pause: !user.data.user?.uid,
   })
   useEffect(() => {
     dispatch(

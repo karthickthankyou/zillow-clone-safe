@@ -24,7 +24,7 @@ export { setUser } from './userSlice'
 /**
  * Hooks: This hook attaches and detaches auth listener.
  */
-export { useUserListener } from './userHooks'
+export { useAuth } from './userHooks'
 
 /**
  * Reducer: The reducer to plug in to the global store.

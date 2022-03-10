@@ -15,7 +15,7 @@ import Layout from 'src/components/templates/Layout'
 import 'src/globals.css'
 
 import Notifications from 'src/components/molecules/Notification'
-import { useGetAuthHeader } from 'src/store/user/userHooks'
+import { useAuth, useUserListener } from 'src/store/user/userHooks'
 import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
 import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
 import { store } from '../src/store'
@@ -41,11 +41,14 @@ const Global = () => {
   useDebouncedDispatch()
   useLongHoverDispatch()
   useGetWishlisted()
+
   return null
 }
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const headers = useGetAuthHeader()
+  const { user, token, claims } = useAuth()
+  const headers = token && { Authorization: `Bearer ${token}` }
+  console.log('Headers: ', headers, user, claims)
 
   // const cache = cacheExchange({
   //   optimistic: {
@@ -94,4 +97,7 @@ export default MyApp
  *
  * Offline support:
  * https://formidable.com/open-source/urql/docs/graphcache/offline/
+ *
+ * About firebase JWT expire.
+ * https://github.com/hasura/graphql-engine/issues/1062
  */

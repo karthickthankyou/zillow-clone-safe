@@ -27,11 +27,12 @@ const agentFormSchema = yup
 
 type AgentFormSchema = yup.InferType<typeof agentFormSchema>
 
-const FormError = ({ error }: { error: FieldError | undefined }) => {
+export const FormError = ({ error }: { error: FieldError | undefined }) => {
   if (error) {
     return (
-      <div className='mt-1 text-sm text-red-900'>
-        <ExclamationIcon className='inline w-4 h-4' /> {error.message}
+      <div className='mt-1 text-sm text-gray-900'>
+        <ExclamationIcon className='inline w-4 h-4 text-red-600' />{' '}
+        {error.message}
       </div>
     )
   }

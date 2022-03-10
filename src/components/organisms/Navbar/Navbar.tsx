@@ -221,12 +221,13 @@ const MenuPopoverPanel = ({
   )
 }
 
+const pathWithFixedNav: string[] = []
+
 const Navbar = () => {
   const url = useRouter().pathname
-  const pathWithFixedNav = useMemo<string[]>(() => [], [])
   const navCls = useMemo(
     () => (pathWithFixedNav.includes(url) ? 'fixed' : 'relative'),
-    [pathWithFixedNav, url]
+    [url]
   )
   const [open, setOpen] = useState(false)
   const user = useAppSelector(selectUser)
@@ -234,7 +235,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`${navCls} z-30  flex items-center justify-center w-full h-16 bg-white/90 border-b-2 border-white/80 top`}
+      className={`${navCls} z-30 flex items-center justify-center w-full h-16 bg-white/90 border-b-2 border-white/80 top`}
     >
       <div className='relative w-full'>
         <Sidebar open={open} setOpen={setOpen}>
@@ -345,12 +346,12 @@ const Navbar = () => {
                     </Link>
                   </>
                 ) : (
-                  <button
-                    type='button'
+                  <Link
+                    href={`user/${user.data.uid}`}
                     className='w-6 h-6 text-xs border rounded-full shadow-inner border-primary-500 text-primary-600'
                   >
                     {getInitials(user.data.displayName || '')}
-                  </button>
+                  </Link>
                 )}
               </>
             </PopoverGroup>
