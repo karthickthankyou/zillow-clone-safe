@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { getDatabase, onValue, ref, set } from 'firebase/database'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from 'src/config/firebase'
-import { useAppDispatch } from '..'
-import { setUser } from './userSlice'
+import { useAppDispatch, useAppSelector } from '..'
+import { selectUid, setUser } from './userSlice'
 
 export const useUserListener = () => {
   const [authState, setAuthState] =
@@ -57,15 +57,24 @@ export const useUserListener = () => {
     [authState]
   )
 
-  const token = authState?.token
   const claims = authState?.claims
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(setUser({ user, token, claims }))
-  }, [claims, dispatch, token, user])
+    dispatch(setUser({ user, claims }))
+  }, [claims, dispatch, user])
 }
 
-export const getToken = async () => {
-  const token = await auth.currentUser?.getIdToken()
+export const useGetToken = () => {
+  const [token, settoken] = useState<string | null | undefined>(null)
+  const uid = useAppSelector(selectUid)
+
+  useEffect(() => {
+    ;(async () => {
+      const tokenId = await auth.currentUser?.getIdToken()
+      settoken(tokenId)
+    })()
+  }, [uid])
   return token
 }
+
+export const getToken = async () => auth.currentUser?.getIdToken()

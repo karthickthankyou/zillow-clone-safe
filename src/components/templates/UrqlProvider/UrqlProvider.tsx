@@ -1,47 +1,20 @@
-import { createClient, Provider, defaultExchanges, cacheExchange } from 'urql'
-import { makeOperation } from '@urql/core'
-import { authExchange } from '@urql/exchange-auth'
-import { devtoolsExchange } from '@urql/devtools'
+import {
+  cacheExchange,
+  Client,
+  createClient,
+  dedupExchange,
+  fetchExchange,
+  Provider,
+  ssrExchange,
+} from 'urql'
 import { Children } from 'src/types'
-import { getToken } from 'src/store/user/userHooks'
+
+import { devtoolsExchange } from '@urql/devtools'
+import { useGetToken } from 'src/store/user/userHooks'
+import { useEffect } from 'react'
 
 export interface IUrqlProviderProps {
   children: Children
-}
-
-const getAuth = async ({ authState, mutate }: any) => {
-  if (!authState) {
-    const token = await getToken()
-
-    if (token) {
-      return { token }
-    }
-    return null
-  }
-
-  return null
-}
-
-const addAuthToOperation = ({ authState, operation }: any) => {
-  if (!authState || !authState.token) {
-    return operation
-  }
-
-  const fetchOptions =
-    typeof operation.context.fetchOptions === 'function'
-      ? operation.context.fetchOptions()
-      : operation.context.fetchOptions || {}
-
-  return makeOperation(operation.kind, operation, {
-    ...operation.context,
-    fetchOptions: {
-      ...fetchOptions,
-      headers: {
-        ...fetchOptions.headers,
-        Authorization: `Bearer ${authState.token}`,
-      },
-    },
-  })
 }
 
 // const wsClient = createWSClient({
@@ -55,25 +28,40 @@ const addAuthToOperation = ({ authState, operation }: any) => {
 //   }),
 // }),
 
+// const cache = cacheExchange({
+//   optimistic: {
+//     favoriteTodo: (variables, cache, info) => ({
+//       __typename: 'Todo',
+//       id: variables.id,
+//       favorite: true,
+//     }),
+//   },
+// })
+
+// authExchange({ getAuth, addAuthToOperation }),
+
+const isServerSide = typeof window === 'undefined'
+export const ssrCache = ssrExchange({ isClient: !isServerSide })
+
 const UrqlProvider = ({ children }: IUrqlProviderProps) => {
-  // const cache = cacheExchange({
-  //   optimistic: {
-  //     favoriteTodo: (variables, cache, info) => ({
-  //       __typename: 'Todo',
-  //       id: variables.id,
-  //       favorite: true,
-  //     }),
-  //   },
-  // })
+  const token = useGetToken()
 
   const client = createClient({
     url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
     exchanges: [
       devtoolsExchange,
-      authExchange({ getAuth, addAuthToOperation }),
-      ...defaultExchanges,
+      dedupExchange,
+      cacheExchange,
+      ssrCache,
+      fetchExchange,
     ],
+    fetchOptions: {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   })
+
   return <Provider value={client}>{children}</Provider>
 }
 

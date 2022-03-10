@@ -70,7 +70,7 @@ const PropertyCard = ({
                 uid,
               })
             }}
-            className='absolute top-0 right-0 z-40 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
+            className='absolute top-0 right-0 z-10 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
           >
             {/* eslint-disable-next-line no-nested-ternary */}
             {fetching && 'Loading...'}

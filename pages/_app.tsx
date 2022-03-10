@@ -1,13 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import type { AppProps } from 'next/app'
-import { ssrCache } from 'src/config/urqlClient'
+
 import { Provider as ReduxProvider } from 'react-redux'
 import Layout from 'src/components/templates/Layout'
 import Notifications from 'src/components/molecules/Notification'
 
 import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
 import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
-import UrqlProvider from 'src/components/templates/UrqlProvider'
+import UrqlProvider, {
+  ssrCache,
+} from 'src/components/templates/UrqlProvider/UrqlProvider'
 import { store } from 'src/store'
 import 'src/globals.css'
 import { useUserListener } from 'src/store/user/userHooks'

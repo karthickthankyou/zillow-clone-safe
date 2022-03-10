@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import AgentListing from 'src/components/templates/AgentListing'
-import { client, ssrCache } from 'src/config/urqlClient'
+import { ssrCache } from 'src/components/templates/UrqlProvider/UrqlProvider'
 import { GetHomeDocument } from 'src/generated/graphql'
 import { useHomesDetailed } from 'src/store/home/homeNetwork'
 

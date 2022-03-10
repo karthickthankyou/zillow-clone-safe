@@ -59,7 +59,6 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserSliceType['data']>) => {
-      console.log('setUser', action.payload)
       state.data = action.payload
       state.fulfilled = true
       state.loading = false

@@ -19,7 +19,7 @@ interface Params extends ParsedUrlQuery {
 
 export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   const id = context.params?.id
-  console.log('id', id)
+
   return {
     props: {},
   }

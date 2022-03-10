@@ -29,7 +29,6 @@ export const searchPlaces$ = store$.pipe(
         ).then((response) => response.json())
       : of([])
   ),
-  // tap((v) => console.log('tapping: ', v)),
   map((value): MapSearch[] =>
     value.features.length > 0
       ? value.features.map((features: any) => ({

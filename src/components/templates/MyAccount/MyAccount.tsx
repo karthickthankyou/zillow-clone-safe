@@ -13,7 +13,6 @@ const becomeAgentClick = () => {
     // Read result of the Cloud Function.
     /** @type {any} */
     const { data } = result
-    console.log('Become agent is over: ', result)
   })
 }
 

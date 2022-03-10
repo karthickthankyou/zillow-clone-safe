@@ -15,7 +15,6 @@ export const useGetWishlisted = () => {
     },
     pause: !uid,
   })
-  console.log('Wishlisted: ', data, uid)
 
   useEffect(() => {
     dispatch(
