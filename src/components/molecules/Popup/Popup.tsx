@@ -88,7 +88,7 @@ const PopupComponent = ({
                 className='absolute top-0 right-0 p-1'
                 onClick={() => {
                   const hId = marker.id
-                  const { uid } = user.data
+                  const uid = user.data.user?.uid
                   if (!hId || !uid) return
 
                   updateHomeMutation({

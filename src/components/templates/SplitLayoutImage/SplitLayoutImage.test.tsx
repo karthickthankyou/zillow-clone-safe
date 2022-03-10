@@ -4,6 +4,6 @@ import SplitLayoutImage from './SplitLayoutImage'
 
 describe('SplitLayoutImage Component', () => {
   test('SplitLayoutImage renders', () => {
-    render(<SplitLayoutImage />)
+    render(<SplitLayoutImage imgSrc='/'>Hello</SplitLayoutImage>)
   })
 })

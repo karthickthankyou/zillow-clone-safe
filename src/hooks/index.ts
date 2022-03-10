@@ -14,7 +14,7 @@ import {
   timer,
   switchMap,
 } from 'rxjs'
-import { useAppDispatch } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
 import {
   addNotification,
   removeNotification,
@@ -23,6 +23,8 @@ import {
 import { NotificationType } from 'src/types'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit'
+import { useRouter } from 'next/router'
+import { selectUser } from 'src/store/user'
 
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -248,4 +250,13 @@ export const useLongHoverDispatch = () => {
       sub.unsubscribe()
     }
   }, [disptach])
+}
+
+export const useRedirectLoggedInUsers = () => {
+  const user = useAppSelector(selectUser)
+  const router = useRouter()
+  if (user.data.user?.uid) {
+    notify({ message: 'You are already logged in', type: 'warning' })
+    router.push('/')
+  }
 }

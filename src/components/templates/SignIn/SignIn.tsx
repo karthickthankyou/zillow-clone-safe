@@ -4,8 +4,6 @@ import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
 import Link from 'src/components/atoms/Link'
-import Brand from 'src/components/atoms/Brand'
-import Image from 'src/components/atoms/Image'
 import { useAppDispatch } from 'src/store'
 import { googleSignin } from 'src/store/user'
 import * as yup from 'yup'

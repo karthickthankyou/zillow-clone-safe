@@ -1,7 +1,6 @@
-// import { Popover } from '@headlessui/react'
 import { useRouter } from 'next/router'
 import { ReactElement, useMemo, useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'src/store'
+import { useAppSelector } from 'src/store'
 import Link from 'src/components/atoms/Link'
 import PopoverParent, {
   PopoverButton,
@@ -11,8 +10,9 @@ import PopoverParent, {
 import Sidebar from 'src/components/molecules/Sidebar'
 import Accordion from 'src/components/molecules/Accordion'
 import MenuIcon from '@heroicons/react/outline/MenuIcon'
-import { selectUser, signout } from 'src/store/user'
-import { getInitials } from 'src/lib/util'
+import { selectUser } from 'src/store/user'
+import Initials from 'src/components/molecules/Initials'
+import Brand from 'src/components/atoms/Brand'
 
 export interface INavbarProps {}
 
@@ -231,7 +231,6 @@ const Navbar = () => {
   )
   const [open, setOpen] = useState(false)
   const user = useAppSelector(selectUser)
-  const dispatch = useAppDispatch()
 
   return (
     <nav
@@ -276,7 +275,7 @@ const Navbar = () => {
             </div>
           </Sidebar.Body>
           <Sidebar.Footer>
-            {!user.data.uid ? (
+            {!user.data.user?.uid ? (
               <>
                 <Link
                   href='/login'
@@ -292,9 +291,17 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
-              <button type='button' onClick={() => dispatch(signout())}>
-                Logout
-              </button>
+              <Link
+                href={`/user/${user.data.user.uid}`}
+                className='flex items-center '
+              >
+                <Initials
+                  name={user.data.user.displayName || ''}
+                  className='mr-2'
+                />
+
+                {user.data.user?.displayName || ''}
+              </Link>
             )}
           </Sidebar.Footer>
         </Sidebar>
@@ -330,7 +337,7 @@ const Navbar = () => {
                 >
                   Help
                 </Link>
-                {!user.data.uid ? (
+                {!user.data.user?.uid ? (
                   <>
                     <Link
                       href='/login'
@@ -346,11 +353,12 @@ const Navbar = () => {
                     </Link>
                   </>
                 ) : (
-                  <Link
-                    href={`user/${user.data.uid}`}
-                    className='w-6 h-6 text-xs border rounded-full shadow-inner border-primary-500 text-primary-600'
-                  >
-                    {getInitials(user.data.displayName || '')}
+                  <Link href={`user/${user.data.user?.uid}`}>
+                    <Initials
+                      name={user.data.user.displayName || ''}
+                      className='mr-2'
+                      size='sm'
+                    />
                   </Link>
                 )}
               </>
@@ -364,12 +372,7 @@ const Navbar = () => {
           <Link href='/' className='absolute font-black text-primary-600 '>
             {/* ZILLOW */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt=''
-              src='https://res.cloudinary.com/thankyou/image/upload/v1640842631/nike/z-logo_zkpauf.svg'
-              // src='https://res.cloudinary.com/thankyou/image/upload/c_scale,q_41,w_117/v1646143724/nike/zillogo_l4dodw.svg'
-              className='w-full h-full'
-            />
+            <Brand />
           </Link>
         </div>
       </div>
