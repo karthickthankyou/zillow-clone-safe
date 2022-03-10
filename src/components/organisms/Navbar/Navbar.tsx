@@ -167,6 +167,7 @@ const Navbar = () => {
 
   const uid = user.data.user?.uid
   const displayName = user.data.user?.displayName
+  const roles = user.data.claims?.['x-hasura-allowed-roles']
 
   const dispatch = useAppDispatch()
 
@@ -202,6 +203,13 @@ const Navbar = () => {
                   </PopoverButton>
                   <PopoverPanelMainMenu className='flex-col items-end gap-1'>
                     <SubMenuLink url={`/user/${uid}`}>My Account</SubMenuLink>
+                    {roles?.includes('agent') ? (
+                      <SubMenuLink url='/homes/new'>Add new home</SubMenuLink>
+                    ) : (
+                      <SubMenuLink url={`/user/${uid}`}>
+                        Become agent
+                      </SubMenuLink>
+                    )}
                     <SubMenuLink url={`/user/${uid}`}>
                       <button type='button' onClick={() => dispatch(signout())}>
                         logout

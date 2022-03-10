@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async () => ({
 const HomePage: NextPage = () => (
   <div>
     <NextSeo
-      title='Zillow - Refactor'
+      title='🏡 Zillow - Refactor'
       description='A short description goes here which says what goes here.'
     />
     <Head>

@@ -20,7 +20,7 @@ import { MapProvider } from 'src/store/map/mapContext'
 const ProductListingPage = () => (
   <div>
     <NextSeo
-      title='Zillow refactor project.'
+      title='🏡 Zillow refactor project.'
       description='A short description goes here which says what goes here.'
     />
     <div className='container mx-auto'>

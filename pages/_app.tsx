@@ -100,4 +100,7 @@ export default MyApp
  *
  * About firebase JWT expire.
  * https://github.com/hasura/graphql-engine/issues/1062
+ *
+ * About JWT by hasura
+ * https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
  */
