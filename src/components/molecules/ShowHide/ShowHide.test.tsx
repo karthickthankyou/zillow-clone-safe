@@ -4,6 +4,10 @@ import ShowHide from './ShowHide'
 
 describe('ShowHide Component', () => {
   test('ShowHide renders', () => {
-    render(<ShowHide />)
+    render(
+      <ShowHide show>
+        <div>Hello</div>
+      </ShowHide>
+    )
   })
 })

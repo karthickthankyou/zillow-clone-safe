@@ -9,12 +9,12 @@ import {
   Panel,
   Fetching,
   Error,
-  ZoomControls,
   CityMarkers,
   StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 
 import { MapProvider } from 'src/store/map/mapContext'
+import ZoomControls from 'src/components/organisms/ZoomControls'
 
 // Get search, lat, lng from query string
 const ProductListingPage = () => (

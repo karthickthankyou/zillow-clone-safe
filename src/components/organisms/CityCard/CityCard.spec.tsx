@@ -5,12 +5,7 @@ import CityCard from './CityCard'
 describe('<Posts />', () => {
   beforeEach(() => {
     // given
-    mount(
-      <CityCard
-        displayName='Chennai'
-        image='https://res.cloudinary.com/thankyou/image/upload/v1640715615/nike/cities/newyork_zqnljo.jpg'
-      />
-    )
+    mount(<CityCard id='Chennai' />)
   })
 
   it('renders agent data', () => {

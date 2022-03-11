@@ -1,22 +1,17 @@
 /* eslint-disable camelcase */
-import {
-  User_Homes_Types_Enum,
-  useInsertUserHomeMutation,
-} from 'src/generated/graphql'
 import Image from 'src/components/atoms/Image'
-import {
-  useGetHighlightedHomeData,
-  useGetHighlightedRegionData,
-} from 'src/store/home/homeNetwork'
-import HeartIconReg from '@heroicons/react/outline/HeartIcon'
-import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
-import { useAppSelector } from 'src/store'
-import { selectUid } from 'src/store/user/userSlice'
-import Link from 'src/components/atoms/Link'
+import { useGetHighlightedRegionData } from 'src/store/home/homeNetwork'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
+
+type BedsPriceType = {
+  beds: string
+  avg: number
+  count: number
+}
 
 export interface IPopupRegionContentProps {
   id: string
+  onClick: () => void
 }
 
 const Skeleton = () => (
@@ -34,7 +29,7 @@ const Skeleton = () => (
   </div>
 )
 
-export const PopupRegionContent = ({ id }: IPopupRegionContentProps) => {
+const PopupRegionContent = ({ id, onClick }: IPopupRegionContentProps) => {
   const highlightedRegionDetails = useGetHighlightedRegionData(id)
   const { data, fetching, error } = highlightedRegionDetails!
 
@@ -42,7 +37,13 @@ export const PopupRegionContent = ({ id }: IPopupRegionContentProps) => {
   if (error) return <div>{error.message}</div>
 
   return (
-    <div className='flex flex-col w-56 cursor-pointer '>
+    <div
+      role='button'
+      onClick={onClick}
+      onKeyDown={onClick}
+      tabIndex={0}
+      className='flex flex-col w-56 cursor-pointer '
+    >
       <div className='relative h-36'>
         <Image
           src='https://via.placeholder.com/150'
@@ -62,7 +63,7 @@ export const PopupRegionContent = ({ id }: IPopupRegionContentProps) => {
         </div>
 
         <div className='p-2 divide-y bg-gray-50'>
-          {data?.location_stats_by_pk?.bedsPrice.map((item) => (
+          {data?.location_stats_by_pk?.bedsPrice.map((item: BedsPriceType) => (
             <div key={item.beds} className='flex py-1 text-sm'>
               <div className='w-10 text-gray-500'>bd {item.beds}</div>
               <div className='ml-2 font-mono'>

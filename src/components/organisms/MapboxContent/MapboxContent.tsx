@@ -35,7 +35,7 @@ import {
 import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
-import { ZOOM_CITIES, ZOOM_STATES } from 'src/store/static'
+import { ZOOM_CITIES, ZOOM_HOMES, ZOOM_STATES } from 'src/store/static'
 import PopupHomesContent from '../PopupHomesContent'
 import PopupRegionContent from '../PopupRegionContent'
 
@@ -183,7 +183,18 @@ export const CityMarkers = () => {
           longitude={marker.lng}
           onClose={() => dispatch(setHighlightedCityId(null))}
         >
-          <PopupRegionContent id={marker.id} />
+          <PopupRegionContent
+            id={marker.id}
+            onClick={() => {
+              dispatch(
+                setViewport({
+                  latitude: marker.lat,
+                  longitude: marker.lng,
+                  zoom: ZOOM_HOMES,
+                })
+              )
+            }}
+          />
         </MapPopup>
       )}
       <animated.div
@@ -251,7 +262,18 @@ export const StateMarkers = () => {
           longitude={marker.lng}
           onClose={() => dispatch(setHighlightedCityId(null))}
         >
-          <PopupRegionContent id={marker.id} />
+          <PopupRegionContent
+            id={marker.id}
+            onClick={() => {
+              dispatch(
+                setViewport({
+                  latitude: marker.lat,
+                  longitude: marker.lng,
+                  zoom: ZOOM_CITIES,
+                })
+              )
+            }}
+          />
         </MapPopup>
       )}
       <animated.div

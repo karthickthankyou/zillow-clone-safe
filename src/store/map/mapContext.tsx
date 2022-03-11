@@ -1,9 +1,17 @@
 import { useContext } from 'react'
 import { MapContext } from 'react-map-gl'
 
-export const MapProvider = ({ children }: { children: any }) => (
+export const MapProvider = ({
+  children,
+  className,
+}: {
+  children: any
+  className?: string
+}) => (
   // @ts-ignore
-  <MapContext.Provider>{children}</MapContext.Provider>
+  <MapContext.Provider>
+    <div className={className}>{children}</div>
+  </MapContext.Provider>
 )
 
 export const useMap = () => {

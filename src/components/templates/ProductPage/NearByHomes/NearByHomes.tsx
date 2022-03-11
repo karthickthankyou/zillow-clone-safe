@@ -19,14 +19,12 @@ const NearByHomes = ({ homeId }: INearByHomesProps) => {
         <div className='text-2xl'>Nearby homes</div>
         <div className='space-x-2'>
           <HScroll.Arrow
-            className='left-0 z-10 h-full '
-            arrowClassName='shadow-md'
+            className='left-0 z-10 h-full transition-all border border-white rounded-full hover:shadow-xl hover:bg-primary-50'
             distance={-240}
           />
           <HScroll.Arrow
             right
-            className='right-0 z-10 h-full '
-            arrowClassName='shadow-md'
+            className='right-0 z-10 h-full transition-all border border-white rounded-full hover:shadow-xl hover:bg-primary-50'
             distance={-240}
           />
         </div>

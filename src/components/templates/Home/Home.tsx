@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import { MapProvider } from 'src/store/map/mapContext'
@@ -11,11 +10,11 @@ import {
   Panel,
   PanelContainer,
   Error,
-  ZoomControls,
   StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
+import ZoomControls from 'src/components/organisms/ZoomControls/ZoomControls'
 
 import Hero from '../Hero'
 

@@ -57,7 +57,7 @@ const Arrow = ({
     >
       {children || (
         <ChevronLeftIcon
-          className={`w-10 h-10 p-2 bg-white rounded-full ${arrowClasses} ${arrowClassName}`}
+          className={`w-10 h-10 p-2 rounded-full ${arrowClasses} ${arrowClassName}`}
         />
       )}
     </button>

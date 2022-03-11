@@ -1,8 +1,9 @@
+import { ReactElement } from 'react'
 import { Children } from 'src/types'
 
 export interface IShowHideProps {
   show: boolean
-  children?: Children
+  children: ReactElement | ReactElement[]
 }
 
 const ShowHide = ({ show, children }: IShowHideProps) =>

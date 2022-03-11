@@ -7,7 +7,7 @@ export default {
   component: ZoomControls,
 } as ComponentMeta<typeof ZoomControls>
 
-const Template: ComponentStory<typeof ZoomControls> = (args) => <ZoomControls {...args} />
+const Template: ComponentStory<typeof ZoomControls> = () => <ZoomControls />
 
 export const Primary = Template.bind({})
 Primary.args = {}

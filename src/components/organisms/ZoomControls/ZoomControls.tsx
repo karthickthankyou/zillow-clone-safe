@@ -8,7 +8,7 @@ import { ZOOM_CITIES } from 'src/store/static'
 
 export interface IZoomControlsProps {}
 
-export const ZoomControls = () => {
+const ZoomControls = () => {
   const zoomLevel = useAppSelector((state) => state.map.viewport.zoom)
   const dispatch = useAppDispatch()
 

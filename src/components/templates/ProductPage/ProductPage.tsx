@@ -22,6 +22,15 @@ import { useEffect } from 'react'
 import { setViewport } from 'src/store/map/mapSlice'
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
 import ZoomControls from 'src/components/organisms/ZoomControls'
+import ArrowCircleUpIcon from '@heroicons/react/outline/ArrowCircleUpIcon'
+import ArrowCircleUpIconSolid from '@heroicons/react/solid/ArrowCircleUpIcon'
+import LoginIcon from '@heroicons/react/outline/LoginIcon'
+import SearchIcon from '@heroicons/react/outline/SearchIcon'
+import PhoneIcon from '@heroicons/react/outline/PhoneIcon'
+import { Children } from 'src/types'
+import Link from 'src/components/atoms/Link'
+import Slideup from 'src/components/molecules/Slideup'
+import Container from 'src/components/atoms/Container'
 
 import {
   interiors as interiorsData,
@@ -32,11 +41,27 @@ import {
   financialDetails,
   otherDetails,
 } from './data'
+
 import Details from './Details'
 import MainCard from './MainCard'
 import NearByHomes from './NearByHomes'
 
 export interface IProductPageProps {}
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+    /* you can also use 'auto' behaviour
+         in place of 'smooth' */
+  })
+}
+
+const HighText = ({ children }: { children: Children }) => (
+  <div className='flex items-center px-4 py-2 space-x-2 text-black transition-all border border-white rounded-full hover:bg-primary-50 hover:shadow-2xl'>
+    {children}
+  </div>
+)
 
 const ProductPage = () => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
@@ -64,7 +89,7 @@ const ProductPage = () => {
   }, [dispatch, homeData])
 
   return (
-    <div className='container mx-auto '>
+    <Container>
       <div className='grid-cols-3 gap-3 lg:grid'>
         <div className='col-span-2 space-y-6 md:space-y-12'>
           <ProductPageCarousel />
@@ -88,6 +113,19 @@ const ProductPage = () => {
             <div className='mb-4 text-xl font-semibold'>About</div>
             <div className='max-w-lg leading-relaxed text-gray-800'>
               {homeData?.description}
+            </div>
+          </div>
+          <div>
+            <div className='mb-4 text-xl font-semibold'>Features</div>
+            <div className='flex flex-wrap max-w-lg gap-3 leading-relaxed text-gray-800'>
+              {homeData?.features.split('|').map((item) => (
+                <div
+                  key={item}
+                  className='px-2 py-1 border border-white rounded shadow-md bg-yellow-50'
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -134,25 +172,24 @@ const ProductPage = () => {
           </Disclosure>
 
           <AgentContactForm ref={contactFormRef} homeId={homeData?.id!} />
-          <div className='h-144'>
-            <MapProvider>
-              <Mapbox>
-                <HomeMarkers />
-                <CityMarkers />
-                <StateMarkers />
-                <PanelContainer>
-                  <Panel position='center-bottom'>
-                    <Fetching />
-                    <Error />
-                  </Panel>
 
-                  <Panel position='right-center'>
-                    <ZoomControls />
-                  </Panel>
-                </PanelContainer>
-              </Mapbox>
-            </MapProvider>
-          </div>
+          <MapProvider className='h-144'>
+            <Mapbox>
+              <HomeMarkers />
+              <CityMarkers />
+              <StateMarkers />
+              <PanelContainer>
+                <Panel position='center-bottom'>
+                  <Fetching />
+                  <Error />
+                </Panel>
+
+                <Panel position='right-center'>
+                  <ZoomControls />
+                </Panel>
+              </PanelContainer>
+            </Mapbox>
+          </MapProvider>
         </div>
 
         <MainCard
@@ -162,7 +199,37 @@ const ProductPage = () => {
         />
       </div>
       <NearByHomes homeId={homeData?.id || 0} />
-    </div>
+      <div className='mt-12 mb-24'>
+        <Slideup>
+          <div className='flex flex-wrap justify-end gap-2'>
+            <button type='button' onClick={scrollToContactForm}>
+              <HighText>
+                <PhoneIcon className='w-8 h-8 text-black' />
+                <div>Contact agent</div>
+              </HighText>
+            </button>
+            <button type='button' onClick={scrollToTop}>
+              <HighText>
+                <ArrowCircleUpIcon className='w-8 h-8' />
+                <div>Back to top</div>
+              </HighText>
+            </button>
+            <Link href='/homes'>
+              <HighText>
+                <SearchIcon className='w-8 h-8' />
+                <div>Back to search</div>
+              </HighText>
+            </Link>
+            <Link href='/'>
+              <HighText>
+                <LoginIcon className='w-8 h-8 rotate-180' />
+                <div>Enter a home nearby</div>
+              </HighText>
+            </Link>
+          </div>
+        </Slideup>
+      </div>
+    </Container>
   )
 }
 

@@ -31,10 +31,7 @@ const Skeleton = () => (
   </div>
 )
 
-export const PopupHomesContent = ({
-  id,
-  wishlisted,
-}: IPopupHomesContentProps) => {
+const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   const highlightedHomeDetails = useGetHighlightedHomeData(id)
   const { data, fetching, error } = highlightedHomeDetails!
   const [{ fetching: wishlistLoading }, updateHomeMutation] =
@@ -45,7 +42,7 @@ export const PopupHomesContent = ({
   if (error) return <div>{error.message}</div>
 
   return (
-    <div className='flex flex-col w-48 '>
+    <Link href={`/home/${id}`} className='flex flex-col w-48 '>
       <div className='relative h-36'>
         <Image
           src='https://via.placeholder.com/150'
@@ -96,7 +93,7 @@ export const PopupHomesContent = ({
           {data?.homes_by_pk?.address}
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

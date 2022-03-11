@@ -4,6 +4,6 @@ import PopupHomesContent from './PopupHomesContent'
 
 describe('PopupHomesContent Component', () => {
   test('PopupHomesContent renders', () => {
-    render(<PopupHomesContent />)
+    render(<PopupHomesContent id={34} wishlisted />)
   })
 })

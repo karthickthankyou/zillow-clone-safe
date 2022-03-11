@@ -89,7 +89,7 @@ const PropertyCard = ({
             <div>&#11049;</div>
             <div>{sqft} sqft</div>
             <div>&#11049;</div>
-            <Badge size='sm' variant='green'>
+            <Badge size='sm' variant='primary'>
               House for sale
             </Badge>
           </div>
