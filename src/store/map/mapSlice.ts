@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Viewport, MapSearch } from 'src/types'
+import { Viewport, MapSearch, Bounds } from 'src/types'
 import { RootState } from '..'
+import { initialViewport } from '../static'
 
 export interface MapSlice {
   viewport: Viewport
-  bounds: [[number, number], [number, number]]
+  debouncedViewport: Viewport
+  bounds: Bounds
   searchText: string
   mapSearchOptions: {
     data: MapSearch[]
@@ -16,11 +18,8 @@ export interface MapSlice {
 }
 
 const initialState: MapSlice = {
-  viewport: {
-    latitude: 39.0119,
-    longitude: -98.4842,
-    zoom: 3,
-  },
+  viewport: initialViewport,
+  debouncedViewport: initialViewport,
   bounds: [
     [0, 0],
     [0, 0],
@@ -51,6 +50,12 @@ const mapSlice = createSlice({
     },
     setBounds: (state, action: PayloadAction<MapSlice['bounds']>) => {
       state.bounds = action.payload
+    },
+    setDebouncedViewport: (
+      state,
+      action: PayloadAction<MapSlice['debouncedViewport']>
+    ) => {
+      state.debouncedViewport = action.payload
     },
     zoomIn: (state) => {
       state.viewport.zoom += 1
@@ -93,6 +98,7 @@ export const {
   zoomOut,
   setMapSearchSelected,
   setViewportLocation,
+  setDebouncedViewport,
 } = mapSlice.actions
 
 /**
@@ -107,6 +113,11 @@ export const selectMapSearchSelected = (state: RootState) =>
   state.map.mapSearchSelected
 
 export const selectViewport = (state: RootState) => state.map.viewport
+export const selectDebouncedViewport = (state: RootState) =>
+  state.map.debouncedViewport
+export const selectZoom = (state: RootState) => state.map.viewport.zoom
+export const selectDebouncedZoom = (state: RootState) =>
+  state.map.debouncedViewport.zoom
 
 export const selectBounds = (state: RootState) => state.map.bounds
 

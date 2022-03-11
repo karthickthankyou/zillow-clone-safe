@@ -1,6 +1,5 @@
 import {
   cacheExchange,
-  Client,
   createClient,
   dedupExchange,
   fetchExchange,
@@ -12,6 +11,8 @@ import { Children } from 'src/types'
 import { devtoolsExchange } from '@urql/devtools'
 import { useGetToken } from 'src/store/user/userHooks'
 import { useEffect } from 'react'
+
+import { client as urqlClient } from 'src/config/urqlClient'
 
 export interface IUrqlProviderProps {
   children: Children
@@ -62,7 +63,7 @@ const UrqlProvider = ({ children }: IUrqlProviderProps) => {
     },
   })
 
-  return <Provider value={client}>{children}</Provider>
+  return <Provider value={urqlClient}>{children}</Provider>
 }
 
 export default UrqlProvider

@@ -77,4 +77,7 @@ export const useGetToken = () => {
   return token
 }
 
-export const getToken = async () => auth.currentUser?.getIdToken()
+export const getToken = async () => {
+  const token = await auth.currentUser?.getIdToken()
+  return token
+}

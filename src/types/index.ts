@@ -46,6 +46,8 @@ export type Viewport = {
   zoom: number
 }
 
+export type Bounds = [[number, number], [number, number]]
+
 export type PlaceTypesType =
   | 'region'
   | 'postcode'

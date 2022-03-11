@@ -44,18 +44,28 @@ query SearchHomesByLocation(
   }
 }
 query SearchCitiesByLocation($limit: Int, $where: location_stats_bool_exp) {
-  cities: location_stats(limit: $limit, where: $where) {
+  cities: location_stats(
+    limit: $limit
+    where: $where
+    order_by: { totalHomes: desc_nulls_last }
+  ) {
     id
     lat
     lng
+    priceSqft
     totalHomes
   }
 }
 query SearchStatesByLocation($limit: Int, $where: location_stats_bool_exp) {
-  states: location_stats(limit: $limit, where: $where) {
+  states: location_stats(
+    limit: $limit
+    where: $where
+    order_by: { totalHomes: desc_nulls_last }
+  ) {
     id
     lat
     lng
+    priceSqft
     totalHomes
   }
 }

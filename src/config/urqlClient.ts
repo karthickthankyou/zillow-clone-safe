@@ -10,11 +10,13 @@ import { devtoolsExchange } from '@urql/devtools'
 import { authExchange } from '@urql/exchange-auth'
 import { getToken } from 'src/store/user/userHooks'
 
-const getAuth = async ({ authState, mutate }: any) => {
+const getAuth2 = async ({ authState, mutate }: any) => {
+  console.log('---Entering authExchange---')
   if (!authState) {
     const token = await getToken()
 
     if (token) {
+      console.log('---Entering authExchange--- Token found.', token)
       return { token }
     }
     return null
@@ -23,7 +25,7 @@ const getAuth = async ({ authState, mutate }: any) => {
   return null
 }
 
-const addAuthToOperation = ({ authState, operation }: any) => {
+const addAuthToOperation2 = ({ authState, operation }: any) => {
   if (!authState || !authState.token) {
     return operation
   }
@@ -56,7 +58,10 @@ const client = createClient({
     dedupExchange,
     cacheExchange,
     ssrCache,
-    authExchange({ getAuth, addAuthToOperation }),
+    authExchange({
+      getAuth: getAuth2,
+      addAuthToOperation: addAuthToOperation2,
+    }),
     fetchExchange,
   ],
 })

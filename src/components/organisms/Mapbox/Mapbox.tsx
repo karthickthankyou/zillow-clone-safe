@@ -31,7 +31,7 @@ const MapBox = ({
   children: ReactElement | ReactElement[]
   props?: InteractiveMapProps
 }) => {
-  /** useViewport feeds viewport state to the map. */
+  /** useInitializeViewport feeds viewport state to the map. */
   const { viewport, setViewport } = useInitializeViewport()
 
   return (

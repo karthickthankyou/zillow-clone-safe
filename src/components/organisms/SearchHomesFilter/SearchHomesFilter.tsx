@@ -5,6 +5,10 @@ import PopoverMenu, {
 import { useState, memo } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import Sidebar from 'src/components/molecules/Sidebar'
+import { selectDebouncedZoom } from 'src/store/map/mapSlice'
+import { useAppSelector } from 'src/store'
+import { showHomes } from 'src/store/static'
+import ShowHide from 'src/components/molecules/ShowHide'
 import {
   filterDefaultValues,
   FilterPrice,
@@ -35,6 +39,8 @@ const SearchHomesFilter = () => {
   useDispatchHomeFilter({ filterData, dirtyFields })
 
   const [showSidebar, setShowSidebar] = useState(false)
+  const zoom = useAppSelector(selectDebouncedZoom)
+  console.log('zoom', zoom)
 
   return (
     <div className='relative flex items-center gap-12 mb-2 bg-white '>
@@ -114,105 +120,108 @@ const SearchHomesFilter = () => {
        * Main filters
        */}
       <LocationSearch />
-      <Controller
-        name='price'
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <PopoverMenu className='hidden md:block'>
-            <FilterButtonWithBadge
-              showBadge={Boolean(dirtyFields.price)}
-              title='Price'
-            />
-            <PopoverPanel>
-              <div className='w-56'>
-                <FilterPrice value={value} onChange={onChange} />
-              </div>
-            </PopoverPanel>
-          </PopoverMenu>
-        )}
-      />
-      <Controller
-        name='yearBuilt'
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <PopoverMenu className='hidden lg:block'>
-            <FilterButtonWithBadge
-              showBadge={Boolean(dirtyFields.yearBuilt)}
-              title='Year built'
-            />
-            <PopoverPanel>
-              <div className='w-56'>
-                <FilterYear value={value} onChange={onChange} />
-              </div>
-            </PopoverPanel>
-          </PopoverMenu>
-        )}
-      />
-      <Controller
-        name='sqft'
-        control={control}
-        render={({ field: { onChange, value } }) => (
-          <PopoverMenu className='hidden lg:block'>
-            <FilterButtonWithBadge
-              showBadge={Boolean(dirtyFields.sqft)}
-              title='Sqft'
-            />
-            <PopoverPanel>
-              <div className='w-56'>
-                <FilterSqft value={value} onChange={onChange} />
-              </div>
-            </PopoverPanel>
-          </PopoverMenu>
-        )}
-      />
 
-      <PopoverMenu className='hidden md:block'>
-        <FilterButtonWithBadge
-          showBadge={Boolean(dirtyFields.bath || dirtyFields.beds)}
-          title='Beds & Bath'
+      <ShowHide show={showHomes(zoom)}>
+        <Controller
+          name='price'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <PopoverMenu className='hidden md:block'>
+              <FilterButtonWithBadge
+                showBadge={Boolean(dirtyFields.price)}
+                title='Price'
+              />
+              <PopoverPanel>
+                <div className='w-56'>
+                  <FilterPrice value={value} onChange={onChange} />
+                </div>
+              </PopoverPanel>
+            </PopoverMenu>
+          )}
         />
-        <PopoverPanel>
-          <div className='space-y-4'>
-            <Controller
-              name='beds'
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <FilterBeds value={value} onChange={onChange} />
-              )}
-            />
-            <Controller
-              name='bath'
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <FilterBath value={value} onChange={onChange} />
-              )}
-            />
-          </div>
-        </PopoverPanel>
-      </PopoverMenu>
+        <Controller
+          name='yearBuilt'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <PopoverMenu className='hidden lg:block'>
+              <FilterButtonWithBadge
+                showBadge={Boolean(dirtyFields.yearBuilt)}
+                title='Year built'
+              />
+              <PopoverPanel>
+                <div className='w-56'>
+                  <FilterYear value={value} onChange={onChange} />
+                </div>
+              </PopoverPanel>
+            </PopoverMenu>
+          )}
+        />
+        <Controller
+          name='sqft'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <PopoverMenu className='hidden lg:block'>
+              <FilterButtonWithBadge
+                showBadge={Boolean(dirtyFields.sqft)}
+                title='Sqft'
+              />
+              <PopoverPanel>
+                <div className='w-56'>
+                  <FilterSqft value={value} onChange={onChange} />
+                </div>
+              </PopoverPanel>
+            </PopoverMenu>
+          )}
+        />
 
-      <PopoverMenu className='hidden md:block'>
-        <FilterButtonWithBadge
-          showBadge={Boolean(dirtyFields.homeType)}
-          title='Home type'
-        />
-        <PopoverPanel>
-          <Controller
-            name='homeType'
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <FilterHomeType value={value} onChange={onChange} />
-            )}
+        <PopoverMenu className='hidden md:block'>
+          <FilterButtonWithBadge
+            showBadge={Boolean(dirtyFields.bath || dirtyFields.beds)}
+            title='Beds & Bath'
           />
-        </PopoverPanel>
-      </PopoverMenu>
-      <div className='flex items-center ml-auto space-x-2'>
-        {isDirty && <ResetButton reset={reset} />}
-        <div className='relative'>
-          <DirtyMarker isDirty={isDirty} />
-          <FilterButton setShowSidebar={setShowSidebar} />
+          <PopoverPanel>
+            <div className='space-y-4'>
+              <Controller
+                name='beds'
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <FilterBeds value={value} onChange={onChange} />
+                )}
+              />
+              <Controller
+                name='bath'
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <FilterBath value={value} onChange={onChange} />
+                )}
+              />
+            </div>
+          </PopoverPanel>
+        </PopoverMenu>
+
+        <PopoverMenu className='hidden md:block'>
+          <FilterButtonWithBadge
+            showBadge={Boolean(dirtyFields.homeType)}
+            title='Home type'
+          />
+          <PopoverPanel>
+            <Controller
+              name='homeType'
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <FilterHomeType value={value} onChange={onChange} />
+              )}
+            />
+          </PopoverPanel>
+        </PopoverMenu>
+        <div className='flex items-center ml-auto space-x-2'>
+          {isDirty && <ResetButton reset={reset} />}
+          <div className='relative'>
+            <DirtyMarker isDirty={isDirty} />
+            <FilterButton setShowSidebar={setShowSidebar} />
+          </div>
         </div>
-      </div>
+      </ShowHide>
     </div>
   )
 }

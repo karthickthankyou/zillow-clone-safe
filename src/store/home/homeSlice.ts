@@ -18,6 +18,7 @@ import {
 } from 'src/generated/graphql'
 import { UseQueryArgs, UseQueryResponse } from 'urql'
 import { RootState } from '..'
+import { showCities, showHomes, showStates } from '../static'
 
 export interface HomeSliceType {
   homesFilter?: Partial<typeof filterDefaultValues>
@@ -233,7 +234,7 @@ export const selectHomeFilters = createSelector(
       homesWhere.yearBuilt = { _gte: yearBuilt[0], _lte: yearBuilt[1] }
     if (homeType) homesWhere.style = { _in: homeType }
 
-    const homesLimit = zoom >= 10 ? 50 : 0
+    const homesLimit = showHomes(zoom) ? 50 : 0
 
     return { where: homesWhere, limit: homesLimit }
   }
@@ -252,11 +253,12 @@ export const selectCitiesFilters = createSelector(
       lat: whereCondition.lat,
       lng: whereCondition.lng,
       type: { _eq: 'city' },
+      totalHomes: { _gt: 5 },
     }
 
     return {
       where,
-      limit: zoom <= 9.9999 && zoom >= 5 ? 50 : 0,
+      limit: showCities(zoom) ? 50 : 0,
     }
   }
 )
@@ -278,7 +280,7 @@ export const selectStatesFilters = createSelector(
 
     return {
       where,
-      limit: zoom < 4.999 ? 50 : 0,
+      limit: showStates(zoom) ? 50 : 0,
     }
   }
 )

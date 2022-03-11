@@ -3055,7 +3055,7 @@ export type SearchCitiesByLocationQueryVariables = Exact<{
 }>;
 
 
-export type SearchCitiesByLocationQuery = { __typename?: 'query_root', cities: Array<{ __typename?: 'location_stats', id: string, lat: any, lng: any, totalHomes: any }> };
+export type SearchCitiesByLocationQuery = { __typename?: 'query_root', cities: Array<{ __typename?: 'location_stats', id: string, lat: any, lng: any, priceSqft: any, totalHomes: any }> };
 
 export type SearchStatesByLocationQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
@@ -3063,7 +3063,7 @@ export type SearchStatesByLocationQueryVariables = Exact<{
 }>;
 
 
-export type SearchStatesByLocationQuery = { __typename?: 'query_root', states: Array<{ __typename?: 'location_stats', id: string, lat: any, lng: any, totalHomes: any }> };
+export type SearchStatesByLocationQuery = { __typename?: 'query_root', states: Array<{ __typename?: 'location_stats', id: string, lat: any, lng: any, priceSqft: any, totalHomes: any }> };
 
 export type SearchHomesByLocationDetailedQueryVariables = Exact<{
   distinct_on?: InputMaybe<Array<Homes_Select_Column> | Homes_Select_Column>;
@@ -3188,10 +3188,15 @@ export function useSearchHomesByLocationQuery(options: Omit<Urql.UseQueryArgs<Se
 };
 export const SearchCitiesByLocationDocument = /*#__PURE__*/ gql`
     query SearchCitiesByLocation($limit: Int, $where: location_stats_bool_exp) {
-  cities: location_stats(limit: $limit, where: $where) {
+  cities: location_stats(
+    limit: $limit
+    where: $where
+    order_by: {totalHomes: desc_nulls_last}
+  ) {
     id
     lat
     lng
+    priceSqft
     totalHomes
   }
 }
@@ -3202,10 +3207,15 @@ export function useSearchCitiesByLocationQuery(options: Omit<Urql.UseQueryArgs<S
 };
 export const SearchStatesByLocationDocument = /*#__PURE__*/ gql`
     query SearchStatesByLocation($limit: Int, $where: location_stats_bool_exp) {
-  states: location_stats(limit: $limit, where: $where) {
+  states: location_stats(
+    limit: $limit
+    where: $where
+    order_by: {totalHomes: desc_nulls_last}
+  ) {
     id
     lat
     lng
+    priceSqft
     totalHomes
   }
 }

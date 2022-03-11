@@ -1,9 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { MapRef } from 'react-map-gl'
 import { catchError, debounceTime, EMPTY, Subject, map } from 'rxjs'
-import { Viewport } from 'src/types'
+import { Bounds, Viewport } from 'src/types'
 import { useAppDispatch, useAppSelector } from '..'
-import { selectViewport, setViewport, setBounds } from './mapSlice'
+import {
+  setViewport,
+  setBounds,
+  setDebouncedViewport,
+  selectDebouncedViewport,
+  selectViewport,
+} from './mapSlice'
 import { DEBOUNCE_DELAY } from '../static'
 import { useMap } from './mapContext'
 import { searchPlaces$ } from '../streams'
@@ -14,23 +20,27 @@ export const useDispatchMapBounds = ({ viewport }: { viewport: Viewport }) => {
   const { map: mapObj } = useMap()
 
   /** Subject. Set bounds when viewport changes. */
-  const [pipeline$] = useState(() => new Subject())
+  const [pipeline$] = useState(() => new Subject<Viewport>())
 
   useEffect(() => {
     const subscription = pipeline$
       .pipe(
         debounceTime(DEBOUNCE_DELAY),
-        map(() => mapObj.getBounds().toArray()),
+        map((v): { viewportDebounced: Viewport; bounds: Bounds } => ({
+          viewportDebounced: v,
+          bounds: mapObj.getBounds().toArray(),
+        })),
         catchError(() => EMPTY)
       )
-      .subscribe((v) => {
-        dispatch(setBounds(v))
+      .subscribe(({ viewportDebounced, bounds }) => {
+        dispatch(setBounds(bounds))
+        dispatch(setDebouncedViewport(viewportDebounced))
       })
     return () => subscription.unsubscribe()
   }, [pipeline$, dispatch, mapObj])
 
   useEffect(() => {
-    pipeline$.next({})
+    pipeline$.next(viewport)
   }, [pipeline$, viewport])
 }
 

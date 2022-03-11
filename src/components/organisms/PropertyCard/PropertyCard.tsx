@@ -52,7 +52,6 @@ const PropertyCard = ({
           <Image
             className='absolute h-full transition-transform duration-1000 scale-105 rounded hover:scale-100'
             src='https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
-            // src='https://res.cloudinary.com/thankyou/image/upload/v1640617959/nike/house1_tmtonc.jpg'
             alt=''
           />
           <button

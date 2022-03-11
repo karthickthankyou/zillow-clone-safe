@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { ReactElement } from 'react'
 import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
@@ -6,6 +7,7 @@ import MapPopup from 'src/components/molecules/Popup'
 import {
   useGetHomeByIdQuery,
   useInsertUserHomeMutation,
+  User_Homes_Types_Enum,
 } from 'src/generated/graphql'
 import { useAppSelector, useAppDispatch } from 'src/store'
 import { Marker } from 'react-map-gl'
@@ -16,13 +18,22 @@ import MapMarker from 'src/components/molecules/MapMarker'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import PlusIcon from '@heroicons/react/outline/PlusIcon'
 import MinusIcon from '@heroicons/react/outline/MinusIcon'
+import MapIcon from '@heroicons/react/outline/MapIcon'
 import {
   useFetchHomesMap,
   useFetchCitiesMap,
   useFetchStatesMap,
+  useGetHighlightedHomeData,
+  useGetHighlightedRegionData,
 } from 'src/store/home/homeNetwork'
 
-import { resetMap, zoomIn, zoomOut, setViewport } from 'src/store/map/mapSlice'
+import {
+  resetMap,
+  zoomIn,
+  zoomOut,
+  setViewport,
+  setZoom,
+} from 'src/store/map/mapSlice'
 
 import {
   selectHighlightedHomeId,
@@ -35,10 +46,22 @@ import {
   selectHomesMap,
   selectCitiesMap,
   selectStatesMap,
+  setHighlightedHomeId,
 } from 'src/store/home/homeSlice'
 import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
-import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
+import {
+  debouncedDispatch,
+  startLongHoverDispatch,
+  stopLongHoverDispatch,
+} from 'src/hooks'
+import { ZOOM_CITIES } from 'src/store/static'
+import { XIcon } from '@heroicons/react/outline'
+import { Skeleton } from '@mui/material'
+import Link from 'next/link'
+import { selectUid } from 'src/store/user/userSlice'
+import PopupHomesContent from '../PopupHomesContent'
+import PopupRegionContent from '../PopupRegionContent'
 
 export const PanelContainer = ({
   children,
@@ -121,29 +144,28 @@ export const HomeMarkers = () => {
     config: config.molasses,
   })
 
-  const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
-
-  const [highlightedHomeDetails] = useGetHomeByIdQuery({
-    variables: {
-      id: highlightedHomeId || -999,
-    },
-    pause: !highlightedHomeId,
-  })
 
   const getWishlisted = (homeId: number) =>
     wishlistedHomes?.wishlisted.find(
       (wishlistedItem) => wishlistedItem.hId === homeId
     )
 
+  const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
+
   return markersTransitions((style, marker) => (
     <>
       {highlightedHomeId === marker.id && (
         <MapPopup
-          marker={marker}
-          highlightedHomeData={highlightedHomeDetails}
-          wishlisted={getWishlisted(marker.id)}
-        />
+          latitude={marker.lat}
+          longitude={marker.lng}
+          onClose={() => dispatch(setHighlightedHomeId(null))}
+        >
+          <PopupHomesContent
+            id={marker.id}
+            wishlisted={!!getWishlisted(marker.id)}
+          />
+        </MapPopup>
       )}
       <animated.div key={marker.id} style={style}>
         <MapMarker
@@ -161,12 +183,14 @@ export const CityMarkers = () => {
   const dispatch = useAppDispatch()
 
   const highlightedCityId = useAppSelector(selectHighlightedCityId)
+  const highlightedCityData = useGetHighlightedRegionData(highlightedCityId)
+  console.log('highlightedCityData: ', highlightedCityData)
   const items = useAppSelector(selectCitiesMap).data?.cities || []
   const reorderedItems = bringHighlightedItemToFront(
     highlightedCityId,
     items
   ) as typeof items
-  const ZOOM_LEVEL = 11
+  const ZOOM_LEVEL = 9
 
   const cityMarkersTransitions = useTransition(reorderedItems, {
     keys: (item) => item.id,
@@ -178,48 +202,53 @@ export const CityMarkers = () => {
   })
 
   return cityMarkersTransitions((style, marker) => (
-    <animated.div
-      key={marker.id}
-      style={style}
-      onClick={() => {
-        dispatch(
-          setViewport({
-            latitude: marker.lat,
-            longitude: marker.lng,
-            zoom: ZOOM_LEVEL,
-          })
-        )
-      }}
-    >
-      <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
-        <div
-          className='flex flex-col items-center justify-center'
-          onMouseOver={() => {
-            startLongHoverDispatch(setHighlightedCityId(marker.id))
-          }}
-          onMouseLeave={() => {
-            stopLongHoverDispatch()
-          }}
-          onFocus={() => {
-            startLongHoverDispatch(setHighlightedCityId(marker.id))
-          }}
+    <>
+      {highlightedCityId === marker.id && (
+        <MapPopup
+          latitude={marker.lat}
+          longitude={marker.lng}
+          onClose={() => dispatch(setHighlightedCityId(null))}
         >
-          <div className='flex items-center justify-center px-2 py-1 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
-            {marker.totalHomes}
-            <HomeIcon className='w-5 h-5 ml-1' />
+          <PopupRegionContent id={marker.id} />
+        </MapPopup>
+      )}
+      <animated.div
+        key={marker.id}
+        style={style}
+        onClick={() => {
+          dispatch(
+            setViewport({
+              latitude: marker.lat,
+              longitude: marker.lng,
+              zoom: ZOOM_LEVEL,
+            })
+          )
+        }}
+      >
+        <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
+          <div
+            className='flex flex-col items-center justify-center'
+            onMouseOver={() => {
+              startLongHoverDispatch(setHighlightedCityId(marker.id))
+            }}
+            onMouseLeave={() => {
+              stopLongHoverDispatch()
+            }}
+            onFocus={() => {
+              startLongHoverDispatch(setHighlightedCityId(marker.id))
+            }}
+          >
+            <div className='flex items-center justify-center px-2 py-1 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
+              {marker.totalHomes}
+              <HomeIcon className='w-5 h-5 ml-1' />
+            </div>
           </div>
-        </div>
-
-        <div className='absolute hidden p-1 mt-4 font-semibold text-center text-black -translate-x-1/2 rounded-md shadow-xl left-1/2 backdrop-blur backdrop-filter bg-gray-300/40 group-hover:block'>
-          <div className='text-xs font-bold whitespace-nowrap'>{marker.id}</div>
-          <div className='mt-1 text-xs font-light whitespace-nowrap'>
-            Click to zoom in
-          </div>
-        </div>
-      </Marker>
-    </animated.div>
+        </Marker>
+      </animated.div>
+    </>
   ))
 }
+
 export const StateMarkers = () => {
   useFetchStatesMap()
   const dispatch = useAppDispatch()
@@ -230,7 +259,7 @@ export const StateMarkers = () => {
     highlightedStateId,
     items
   ) as typeof items
-  const ZOOM_LEVEL = 7
+  const ZOOM_LEVEL = 6
 
   const cityMarkersTransitions = useTransition(reorderedItems, {
     keys: (item) => item.id,
@@ -242,43 +271,47 @@ export const StateMarkers = () => {
   })
 
   return cityMarkersTransitions((style, marker) => (
-    <animated.div
-      key={marker.id}
-      style={style}
-      onClick={() => {
-        dispatch(
-          setViewport({
-            latitude: marker.lat,
-            longitude: marker.lng,
-            zoom: ZOOM_LEVEL,
-          })
-        )
-      }}
-    >
-      <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
-        <div
-          className='flex flex-col items-center justify-center'
-          onMouseOver={() => {
-            dispatch(setHighlightedStateId(marker.id))
-          }}
-          onFocus={() => {
-            dispatch(setHighlightedStateId(marker.id))
-          }}
+    <>
+      {highlightedStateId === marker.id && (
+        <MapPopup
+          latitude={marker.lat}
+          longitude={marker.lng}
+          onClose={() => dispatch(setHighlightedCityId(null))}
         >
-          <div className='flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
-            {marker.totalHomes}
-            <HomeIcon className='w-5 h-5 ml-1' />
+          <PopupRegionContent id={marker.id} />
+        </MapPopup>
+      )}
+      <animated.div
+        key={marker.id}
+        style={style}
+        onClick={() => {
+          dispatch(
+            setViewport({
+              latitude: marker.lat,
+              longitude: marker.lng,
+              zoom: ZOOM_LEVEL,
+            })
+          )
+        }}
+      >
+        <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
+          <div
+            className='flex flex-col items-center justify-center'
+            onMouseOver={() => {
+              dispatch(setHighlightedStateId(marker.id))
+            }}
+            onFocus={() => {
+              dispatch(setHighlightedStateId(marker.id))
+            }}
+          >
+            <div className='flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
+              {marker.totalHomes}
+              <HomeIcon className='w-5 h-5 ml-1' />
+            </div>
           </div>
-        </div>
-
-        <div className='absolute hidden p-1 mt-4 font-semibold text-center text-black -translate-x-1/2 rounded-md shadow-xl left-1/2 backdrop-blur backdrop-filter bg-gray-300/40 group-hover:block'>
-          <div className='text-xs font-bold whitespace-nowrap'>{marker.id}</div>
-          <div className='mt-1 text-xs font-light whitespace-nowrap'>
-            Click to zoom in
-          </div>
-        </div>
-      </Marker>
-    </animated.div>
+        </Marker>
+      </animated.div>
+    </>
   ))
 }
 
@@ -304,6 +337,13 @@ export const ZoomControls = () => {
         onClick={() => dispatch(zoomOut())}
       >
         <MinusIcon className='w-8 h-8 p-1.5 ' />
+      </button>
+      <button
+        className='rounded-none hover:bg-white'
+        type='button'
+        onClick={() => dispatch(setZoom(ZOOM_CITIES))}
+      >
+        <MapIcon className='w-8 h-8 p-1.5 ' />
       </button>
       <button
         className='rounded-none hover:bg-white'
