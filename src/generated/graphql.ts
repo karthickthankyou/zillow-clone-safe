@@ -3081,7 +3081,7 @@ export type GetHomeByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetHomeByIdQuery = { __typename?: 'query_root', homes_by_pk?: { __typename?: 'homes', price: number, id: number, sqft: number, bath: number, beds: number } | null | undefined };
+export type GetHomeByIdQuery = { __typename?: 'query_root', homes_by_pk?: { __typename?: 'homes', price: number, id: number, sqft: number, bath: number, beds: number, address: string, style: string } | null | undefined };
 
 export type GetRegionByIdQueryVariables = Exact<{
   id: Scalars['String'];
@@ -3254,6 +3254,8 @@ export const GetHomeByIdDocument = /*#__PURE__*/ gql`
     sqft
     bath
     beds
+    address
+    style
   }
 }
     `;

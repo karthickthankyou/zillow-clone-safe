@@ -1,10 +1,6 @@
-import Image from 'src/components/atoms/Image'
-import Link from 'src/components/atoms/Link'
-import CurrencyDollarIcon from '@heroicons/react/solid/CurrencyDollarIcon'
 import ProductPageCarousel from 'src/components/organisms/ProductPageCarousel'
 import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
-import HScroll from 'src/components/molecules/HScroll'
 import { MapProvider } from 'src/store/map/mapContext'
 import {
   CityMarkers,
@@ -13,10 +9,8 @@ import {
   Panel,
   PanelContainer,
   StateMarkers,
-  ZoomControls,
   Error,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
-import Cities from 'src/components/templates/Cities'
 import { useGetHomeQuery } from 'src/generated/graphql'
 import { useScrollTo } from 'src/hooks'
 
@@ -27,9 +21,9 @@ import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { useEffect } from 'react'
 import { setViewport } from 'src/store/map/mapSlice'
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
+import ZoomControls from 'src/components/organisms/ZoomControls'
 
 import {
-  features as featuresData,
   interiors as interiorsData,
   propertyDetails,
   constructionDetails,
@@ -40,7 +34,6 @@ import {
 } from './data'
 import Details from './Details'
 import MainCard from './MainCard'
-import { MainCardShadow } from './MainCard/MainCard'
 import NearByHomes from './NearByHomes'
 
 export interface IProductPageProps {}
@@ -152,9 +145,7 @@ const ProductPage = () => {
                     <Fetching />
                     <Error />
                   </Panel>
-                  <Panel position='left-top'>
-                    <ZoomControls />
-                  </Panel>
+
                   <Panel position='right-center'>
                     <ZoomControls />
                   </Panel>

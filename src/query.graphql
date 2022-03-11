@@ -100,6 +100,8 @@ query GetHomeById($id: Int!) {
     sqft
     bath
     beds
+    address
+    style
   }
 }
 

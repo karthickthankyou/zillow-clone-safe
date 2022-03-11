@@ -4,36 +4,20 @@ import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
 import MapPopup from 'src/components/molecules/Popup'
 
-import {
-  useGetHomeByIdQuery,
-  useInsertUserHomeMutation,
-  User_Homes_Types_Enum,
-} from 'src/generated/graphql'
 import { useAppSelector, useAppDispatch } from 'src/store'
 import { Marker } from 'react-map-gl'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
 import MapMarker from 'src/components/molecules/MapMarker'
 
-import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
-import PlusIcon from '@heroicons/react/outline/PlusIcon'
-import MinusIcon from '@heroicons/react/outline/MinusIcon'
-import MapIcon from '@heroicons/react/outline/MapIcon'
 import {
   useFetchHomesMap,
   useFetchCitiesMap,
   useFetchStatesMap,
-  useGetHighlightedHomeData,
   useGetHighlightedRegionData,
 } from 'src/store/home/homeNetwork'
 
-import {
-  resetMap,
-  zoomIn,
-  zoomOut,
-  setViewport,
-  setZoom,
-} from 'src/store/map/mapSlice'
+import { setViewport } from 'src/store/map/mapSlice'
 
 import {
   selectHighlightedHomeId,
@@ -50,16 +34,8 @@ import {
 } from 'src/store/home/homeSlice'
 import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
-import {
-  debouncedDispatch,
-  startLongHoverDispatch,
-  stopLongHoverDispatch,
-} from 'src/hooks'
-import { ZOOM_CITIES } from 'src/store/static'
-import { XIcon } from '@heroicons/react/outline'
-import { Skeleton } from '@mui/material'
-import Link from 'next/link'
-import { selectUid } from 'src/store/user/userSlice'
+import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
+import { ZOOM_CITIES, ZOOM_STATES } from 'src/store/static'
 import PopupHomesContent from '../PopupHomesContent'
 import PopupRegionContent from '../PopupRegionContent'
 
@@ -184,13 +160,11 @@ export const CityMarkers = () => {
 
   const highlightedCityId = useAppSelector(selectHighlightedCityId)
   const highlightedCityData = useGetHighlightedRegionData(highlightedCityId)
-  console.log('highlightedCityData: ', highlightedCityData)
   const items = useAppSelector(selectCitiesMap).data?.cities || []
   const reorderedItems = bringHighlightedItemToFront(
     highlightedCityId,
     items
   ) as typeof items
-  const ZOOM_LEVEL = 9
 
   const cityMarkersTransitions = useTransition(reorderedItems, {
     keys: (item) => item.id,
@@ -220,7 +194,7 @@ export const CityMarkers = () => {
             setViewport({
               latitude: marker.lat,
               longitude: marker.lng,
-              zoom: ZOOM_LEVEL,
+              zoom: ZOOM_CITIES,
             })
           )
         }}
@@ -259,7 +233,6 @@ export const StateMarkers = () => {
     highlightedStateId,
     items
   ) as typeof items
-  const ZOOM_LEVEL = 6
 
   const cityMarkersTransitions = useTransition(reorderedItems, {
     keys: (item) => item.id,
@@ -289,7 +262,7 @@ export const StateMarkers = () => {
             setViewport({
               latitude: marker.lat,
               longitude: marker.lng,
-              zoom: ZOOM_LEVEL,
+              zoom: ZOOM_STATES,
             })
           )
         }}
@@ -314,72 +287,3 @@ export const StateMarkers = () => {
     </>
   ))
 }
-
-export const ZoomControls = () => {
-  const zoomLevel = useAppSelector((state) => state.map.viewport.zoom)
-  const dispatch = useAppDispatch()
-
-  const zoomOutDisabled = zoomLevel < 3
-
-  return (
-    <div className='flex flex-col border border-white divide-y divide-white rounded shadow-lg bg-white/50 backdrop-blur backdrop-filter'>
-      <button
-        className='rounded-none hover:bg-white'
-        type='button'
-        onClick={() => dispatch(zoomIn())}
-      >
-        <PlusIcon className='w-8 h-8 p-1.5 ' />
-      </button>
-      <button
-        className='rounded-none hover:bg-white disabled:opacity-50'
-        type='button'
-        disabled={zoomOutDisabled}
-        onClick={() => dispatch(zoomOut())}
-      >
-        <MinusIcon className='w-8 h-8 p-1.5 ' />
-      </button>
-      <button
-        className='rounded-none hover:bg-white'
-        type='button'
-        onClick={() => dispatch(setZoom(ZOOM_CITIES))}
-      >
-        <MapIcon className='w-8 h-8 p-1.5 ' />
-      </button>
-      <button
-        className='rounded-none hover:bg-white'
-        type='button'
-        onClick={() => dispatch(resetMap())}
-      >
-        <GlobeIcon className='w-8 h-8 p-1.5 ' />
-      </button>
-    </div>
-  )
-}
-
-// export const ZoomMessage = ({
-//   zoomLimit = 2,
-//   children,
-// }: {
-//   zoomLimit?: number
-//   children: Children
-// }) => {
-//   const zoomLevel = useAppSelector((state) => state.map.viewport.zoom)
-//   const dispatch = useAppDispatch()
-//   if (zoomLevel > zoomLimit) return null
-//   return (
-//     <button
-//       type='button'
-//       onClick={() => dispatch(resetMap())}
-//       className='px-4 py-2 bg-white rounded-full shadow-2xl shadow-black/50'
-//     >
-//       {children}
-//     </button>
-//   )
-// }
-
-// export const NoHomesMessage = ({ children }: { children: Children }) => {
-//   const homes = useAppSelector((state) => state.home.mapResults.data?.homes)
-//   const homesShowing = useAppSelector((state) => state.map.show.homes)
-//   if (homesShowing && !homes?.length) return children
-//   return null
-// }
