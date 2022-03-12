@@ -37,7 +37,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
     <MainCardShadow />
   ) : (
     <div className={`col-span-1 ${className}`}>
-      <div className='sticky top-0 p-6 rounded-lg bg-striped'>
+      <div className='sticky top-0 p-6 rounded-lg shadow-lg bg-striped'>
         <div className='text-xs tracking-wide text-gray-600 uppercase'>
           for sale
         </div>

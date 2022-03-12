@@ -13,6 +13,7 @@ interface Props {
     leaveFrom: string
     leaveTo: string
   }
+  className?: string
 }
 
 const transitionDefault = {
@@ -28,6 +29,7 @@ const SlideUp = ({
   children,
   triggerPoint = 0.75,
   transition = transitionDefault,
+  className,
 }: Props) => {
   const [show, el] = useTriggerOnScroll({ triggerPoint })
 
@@ -35,7 +37,7 @@ const SlideUp = ({
     <>
       <div ref={el} />
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Transition show={show} {...transition}>
+      <Transition className={className} show={show} {...transition}>
         {children}
       </Transition>
     </>

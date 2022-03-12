@@ -14,7 +14,7 @@ import {
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 
 import { MapProvider } from 'src/store/map/mapContext'
-import ZoomControls from 'src/components/organisms/ZoomControls'
+import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 
 // Get search, lat, lng from query string
 const ProductListingPage = () => (
@@ -28,7 +28,7 @@ const ProductListingPage = () => (
       <div className='flex flex-col gap-5 lg:flex-row'>
         <div className='flex-1 lg:block'>
           <div className='sticky top-0 w-full col-span-1 overflow-hidden rounded h-screen50 lg:h-screen '>
-            <MapProvider>
+            <MapProvider className='h-full'>
               <Mapbox>
                 <HomeMarkers />
                 <CityMarkers />

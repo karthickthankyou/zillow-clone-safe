@@ -3120,6 +3120,13 @@ export type GetHomeQueryVariables = Exact<{
 
 export type GetHomeQuery = { __typename?: 'query_root', homes_by_pk?: { __typename?: 'homes', address: string, bath: number, beds: number, city: string, createdAt: any, description: string, facts: string, features: string, id: number, lat: number, lng: number, lotSize: number, price: number, priceSqft: number, sqft: number, state: string, style: string, updatedAt: any, yearBuilt: any, zipcode: string } | null | undefined };
 
+export type InsertHomeMutationVariables = Exact<{
+  object: Homes_Insert_Input;
+}>;
+
+
+export type InsertHomeMutation = { __typename?: 'mutation_root', insert_homes_one?: { __typename?: 'homes', address: string, bath: number, beds: number, city: string, createdAt: any, description: string, facts: string, features: string, id: number, lat: number, lng: number, lotSize: number, price: number, priceSqft: number, sqft: number, state: string, style: string, updatedAt: any, yearBuilt: any, zipcode: string } | null | undefined };
+
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
@@ -3135,7 +3142,8 @@ export const namedOperations = {
   },
   Mutation: {
     InsertUserHome: 'InsertUserHome',
-    RemoveWishlist: 'RemoveWishlist'
+    RemoveWishlist: 'RemoveWishlist',
+    InsertHome: 'InsertHome'
   }
 }
 
@@ -3350,4 +3358,34 @@ export const GetHomeDocument = /*#__PURE__*/ gql`
 
 export function useGetHomeQuery(options: Omit<Urql.UseQueryArgs<GetHomeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetHomeQuery>({ query: GetHomeDocument, ...options });
+};
+export const InsertHomeDocument = /*#__PURE__*/ gql`
+    mutation InsertHome($object: homes_insert_input!) {
+  insert_homes_one(object: $object) {
+    address
+    bath
+    beds
+    city
+    createdAt
+    description
+    facts
+    features
+    id
+    lat
+    lng
+    lotSize
+    price
+    priceSqft
+    sqft
+    state
+    style
+    updatedAt
+    yearBuilt
+    zipcode
+  }
+}
+    `;
+
+export function useInsertHomeMutation() {
+  return Urql.useMutation<InsertHomeMutation, InsertHomeMutationVariables>(InsertHomeDocument);
 };

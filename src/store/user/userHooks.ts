@@ -15,6 +15,7 @@ export const useUserListener = () => {
         if (user) {
           console.log('User on authentication change: ', user)
           const token = await user.getIdToken()
+          console.log('Token: ', token)
           const idTokenResult = await user.getIdTokenResult()
           const hasuraClaim =
             idTokenResult.claims['https://hasura.io/jwt/claims']

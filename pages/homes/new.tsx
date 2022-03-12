@@ -14,7 +14,7 @@ import { NextSeo } from 'next-seo'
 const NewHome: NextPage = () => (
   <>
     <NextSeo
-      title='🏡 Home. Zillow clone - Karthick Ragavendran'
+      title='Post new home | Zillow clone - Karthick Ragavendran'
       description='This is the amazing sample page. A short description goes here which says what goes here.'
     />
     <Container>

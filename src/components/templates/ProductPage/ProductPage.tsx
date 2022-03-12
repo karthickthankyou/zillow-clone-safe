@@ -21,7 +21,7 @@ import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { useEffect } from 'react'
 import { setViewport } from 'src/store/map/mapSlice'
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
-import ZoomControls from 'src/components/organisms/ZoomControls'
+import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 import ArrowCircleUpIcon from '@heroicons/react/outline/ArrowCircleUpIcon'
 import ArrowCircleUpIconSolid from '@heroicons/react/solid/ArrowCircleUpIcon'
 import LoginIcon from '@heroicons/react/outline/LoginIcon'
@@ -121,7 +121,7 @@ const ProductPage = () => {
               {homeData?.features.split('|').map((item) => (
                 <div
                   key={item}
-                  className='px-2 py-1 border border-white rounded shadow-md bg-yellow-50'
+                  className='px-2 py-1 border border-white rounded shadow-md bg-gray-50'
                 >
                   {item}
                 </div>
@@ -199,36 +199,35 @@ const ProductPage = () => {
         />
       </div>
       <NearByHomes homeId={homeData?.id || 0} />
-      <div className='mt-12 mb-24'>
-        <Slideup>
-          <div className='flex flex-wrap justify-end gap-2'>
-            <button type='button' onClick={scrollToContactForm}>
-              <HighText>
-                <PhoneIcon className='w-8 h-8 text-black' />
-                <div>Contact agent</div>
-              </HighText>
-            </button>
-            <button type='button' onClick={scrollToTop}>
-              <HighText>
-                <ArrowCircleUpIcon className='w-8 h-8' />
-                <div>Back to top</div>
-              </HighText>
-            </button>
-            <Link href='/homes'>
-              <HighText>
-                <SearchIcon className='w-8 h-8' />
-                <div>Back to search</div>
-              </HighText>
-            </Link>
-            <Link href='/'>
-              <HighText>
-                <LoginIcon className='w-8 h-8 rotate-180' />
-                <div>Enter a home nearby</div>
-              </HighText>
-            </Link>
-          </div>
-        </Slideup>
-      </div>
+
+      <Slideup className='mt-12 mb-24'>
+        <div className='flex flex-wrap justify-end gap-2'>
+          <button type='button' onClick={scrollToContactForm}>
+            <HighText>
+              <PhoneIcon className='w-8 h-8 text-black' />
+              <div>Contact agent</div>
+            </HighText>
+          </button>
+          <button type='button' onClick={scrollToTop}>
+            <HighText>
+              <ArrowCircleUpIcon className='w-8 h-8' />
+              <div>Back to top</div>
+            </HighText>
+          </button>
+          <Link href='/homes'>
+            <HighText>
+              <SearchIcon className='w-8 h-8' />
+              <div>Back to search</div>
+            </HighText>
+          </Link>
+          <Link href='/'>
+            <HighText>
+              <LoginIcon className='w-8 h-8 rotate-180' />
+              <div>Enter a home nearby</div>
+            </HighText>
+          </Link>
+        </div>
+      </Slideup>
     </Container>
   )
 }

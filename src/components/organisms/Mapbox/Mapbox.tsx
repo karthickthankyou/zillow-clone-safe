@@ -27,9 +27,11 @@ const defaultMapProps: InteractiveMapProps = {
 const MapBox = ({
   children,
   props = defaultMapProps,
+  className,
 }: {
   children: ReactElement | ReactElement[]
   props?: InteractiveMapProps
+  className?: string
 }) => {
   /** useInitializeViewport feeds viewport state to the map. */
   const { viewport, setViewport } = useInitializeViewport()
@@ -46,6 +48,7 @@ const MapBox = ({
       transitionInterpolator={new FlyToInterpolator()}
       // pitch={18}
       {...props}
+      className={`rounded ${className}`}
     >
       {children}
     </ReactMapGL>

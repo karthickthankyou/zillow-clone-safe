@@ -14,7 +14,7 @@ import {
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
-import ZoomControls from 'src/components/organisms/ZoomControls/ZoomControls'
+import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 
 import Hero from '../Hero'
 
@@ -43,8 +43,8 @@ const Home = () => {
           </p>
         </Container>
 
-        <div className='w-screen h-screen ' ref={interactiveMapRef}>
-          <MapProvider>
+        <div className='w-screen h-screen' ref={interactiveMapRef}>
+          <MapProvider className='h-full'>
             <Mapbox>
               <HomeMarkers />
               <CityMarkers />
@@ -56,9 +56,6 @@ const Home = () => {
                   <Error />
                 </Panel>
                 <Panel position='left-top'>
-                  <ZoomControls />
-                </Panel>
-                <Panel position='right-center'>
                   <ZoomControls />
                 </Panel>
               </PanelContainer>

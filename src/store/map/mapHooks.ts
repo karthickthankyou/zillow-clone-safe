@@ -45,7 +45,7 @@ export const useDispatchMapBounds = ({ viewport }: { viewport: Viewport }) => {
 }
 
 export const useInitializeViewport = () => {
-  const viewport = useAppSelector(selectViewport)!
+  const viewport = useAppSelector(selectViewport)
 
   const dispatch = useAppDispatch()
   const setViewportFn = (v: Viewport) => {

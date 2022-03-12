@@ -13,7 +13,7 @@ const Option = ({ title, content }: IOptionProps) => {
     <div>
       <div className='mb-1 font-semibold'>{title}</div>
       {contentDisplay.map((item) => (
-        <div key={item} className='py-0.5 text-gray-600'>
+        <div key={item} className='py-0.5 text-sm text-gray-600'>
           {item}
         </div>
       ))}

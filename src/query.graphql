@@ -176,3 +176,28 @@ query GetHome($id: Int!) {
     zipcode
   }
 }
+
+mutation InsertHome($object: homes_insert_input!) {
+  insert_homes_one(object: $object) {
+    address
+    bath
+    beds
+    city
+    createdAt
+    description
+    facts
+    features
+    id
+    lat
+    lng
+    lotSize
+    price
+    priceSqft
+    sqft
+    state
+    style
+    updatedAt
+    yearBuilt
+    zipcode
+  }
+}

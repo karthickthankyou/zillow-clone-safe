@@ -17,7 +17,7 @@ import {
   useGetHighlightedRegionData,
 } from 'src/store/home/homeNetwork'
 
-import { setViewport } from 'src/store/map/mapSlice'
+import { setViewport, setViewportLocation } from 'src/store/map/mapSlice'
 
 import {
   selectHighlightedHomeId,
@@ -202,10 +202,9 @@ export const CityMarkers = () => {
         style={style}
         onClick={() => {
           dispatch(
-            setViewport({
+            setViewportLocation({
               latitude: marker.lat,
               longitude: marker.lng,
-              zoom: ZOOM_CITIES,
             })
           )
         }}
@@ -266,10 +265,9 @@ export const StateMarkers = () => {
             id={marker.id}
             onClick={() => {
               dispatch(
-                setViewport({
+                setViewportLocation({
                   latitude: marker.lat,
                   longitude: marker.lng,
-                  zoom: ZOOM_CITIES,
                 })
               )
             }}
