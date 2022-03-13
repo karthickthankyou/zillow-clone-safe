@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, ReactElement } from 'react'
 import { useInsertHomeMutation } from 'src/generated/graphql'
-import { useForm, UseFormSetValue } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import HtmlSelect from 'src/components/atoms/HtmlSelect'
@@ -14,8 +15,6 @@ import {
   Panel,
   PanelContainer,
   FetchingBool,
-  Error,
-  ErrorBool,
   MapMessage,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import ZoomControls, {
@@ -26,20 +25,21 @@ import { Marker } from 'react-map-gl'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import PinSolid from '@heroicons/react/solid/LocationMarkerIcon'
-import MapIcon from '@heroicons/react/outline/MapIcon'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import { selectViewport, setViewport } from 'src/store/map/mapSlice'
 import { useSearchAddress } from 'src/store/streams'
 import Autocomplete from 'src/components/molecules/Autocomplete'
 import { useAppDispatch, useAppSelector } from 'src/store'
+import { notify } from 'src/hooks'
+import { Children } from 'src/types'
 
 export type AddressSearchType = {
   address: string
   city: string
   state: string
   postcode: string
-  latitude: number
-  longitude: number
+  lat: number
+  lng: number
 }
 
 const newHomeSchema = yup
@@ -95,16 +95,16 @@ const newHomeSchema = yup
       .required(
         'enter the year of construction. Prehistoric houses are not listed right now.'
       ),
-    latitude: yup
+    lat: yup
       .number()
-      .min(-90, 'Latitude must be -90 to 90')
-      .max(90, `Latitude must be -90 to 90`)
-      .required('Latitude is not set.'),
-    longitude: yup
+      .min(-90, 'lat must be -90 to 90')
+      .max(90, `lat must be -90 to 90`)
+      .required('lat is not set.'),
+    lng: yup
       .number()
-      .min(-180, 'Longitude must be -180 to 180')
-      .max(180, `Longitude must be -180 to 180`)
-      .required('Longitude is not set.'),
+      .min(-180, 'lng must be -180 to 180')
+      .max(180, `lng must be -180 to 180`)
+      .required('lng is not set.'),
     zipcode: yup.string().required('enter the zipcode.'),
   })
   .required()
@@ -113,10 +113,16 @@ type NewHomeSchema = yup.InferType<typeof newHomeSchema>
 
 export interface IAddNewHomeTemplateProps {}
 
-const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
+const MapLocationPicker = ({
+  setValue,
+  className,
+}: {
+  setValue: Function
+  className?: string
+}) => {
   const [marker, setMarker] = useState(() => ({
-    latitude: 40,
-    longitude: -100,
+    lat: 40,
+    lng: -100,
   }))
 
   const [searchText, setSearchText] = useState('')
@@ -133,20 +139,21 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
     error: markerDragError,
   } = useSearchAddress({ searchText: location })
 
-  useEffect(() => {
-    console.log('Errors: ', searchTextError, markerDragError)
-  }, [markerDragError, searchTextError])
-
   const dispatch = useAppDispatch()
 
   const setAddress = useCallback(
     (v: {
+      latitude?: number
+      longitude?: number
       address?: string
       state?: string
       city?: string
       postcode?: string
     }) => {
-      const { address, city, postcode, state } = v
+      console.log('v', v)
+      const { latitude, longitude, address, city, postcode, state } = v
+      setValue('lat', latitude)
+      setValue('lng', longitude)
       setValue('address', address)
       setValue('state', state)
       setValue('city', city)
@@ -156,24 +163,29 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
   )
 
   useEffect(() => {
-    console.log('markerDragData: ', markerDragData)
-    if (markerDragData?.length > 0) setAddress(markerDragData[0])
+    if (markerDragData?.length > 0) {
+      setAddress(markerDragData[0])
+      const { lat, lng } = markerDragData[0]
+      if (lat && lng) {
+        notify({ message: `Location saved as ${lat}, ${lng}` })
+      }
+    }
   }, [markerDragData, setAddress])
 
   const viewport = useAppSelector(selectViewport)
 
   return (
-    <MapProvider className='h-96'>
+    <MapProvider className={`h-96 ${className}`}>
       <Mapbox>
         <Marker
-          longitude={marker.longitude}
-          latitude={marker.latitude}
+          longitude={marker.lng}
+          latitude={marker.lat}
           draggable
           // onDragStart={onMarkerDragStart}
           onDrag={(event: { lngLat: [number, number] }) => {
             setMarker({
-              longitude: event.lngLat[0],
-              latitude: event.lngLat[1],
+              lng: event.lngLat[0],
+              lat: event.lngLat[1],
             })
           }}
           onDragEnd={(event) => {
@@ -194,21 +206,27 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
               isOptionEqualToValue={(a, b) => a.address === b.address}
               onChange={(_, v) => {
                 if (v) {
-                  const { latitude, longitude } = v
-                  setMarker({ latitude, longitude })
-                  dispatch(setViewport({ latitude, longitude, zoom: 14 }))
+                  const { lat, lng } = v
+                  setMarker({ lat, lng })
+                  dispatch(
+                    setViewport({ latitude: lat, longitude: lng, zoom: 14 })
+                  )
                   setAddress(v)
                 }
               }}
               className='rounded-lg shadow-lg'
             />
-            {/* <LocationSearch onChange={() => console.log('onChange')} /> */}
           </Panel>
           <Panel position='right-top'>
             <ZoomControls>
               <ZoomControls.ZoomIn />
               <ZoomControls.ZoomOut />
-              <MapControlAction action={() => setMarker(viewport)} Icon={Pin} />
+              <MapControlAction
+                action={() =>
+                  setMarker({ lat: viewport.latitude, lng: viewport.longitude })
+                }
+                Icon={Pin}
+              />
               <MapControlAction
                 action={() => {
                   setAddress({})
@@ -217,7 +235,8 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
               />
               <MapControl
                 action={setViewport({
-                  ...marker,
+                  latitude: marker.lat,
+                  longitude: marker.lng,
                   zoom: 3,
                 })}
                 Icon={GlobeIcon}
@@ -234,6 +253,32 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
   )
 }
 
+const FormSection = ({
+  title,
+  children,
+}: {
+  title: string | ReactElement
+  children: Children
+}) => (
+  <div className='grid gap-8 pb-6 sm:grid-cols-2 md:grid-cols-3'>
+    <div className='col-span-1'>{title}</div>
+    <div className='grid col-span-2 gap-4 sm:grid-cols-2'>{children}</div>
+  </div>
+)
+
+const FormSectionTitle = ({
+  title,
+  description,
+}: {
+  title: string
+  description: string
+}) => (
+  <div className='space-y-4'>
+    <div className='text-xl font-semibold'>{title}</div>
+    <div className='text-sm text-gray-600'>{description}</div>
+  </div>
+)
+
 const AddNewHomeTemplate = () => {
   const [home, addNewHome] = useInsertHomeMutation()
 
@@ -241,6 +286,7 @@ const AddNewHomeTemplate = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<NewHomeSchema>({
     resolver: yupResolver(newHomeSchema),
@@ -259,16 +305,31 @@ const AddNewHomeTemplate = () => {
       style: '',
       yearBuilt: undefined,
       zipcode: undefined,
-      latitude: undefined,
-      longitude: undefined,
+      lat: undefined,
+      lng: undefined,
     },
   })
 
-  const onSubmit = handleSubmit((data) => console.log('Signup: ', data))
+  const formData = watch()
+  console.log('Errors and data: ', errors, formData)
+
+  const onSubmit = handleSubmit((data) => {
+    console.log('Submitting: ', data)
+    addNewHome({ object: data })
+  })
 
   return (
-    <div className='grid grid-cols-2 gap-4'>
-      <form onSubmit={onSubmit} className='space-y-4 '>
+    <form onSubmit={onSubmit} className='mt-12 mb-24 space-y-20'>
+      <div className='text-3xl font-medium'>Add new home</div>
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Basic information'
+            description='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam modi
+              deleniti earum ratione qui odio molestiae.'
+          />
+        }
+      >
         <Label title='Price' error={errors.price}>
           <Input
             type='number'
@@ -276,137 +337,166 @@ const AddNewHomeTemplate = () => {
             {...register('price')}
           />
         </Label>
-        <div className='grid grid-cols-2 gap-3'>
-          <Label title='Style' error={errors.style}>
-            <HtmlSelect {...register('style')}>
-              <option value='' disabled selected>
-                Select type of house
-              </option>
-              <option value='Condo'>Condo</option>
-              <option value='Single_Family_Home'>Single Family Home</option>
-              <option value='Townhouse'>Townhouse</option>
-              <option value='Coop'>Coop</option>
-              <option value='Unknown'>Unknown</option>
-              <option value='Apartment'>Apartment</option>
-              <option value='Multi_Family'>Multi Family</option>
-              <option value='Mobile_Manufactured'>Mobile Manufactured</option>
-              <option value='Farm_Ranch'>Farm Ranch</option>
-              <option value='Lot_Land'>Lot Land</option>
-            </HtmlSelect>
-          </Label>
-          <Label title='Year of construction' error={errors.yearBuilt}>
-            <Input
-              type='number'
-              placeholder='Enter the year of construction.'
-              {...register('yearBuilt')}
-            />
-          </Label>
-        </div>
-        <div className='grid grid-cols-2 gap-3'>
-          <Label title='Bath' error={errors.bath}>
-            <Input
-              type='number'
-              placeholder='Enter number of baths.'
-              {...register('bath')}
-            />
-          </Label>
-          <Label title='Beds' error={errors.beds}>
-            <Input
-              type='number'
-              placeholder='Enter number of beds.'
-              {...register('beds')}
-            />
-          </Label>
-        </div>
-        <div className='grid grid-cols-2 gap-3'>
-          <Label title='Square feet' error={errors.sqft}>
-            <Input
-              type='number'
-              placeholder='Enter the price.'
-              {...register('sqft')}
-            />
-          </Label>
-          <Label title='Lot size' error={errors.lotSize}>
-            <Input
-              type='number'
-              placeholder='Enter the lot size.'
-              {...register('lotSize')}
-            />
-          </Label>
-        </div>
+        <Label title='Style' error={errors.style}>
+          <HtmlSelect {...register('style')}>
+            <option value='' disabled selected>
+              Select type of house
+            </option>
+            <option value='Condo'>Condo</option>
+            <option value='Single_Family_Home'>Single Family Home</option>
+            <option value='Townhouse'>Townhouse</option>
+            <option value='Coop'>Coop</option>
+            <option value='Unknown'>Unknown</option>
+            <option value='Apartment'>Apartment</option>
+            <option value='Multi_Family'>Multi Family</option>
+            <option value='Mobile_Manufactured'>Mobile Manufactured</option>
+            <option value='Farm_Ranch'>Farm Ranch</option>
+            <option value='Lot_Land'>Lot Land</option>
+          </HtmlSelect>
+        </Label>
 
+        <Label title='Year of construction' error={errors.yearBuilt}>
+          <Input
+            type='number'
+            placeholder='Enter the year of construction.'
+            {...register('yearBuilt')}
+          />
+        </Label>
+      </FormSection>
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Property size'
+            description='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam modi
+              deleniti earum ratione qui odio molestiae.'
+          />
+        }
+      >
+        <Label title='Bath' error={errors.bath}>
+          <Input
+            type='number'
+            placeholder='Enter number of baths.'
+            {...register('bath')}
+          />
+        </Label>
+        <Label title='Beds' error={errors.beds}>
+          <Input
+            type='number'
+            placeholder='Enter number of beds.'
+            {...register('beds')}
+          />
+        </Label>
+        <Label title='Square feet' error={errors.sqft}>
+          <Input
+            type='number'
+            placeholder='Enter the price.'
+            {...register('sqft')}
+          />
+        </Label>
+        <Label title='Lot size' error={errors.lotSize}>
+          <Input
+            type='number'
+            placeholder='Enter the lot size.'
+            {...register('lotSize')}
+          />
+        </Label>
+      </FormSection>
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Location'
+            description='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam modi
+              deleniti earum ratione qui odio molestiae.'
+          />
+        }
+      >
+        <MapLocationPicker setValue={setValue} className='sm:col-span-2' />
+
+        <Label title='Address' error={errors.address}>
+          <TextArea
+            readOnly
+            placeholder='Enter the address.'
+            {...register('address')}
+            rows={4}
+            disabled
+          />
+        </Label>
+        <Label title='City' error={errors.city}>
+          <Input
+            readOnly
+            type='string'
+            placeholder='Enter the city.'
+            disabled
+            {...register('city')}
+          />
+        </Label>
+        <Label title='State' error={errors.state}>
+          <Input
+            readOnly
+            placeholder='Enter the state name.'
+            disabled
+            {...register('state')}
+          />
+        </Label>
+        <Label title='Zip code' error={errors.zipcode}>
+          <Input
+            readOnly
+            placeholder='Enter zipcode'
+            disabled
+            {...register('zipcode')}
+          />
+        </Label>
+      </FormSection>
+
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Additional information'
+            description='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam modi
+              deleniti earum ratione qui odio molestiae.'
+          />
+        }
+      >
         <Label title='Description' error={errors.description}>
           <TextArea
             placeholder='Describe about the home.'
+            rows={4}
             {...register('description')}
           />
         </Label>
         <Label title='Features' error={errors.features}>
           <TextArea
             placeholder='Airconditioned | Parking | 3 stories'
+            rows={4}
             {...register('features')}
           />
         </Label>
         <Label title='Facts (Optional)' error={errors.facts}>
-          <TextArea placeholder='Enter the facts.' {...register('facts')} />
-        </Label>
-        <button
-          className='w-full py-2 text-white rounded bg-primary-600'
-          type='submit'
-        >
-          Submit
-        </button>
-      </form>
-      <div>
-        <div className='mb-2 text-xl'>Select location</div>
-        <MapLocationPicker setValue={setValue} />
-        <Label title='Address' error={errors.address}>
           <TextArea
-            readOnly
-            placeholder='Enter the address.'
-            {...register('address')}
+            placeholder='Enter the facts.'
+            {...register('facts')}
+            rows={4}
           />
         </Label>
-        <div className='grid grid-cols-2 gap-3'>
-          <Label title='City' error={errors.city}>
-            <Input
-              readOnly
-              type='string'
-              placeholder='Enter the city.'
-              {...register('city')}
-            />
-          </Label>
-          <Label title='State' error={errors.state}>
-            <Input
-              readOnly
-              placeholder='Enter the state name.'
-              {...register('state')}
-            />
-          </Label>
-          <Label title='Zip code' error={errors.zipcode}>
-            <Input
-              readOnly
-              placeholder='Enter zipcode'
-              {...register('zipcode')}
-            />
-          </Label>
+      </FormSection>
+      <div className='grid grid-cols-3 gap-4'>
+        <div className='col-start-3'>
+          <div>
+            <label>
+              <input type='checkbox' />I was truthful.
+            </label>
+          </div>
+
+          <button
+            className='w-full py-3 text-white rounded bg-primary-500'
+            type='submit'
+          >
+            Submit
+          </button>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 
 export default AddNewHomeTemplate
-
-//   .mixed().oneOf([
-//   'Condo',
-//   'Single_Family_Home',
-//   'Townhouse',
-//   'Coop',
-//   'Unknown',
-//   'Apartment',
-//   'Multi_Family',
-//   'Mobile_Manufactured',
-//   'Farm_Ranch',
-//   'Lot_Land',
-// ])

@@ -2,6 +2,7 @@
 import { ReactElement } from 'react'
 import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
+import InformationCircleIcon from '@heroicons/react/outline/InformationCircleIcon'
 import MapPopup from 'src/components/molecules/Popup'
 
 import { useAppSelector, useAppDispatch } from 'src/store'
@@ -110,14 +111,14 @@ export const Error = () => {
     </div>
   ) : null
 }
-export const MapMessage = ({ message }: { message: string | null }) => {
-  console.log('MapMessage', message)
-  return message ? (
-    <div className='px-4 py-2 text-white bg-gray-600 rounded-full shadow-xl'>
-      {message}
+
+export const MapMessage = ({ message }: { message: string | null }) =>
+  message ? (
+    <div className='flex items-center px-4 py-2 text-sm text-white bg-gray-600 rounded-full shadow-lg'>
+      <InformationCircleIcon className='p-1 w-7 h-7' /> <div>{message}</div>
     </div>
   ) : null
-}
+
 export const ErrorBool = ({ error }: { error: string | null }) =>
   error ? (
     <div className='px-4 py-2 text-white bg-red-600 rounded-full shadow-xl'>

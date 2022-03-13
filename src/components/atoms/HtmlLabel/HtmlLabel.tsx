@@ -10,10 +10,11 @@ const HtmlLabel = React.forwardRef<
   {
     children: Children
     title: string
+    className?: string
     error: FieldError | undefined
   }
->(({ children, title, error }, ref) => (
-  <label ref={ref} className='block text-sm text-gray-700 '>
+>(({ children, title, error, className }, ref) => (
+  <label ref={ref} className={`block text-sm ${className}`}>
     <div className='mb-1 ml-1'>{title}</div>
     {children}
     {/* {console.log('Error: ', error, title)} */}

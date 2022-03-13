@@ -63,7 +63,7 @@ const UrqlProvider = ({ children }: IUrqlProviderProps) => {
     },
   })
 
-  return <Provider value={urqlClient}>{children}</Provider>
+  return <Provider value={client}>{children}</Provider>
 }
 
 export default UrqlProvider

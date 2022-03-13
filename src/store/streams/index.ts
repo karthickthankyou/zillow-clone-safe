@@ -81,10 +81,8 @@ export const useSearchAddress = ({ searchText }: { searchText: string }) => {
           setLoading(false)
         }),
         map((v) => {
-          console.log('map', v)
-
           if (v?.features?.length === 0) {
-            setError('No results found')
+            setError('No results found.')
             return [
               {
                 address: undefined,
@@ -133,7 +131,6 @@ export const useSearchAddress = ({ searchText }: { searchText: string }) => {
       )
       .subscribe((v) => {
         setData(v)
-        console.log('End result: ', v)
       })
     return () => {
       subscription.unsubscribe()
