@@ -15,6 +15,8 @@ import {
   PanelContainer,
   FetchingBool,
   Error,
+  ErrorBool,
+  MapMessage,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import ZoomControls, {
   MapControl,
@@ -132,7 +134,7 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
   } = useSearchAddress({ searchText: location })
 
   useEffect(() => {
-    console.log(searchTextError, markerDragError)
+    console.log('Errors: ', searchTextError, markerDragError)
   }, [markerDragError, searchTextError])
 
   const dispatch = useAppDispatch()
@@ -154,6 +156,7 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
   )
 
   useEffect(() => {
+    console.log('markerDragData: ', markerDragData)
     if (markerDragData?.length > 0) setAddress(markerDragData[0])
   }, [markerDragData, setAddress])
 
@@ -223,7 +226,7 @@ const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
           </Panel>
           <Panel position='center-bottom'>
             <FetchingBool fetching={searchTextFetching || markerDragFetching} />
-            <Error />
+            <MapMessage message={markerDragError} />
           </Panel>
         </PanelContainer>
       </Mapbox>

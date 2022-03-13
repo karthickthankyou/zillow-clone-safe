@@ -110,6 +110,20 @@ export const Error = () => {
     </div>
   ) : null
 }
+export const MapMessage = ({ message }: { message: string | null }) => {
+  console.log('MapMessage', message)
+  return message ? (
+    <div className='px-4 py-2 text-white bg-gray-600 rounded-full shadow-xl'>
+      {message}
+    </div>
+  ) : null
+}
+export const ErrorBool = ({ error }: { error: string | null }) =>
+  error ? (
+    <div className='px-4 py-2 text-white bg-red-600 rounded-full shadow-xl'>
+      Someting went wrong.
+    </div>
+  ) : null
 
 export const HomeMarkers = () => {
   useFetchHomesMap()

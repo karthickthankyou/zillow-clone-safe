@@ -68,6 +68,7 @@ export const useSearchAddress = ({ searchText }: { searchText: string }) => {
 
         tap((v) => {
           setLoading(true)
+          setError(null)
         }),
         switchMap(({ text }) =>
           text
@@ -81,6 +82,20 @@ export const useSearchAddress = ({ searchText }: { searchText: string }) => {
         }),
         map((v) => {
           console.log('map', v)
+
+          if (v?.features?.length === 0) {
+            setError('No results found')
+            return [
+              {
+                address: undefined,
+                longitude: undefined,
+                latitude: undefined,
+                postcode: undefined,
+                city: undefined,
+                state: undefined,
+              },
+            ]
+          }
 
           return (
             v.features?.map(
@@ -123,7 +138,7 @@ export const useSearchAddress = ({ searchText }: { searchText: string }) => {
     return () => {
       subscription.unsubscribe()
     }
-  }, [])
+  }, [searchAddressSubject$])
 
   useEffect(() => {
     searchAddressSubject$.next({ text: searchText })
