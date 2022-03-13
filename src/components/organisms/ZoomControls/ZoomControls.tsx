@@ -20,7 +20,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 
 export interface IZoomControlsProps {}
 
-const ZoomControl = ({ children }: { children: Children }) => (
+const MapControls = ({ children }: { children: Children }) => (
   <div className='flex flex-col border border-white divide-y divide-white rounded shadow-lg bg-white/50 backdrop-blur backdrop-filter'>
     {children}
   </div>
@@ -120,22 +120,37 @@ export const MapControl = ({
     </button>
   )
 }
+export const MapControlAction = ({
+  action,
+  Icon,
+}: {
+  action: Function
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+}) => (
+  <button
+    className='rounded-none hover:bg-white'
+    type='button'
+    onClick={() => action()}
+  >
+    <Icon className='w-8 h-8 p-1.5 ' />
+  </button>
+)
 
-ZoomControl.ZoomIn = ZoomIn
-ZoomControl.ZoomOut = ZoomOut
-ZoomControl.ResetMap = ResetMap
-ZoomControl.ZoomCities = ZoomCities
-ZoomControl.GotoMarker = GotoMarker
-ZoomControl.ExpandIn = ExpandIn
-ZoomControl.MapControl = MapControl
+MapControls.ZoomIn = ZoomIn
+MapControls.ZoomOut = ZoomOut
+MapControls.ResetMap = ResetMap
+MapControls.ZoomCities = ZoomCities
+MapControls.GotoMarker = GotoMarker
+MapControls.ExpandIn = ExpandIn
+MapControls.MapControl = MapControl
 
-export default ZoomControl
+export default MapControls
 
 export const DefaultZoomControls = () => (
-  <ZoomControl>
+  <MapControls>
     <ZoomIn />
     <ZoomOut />
     <ZoomCities />
     <ResetMap />
-  </ZoomControl>
+  </MapControls>
 )

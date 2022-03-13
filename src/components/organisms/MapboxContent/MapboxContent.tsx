@@ -95,6 +95,12 @@ export const Fetching = () => {
     </div>
   ) : null
 }
+export const FetchingBool = ({ fetching }: { fetching: boolean }) =>
+  fetching ? (
+    <div className='p-1 text-white border border-black rounded-full shadow-xl bg-black/80'>
+      <RefreshIcon className='w-8 h-8 animate-spin-reverse' />
+    </div>
+  ) : null
 
 export const Error = () => {
   const error = useAppSelector(selectMapError)

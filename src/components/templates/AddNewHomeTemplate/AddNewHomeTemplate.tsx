@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useInsertHomeMutation } from 'src/generated/graphql'
-import { useForm } from 'react-hook-form'
+import { useForm, UseFormSetValue } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import HtmlSelect from 'src/components/atoms/HtmlSelect'
@@ -13,76 +13,31 @@ import { MapProvider } from 'src/store/map/mapContext'
 import {
   Panel,
   PanelContainer,
+  FetchingBool,
+  Error,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import ZoomControls, {
   MapControl,
+  MapControlAction,
 } from 'src/components/organisms/ZoomControls/ZoomControls'
 import { Marker } from 'react-map-gl'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import PinSolid from '@heroicons/react/solid/LocationMarkerIcon'
 import MapIcon from '@heroicons/react/outline/MapIcon'
-import { setViewport } from 'src/store/map/mapSlice'
+import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
+import { selectViewport, setViewport } from 'src/store/map/mapSlice'
+import { useSearchAddress } from 'src/store/streams'
+import Autocomplete from 'src/components/molecules/Autocomplete'
+import { useAppDispatch, useAppSelector } from 'src/store'
 
-const MapLocationPicker = () => {
-  const [marker, setMarker] = useState(() => ({
-    latitude: 40,
-    longitude: -100,
-  }))
-
-  const onMarkerDrag = useCallback((event: { lngLat: [number, number] }) => {
-    setMarker({
-      longitude: event.lngLat[0],
-      latitude: event.lngLat[1],
-    })
-  }, [])
-
-  return (
-    <MapProvider className='h-72'>
-      <Mapbox>
-        <Marker
-          longitude={marker.longitude}
-          latitude={marker.latitude}
-          draggable
-          // onDragStart={onMarkerDragStart}
-          onDrag={onMarkerDrag}
-
-          // onDragEnd={onMarkerDragEnd}
-        >
-          <PinSolid className='w-6 h-6' />
-        </Marker>
-        <PanelContainer>
-          <Panel position='left-top'>
-            <ZoomControls>
-              <ZoomControls.ZoomIn />
-              <ZoomControls.ZoomOut />
-              <MapControl
-                action={setViewport({
-                  ...marker,
-                  zoom: 13,
-                })}
-                Icon={Pin}
-              />
-              <MapControl
-                action={setViewport({
-                  ...marker,
-                  zoom: 6,
-                })}
-                Icon={MapIcon}
-              />
-              <MapControl
-                action={setViewport({
-                  ...marker,
-                  zoom: 3,
-                })}
-                Icon={GlobeIcon}
-              />
-            </ZoomControls>
-          </Panel>
-        </PanelContainer>
-      </Mapbox>
-    </MapProvider>
-  )
+export type AddressSearchType = {
+  address: string
+  city: string
+  state: string
+  postcode: string
+  latitude: number
+  longitude: number
 }
 
 const newHomeSchema = yup
@@ -138,6 +93,16 @@ const newHomeSchema = yup
       .required(
         'enter the year of construction. Prehistoric houses are not listed right now.'
       ),
+    latitude: yup
+      .number()
+      .min(-90, 'Latitude must be -90 to 90')
+      .max(90, `Latitude must be -90 to 90`)
+      .required('Latitude is not set.'),
+    longitude: yup
+      .number()
+      .min(-180, 'Longitude must be -180 to 180')
+      .max(180, `Longitude must be -180 to 180`)
+      .required('Longitude is not set.'),
     zipcode: yup.string().required('enter the zipcode.'),
   })
   .required()
@@ -146,12 +111,133 @@ type NewHomeSchema = yup.InferType<typeof newHomeSchema>
 
 export interface IAddNewHomeTemplateProps {}
 
+const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
+  const [marker, setMarker] = useState(() => ({
+    latitude: 40,
+    longitude: -100,
+  }))
+
+  const [searchText, setSearchText] = useState('')
+  const [location, setLocation] = useState('')
+
+  const {
+    data: searchTextData,
+    loading: searchTextFetching,
+    error: searchTextError,
+  } = useSearchAddress({ searchText })
+  const {
+    data: markerDragData,
+    loading: markerDragFetching,
+    error: markerDragError,
+  } = useSearchAddress({ searchText: location })
+
+  useEffect(() => {
+    console.log(searchTextError, markerDragError)
+  }, [markerDragError, searchTextError])
+
+  const dispatch = useAppDispatch()
+
+  const setAddress = useCallback(
+    (v: {
+      address?: string
+      state?: string
+      city?: string
+      postcode?: string
+    }) => {
+      const { address, city, postcode, state } = v
+      setValue('address', address)
+      setValue('state', state)
+      setValue('city', city)
+      setValue('zipcode', postcode)
+    },
+    [setValue]
+  )
+
+  useEffect(() => {
+    if (markerDragData?.length > 0) setAddress(markerDragData[0])
+  }, [markerDragData, setAddress])
+
+  const viewport = useAppSelector(selectViewport)
+
+  return (
+    <MapProvider className='h-96'>
+      <Mapbox>
+        <Marker
+          longitude={marker.longitude}
+          latitude={marker.latitude}
+          draggable
+          // onDragStart={onMarkerDragStart}
+          onDrag={(event: { lngLat: [number, number] }) => {
+            setMarker({
+              longitude: event.lngLat[0],
+              latitude: event.lngLat[1],
+            })
+          }}
+          onDragEnd={(event) => {
+            setLocation(event.lngLat.join(','))
+          }}
+        >
+          <PinSolid className='w-6 h-6' />
+        </Marker>
+        <PanelContainer>
+          <Panel position='left-top'>
+            <Autocomplete<AddressSearchType, false, false, false>
+              options={searchTextData}
+              getOptionLabel={(x) => x.address}
+              onInputChange={(_, v) => {
+                setSearchText(v)
+              }}
+              loading={searchTextFetching}
+              isOptionEqualToValue={(a, b) => a.address === b.address}
+              onChange={(_, v) => {
+                if (v) {
+                  const { latitude, longitude } = v
+                  setMarker({ latitude, longitude })
+                  dispatch(setViewport({ latitude, longitude, zoom: 14 }))
+                  setAddress(v)
+                }
+              }}
+              className='rounded-lg shadow-lg'
+            />
+            {/* <LocationSearch onChange={() => console.log('onChange')} /> */}
+          </Panel>
+          <Panel position='right-top'>
+            <ZoomControls>
+              <ZoomControls.ZoomIn />
+              <ZoomControls.ZoomOut />
+              <MapControlAction action={() => setMarker(viewport)} Icon={Pin} />
+              <MapControlAction
+                action={() => {
+                  setAddress({})
+                }}
+                Icon={RefreshIcon}
+              />
+              <MapControl
+                action={setViewport({
+                  ...marker,
+                  zoom: 3,
+                })}
+                Icon={GlobeIcon}
+              />
+            </ZoomControls>
+          </Panel>
+          <Panel position='center-bottom'>
+            <FetchingBool fetching={searchTextFetching || markerDragFetching} />
+            <Error />
+          </Panel>
+        </PanelContainer>
+      </Mapbox>
+    </MapProvider>
+  )
+}
+
 const AddNewHomeTemplate = () => {
   const [home, addNewHome] = useInsertHomeMutation()
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<NewHomeSchema>({
     resolver: yupResolver(newHomeSchema),
@@ -170,13 +256,15 @@ const AddNewHomeTemplate = () => {
       style: '',
       yearBuilt: undefined,
       zipcode: undefined,
+      latitude: undefined,
+      longitude: undefined,
     },
   })
 
   const onSubmit = handleSubmit((data) => console.log('Signup: ', data))
 
   return (
-    <div className='grid grid-cols-2 gap-2'>
+    <div className='grid grid-cols-2 gap-4'>
       <form onSubmit={onSubmit} className='space-y-4 '>
         <Label title='Price' error={errors.price}>
           <Input
@@ -243,24 +331,7 @@ const AddNewHomeTemplate = () => {
             />
           </Label>
         </div>
-        <Label title='Address' error={errors.address}>
-          <TextArea placeholder='Enter the address.' {...register('address')} />
-        </Label>
-        <div className='grid grid-cols-2 gap-3'>
-          <Label title='City' error={errors.city}>
-            <Input
-              type='string'
-              placeholder='Enter the city.'
-              {...register('city')}
-            />
-          </Label>
-          <Label title='State' error={errors.state}>
-            <Input placeholder='Enter the state name.' {...register('state')} />
-          </Label>
-          <Label title='Zip code' error={errors.zipcode}>
-            <Input placeholder='Enter zipcode' {...register('zipcode')} />
-          </Label>
-        </div>
+
         <Label title='Description' error={errors.description}>
           <TextArea
             placeholder='Describe about the home.'
@@ -274,7 +345,7 @@ const AddNewHomeTemplate = () => {
           />
         </Label>
         <Label title='Facts (Optional)' error={errors.facts}>
-          <TextArea placeholder='Enter the address.' {...register('facts')} />
+          <TextArea placeholder='Enter the facts.' {...register('facts')} />
         </Label>
         <button
           className='w-full py-2 text-white rounded bg-primary-600'
@@ -285,7 +356,38 @@ const AddNewHomeTemplate = () => {
       </form>
       <div>
         <div className='mb-2 text-xl'>Select location</div>
-        <MapLocationPicker />
+        <MapLocationPicker setValue={setValue} />
+        <Label title='Address' error={errors.address}>
+          <TextArea
+            readOnly
+            placeholder='Enter the address.'
+            {...register('address')}
+          />
+        </Label>
+        <div className='grid grid-cols-2 gap-3'>
+          <Label title='City' error={errors.city}>
+            <Input
+              readOnly
+              type='string'
+              placeholder='Enter the city.'
+              {...register('city')}
+            />
+          </Label>
+          <Label title='State' error={errors.state}>
+            <Input
+              readOnly
+              placeholder='Enter the state name.'
+              {...register('state')}
+            />
+          </Label>
+          <Label title='Zip code' error={errors.zipcode}>
+            <Input
+              readOnly
+              placeholder='Enter zipcode'
+              {...register('zipcode')}
+            />
+          </Label>
+        </div>
       </div>
     </div>
   )
