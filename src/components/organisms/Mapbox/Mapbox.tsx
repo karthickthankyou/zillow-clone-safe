@@ -8,7 +8,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { Viewport } from 'src/types'
 import { useInitializeViewport } from 'src/store/map/mapHooks'
-import mapStyleLight from './mapLight.json'
+// import mapStyleLight from './mapLight.json'
 
 export type MarkerType = { id: string; lat: number; lng: number }[]
 

@@ -24,7 +24,6 @@ import { setMapSearchOptions } from '../map/mapSlice'
 export const searchPlaces$ = store$.pipe(
   map((state) => state.map.searchText),
   distinctUntilChanged(),
-  // throttleTime(500),
   filter((text) => text.length > 0),
   debounceTime(500),
   tap(() => store.dispatch(setMapSearchOptions({ data: [], fetching: true }))),
@@ -71,7 +70,7 @@ export const useSearchAddress = ({
         debounceTime(400),
         distinctUntilChanged(),
 
-        tap((v) => {
+        tap(() => {
           setLoading(true)
           setError(null)
         }),
@@ -82,7 +81,7 @@ export const useSearchAddress = ({
               ).then((response) => response.json())
             : of([])
         ),
-        tap((v) => {
+        tap(() => {
           setLoading(false)
         }),
         map((v) => {
@@ -127,9 +126,8 @@ export const useSearchAddress = ({
               }
             ) || []
           )
-          // return v.features.map((item: { place_name: any }) => item.place_name)
         }),
-        catchError((err, caught) => {
+        catchError((err) => {
           setError(err)
           return EMPTY
         })
@@ -152,7 +150,6 @@ export const useSearchAddress = ({
 export const searchAddress$ = store$.pipe(
   map((state) => state.map.searchText),
   distinctUntilChanged(),
-  // throttleTime(500),
   filter((text) => text.length > 0),
   debounceTime(500),
   tap(() => store.dispatch(setMapSearchOptions({ data: [], fetching: true }))),

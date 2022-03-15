@@ -1,5 +1,3 @@
-import Link from '../Link'
-
 export interface IBrandProps {
   className?: string
 }

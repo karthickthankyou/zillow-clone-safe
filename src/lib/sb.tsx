@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import { store } from 'src/store'
 import { Provider as UrqlProvider } from 'urql'
-import { client } from 'src/config/urqlClient'
+import { client } from 'src/config/urqlClientWonka'
 
 export const SbReduxProvider = (story: any) => (
   <UrqlProvider value={client}>

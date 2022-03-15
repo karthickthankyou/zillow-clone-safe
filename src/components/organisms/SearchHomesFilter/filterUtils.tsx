@@ -6,16 +6,7 @@ import { PopoverButton } from 'src/components/molecules/PopoverMenuItem'
 import { addDollar, shortenNumber } from 'src/lib/util'
 import { FilterIcon } from '@heroicons/react/outline'
 import { useEffect, useState } from 'react'
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  EMPTY,
-  map,
-  Subject,
-  tap,
-  delay,
-} from 'rxjs'
+import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { setHomesFilter } from 'src/store/home/homeSlice'
 import {
@@ -25,7 +16,6 @@ import {
   setSearchText,
 } from 'src/store/map/mapSlice'
 import { useSearchPlaces } from 'src/store/map/mapHooks'
-import { NotificationType } from 'src/types'
 
 const homeTypes = [
   'Single Family Home',

@@ -7,7 +7,9 @@ export default {
   component: AddNewHomeTemplate,
 } as ComponentMeta<typeof AddNewHomeTemplate>
 
-const Template: ComponentStory<typeof AddNewHomeTemplate> = (args) => <AddNewHomeTemplate {...args} />
+const Template: ComponentStory<typeof AddNewHomeTemplate> = () => (
+  <AddNewHomeTemplate />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

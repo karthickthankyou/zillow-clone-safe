@@ -1,9 +1,11 @@
+import { createMount } from 'cypress/support/commands'
 import React from 'react'
 import SliderMui from './SliderMui'
 
 describe('SliderMui Component', () => {
+  const mount = createMount()
   beforeEach(() => {
-    cy.mount(
+    mount(
       <SliderMui
         initialData={[0, 100]}
         step={12}

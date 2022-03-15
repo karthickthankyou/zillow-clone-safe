@@ -1,16 +1,6 @@
-import Autocomplete from 'src/components/molecules/Autocomplete'
 import MapIcon from '@heroicons/react/outline/MapIcon'
 
-import { useDispatch } from 'react-redux'
 import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
-
-import { useAppSelector } from 'src/store'
-import {
-  setViewport,
-  selectMapSearchOptions,
-  setSearchText,
-  MapSlice,
-} from 'src/store/map/mapSlice'
 
 import { useRouter } from 'next/dist/client/router'
 import { LocationSearch } from 'src/components/organisms/SearchHomesFilter/filterUtils'
@@ -21,12 +11,6 @@ export interface IHeroProps {
 }
 
 const Hero = ({ className, executeScroll }: IHeroProps) => {
-  const dispatch = useDispatch()
-
-  /** Selectors */
-  const cityList = useAppSelector(selectMapSearchOptions)
-
-  /** Hooks */
   const router = useRouter()
 
   return (
@@ -43,44 +27,6 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
           onChange={() => router.push({ pathname: '/homes' }, '/homes')}
         />
 
-        {/* <Autocomplete<
-          MapSlice['mapSearchOptions']['data'][number],
-          false,
-          false,
-          false
-        >
-          options={cityList.data}
-          getOptionLabel={(x) => x.displayName}
-          onInputChange={(_, v) => dispatch(setSearchText(v))}
-          loading={cityList.fetching}
-          isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
-          onChange={(_, v) => {
-            const { displayName, latitude, longitude, zoom } = v!
-            console.log('onChange: ', v)
-
-            if (v) {
-              dispatch(
-                setViewport({
-                  latitude,
-                  longitude,
-                  zoom,
-                })
-              )
-              router.push(
-                {
-                  pathname: '/homes',
-                  query: {
-                    search: displayName,
-                    latitude,
-                    longitude,
-                  },
-                },
-                '/homes'
-              )
-            }
-          }}
-          className='w-full mt-12 rounded-md'
-        /> */}
         <button
           type='button'
           onClick={() => executeScroll()}

@@ -14,10 +14,6 @@ import {
 import { GetHomeQuery } from 'src/generated/graphql'
 import { useScrollTo, scrollToTop } from 'src/hooks'
 
-import { useAppDispatch } from 'src/store'
-import { setHighlightedHomeId } from 'src/store/home/homeSlice'
-import { useEffect, memo } from 'react'
-import { setViewport } from 'src/store/map/mapSlice'
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
 import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 import ArrowCircleUpIcon from '@heroicons/react/outline/ArrowCircleUpIcon'
@@ -55,19 +51,6 @@ const HighText = ({ children }: { children: Children }) => (
 
 const ProductPage = ({ homeData }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
-
-  const dispatch = useAppDispatch()
-
-  // useEffect(() => {
-  //   dispatch(setHighlightedHomeId(homeData?.id))
-  //   dispatch(
-  //     setViewport({
-  //       latitude: homeData?.lat || 0,
-  //       longitude: homeData?.lng || 0,
-  //       zoom: 11,
-  //     })
-  //   )
-  // }, [dispatch, homeData])
 
   return (
     <Container>

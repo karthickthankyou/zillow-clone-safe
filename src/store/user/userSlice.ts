@@ -17,10 +17,6 @@ type Claims = {
   'x-hasura-allowed-roles': string[]
 }
 
-type Token = {
-  Authorization: string
-}
-
 export type UserSliceType = AsyncData<{
   user: User | null
   claims: Claims | null
@@ -67,7 +63,7 @@ export const userSlice = createSlice({
 
     resetUser: () => initialState,
   },
-  extraReducers: {
+  extraReducers: () => ({
     // We manage only the response status here. The setUser is set from the auth listener.
 
     // Default extra reducer will look like.
@@ -105,7 +101,7 @@ export const userSlice = createSlice({
     //     googleSignin.pending,
     //   ].map((key) => [key.toString(), setStatus({ loading: true })])
     // ),
-  },
+  }),
 })
 export const { setUser } = userSlice.actions
 

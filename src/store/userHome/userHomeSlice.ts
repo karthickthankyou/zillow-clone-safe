@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { castDraft } from 'immer'
 import { GetWishlistedHomesQuery } from 'src/generated/graphql'
 import { UseQueryResponse } from 'urql'
 import { RootState } from '..'
@@ -23,8 +24,7 @@ const userHomeSlice = createSlice({
       state,
       action: PayloadAction<UserHomeSliceType['wishlisted']>
     ) => {
-      // @ts-ignore
-      state.wishlisted = action.payload
+      state.wishlisted = castDraft(action.payload)
     },
   },
 })

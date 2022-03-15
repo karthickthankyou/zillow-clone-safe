@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import produce from 'immer'
+import produce, { castDraft } from 'immer'
 import { filterDefaultValues } from 'src/components/organisms/SearchHomesFilter/filterUtils'
 import {
   GetHomeByIdQuery,
@@ -63,6 +63,9 @@ const initialState: HomeSliceType = {
   },
 }
 
+// Find this link to know how we avoided putting ts-ignore
+// https://immerjs.github.io/immer/typescript/
+
 const homeSlice = createSlice({
   name: 'Home',
   initialState,
@@ -74,23 +77,19 @@ const homeSlice = createSlice({
       state.homesFilter = action.payload
     },
     setHomes: (state, action: PayloadAction<HomeSliceType['homes']>) => {
-      // @ts-ignore
-      state.homes = action.payload
+      state.homes = castDraft(action.payload)
     },
     setHomesDetailed: (
       state,
       action: PayloadAction<HomeSliceType['homesDetailed']>
     ) => {
-      // @ts-ignore
-      state.homesDetailed = action.payload
+      state.homesDetailed = castDraft(action.payload)
     },
     setCities: (state, action: PayloadAction<HomeSliceType['cities']>) => {
-      // @ts-ignore
-      state.cities = action.payload
+      state.cities = castDraft(action.payload)
     },
     setStates: (state, action: PayloadAction<HomeSliceType['states']>) => {
-      // @ts-ignore
-      state.states = action.payload
+      state.states = castDraft(action.payload)
     },
     setHighlightedHomeId: (
       state,
@@ -164,14 +163,6 @@ export const selectHomesDetailedWishlisted = createSelector(
         wishlisted: true,
       }
     })
-
-    // return {
-    //   ...homesDetailed,
-    //   data: {
-    //     ...homesDetailed.data,
-    //     homes: homesUpdated || homesDetailed.data?.homes || [],
-    //   },
-    // }
 
     return produce(homesDetailed, (homesDetailedDraft) => {
       if (homesDetailedDraft?.data?.homes) {

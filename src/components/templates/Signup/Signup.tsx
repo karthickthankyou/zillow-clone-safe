@@ -3,9 +3,8 @@ import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
-import {} from '@react-icons/all-files/'
 import Link from 'src/components/atoms/Link'
-import Brand from 'src/components/atoms/Brand'
+
 import { googleSignin } from 'src/store/user'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'

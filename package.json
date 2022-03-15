@@ -48,7 +48,7 @@
     "@reach/skip-nav": "^0.16.0",
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.7.2",
-    "@sentry/nextjs": "^6.15.0",
+    "@sentry/nextjs": "^6.18.2",
     "@turf/turf": "^6.5.0",
     "@urql/core": "^2.4.3",
     "@urql/devtools": "^2.0.3",

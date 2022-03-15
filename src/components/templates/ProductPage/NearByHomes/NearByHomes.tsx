@@ -10,7 +10,7 @@ export interface INearByHomesProps {
 }
 
 const NearByHomes = ({ homeId }: INearByHomesProps) => {
-  const { data, fetching, error } = useAppSelector(selectHomesDetailed)
+  const { data, fetching } = useAppSelector(selectHomesDetailed)
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
   return (

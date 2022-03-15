@@ -401,3 +401,29 @@ export const searchHomesResultsMockData = {
     },
   ],
 }
+
+export const homeData = {
+  address: '10166 NE Lafayette Ave Bainbridge Island, WA 98110',
+  bath: 3,
+  beds: 3,
+  city: 'Bainbridge Island',
+  createdAt: '2022-01-30T14:51:13.971531+00:00',
+  description:
+    'Enchanting private drive leads to a lovely traditional home overlooking the sandspit below w/breathtaking views of the Sound, boating traffic, mountains, & city lights. Rugged steps to your own waterfront & dock, or an easy stroll to Faye Bainbridge Park for more fun & beach walks. Throw open the French doors from the dining room to extend entertaining to the large deck. Main floor master suite, plus 2 more bdrms & a large office/bonus room up, & a spacious lower level recreation area with view.',
+  facts:
+    '3 Beds | 3 Baths | 2,300 sqft | Single Family Home | 0.8 acres lot size | Built in 1981 | County: Kitsap | Heating: Forced air unit | Parking: Attached Garage | Parking Spaces: 2 | Basement | Stories: 2 story with basement | Exterior: Wood Siding | Roof: Composition Shingle | Land Use Code: Single Family Residential | Subdivision Name: MADISON BEACH | BAINBRIDGE IS',
+  features:
+    'Single Family Home | $396/sqft | Lot Size: 0.8 acres | Built in 1981 | 1 Day on Trulia | Heating: Forced Air | Fireplace | Parking: Attached Garage | Garage | Parking Spaces: 2 | Basement | Stories: 2 | Exterior: Wood | Roof: Composition | Year Updated: 1987 | Deck | Waterfront | Dock | MLS/Source ID: 1529157',
+  id: 724,
+  lat: 47.70529,
+  lng: -122.51373,
+  lotSize: 34848,
+  price: 1138000,
+  priceSqft: 396,
+  sqft: 2876,
+  state: 'WA',
+  style: 'Single Family Home',
+  updatedAt: '2022-01-30T14:51:13.971531+00:00',
+  yearBuilt: 1981,
+  zipcode: '98110',
+}

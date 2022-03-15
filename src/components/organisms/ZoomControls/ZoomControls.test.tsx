@@ -4,6 +4,6 @@ import ZoomControls from './ZoomControls'
 
 describe('ZoomControls Component', () => {
   test('ZoomControls renders', () => {
-    render(<ZoomControls />)
+    render(<ZoomControls>Children</ZoomControls>)
   })
 })

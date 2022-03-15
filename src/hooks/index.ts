@@ -9,7 +9,6 @@ import {
   Subject,
   tap,
   delay,
-  throttleTime,
   takeUntil,
   timer,
   switchMap,
@@ -21,8 +20,6 @@ import {
   resetNotification,
 } from 'src/store/utils/utilsStore'
 import { NotificationType } from 'src/types'
-import { setHighlightedHomeId } from 'src/store/home/homeSlice'
-import { ActionCreatorWithPayload } from '@reduxjs/toolkit'
 import { useRouter } from 'next/router'
 
 import { selectUid } from 'src/store/user/userSlice'
@@ -47,7 +44,6 @@ export const useScroll = (): [
     return () => {
       element?.removeEventListener('wheel', (e) => e.preventDefault)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const scroll = (distance: number) => {
@@ -56,14 +52,6 @@ export const useScroll = (): [
       scrollEl.current?.scrollTo({ left: leftPos, behavior: 'smooth' })
     }
   }
-
-  // const getScrollWidthEnd = (scrollElement: RefObject<HTMLDivElement>) => {
-  //   if (scrollElement?.current) {
-  //     const { scrollWidth, clientWidth } = scrollElement.current
-  //     return scrollWidth - clientWidth
-  //   }
-  //   return 0
-  // }
 
   const scrollListesener = () => {
     const start = scrollEl.current ? scrollEl?.current.scrollLeft : 0
@@ -110,7 +98,7 @@ export default function useTriggerOnScroll({
     function hasScrolledTo(element: HTMLElement) {
       if (!element) return false
       const { top } = getOffset(element)
-      // const offset = 0
+
       const offset = window.innerHeight * triggerPoint
       return top - offset <= window.pageYOffset
     }
@@ -153,7 +141,6 @@ export const notify = ({
   type = 'info',
   position = 'bottom-center',
 }: Omit<NotificationType, 'id'>) => {
-  // Add map bounds into the data as default parameters.
   notifySubject$.next({ message, type, position })
 }
 
@@ -268,6 +255,6 @@ export const useRedirectUnAuthenticatedUsers = () => {
 
   if (!uid) {
     notify({ message: 'You are not logged in', type: 'warning' })
-    typeof window !== 'undefined' && router.push('/login')
+    if (typeof window !== 'undefined') router.push('/login')
   }
 }

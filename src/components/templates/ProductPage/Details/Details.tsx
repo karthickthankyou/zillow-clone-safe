@@ -8,6 +8,8 @@ export interface IDetailsProps {
 }
 
 const Option = ({ title, content }: IOptionProps) => {
+  if (!content) return null
+
   const contentDisplay = Array.isArray(content) ? content : [content]
   return (
     <div>

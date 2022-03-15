@@ -4,16 +4,11 @@ import {
   selectCitiesMap,
   selectStatesMap,
 } from 'src/store/home/homeSlice'
-import { selectDebouncedZoom, setZoom } from 'src/store/map/mapSlice'
+import { selectDebouncedZoom } from 'src/store/map/mapSlice'
 
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
-import ZoomInIcon from '@heroicons/react/outline/ZoomInIcon'
-import {
-  ZOOM_HOMES,
-  showCities,
-  showStates,
-  ZOOM_CITIES,
-} from 'src/store/static'
+
+import { showCities, showStates } from 'src/store/static'
 
 import { Children } from 'src/types'
 import PropertyCard from '../PropertyCard'
@@ -34,7 +29,6 @@ const ProductListingResult = () => {
   const states = useAppSelector(selectStatesMap)
 
   const NO_RESULTS = !fetching && data?.homes.length === 0
-  const dispatch = useAppDispatch()
 
   const zoom = useAppSelector(selectDebouncedZoom)
 

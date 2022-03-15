@@ -13,7 +13,7 @@ export const useUserListener = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const token = await user.getIdToken()
-        console.log('Token: ', token)
+
         const idTokenResult = await user.getIdTokenResult()
         const hasuraClaim = idTokenResult.claims['https://hasura.io/jwt/claims']
 
@@ -47,6 +47,7 @@ export const useUserListener = () => {
     onIdTokenChanged(auth, (user) => {
       if (user) {
         // User is signed in or token was refreshed.
+        // eslint-disable-next-line no-console
         console.log('----------- Token refreshed: ', user)
       }
     })
@@ -82,11 +83,11 @@ export const useGetToken = () => {
 }
 
 export const getToken = async () => {
-  const t0 = performance.now()
+  // const t0 = performance.now()
   const token = await auth.currentUser?.getIdToken(false)
 
-  const t1 = performance.now()
-  console.log(`Call to doSomething took ${t1 - t0} milliseconds.`)
+  // const t1 = performance.now()
+  // console.log(`Call to doSomething took ${t1 - t0} milliseconds.`)
 
   return token
 }

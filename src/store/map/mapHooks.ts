@@ -7,7 +7,6 @@ import {
   setViewport,
   setBounds,
   setDebouncedViewport,
-  selectDebouncedViewport,
   selectViewport,
 } from './mapSlice'
 import { DEBOUNCE_DELAY } from '../static'

@@ -4,6 +4,10 @@ module.exports = {
     es2021: true,
     jest: true,
   },
+  globals: {
+    React: true,
+    JSX: true,
+  },
   extends: [
     'plugin:react/recommended',
     'airbnb',
@@ -77,5 +81,14 @@ module.exports = {
         'react/jsx-props-no-spreading': 'off',
       },
     },
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        'no-undef': 'off',
+      },
+    },
   ],
 }
+
+// Note: About no-undef for .ts files.
+// https://stackoverflow.com/questions/60743389/eslint-defined-global-extensions-still-not-defined-no-undef

@@ -10,7 +10,6 @@ import {
 import { useAppDispatch, useAppSelector } from '..'
 
 import {
-  selectHighlightedHomeId,
   setCities,
   setHomes,
   setStates,

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Image from 'src/components/atoms/Image'
 import HScroll from './HScroll'
@@ -99,7 +99,7 @@ const TemplatePicturesArrowTop: ComponentStory<typeof HScroll> = () => (
         />
       </div>
       <HScroll.Body className='gap-2 h-28'>
-        {data.map((item, index) => (
+        {data.map((item) => (
           <HScroll.Child key={item}>
             <Image
               src={item}

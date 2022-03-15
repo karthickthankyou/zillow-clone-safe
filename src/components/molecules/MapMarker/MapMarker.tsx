@@ -12,7 +12,6 @@ import {
 } from 'src/hooks'
 import { setViewportLocation } from 'src/store/map/mapSlice'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
-import { useAppDispatch } from 'src/store'
 
 export interface IMapMarkerProps {
   home: SearchHomesByLocationQuery['homes'][number]

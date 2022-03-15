@@ -1,12 +1,12 @@
-import { ReactElement } from 'react'
-import { Children } from 'src/types'
-
 export interface IShowHideProps {
   show: boolean
-  children: ReactElement | ReactElement[]
+  children: JSX.Element | JSX.Element[]
 }
 
-const ShowHide = ({ show, children }: IShowHideProps) =>
-  show ? children : null
+// eslint-disable-next-line react/function-component-definition
+function ShowHide({ show, children }: IShowHideProps): JSX.Element | null {
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return show ? <>{children}</> : null
+}
 
 export default ShowHide

@@ -5,7 +5,16 @@ import CityCard from './CityCard'
 describe('<Posts />', () => {
   beforeEach(() => {
     // given
-    mount(<CityCard id='Chennai' />)
+    mount(
+      <CityCard
+        id='Chennai'
+        lat={45.0}
+        lng={-90}
+        totalHomes={100}
+        priceSqft={100}
+        type='city'
+      />
+    )
   })
 
   it('renders agent data', () => {

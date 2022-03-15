@@ -1,7 +1,6 @@
 import Container from 'src/components/atoms/Container'
 import { useAppSelector } from 'src/store'
 import { getFunctions, httpsCallable } from 'firebase/functions'
-import Link from 'src/components/atoms/Link'
 import { selectUserRoles } from 'src/store/user/userSlice'
 
 export interface IMyAccountProps {}

@@ -3,15 +3,6 @@ import * as React from 'react'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 
-// export interface IAutocompleteProps {
-//   value?: string
-//   options: string[]
-//   onChange: AutocompleteProps<string, false, false, false>['onChange']
-//   onInputChange: AutocompleteProps<string, false, false, false>['onInputChange']
-//   className?: string
-//   loading?: boolean
-// }
-
 const AutocompleteComponent = <
   T,
   Multiple extends boolean | undefined,
@@ -32,11 +23,6 @@ const AutocompleteComponent = <
     }}
     handleHomeEndKeys
     filterOptions={(x) => x}
-    // ListboxProps={{
-    //   style: {
-    //     maxHeight: '150px',
-    //   },
-    // }}
     renderInput={(params) => (
       <div ref={params.InputProps.ref} className='flex items-center w-full '>
         <input

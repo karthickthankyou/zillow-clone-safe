@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import { SkipNavContent, SkipNavLink } from '@reach/skip-nav'
-import { useUserListener } from 'src/store/user/userHooks'
 
 import { useRouter } from 'next/router'
 import Navbar from '../../organisms/Navbar'

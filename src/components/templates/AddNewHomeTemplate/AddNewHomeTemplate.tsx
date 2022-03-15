@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useEffect, useState, ReactElement } from 'react'
 import { useInsertHomeMutation } from 'src/generated/graphql'
+import Router from 'next/router'
 import { useForm } from 'react-hook-form'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -11,6 +12,7 @@ import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
 import Mapbox from 'src/components/organisms/Mapbox'
 import { MapProvider } from 'src/store/map/mapContext'
+
 import {
   Panel,
   PanelContainer,
@@ -30,11 +32,10 @@ import { selectViewport, setViewport } from 'src/store/map/mapSlice'
 import { useSearchAddress } from 'src/store/streams'
 import Autocomplete from 'src/components/molecules/Autocomplete'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { notify } from 'src/hooks'
+import { notify, scrollToTop } from 'src/hooks'
 import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Dialog from 'src/components/molecules/Dialog'
-import ProductPageTemplate from 'src/components/templates/ProductPage'
 
 export type AddressSearchType = {
   address: string
@@ -280,13 +281,12 @@ const FormSectionTitle = ({
 )
 
 const AddNewHomeTemplate = () => {
-  const [home, addNewHome] = useInsertHomeMutation()
+  const [publishedHome, addNewHome] = useInsertHomeMutation()
 
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<NewHomeSchema>({
     resolver: yupResolver(newHomeSchema),
@@ -310,21 +310,47 @@ const AddNewHomeTemplate = () => {
     },
   })
 
-  const homeData = watch()
-
-  const [showPreview, setshowPreview] = useState(false)
-
-  const formData = watch()
-  console.log('Errors and data: ', errors, formData)
-
   const onSubmit = handleSubmit((data) => {
-    console.log('Submitting: ', data)
     addNewHome({ object: data })
   })
+
+  const [showDialog, setshowDialog] = useState(false)
+  useEffect(() => {
+    setshowDialog(Boolean(publishedHome.data?.insert_homes_one?.id))
+  }, [publishedHome])
+
+  useEffect(() => {
+    scrollToTop()
+  }, [])
 
   return (
     <form onSubmit={onSubmit} className='mt-12 mb-24 space-y-20'>
       <div className='text-3xl font-medium'>Add new home</div>
+
+      <Dialog open={showDialog} setOpen={setshowDialog} className='max-w-md'>
+        <div className='text-xl font-semibold'>🎊 New home posted! 🎊</div>
+        <p className='mt-4 text-sm text-gray-600'>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus
+          tempore laudantium consequuntur, adipisci quidem ex fugit quo et?
+        </p>
+        <p>Home id: {publishedHome.data?.insert_homes_one?.id}</p>
+        <div className='flex justify-end space-x-4'>
+          <button
+            type='button'
+            onClick={() => Router.reload()}
+            className='inline-block px-4 py-2 mt-8 text-center border text-primary-600 border-primary-600'
+          >
+            + Post another home
+          </button>
+          <Link
+            className='inline-block px-4 py-2 mt-8 text-center text-white bg-primary-600'
+            href={`/home/${publishedHome.data?.insert_homes_one?.id}`}
+          >
+            Visit page
+          </Link>
+        </div>
+      </Dialog>
+
       <FormSection
         title={
           <FormSectionTitle
@@ -483,50 +509,8 @@ const AddNewHomeTemplate = () => {
           />
         </Label>
       </FormSection>
-      <Dialog
-        open={showPreview}
-        setOpen={setshowPreview}
-        className='w-screen h-screen bg-white'
-      >
-        <ProductPageTemplate
-          homeData={homeData}
-          // homeData={{
-          //   id: 12,
-          //   priceSqft: 12,
-          //   createdAt: '2020-01-01',
-          //   updatedAt: '2020-01-01',
-          //   address:
-          //     '6046 M J Taylor Road, Hahira, Georgia 31632, United States',
-          //   bath: 1,
-          //   beds: 1,
-          //   city: 'Hahira',
-          //   description: 'Goood house.',
-          //   facts: '',
-          //   features: 'yes.',
-          //   lat: 31.03866,
-          //   lng: -83.45001,
-          //   lotSize: 1200,
-          //   price: 878,
-          //   sqft: 1000,
-          //   state: 'Georgia',
-          //   style: 'Single_Family_Home',
-          //   yearBuilt: 1999,
-          //   zipcode: '31632',
-          // }}
-        />
-        <button onClick={() => setshowPreview(false)} type='button'>
-          Back to add home page
-        </button>
-      </Dialog>
-      <div className='flex justify-end space-x-4'>
-        <button
-          type='button'
-          className='px-20 py-2 border rounded text-primary-600 border-primary-600 bg-primary-50'
-          onClick={() => setshowPreview(true)}
-        >
-          Preview
-        </button>
 
+      <div className='flex justify-end space-x-4'>
         <button
           className='px-20 py-2 text-white rounded bg-primary-500'
           type='submit'

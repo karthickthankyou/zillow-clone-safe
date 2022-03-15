@@ -8,7 +8,10 @@ export const getStaticProps: GetStaticProps = async () => ({
   props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
 })
 
-// {}: InferGetStaticPropsType<typeof getStaticProps>
+/**
+ * How to infer getStaticProps type?
+ * {}: InferGetStaticPropsType<typeof getStaticProps>
+ */
 
 const HomePage: NextPage = () => (
   <div>

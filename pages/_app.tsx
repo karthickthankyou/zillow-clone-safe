@@ -14,11 +14,13 @@ import { store } from 'src/store'
 import 'src/globals.css'
 import { useUserListener } from 'src/store/user/userHooks'
 
-// if (process.env.NEXT_PUBLIC_API_MOCKING) {
-//   import('../src/mocks').then(({ setupMockServer }) => {
-//     setupMockServer()
-//   })
-// }
+/** Enable mocking
+ * if (process.env.NEXT_PUBLIC_API_MOCKING) {
+    import('../src/mocks').then(({ setupMockServer }) => {
+      setupMockServer()
+    })
+  }
+ */
 
 const AppLevelHooks = () => {
   useDebouncedDispatch()

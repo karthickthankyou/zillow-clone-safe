@@ -1,11 +1,10 @@
 import Image from 'src/components/atoms/Image'
-import Link from 'src/components/atoms/Link'
+
 import { SearchCitiesByLocationQuery } from 'src/generated/graphql'
 import { useAppDispatch } from 'src/store'
 import { setViewport } from 'src/store/map/mapSlice'
 import { ZOOM_CITIES, ZOOM_HOMES } from 'src/store/static'
 import {
-  debouncedDispatch,
   startLongHoverDispatch,
   stopLongHoverDispatch,
   useKeypress,

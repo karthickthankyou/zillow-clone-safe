@@ -4,34 +4,36 @@ import {
   dedupExchange,
   createClient,
   cacheExchange,
-  makeOperation,
   Exchange,
   Operation,
 } from 'urql'
 import { devtoolsExchange } from '@urql/devtools'
-import { authExchange } from '@urql/exchange-auth'
+
 import { getToken } from 'src/store/user/userHooks'
-import { pipe, mergeMap, fromPromise, fromValue, map } from 'wonka'
+import { pipe, mergeMap, fromPromise, map } from 'wonka'
 
 const isServerSide = typeof window === 'undefined'
 const ssrCache = ssrExchange({ isClient: !isServerSide })
 
-const isPromise = (value: any) => value && typeof value.then === 'function'
-
-// https://github.com/FormidableLabs/urql/issues/234#issuecomment-602305153
+// eslint-disable-next-line no-undef
+type FetchOptions = RequestInit | (() => RequestInit)
 export const fetchOptionsExchange =
-  (fn: any): Exchange =>
+  (promise: (fetchOptions?: FetchOptions) => Promise<FetchOptions>): Exchange =>
   ({ forward }) =>
   (ops$) =>
     pipe(
       ops$,
       mergeMap((operation: Operation) => {
-        const result = fn(operation.context.fetchOptions)
+        const result = promise(operation.context.fetchOptions)
+
         return pipe(
-          isPromise(result) ? fromPromise(result) : fromValue(result),
-          map((fetchOptions: RequestInit | (() => RequestInit)) => ({
+          fromPromise(result),
+          map((fetchOptions: FetchOptions) => ({
             ...operation,
-            context: { ...operation.context, fetchOptions },
+            context: {
+              ...operation.context,
+              fetchOptions,
+            },
           }))
         )
       }),

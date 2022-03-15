@@ -4,7 +4,6 @@ import {
   zoomOut,
   resetMap,
   setZoom,
-  setViewport,
   setViewportLocation,
 } from 'src/store/map/mapSlice'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
