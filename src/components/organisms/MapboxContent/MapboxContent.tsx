@@ -15,7 +15,6 @@ import {
   useFetchHomesMap,
   useFetchCitiesMap,
   useFetchStatesMap,
-  useGetHighlightedRegionData,
 } from 'src/store/home/homeNetwork'
 
 import { setViewport, setViewportLocation } from 'src/store/map/mapSlice'
@@ -180,7 +179,6 @@ export const CityMarkers = () => {
   const dispatch = useAppDispatch()
 
   const highlightedCityId = useAppSelector(selectHighlightedCityId)
-  const highlightedCityData = useGetHighlightedRegionData(highlightedCityId)
   const items = useAppSelector(selectCitiesMap).data?.cities || []
   const reorderedItems = bringHighlightedItemToFront(
     highlightedCityId,
@@ -265,7 +263,7 @@ export const StateMarkers = () => {
     items
   ) as typeof items
 
-  const cityMarkersTransitions = useTransition(reorderedItems, {
+  const stateMarkersTransitions = useTransition(reorderedItems, {
     keys: (item) => item.id,
     from: { opacity: 0, transform: 'translateY(24px)' },
     enter: { opacity: 1, transform: 'translateY(0px)' },
@@ -274,21 +272,22 @@ export const StateMarkers = () => {
     config: config.wobbly,
   })
 
-  return cityMarkersTransitions((style, marker) => (
+  return stateMarkersTransitions((style, marker) => (
     <>
       {highlightedStateId === marker.id && (
         <MapPopup
           latitude={marker.lat}
           longitude={marker.lng}
-          onClose={() => dispatch(setHighlightedCityId(null))}
+          onClose={() => dispatch(setHighlightedStateId(null))}
         >
           <PopupRegionContent
             id={marker.id}
             onClick={() => {
               dispatch(
-                setViewportLocation({
+                setViewport({
                   latitude: marker.lat,
                   longitude: marker.lng,
+                  zoom: ZOOM_CITIES,
                 })
               )
             }}
@@ -308,17 +307,25 @@ export const StateMarkers = () => {
           )
         }}
       >
-        <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
+        <Marker latitude={marker.lat} longitude={marker.lng}>
           <div
             className='flex flex-col items-center justify-center'
             onMouseOver={() => {
-              dispatch(setHighlightedStateId(marker.id))
+              startLongHoverDispatch(setHighlightedStateId(marker.id))
+            }}
+            onMouseLeave={() => {
+              stopLongHoverDispatch()
             }}
             onFocus={() => {
-              dispatch(setHighlightedStateId(marker.id))
+              startLongHoverDispatch(setHighlightedStateId(marker.id))
             }}
           >
-            <div className='flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
+            <div
+              className={`flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50  bg-black/70 ${
+                highlightedStateId === marker.id &&
+                'shadow-lg shadow-black/50 scale-125 bg-black'
+              }`}
+            >
               {marker.totalHomes}
               <HomeIcon className='w-5 h-5 ml-1' />
             </div>

@@ -16,6 +16,7 @@ import {
 
 import { MapSearch, PlaceTypesType } from 'src/types'
 import { useEffect, useMemo, useState } from 'react'
+import { AddressSearchType } from 'src/components/templates/AddNewHomeTemplate/AddNewHomeTemplate'
 import { placeTypeZoom } from '../static'
 import { store, store$ } from '..'
 import { setMapSearchOptions } from '../map/mapSlice'
@@ -51,7 +52,11 @@ export const searchPlaces$ = store$.pipe(
   catchError(() => of(null))
 )
 
-export const useSearchAddress = ({ searchText }: { searchText: string }) => {
+export const useSearchAddress = ({
+  searchText,
+}: {
+  searchText: string
+}): { data: AddressSearchType[]; loading: boolean; error: any } => {
   const searchAddressSubject$ = useMemo(
     () => new Subject<{ text: string }>(),
     []

@@ -69,4 +69,8 @@ export default MyApp
 /**
  * Urql exchange with Firebase
  * https://gist.github.com/acro5piano/c911361b3da1e6b871214fe7c100e08c
+ *
+ *
+ * Urql fetch options exchange.
+ * https://github.com/FormidableLabs/urql/issues/234
  */

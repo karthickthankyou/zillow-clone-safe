@@ -32,14 +32,17 @@ import Autocomplete from 'src/components/molecules/Autocomplete'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { notify } from 'src/hooks'
 import { Children } from 'src/types'
+import Link from 'src/components/atoms/Link'
+import Dialog from 'src/components/molecules/Dialog'
+import ProductPageTemplate from 'src/components/templates/ProductPage'
 
 export type AddressSearchType = {
   address: string
   city: string
   state: string
   postcode: string
-  lat: number
-  lng: number
+  latitude: number
+  longitude: number
 }
 
 const newHomeSchema = yup
@@ -150,7 +153,6 @@ const MapLocationPicker = ({
       city?: string
       postcode?: string
     }) => {
-      console.log('v', v)
       const { latitude, longitude, address, city, postcode, state } = v
       setValue('lat', latitude)
       setValue('lng', longitude)
@@ -165,9 +167,9 @@ const MapLocationPicker = ({
   useEffect(() => {
     if (markerDragData?.length > 0) {
       setAddress(markerDragData[0])
-      const { lat, lng } = markerDragData[0]
-      if (lat && lng) {
-        notify({ message: `Location saved as ${lat}, ${lng}` })
+      const { latitude, longitude } = markerDragData[0]
+      if (latitude && longitude) {
+        notify({ message: `Location saved as ${latitude}, ${longitude}` })
       }
     }
   }, [markerDragData, setAddress])
@@ -206,11 +208,9 @@ const MapLocationPicker = ({
               isOptionEqualToValue={(a, b) => a.address === b.address}
               onChange={(_, v) => {
                 if (v) {
-                  const { lat, lng } = v
-                  setMarker({ lat, lng })
-                  dispatch(
-                    setViewport({ latitude: lat, longitude: lng, zoom: 14 })
-                  )
+                  const { latitude, longitude } = v
+                  setMarker({ lat: latitude, lng: longitude })
+                  dispatch(setViewport({ latitude, longitude, zoom: 14 }))
                   setAddress(v)
                 }
               }}
@@ -302,13 +302,17 @@ const AddNewHomeTemplate = () => {
       price: undefined,
       sqft: undefined,
       state: undefined,
-      style: '',
+      style: 'Select type of house',
       yearBuilt: undefined,
       zipcode: undefined,
       lat: undefined,
       lng: undefined,
     },
   })
+
+  const homeData = watch()
+
+  const [showPreview, setshowPreview] = useState(false)
 
   const formData = watch()
   console.log('Errors and data: ', errors, formData)
@@ -339,7 +343,7 @@ const AddNewHomeTemplate = () => {
         </Label>
         <Label title='Style' error={errors.style}>
           <HtmlSelect {...register('style')}>
-            <option value='' disabled selected>
+            <option value='Select type of house' disabled>
               Select type of house
             </option>
             <option value='Condo'>Condo</option>
@@ -479,21 +483,56 @@ const AddNewHomeTemplate = () => {
           />
         </Label>
       </FormSection>
+      <Dialog
+        open={showPreview}
+        setOpen={setshowPreview}
+        className='w-screen h-screen bg-white select-none'
+      >
+        <ProductPageTemplate
+          homeData={homeData}
+          // homeData={{
+          //   id: 12,
+          //   priceSqft: 12,
+          //   createdAt: '2020-01-01',
+          //   updatedAt: '2020-01-01',
+          //   address:
+          //     '6046 M J Taylor Road, Hahira, Georgia 31632, United States',
+          //   bath: 1,
+          //   beds: 1,
+          //   city: 'Hahira',
+          //   description: 'Goood house.',
+          //   facts: '',
+          //   features: 'yes.',
+          //   lat: 31.03866,
+          //   lng: -83.45001,
+          //   lotSize: 1200,
+          //   price: 878,
+          //   sqft: 1000,
+          //   state: 'Georgia',
+          //   style: 'Single_Family_Home',
+          //   yearBuilt: 1999,
+          //   zipcode: '31632',
+          // }}
+        />
+        <button onClick={() => setshowPreview(false)} type='button'>
+          Back to add home page
+        </button>
+      </Dialog>
       <div className='grid grid-cols-3 gap-4'>
-        <div className='col-start-3'>
-          <div>
-            <label>
-              <input type='checkbox' />I was truthful.
-            </label>
-          </div>
+        <button
+          type='button'
+          className='w-full col-span-1 col-start-2 py-3 border rounded text-primary-600 border-primary-600 bg-primary-50'
+          onClick={() => setshowPreview(true)}
+        >
+          Preview
+        </button>
 
-          <button
-            className='w-full py-3 text-white rounded bg-primary-500'
-            type='submit'
-          >
-            Submit
-          </button>
-        </div>
+        <button
+          className='w-full col-span-1 py-3 text-white rounded bg-primary-500'
+          type='submit'
+        >
+          Submit
+        </button>
       </div>
     </form>
   )

@@ -11,19 +11,16 @@ import {
   StateMarkers,
   Error,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
-import { useGetHomeQuery } from 'src/generated/graphql'
-import { useScrollTo } from 'src/hooks'
+import { GetHomeQuery } from 'src/generated/graphql'
+import { useScrollTo, scrollToTop } from 'src/hooks'
 
-import { useRouter } from 'next/router'
-import { getQueryParam } from 'src/lib/util'
 import { useAppDispatch } from 'src/store'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
-import { useEffect } from 'react'
+import { useEffect, memo } from 'react'
 import { setViewport } from 'src/store/map/mapSlice'
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
 import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 import ArrowCircleUpIcon from '@heroicons/react/outline/ArrowCircleUpIcon'
-import ArrowCircleUpIconSolid from '@heroicons/react/solid/ArrowCircleUpIcon'
 import LoginIcon from '@heroicons/react/outline/LoginIcon'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 import PhoneIcon from '@heroicons/react/outline/PhoneIcon'
@@ -46,15 +43,8 @@ import Details from './Details'
 import MainCard from './MainCard'
 import NearByHomes from './NearByHomes'
 
-export interface IProductPageProps {}
-
-const scrollToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth',
-    /* you can also use 'auto' behaviour
-         in place of 'smooth' */
-  })
+export interface IProductPageProps {
+  homeData: GetHomeQuery['homes_by_pk']
 }
 
 const HighText = ({ children }: { children: Children }) => (
@@ -63,30 +53,21 @@ const HighText = ({ children }: { children: Children }) => (
   </div>
 )
 
-const ProductPage = () => {
+const ProductPage = ({ homeData }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
-  const id = getQueryParam(useRouter().query.id)
-  const [home] = useGetHomeQuery({
-    variables: {
-      id: +(id || -999),
-    },
-    pause: !id,
-  })
 
   const dispatch = useAppDispatch()
 
-  const homeData = home.data?.homes_by_pk
-
-  useEffect(() => {
-    dispatch(setHighlightedHomeId(homeData?.id))
-    dispatch(
-      setViewport({
-        latitude: homeData?.lat || 0,
-        longitude: homeData?.lng || 0,
-        zoom: 11,
-      })
-    )
-  }, [dispatch, homeData])
+  // useEffect(() => {
+  //   dispatch(setHighlightedHomeId(homeData?.id))
+  //   dispatch(
+  //     setViewport({
+  //       latitude: homeData?.lat || 0,
+  //       longitude: homeData?.lng || 0,
+  //       zoom: 11,
+  //     })
+  //   )
+  // }, [dispatch, homeData])
 
   return (
     <Container>
@@ -118,7 +99,7 @@ const ProductPage = () => {
           <div>
             <div className='mb-4 text-xl font-semibold'>Features</div>
             <div className='flex flex-wrap max-w-lg gap-3 leading-relaxed text-gray-800'>
-              {homeData?.features.split('|').map((item) => (
+              {homeData?.features?.split('|').map((item) => (
                 <div
                   key={item}
                   className='px-2 py-1 border border-white rounded shadow-md bg-gray-50'

@@ -3,8 +3,6 @@ import React, { ReactElement } from 'react'
 import ReactMapGL, {
   InteractiveMapProps,
   FlyToInterpolator,
-  TransitionInterpolator,
-  LinearInterpolator,
 } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -21,7 +19,7 @@ const defaultMapProps: InteractiveMapProps = {
   width: '100%',
   height: '100%',
   mapboxApiAccessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-  mapStyle: mapStyleLight,
+  // mapStyle: mapStyleLight,
 }
 
 const MapBox = ({
@@ -46,7 +44,6 @@ const MapBox = ({
       }}
       transitionDuration='auto'
       transitionInterpolator={new FlyToInterpolator()}
-      // pitch={18}
       {...props}
       className={`rounded ${className}`}
     >

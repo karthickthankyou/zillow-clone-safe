@@ -33,14 +33,14 @@ const Home = () => {
             <em className='select-none text-luxury'>Millions</em> of for-sale
             and rental listings all over the United States.
           </div>
-          <p className='max-w-md mt-4 text-gray-600'>
+          <div className='max-w-md mt-4 text-gray-600'>
             Whether you’re{' '}
             <ScrollBanner
               input={['buying', 'selling', 'renting']}
               className='font-bold text-primary-600 '
             />
             , we can help you move forward.
-          </p>
+          </div>
         </Container>
 
         <div className='w-screen h-screen' ref={interactiveMapRef}>

@@ -12,7 +12,7 @@ import { devtoolsExchange } from '@urql/devtools'
 import { useGetToken } from 'src/store/user/userHooks'
 import { useEffect } from 'react'
 
-import { client as urqlClient } from 'src/config/urqlClient'
+import { client as urqlClient } from 'src/config/urqlClientWonka'
 
 export interface IUrqlProviderProps {
   children: Children
@@ -47,23 +47,23 @@ export const ssrCache = ssrExchange({ isClient: !isServerSide })
 const UrqlProvider = ({ children }: IUrqlProviderProps) => {
   const token = useGetToken()
 
-  const client = createClient({
-    url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
-    exchanges: [
-      devtoolsExchange,
-      dedupExchange,
-      cacheExchange,
-      ssrCache,
-      fetchExchange,
-    ],
-    fetchOptions: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  })
+  // const client = createClient({
+  //   url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
+  //   exchanges: [
+  //     devtoolsExchange,
+  //     dedupExchange,
+  //     cacheExchange,
+  //     ssrCache,
+  //     fetchExchange,
+  //   ],
+  //   fetchOptions: {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   },
+  // })
 
-  return <Provider value={client}>{children}</Provider>
+  return <Provider value={urqlClient}>{children}</Provider>
 }
 
 export default UrqlProvider
