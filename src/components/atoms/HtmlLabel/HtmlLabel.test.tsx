@@ -4,6 +4,6 @@ import HtmlLabel from './HtmlLabel'
 
 describe('HtmlLabel Component', () => {
   test('HtmlLabel renders', () => {
-    render(<HtmlLabel />)
+    render(<HtmlLabel title='Title'>Children</HtmlLabel>)
   })
 })

@@ -478,15 +478,15 @@ const AddNewHomeTemplate = () => {
         <Label title='Facts (Optional)' error={errors.facts}>
           <TextArea
             placeholder='Enter the facts.'
-            {...register('facts')}
             rows={4}
+            {...register('facts')}
           />
         </Label>
       </FormSection>
       <Dialog
         open={showPreview}
         setOpen={setshowPreview}
-        className='w-screen h-screen bg-white select-none'
+        className='w-screen h-screen bg-white'
       >
         <ProductPageTemplate
           homeData={homeData}
@@ -518,17 +518,17 @@ const AddNewHomeTemplate = () => {
           Back to add home page
         </button>
       </Dialog>
-      <div className='grid grid-cols-3 gap-4'>
+      <div className='flex justify-end space-x-4'>
         <button
           type='button'
-          className='w-full col-span-1 col-start-2 py-3 border rounded text-primary-600 border-primary-600 bg-primary-50'
+          className='px-20 py-2 border rounded text-primary-600 border-primary-600 bg-primary-50'
           onClick={() => setshowPreview(true)}
         >
           Preview
         </button>
 
         <button
-          className='w-full col-span-1 py-3 text-white rounded bg-primary-500'
+          className='px-20 py-2 text-white rounded bg-primary-500'
           type='submit'
         >
           Submit

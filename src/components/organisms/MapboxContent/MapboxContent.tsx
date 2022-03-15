@@ -323,7 +323,7 @@ export const StateMarkers = () => {
             <div
               className={`flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50  bg-black/70 ${
                 highlightedStateId === marker.id &&
-                'shadow-lg shadow-black/50 scale-125 bg-black'
+                'hover:shadow-lg hover:shadow-black/50 hover:scale-125 hover:bg-black'
               }`}
             >
               {marker.totalHomes}

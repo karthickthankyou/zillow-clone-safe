@@ -1,11 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { InputHTMLAttributes } from 'react'
-
-export interface IHtmlTextAreaProps {}
+import React, { HTMLProps } from 'react'
 
 const HtmlTextArea = React.forwardRef<
   HTMLTextAreaElement,
-  InputHTMLAttributes<HTMLTextAreaElement>
+  HTMLProps<HTMLTextAreaElement>
 >((props, ref) => (
   <textarea
     ref={ref}
