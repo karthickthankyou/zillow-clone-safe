@@ -11,8 +11,8 @@ export interface IMainCardProps {
   className?: string
 }
 
-export const MainCardShadow = () => (
-  <div>
+export const MainCardSkeleton = ({ className }: { className?: string }) => (
+  <div className={`${className}`}>
     <Skeleton className='w-1/4 h-4' />
     <Skeleton className='h-4 mt-3 ' />
     <Skeleton className='w-1/4 h-4 mt-1 ' />
@@ -34,7 +34,7 @@ export const MainCardShadow = () => (
 
 const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
   !home ? (
-    <MainCardShadow />
+    <MainCardSkeleton className={`${className}`} />
   ) : (
     <div className={`col-span-1 ${className}`}>
       <div className='sticky top-0 p-6 rounded-lg shadow-lg bg-striped'>

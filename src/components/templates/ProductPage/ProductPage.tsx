@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import ProductPageCarousel from 'src/components/organisms/ProductPageCarousel'
 import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
+import { useRouter } from 'next/router'
 import { MapProvider } from 'src/store/map/mapContext'
 import {
   CityMarkers,
@@ -51,6 +53,12 @@ const HighText = ({ children }: { children: Children }) => (
 
 const ProductPage = ({ homeData }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!homeData) router.push('/404')
+  }, [homeData, router])
 
   return (
     <Container>

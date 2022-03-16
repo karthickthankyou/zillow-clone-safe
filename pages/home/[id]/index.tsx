@@ -1,10 +1,11 @@
 import { GetStaticProps } from 'next'
+
 import { ParsedUrlQuery } from 'querystring'
 import ProductPageTemplate from 'src/components/templates/ProductPage/ProductPage'
 import { client, ssrCache } from 'src/config/urqlClientWonka'
 import { GetHomeDocument, useGetHomeQuery } from 'src/generated/graphql'
 
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { getQueryParam } from 'src/lib/util'
 import { useAppDispatch } from 'src/store'
 import { setViewport } from 'src/store/map/mapSlice'
@@ -14,7 +15,9 @@ import { useHomesDetailed } from 'src/store/home/homeNetwork'
 
 const ProductPage = () => {
   useHomesDetailed()
-  const id = +(getQueryParam(useRouter().query.id), '-1')
+
+  const router = useRouter()
+  const id = getQueryParam(useRouter().query.id)
   const [home] = useGetHomeQuery({
     variables: { id },
   })
@@ -37,7 +40,6 @@ const ProductPage = () => {
   }, [dispatch, homeId, lat, lng])
 
   const homeData = home.data?.homes_by_pk
-  console.log(homeData)
 
   return <ProductPageTemplate homeData={homeData} />
 }
@@ -58,7 +60,7 @@ export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   // will receive `posts` as a prop at build time
 
   const id = context.params?.id
-  await client?.query(GetHomeDocument, { id }).toPromise()
+  // await client?.query(GetHomeDocument, { id }).toPromise()
   console.log('getStaticProps', id)
   return {
     props: {

@@ -1,258 +1,22 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useEffect, useState, ReactElement } from 'react'
+import React, { useEffect, useState, ReactElement } from 'react'
 import { useInsertHomeMutation } from 'src/generated/graphql'
 import Router from 'next/router'
 import { useForm } from 'react-hook-form'
-import ReCAPTCHA from 'react-google-recaptcha'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import HtmlSelect from 'src/components/atoms/HtmlSelect'
 import Input from 'src/components/atoms/HtmlInput'
 import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
-import Mapbox from 'src/components/organisms/Mapbox'
-import { MapProvider } from 'src/store/map/mapContext'
+import UploadIcon from '@heroicons/react/outline/UploadIcon'
 
-import {
-  Panel,
-  PanelContainer,
-  FetchingBool,
-  MapMessage,
-} from 'src/components/organisms/MapboxContent/MapboxContent'
-import ZoomControls, {
-  MapControl,
-  MapControlAction,
-} from 'src/components/organisms/ZoomControls/ZoomControls'
-import { Marker } from 'react-map-gl'
-import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
-import Pin from '@heroicons/react/outline/LocationMarkerIcon'
-import PinSolid from '@heroicons/react/solid/LocationMarkerIcon'
-import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
-import { selectViewport, setViewport } from 'src/store/map/mapSlice'
-import { useSearchAddress } from 'src/store/streams'
-import Autocomplete from 'src/components/molecules/Autocomplete'
-import { useAppDispatch, useAppSelector } from 'src/store'
-import { notify, scrollToTop } from 'src/hooks'
+import { scrollToTop } from 'src/hooks'
 import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Dialog from 'src/components/molecules/Dialog'
-
-export type AddressSearchType = {
-  address: string
-  city: string
-  state: string
-  postcode: string
-  latitude: number
-  longitude: number
-}
-
-const newHomeSchema = yup
-  .object({
-    address: yup.string().required('enter the address.'),
-    bath: yup
-      .number()
-      .typeError(
-        'enter the number of bathrooms. ex: 2. Your house has bathrooms right?'
-      )
-      .min(0, 'a negative number? Seriously?')
-      .max(10000, `doesn't seem possible to me.`),
-    beds: yup
-      .number()
-      .typeError(
-        'enter the number of bedrooms. ex: 2. Enter 0 if it is just a kitchen.'
-      )
-      .min(0, 'a negative number? Seriously?')
-      .max(10000, 'no.'),
-    lotSize: yup
-      .number()
-      .typeError('enter the lot size in square feet. ex: 1000')
-      .min(0, 'a negative number? Seriously?'),
-    price: yup
-      .number()
-      .typeError('enter the price.')
-      .min(0, 'a negative number? Seriously?'),
-    sqft: yup
-      .number()
-      .typeError('enter the size of your house in square feet. ex: 1000')
-      .min(0, 'a negative number? Seriously?'),
-    city: yup.string().required('enter the city name.'),
-    description: yup
-      .string()
-      .required(
-        'Write a few words about the house you are trying to sell. You want to sell it or not?'
-      ),
-    facts: yup.string(),
-    features: yup
-      .string()
-      .required(
-        'A house with no features is not a house. It is a barren land.'
-      ),
-
-    state: yup.string().required('enter the state name.'),
-    style: yup
-      .string()
-      .required('pick a style. Even if you dont find your house stylish.'),
-    yearBuilt: yup
-      .number()
-      .min(1500, 'that house belongs in a museum.')
-      .max(2022, `that's future date. Manifestations. Urgh!`)
-      .required(
-        'enter the year of construction. Prehistoric houses are not listed right now.'
-      ),
-    lat: yup
-      .number()
-      .min(-90, 'lat must be -90 to 90')
-      .max(90, `lat must be -90 to 90`)
-      .required('lat is not set.'),
-    lng: yup
-      .number()
-      .min(-180, 'lng must be -180 to 180')
-      .max(180, `lng must be -180 to 180`)
-      .required('lng is not set.'),
-    zipcode: yup.string().required('enter the zipcode.'),
-  })
-  .required()
-
-type NewHomeSchema = yup.InferType<typeof newHomeSchema>
+import { MapLocationPicker, NewHomeSchema, newHomeSchema } from './utils'
 
 export interface IAddNewHomeTemplateProps {}
-
-const MapLocationPicker = ({
-  setValue,
-  className,
-}: {
-  setValue: Function
-  className?: string
-}) => {
-  const [marker, setMarker] = useState(() => ({
-    lat: 40,
-    lng: -100,
-  }))
-
-  const [searchText, setSearchText] = useState('')
-  const [location, setLocation] = useState('')
-
-  const {
-    data: searchTextData,
-    loading: searchTextFetching,
-    error: searchTextError,
-  } = useSearchAddress({ searchText })
-  const {
-    data: markerDragData,
-    loading: markerDragFetching,
-    error: markerDragError,
-  } = useSearchAddress({ searchText: location })
-
-  const dispatch = useAppDispatch()
-
-  const setAddress = useCallback(
-    (v: {
-      latitude?: number
-      longitude?: number
-      address?: string
-      state?: string
-      city?: string
-      postcode?: string
-    }) => {
-      const { latitude, longitude, address, city, postcode, state } = v
-      setValue('lat', latitude)
-      setValue('lng', longitude)
-      setValue('address', address)
-      setValue('state', state)
-      setValue('city', city)
-      setValue('zipcode', postcode)
-    },
-    [setValue]
-  )
-
-  useEffect(() => {
-    if (markerDragData?.length > 0) {
-      setAddress(markerDragData[0])
-      const { latitude, longitude } = markerDragData[0]
-      if (latitude && longitude) {
-        notify({ message: `Location saved as ${latitude}, ${longitude}` })
-      }
-    }
-  }, [markerDragData, setAddress])
-
-  const viewport = useAppSelector(selectViewport)
-
-  return (
-    <MapProvider className={`h-96 ${className}`}>
-      <Mapbox>
-        <Marker
-          longitude={marker.lng}
-          latitude={marker.lat}
-          draggable
-          // onDragStart={onMarkerDragStart}
-          onDrag={(event: { lngLat: [number, number] }) => {
-            setMarker({
-              lng: event.lngLat[0],
-              lat: event.lngLat[1],
-            })
-          }}
-          onDragEnd={(event) => {
-            setLocation(event.lngLat.join(','))
-          }}
-        >
-          <PinSolid className='w-6 h-6' />
-        </Marker>
-        <PanelContainer>
-          <Panel position='left-top'>
-            <Autocomplete<AddressSearchType, false, false, false>
-              options={searchTextData}
-              getOptionLabel={(x) => x.address}
-              onInputChange={(_, v) => {
-                setSearchText(v)
-              }}
-              loading={searchTextFetching}
-              isOptionEqualToValue={(a, b) => a.address === b.address}
-              onChange={(_, v) => {
-                if (v) {
-                  const { latitude, longitude } = v
-                  setMarker({ lat: latitude, lng: longitude })
-                  dispatch(setViewport({ latitude, longitude, zoom: 14 }))
-                  setAddress(v)
-                }
-              }}
-              className='rounded-lg shadow-lg'
-            />
-          </Panel>
-          <Panel position='right-top'>
-            <ZoomControls>
-              <ZoomControls.ZoomIn />
-              <ZoomControls.ZoomOut />
-              <MapControlAction
-                action={() =>
-                  setMarker({ lat: viewport.latitude, lng: viewport.longitude })
-                }
-                Icon={Pin}
-              />
-              <MapControlAction
-                action={() => {
-                  setAddress({})
-                }}
-                Icon={RefreshIcon}
-              />
-              <MapControl
-                action={setViewport({
-                  latitude: marker.lat,
-                  longitude: marker.lng,
-                  zoom: 3,
-                })}
-                Icon={GlobeIcon}
-              />
-            </ZoomControls>
-          </Panel>
-          <Panel position='center-bottom'>
-            <FetchingBool fetching={searchTextFetching || markerDragFetching} />
-            <MapMessage message={markerDragError} />
-          </Panel>
-        </PanelContainer>
-      </Mapbox>
-    </MapProvider>
-  )
-}
 
 const FormSection = ({
   title,
@@ -287,6 +51,7 @@ const AddNewHomeTemplate = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<NewHomeSchema>({
     resolver: yupResolver(newHomeSchema),
@@ -307,11 +72,16 @@ const AddNewHomeTemplate = () => {
       zipcode: undefined,
       lat: undefined,
       lng: undefined,
+      imgFiles: undefined,
+      imgs: undefined,
     },
   })
 
-  const onSubmit = handleSubmit((data) => {
-    addNewHome({ object: data })
+  const formData = watch()
+
+  const onSubmit = handleSubmit(async (data) => {
+    const { imgFiles, ...uploadData } = data
+    addNewHome({ object: uploadData })
   })
 
   const [showDialog, setshowDialog] = useState(false)
@@ -319,6 +89,7 @@ const AddNewHomeTemplate = () => {
     setshowDialog(Boolean(publishedHome.data?.insert_homes_one?.id))
   }, [publishedHome])
 
+  console.log('showDialog', showDialog, publishedHome)
   useEffect(() => {
     scrollToTop()
   }, [])
@@ -475,6 +246,67 @@ const AddNewHomeTemplate = () => {
             disabled
             {...register('zipcode')}
           />
+        </Label>
+      </FormSection>
+
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Media'
+            description='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam modi
+              deleniti earum ratione qui odio molestiae.'
+          />
+        }
+      >
+        <Label
+          title='Images'
+          className='grid-cols-2'
+          error={errors.imgFiles || errors.imgs}
+        >
+          <Input
+            type='file'
+            placeholder='Upload images'
+            accept='image/*'
+            multiple
+            {...register('imgFiles')}
+          />
+          {formData.imgFiles?.length > 0 && !(formData.imgs?.length > 0) && (
+            <button
+              type='button'
+              className='flex items-center px-3 py-2 mt-4 space-x-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed bg-primary-500'
+              onClick={async () => {
+                if (formData.imgFiles && formData.imgFiles.length > 0) {
+                  const promises = Object.values(formData.imgFiles).map(
+                    (file: any) => {
+                      const imageFormData = new FormData()
+                      imageFormData.append('file', file)
+                      imageFormData.append('upload_preset', 'zillow-clone')
+                      imageFormData.append('cloud_name', 'thankyou')
+
+                      return fetch(
+                        'https://api.cloudinary.com/v1_1/thankyou/image/upload',
+                        {
+                          method: 'post',
+                          body: imageFormData,
+                        }
+                      ).then((res) => res.json())
+                    }
+                  )
+
+                  Promise.all(promises).then((res) => {
+                    const urls = res.map((url) => url.secure_url)
+                    setValue('imgs', urls)
+                  })
+                }
+              }}
+            >
+              <div>Upload</div>
+              <UploadIcon className='w-6 h-6' />
+            </button>
+          )}
+          {formData?.imgs?.length > 0 && (
+            <div>{formData.imgs?.length} pictures uploaded</div>
+          )}
         </Label>
       </FormSection>
 
