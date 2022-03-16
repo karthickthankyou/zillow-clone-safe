@@ -4,9 +4,10 @@ import { GetHomeQuery } from 'src/generated/graphql'
 import { toAcres } from 'src/lib/util'
 import Image from 'src/components/atoms/Image'
 import Skeleton from 'src/components/molecules/Skeleton'
+import { UseQueryResponse } from 'urql'
 
 export interface IMainCardProps {
-  home: GetHomeQuery['homes_by_pk']
+  home: UseQueryResponse<GetHomeQuery, object>[0]
   scrollToContactForm: () => void
   className?: string
 }
@@ -32,8 +33,10 @@ export const MainCardSkeleton = ({ className }: { className?: string }) => (
   </div>
 )
 
-const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
-  !home ? (
+const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
+  const homeData = home?.data?.homes_by_pk
+  console.log('homeData main card: ', home)
+  return home?.fetching ? (
     <MainCardSkeleton className={`${className}`} />
   ) : (
     <div className={`col-span-1 ${className}`}>
@@ -41,27 +44,27 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
         <div className='text-xs tracking-wide text-gray-600 uppercase'>
           for sale
         </div>
-        <div className='mt-1 text-gray-600'>{home?.address}</div>
+        <div className='mt-1 text-gray-600'>{homeData?.address}</div>
 
-        <h2 className='mt-6 text-4xl'>${home?.price.toLocaleString()}</h2>
+        <h2 className='mt-6 text-4xl'>${homeData?.price.toLocaleString()}</h2>
         <div className='flex flex-wrap mt-1 '>
           <div>
-            <span>{home?.beds} </span>
+            <span>{homeData?.beds} </span>
             <span className='text-base'>bd</span>
           </div>
           <span className='mx-1 text-gray-300'>•</span>
           <div>
-            <span>{home?.bath} </span>
+            <span>{homeData?.bath} </span>
             <span className='text-base'>ba</span>
           </div>
           <span className='mx-1 text-gray-300'>•</span>
           <div>
-            <span>{home?.sqft.toLocaleString()} </span>
+            <span>{homeData?.sqft.toLocaleString()} </span>
             <span className='text-base'>sqft</span>
           </div>
           <span className='mx-1 text-gray-300'>•</span>
           <div>
-            <span>{toAcres(home?.lotSize || 0)} </span>
+            <span>{toAcres(homeData?.lotSize || 0)} </span>
             <span className='text-base'>acre lot</span>
           </div>
         </div>
@@ -69,7 +72,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
         <div className='mt-6'>
           <div>
             Est. payment: $
-            {Math.round((home?.price || 0) / 120).toLocaleString()}
+            {Math.round((homeData?.price || 0) / 120).toLocaleString()}
             /mo
           </div>
           <Link className='flex items-center mt-1 text-primary-600' href='/'>
@@ -103,5 +106,6 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) =>
       </div>
     </div>
   )
+}
 
 export default MainCard

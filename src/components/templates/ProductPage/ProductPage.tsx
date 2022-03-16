@@ -1,8 +1,6 @@
-import { useEffect } from 'react'
 import ProductPageCarousel from 'src/components/organisms/ProductPageCarousel'
 import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
-import { useRouter } from 'next/router'
 import { MapProvider } from 'src/store/map/mapContext'
 import {
   CityMarkers,
@@ -26,6 +24,7 @@ import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Slideup from 'src/components/molecules/Slideup'
 import Container from 'src/components/atoms/Container'
+import { UseQueryResponse } from 'urql'
 
 import {
   interiors as interiorsData,
@@ -42,7 +41,7 @@ import MainCard from './MainCard'
 import NearByHomes from './NearByHomes'
 
 export interface IProductPageProps {
-  homeData: GetHomeQuery['homes_by_pk']
+  home: UseQueryResponse<GetHomeQuery, object>[0]
 }
 
 const HighText = ({ children }: { children: Children }) => (
@@ -51,9 +50,10 @@ const HighText = ({ children }: { children: Children }) => (
   </div>
 )
 
-const ProductPage = ({ homeData }: IProductPageProps) => {
+const ProductPage = ({ home }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
 
+  const homeData = home?.data?.homes_by_pk
   return (
     <Container>
       <div className='grid-cols-3 gap-3 lg:grid'>
@@ -61,7 +61,7 @@ const ProductPage = ({ homeData }: IProductPageProps) => {
           <ProductPageCarousel />
           <MainCard
             className='block lg:hidden'
-            home={homeData}
+            home={home}
             scrollToContactForm={scrollToContactForm}
           />
 
@@ -160,7 +160,7 @@ const ProductPage = ({ homeData }: IProductPageProps) => {
 
         <MainCard
           className='hidden lg:block'
-          home={homeData}
+          home={home}
           scrollToContactForm={scrollToContactForm}
         />
       </div>

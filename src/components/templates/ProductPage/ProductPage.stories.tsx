@@ -9,7 +9,7 @@ export default {
 } as ComponentMeta<typeof ProductPage>
 
 const Template: ComponentStory<typeof ProductPage> = () => (
-  <ProductPage homeData={homeData} />
+  <ProductPage home={homeData} />
 )
 
 export const Primary = Template.bind({})

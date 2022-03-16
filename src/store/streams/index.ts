@@ -16,10 +16,11 @@ import {
 
 import { MapSearch, PlaceTypesType } from 'src/types'
 import { useEffect, useMemo, useState } from 'react'
-import { AddressSearchType } from 'src/components/templates/AddNewHomeTemplate/AddNewHomeTemplate'
+
 import { placeTypeZoom } from '../static'
 import { store, store$ } from '..'
 import { setMapSearchOptions } from '../map/mapSlice'
+import { AddressSearchType } from 'src/components/templates/AddNewHomeTemplate/utils'
 
 export const searchPlaces$ = store$.pipe(
   map((state) => state.map.searchText),

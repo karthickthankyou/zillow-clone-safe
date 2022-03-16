@@ -16,7 +16,6 @@ import { useHomesDetailed } from 'src/store/home/homeNetwork'
 const ProductPage = () => {
   useHomesDetailed()
 
-  const router = useRouter()
   const id = getQueryParam(useRouter().query.id)
   const [home] = useGetHomeQuery({
     variables: { id },
@@ -39,9 +38,15 @@ const ProductPage = () => {
     )
   }, [dispatch, homeId, lat, lng])
 
-  const homeData = home.data?.homes_by_pk
+  const router = useRouter()
 
-  return <ProductPageTemplate homeData={homeData} />
+  useEffect(() => {
+    if (!home.fetching && !home.data?.homes_by_pk) {
+      router.push('/404')
+    }
+  }, [home.data?.homes_by_pk, home.fetching, router])
+
+  return <ProductPageTemplate home={home} />
 }
 
 export async function getStaticPaths() {
