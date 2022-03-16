@@ -54,12 +54,6 @@ const HighText = ({ children }: { children: Children }) => (
 const ProductPage = ({ homeData }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
 
-  const router = useRouter()
-
-  useEffect(() => {
-    if (!homeData) router.push('/404')
-  }, [homeData, router])
-
   return (
     <Container>
       <div className='grid-cols-3 gap-3 lg:grid'>

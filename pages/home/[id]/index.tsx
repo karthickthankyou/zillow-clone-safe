@@ -5,7 +5,7 @@ import ProductPageTemplate from 'src/components/templates/ProductPage/ProductPag
 import { client, ssrCache } from 'src/config/urqlClientWonka'
 import { GetHomeDocument, useGetHomeQuery } from 'src/generated/graphql'
 
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { getQueryParam } from 'src/lib/util'
 import { useAppDispatch } from 'src/store'
 import { setViewport } from 'src/store/map/mapSlice'
@@ -60,8 +60,8 @@ export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   // will receive `posts` as a prop at build time
 
   const id = context.params?.id
-  // await client?.query(GetHomeDocument, { id }).toPromise()
-  console.log('getStaticProps', id)
+  await client?.query(GetHomeDocument, { id }).toPromise()
+
   return {
     props: {
       urqlState: ssrCache.extractData(),
