@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Sidebar2 from './Sidebar'
 
 export default {
-  title: 'src/components/organisms/Sidebar2',
+  title: 'organisms/Sidebar2',
   component: Sidebar2,
 } as ComponentMeta<typeof Sidebar2>
 

@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import ZoomControls from './ZoomControls'
 
 export default {
-  title: 'src/components/organisms/ZoomControls',
+  title: 'organisms/ZoomControls',
   component: ZoomControls,
 } as ComponentMeta<typeof ZoomControls>
 

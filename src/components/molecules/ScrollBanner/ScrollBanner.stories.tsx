@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import ScrollBanner from './ScrollBanner'
 
 export default {
-  title: 'src/components/molecules/ScrollBanner',
+  title: 'molecules/ScrollBanner',
   component: ScrollBanner,
 } as ComponentMeta<typeof ScrollBanner>
 
-const Template: ComponentStory<typeof ScrollBanner> = (args) => <ScrollBanner {...args} />
+const Template: ComponentStory<typeof ScrollBanner> = (args) => (
+  <ScrollBanner {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

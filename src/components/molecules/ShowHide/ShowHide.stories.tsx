@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import ShowHide from './ShowHide'
 
 export default {
-  title: 'src/components/molecules/ShowHide',
+  title: 'molecules/ShowHide',
   component: ShowHide,
 } as ComponentMeta<typeof ShowHide>
 
-const Template: ComponentStory<typeof ShowHide> = (args) => <ShowHide {...args} />
+const Template: ComponentStory<typeof ShowHide> = (args) => (
+  <ShowHide {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

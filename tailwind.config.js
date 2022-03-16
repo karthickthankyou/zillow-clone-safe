@@ -5,11 +5,47 @@ module.exports = {
     extend: {
       animation: {
         'spin-reverse': 'reverse-spin 1s linear infinite',
+        'spin-slow': 'spin 3s linear infinite',
+        wiggle: 'wiggle 1s ease-in-out infinite',
+        slide: 'slide 1s ease-in-out infinite',
+        'slide-left': 'slide-left 1s ease-in-out infinite',
+        breathe: 'breathe 6s ease-in-out infinite',
       },
       keyframes: {
         'reverse-spin': {
           from: {
             transform: 'rotate(360deg)',
+          },
+        },
+        wiggle: {
+          '0%, 100%': { transform: 'rotate(-3deg)' },
+          '50%': { transform: 'rotate(3deg)' },
+        },
+        slide: {
+          '0%': { transform: 'translateX(-25%)', opacity: 0 },
+          '50%': {
+            opacity: 1,
+          },
+          '100%': {
+            transform: 'translateX(25%)',
+            opacity: 0,
+          },
+        },
+        'slide-left': {
+          '0%': { transform: 'translateX(25%)', opacity: 0 },
+          '50%': {
+            opacity: 1,
+          },
+          '100%': {
+            transform: 'translateX(-25%)',
+            opacity: 0,
+          },
+        },
+        breathe: {
+          '0%, 100%': { transform: 'scale(1)', opacity: 0.1 },
+          '60%': {
+            transform: 'scale(1.5)',
+            opacity: 1,
           },
         },
       },

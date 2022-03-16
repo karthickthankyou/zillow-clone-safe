@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import AgentListing from './AgentListing'
 
 export default {
-  title: 'src/components/templates/AgentListing',
+  title: 'templates/AgentListing',
   component: AgentListing,
 } as ComponentMeta<typeof AgentListing>
 

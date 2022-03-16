@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import FlexboxGrid from './FlexboxGrid'
 
 export default {
-  title: '_foundations/5. FlexboxGrid',
+  title: '_foundations/FlexboxGrid',
   component: FlexboxGrid,
 } as ComponentMeta<typeof FlexboxGrid>
 

@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import UrqlProvider from './UrqlProvider'
 
 export default {
-  title: 'src/components/templates/UrqlProvider',
+  title: 'templates/UrqlProvider',
   component: UrqlProvider,
 } as ComponentMeta<typeof UrqlProvider>
 
-const Template: ComponentStory<typeof UrqlProvider> = (args) => <UrqlProvider {...args} />
+const Template: ComponentStory<typeof UrqlProvider> = (args) => (
+  <UrqlProvider {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

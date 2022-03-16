@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Typography from './Typography'
 
 export default {
-  title: '_foundations/3. Typography',
+  title: '_foundations/Typography',
   component: Typography,
 } as ComponentMeta<typeof Typography>
 

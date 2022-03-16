@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Spacing from './Spacing'
 
 export default {
-  title: '_foundations/2. Spacing',
+  title: '_foundations/Spacing',
   component: Spacing,
 } as ComponentMeta<typeof Spacing>
 

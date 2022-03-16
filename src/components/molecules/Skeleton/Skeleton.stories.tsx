@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Skeleton from './Skeleton'
 
 export default {
-  title: 'src/components/molecules/Skeleton',
+  title: 'molecules/Skeleton',
   component: Skeleton,
 } as ComponentMeta<typeof Skeleton>
 
-const Template: ComponentStory<typeof Skeleton> = (args) => <Skeleton {...args} />
+const Template: ComponentStory<typeof Skeleton> = (args) => (
+  <Skeleton {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

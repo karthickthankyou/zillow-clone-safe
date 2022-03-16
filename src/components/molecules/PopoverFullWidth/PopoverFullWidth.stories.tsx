@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import PopoverFullWidth from './PopoverFullWidth'
 
 export default {
-  title: 'src/components/molecules/PopoverFullWidth',
+  title: 'molecules/PopoverFullWidth',
   component: PopoverFullWidth,
 } as ComponentMeta<typeof PopoverFullWidth>
 

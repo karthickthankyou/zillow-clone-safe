@@ -13,11 +13,11 @@ const Badge = ({ children, size = 'md', variant = 'gray' }: IBadgeProps) => {
     lg: 'px-3 py-2 text-sm',
   }
   const variantCls = {
-    primary: 'bg-primary-50 border border-white shadow ',
-    gray: 'bg-gray-50 border border-white shadow ',
-    red: 'bg-red-50 border border-white shadow ',
-    yellow: 'bg-yellow-50 border border-white shadow  text-yellow-800',
-    green: 'bg-green-50 border border-white shadow  text-green-800',
+    primary: 'bg-primary-100 border border-white shadow text-primary-700',
+    gray: 'bg-gray-100 border border-white shadow text-gray-700',
+    red: 'bg-red-100 border border-white shadow text-red-700',
+    yellow: 'bg-yellow-100 border border-white shadow  text-yellow-700',
+    green: 'bg-green-100 border border-white shadow  text-green-700',
   }
   return (
     <span

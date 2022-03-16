@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Notification from './Notification'
 
 export default {
-  title: 'src/components/molecules/Notification',
+  title: 'molecules/Notification',
   component: Notification,
 } as ComponentMeta<typeof Notification>
 

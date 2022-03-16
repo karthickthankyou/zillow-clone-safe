@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Shadows from './Shadows'
 
 export default {
-  title: '_foundations/4. Shadows',
+  title: '_foundations/Shadows',
   component: Shadows,
 } as ComponentMeta<typeof Shadows>
 

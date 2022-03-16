@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import DropZone from './DropZone'
 
 export default {
-  title: 'src/components/molecules/DropZone',
+  title: 'molecules/DropZone',
   component: DropZone,
 } as ComponentMeta<typeof DropZone>
 
-const Template: ComponentStory<typeof DropZone> = (args) => <DropZone {...args} />
+const Template: ComponentStory<typeof DropZone> = (args) => (
+  <DropZone {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

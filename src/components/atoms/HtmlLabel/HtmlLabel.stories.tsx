@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import HtmlLabel from './HtmlLabel'
 
 export default {
-  title: 'src/components/atoms/HtmlLabel',
+  title: 'atoms/HtmlLabel',
   component: HtmlLabel,
 } as ComponentMeta<typeof HtmlLabel>
 
-const Template: ComponentStory<typeof HtmlLabel> = (args) => <HtmlLabel {...args} />
+const Template: ComponentStory<typeof HtmlLabel> = (args) => (
+  <HtmlLabel {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}

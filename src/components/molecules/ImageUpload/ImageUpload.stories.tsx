@@ -3,11 +3,13 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import ImageUpload from './ImageUpload'
 
 export default {
-  title: 'src/components/molecules/ImageUpload',
+  title: 'molecules/ImageUpload',
   component: ImageUpload,
 } as ComponentMeta<typeof ImageUpload>
 
-const Template: ComponentStory<typeof ImageUpload> = (args) => <ImageUpload {...args} />
+const Template: ComponentStory<typeof ImageUpload> = (args) => (
+  <ImageUpload {...args} />
+)
 
 export const Primary = Template.bind({})
 Primary.args = {}
