@@ -12,5 +12,8 @@ const Template: ComponentStory<typeof ShowHide> = (args) => (
 )
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  children: 'Hello World',
+  show: true,
+}
 Primary.parameters = {}

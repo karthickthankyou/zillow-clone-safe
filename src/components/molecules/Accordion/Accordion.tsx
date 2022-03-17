@@ -24,7 +24,7 @@ const Accordion = ({ title, children, className }: IAccordionProps) => (
             } w-5 h-5 `}
           />
         </Disclosure.Button>
-        <Disclosure.Panel className='w-full px-3 text-gray-600'>
+        <Disclosure.Panel className='w-full px-4 pb-4 text-gray-600'>
           {children}
         </Disclosure.Panel>
       </>

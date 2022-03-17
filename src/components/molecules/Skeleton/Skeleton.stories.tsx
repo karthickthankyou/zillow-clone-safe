@@ -12,5 +12,7 @@ const Template: ComponentStory<typeof Skeleton> = (args) => (
 )
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  className: 'h-24 w-full',
+}
 Primary.parameters = {}

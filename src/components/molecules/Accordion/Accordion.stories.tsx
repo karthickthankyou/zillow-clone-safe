@@ -46,45 +46,11 @@ const AccordionListTemplateLoose: ComponentStory<typeof Accordion> = () => (
 )
 const NestedAccordionListTemplate: ComponentStory<typeof Accordion> = () => (
   <Wrapper>
-    <Accordion title='I have an accodion' className='py-3'>
-      <Accordion title='Click me too.' className='py-3'>
-        <Accordion title='I have a simple body. 🙄' className='py-3'>
-          <div>Body 1</div>
+    <Accordion title='I have an accodion inside me!' className='py-3'>
+      <Accordion title='I have one too.' className='py-3'>
+        <Accordion title='I have nothing. 🙄' className='py-3'>
+          <div>You have me... 😟</div>
         </Accordion>
-        <Accordion title='Title 2' className='py-3'>
-          <div>Body 2</div>
-        </Accordion>
-        <Accordion title='Title 3' className='py-3'>
-          <div>Body 3</div>
-        </Accordion>
-      </Accordion>
-      <Accordion title='Title 2' className='py-3'>
-        <div>Body 2</div>
-      </Accordion>
-      <Accordion title='Title 3' className='py-3'>
-        <div>Body 3</div>
-      </Accordion>
-    </Accordion>
-    <Accordion title='Title 2' className='py-3'>
-      <Accordion title='Title 1' className='py-3'>
-        <div>Body 1</div>
-      </Accordion>
-      <Accordion title='Title 2' className='py-3'>
-        <div>Body 2</div>
-      </Accordion>
-      <Accordion title='Title 3' className='py-3'>
-        <div>Body 3</div>
-      </Accordion>
-    </Accordion>
-    <Accordion title='Title 3' className='py-3'>
-      <Accordion title='Title 1' className='py-3'>
-        <div>Body 1</div>
-      </Accordion>
-      <Accordion title='Title 2' className='py-3'>
-        <div>Body 2</div>
-      </Accordion>
-      <Accordion title='Title 3' className='py-3'>
-        <div>Body 3</div>
       </Accordion>
     </Accordion>
   </Wrapper>

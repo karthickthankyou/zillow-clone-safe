@@ -1,161 +1,204 @@
-import { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import { Children } from 'src/types'
+import ClipboardCheckIcon from '@heroicons/react/outline/ClipboardCheckIcon'
 
-export interface IColorsProps {}
+const ColorContext = React.createContext<{
+  selected: string
+  setSelected: React.Dispatch<React.SetStateAction<string>>
+}>({
+  selected: '',
+  setSelected: () => {},
+})
 
-const ColorBox = ({
-  color,
-  colorClasses,
-}: {
-  color: string
-  colorClasses: string[]
-}) => {
+export const useColorContext = () => {
+  const context = useContext(ColorContext)
+  if (!context) {
+    throw new Error(
+      `A composite Color component cannot be rendered outside of the parent Color component.`
+    )
+  }
+  return context
+}
+
+const useCopyToClipboard = () => {
   const [selected, setSelected] = useState('')
-
   useEffect(() => {
-    const timerId = setTimeout(() => setSelected(''), 3000)
+    navigator.clipboard.writeText(selected)
+    const timerId = setTimeout(() => setSelected(''), 6000)
     return () => {
       clearTimeout(timerId)
     }
   }, [selected])
+  return [selected, setSelected] as const
+}
 
-  const setSelectedState = ({
-    colorType,
-    shade,
-    type,
-  }: {
-    colorType: string
-    shade: number
-    type: string
-  }) => {
-    navigator.clipboard.writeText(`text-${colorType}-${shade}`)
-    setSelected(`${type}-${colorType}-${shade}`)
-  }
+const ColorPill = ({
+  shade,
+  buttonClasses,
+  bgColor,
+  textColor,
+}: {
+  shade: string
+  buttonClasses: string
+  bgColor: string
+  textColor: string
+}) => {
+  const { setSelected } = useContext(ColorContext)
   return (
-    <div className='rounded shadow-xl'>
-      <div className='flex items-baseline justify-between'>
-        <h2 className='mb-3 tracking-widest uppercase'>{color}</h2>
-        {selected && (
-          <p className='text-xs text-gray-500'>{`"${selected}"`} copied.</p>
-        )}
-      </div>
-      {colorClasses.map((colorClass) => {
-        const shade = parseInt(colorClass.split('-')[2], 10)
-        const colorType = colorClass.split('-')[1]
-        const textColor =
-          shade > 400
-            ? `text-white border-white `
-            : 'text-gray-900 border-gray-900 '
-
-        return (
-          <div
-            key={colorClass}
-            className={`w-full shadow-lg ${textColor} ${colorClass} group`}
+    <div key={shade} className={`${buttonClasses} ${bgColor} group flex-1`}>
+      <div className='p-3 transition-all duration-500 opacity-0 group-hover:opacity-100'>
+        <div className='text-2xl font-light'>{shade}</div>
+        <div className='flex gap-2 mt-4'>
+          <button
+            type='button'
+            className={`w-8 h-8 font-serif shadow border  shadow-black/10 text-xs    ${buttonClasses}  `}
+            onClick={() => setSelected(textColor)}
           >
-            <div className='flex items-center p-2 opacity-0 group-hover:opacity-100'>
-              <div>{shade}</div>
-              <button
-                type='button'
-                className={`w-4 h-4 font-serif border ml-auto rounded  ${textColor} `}
-                onClick={() =>
-                  setSelectedState({ colorType, shade, type: 'text' })
-                }
-              >
-                T
-              </button>
-              <button
-                type='button'
-                className={`w-4 h-4 ml-2 font-serif border rounded ${textColor} `}
-                onClick={() =>
-                  setSelectedState({ colorType, shade, type: 'bg' })
-                }
-              >
-                bg
-              </button>
-            </div>
-          </div>
-        )
-      })}
+            T
+          </button>
+          <button
+            type='button'
+            className={`w-8 h-8 font-serif shadow border  shadow-black/10 text-xs  ${buttonClasses}  `}
+            onClick={() => setSelected(bgColor)}
+          >
+            bg
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
 
-const Colors = () => (
-  <div className='container mx-auto'>
-    <h1 className='text-3xl font-thin'>Colors</h1>
-    <p className='max-w-md mt-2 mb-4 text-sm text-gray-700 '>
-      This is our color palette. The ample variety in each color allows us to
-      create smooth visuals.
+const ColorsLayout = ({ color }: { color: string }) => (
+  <>
+    {[25, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((shade) => {
+      const bgColor = `bg-${color}-${shade}`
+      const textColor = `text-${color}-${shade}`
+
+      // For making the text visible over differect lightnesses.
+      const buttonClasses =
+        shade > 500
+          ? `text-white border-white/10`
+          : 'text-black border-black/10'
+
+      return (
+        <ColorPill
+          key={shade}
+          shade={shade.toString()}
+          bgColor={bgColor}
+          buttonClasses={buttonClasses}
+          textColor={textColor}
+        />
+      )
+    })}
+  </>
+)
+const BaseLayout = () => (
+  <>
+    {['black', 'white'].map((shade) => {
+      const bgColor = `bg-${shade}`
+      const textColor = `text-${shade}`
+
+      // For making the text visible over differect lightnesses.
+      const buttonClasses = `${
+        shade === 'black'
+          ? 'text-white border-white/10'
+          : 'text-black border-black/10'
+      }`
+
+      return (
+        <ColorPill
+          key={shade}
+          shade={
+            shade.toString().charAt(0).toUpperCase() + shade.toString().slice(1)
+          }
+          bgColor={bgColor}
+          buttonClasses={buttonClasses}
+          textColor={textColor}
+        />
+      )
+    })}
+  </>
+)
+
+const ColorBoxLayout = ({
+  children,
+  heading,
+}: {
+  children: Children
+  heading: string
+}) => (
+  <div className='rounded'>
+    <div className='flex items-baseline justify-between'>
+      <h2 className='mb-3 tracking-widest uppercase bg-white/10'>{heading}</h2>
+    </div>
+    <div className='flex flex-wrap gap-2 overflow-hidden border-8 shadow-xl border-white/10 shadow-black/20 rounded-3xl'>
+      {children}
+    </div>
+  </div>
+)
+
+const Notification = () => {
+  const { selected } = useContext(ColorContext)
+  return selected ? (
+    <div className='fixed bottom-0 px-3 mb-12 border border-white rounded-full shadow-2xl backdrop-blur backdrop-filter shadow-black/40 bg-gray-100/80'>
+      <p className='flex items-center'>
+        <ClipboardCheckIcon className='w-6 h-6 mr-2' />
+        Text
+        <div className='px-2 py-1 mx-2 text-lg -skew-x-12 bg-white'>
+          {selected}
+        </div>
+        copied.
+      </p>
+    </div>
+  ) : null
+}
+
+const Header = () => (
+  <>
+    <h1 className='mt-12 text-3xl '>Colors</h1>
+    <div className='max-w-sm mt-4 mb-4 text-sm text-gray-700'>
+      The colors are designed to range from almost white to almost black. This
+      ample variety in each color allows us to create smooth visuals.
       <br />
-      <div className='mt-2'>
+      <div className='p-2 mt-2 -ml-2 text-xs bg-gray-100 rounded shadow-inner'>
         Hover over the colors and click on <span className='font-serif'>T</span>{' '}
         or <span className='font-mono'>bg</span> to copy the corresponding
         classes.
       </div>
-    </p>
-
-    <div className='grid grid-cols-1 gap-2 sm:grid-cols-1 md:grid-cols-4 xl:grid-cols-6'>
-      <ColorBox
-        color='primary'
-        colorClasses={[
-          `bg-primary-50`,
-          `bg-primary-100`,
-          `bg-primary-200`,
-          `bg-primary-300`,
-          `bg-primary-400`,
-          `bg-primary-500`,
-          `bg-primary-600`,
-          `bg-primary-700`,
-          `bg-primary-800`,
-          `bg-primary-900`,
-        ]}
-      />
-      <ColorBox
-        color='gray'
-        colorClasses={[
-          `bg-gray-50`,
-          `bg-gray-100`,
-          `bg-gray-200`,
-          `bg-gray-300`,
-          `bg-gray-400`,
-          `bg-gray-500`,
-          `bg-gray-600`,
-          `bg-gray-700`,
-          `bg-gray-800`,
-          `bg-gray-900`,
-        ]}
-      />
-      <ColorBox
-        color='red'
-        colorClasses={[
-          `bg-red-50`,
-          `bg-red-100`,
-          `bg-red-200`,
-          `bg-red-300`,
-          `bg-red-400`,
-          `bg-red-500`,
-          `bg-red-600`,
-          `bg-red-700`,
-          `bg-red-800`,
-          `bg-red-900`,
-        ]}
-      />
-      <ColorBox
-        color='green'
-        colorClasses={[
-          `bg-green-50`,
-          `bg-green-100`,
-          `bg-green-200`,
-          `bg-green-300`,
-          `bg-green-400`,
-          `bg-green-500`,
-          `bg-green-600`,
-          `bg-green-700`,
-          `bg-green-800`,
-          `bg-green-900`,
-        ]}
-      />
     </div>
-  </div>
+  </>
 )
+
+const Colors = () => {
+  const [selected, setSelected] = useCopyToClipboard()
+  const value = useMemo(
+    () => ({
+      selected,
+      setSelected,
+    }),
+    [selected, setSelected]
+  )
+
+  return (
+    <ColorContext.Provider value={value}>
+      <div className='container mx-auto'>
+        <Header />
+        <div className='grid grid-cols-1 gap-12 mt-12 sm:grid-cols-1 md:grid-cols-3'>
+          <ColorBoxLayout heading='base'>
+            <BaseLayout />
+          </ColorBoxLayout>
+          {['primary', 'gray', 'red', 'green', 'yellow'].map((color) => (
+            <ColorBoxLayout key={color} heading={color}>
+              <ColorsLayout color={color} />
+            </ColorBoxLayout>
+          ))}
+        </div>
+        <Notification />
+        <div className='mb-24' />
+      </div>
+    </ColorContext.Provider>
+  )
+}
 
 export default Colors

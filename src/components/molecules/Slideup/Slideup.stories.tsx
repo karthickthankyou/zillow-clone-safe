@@ -10,5 +10,7 @@ export default {
 const Template: ComponentStory<typeof Slideup> = (args) => <Slideup {...args} />
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  children: 'Hello World',
+}
 Primary.parameters = {}
