@@ -10,7 +10,7 @@ const Badge = ({ children, size = 'md', variant = 'gray' }: IBadgeProps) => {
   const sizeCls = {
     sm: 'px-2  text-xs',
     md: 'px-2 py-1.5 text-sm',
-    lg: 'px-3 py-2 text-sm',
+    lg: 'px-3 py-1.5',
   }
   const variantCls = {
     primary: 'bg-primary-100 border border-white shadow text-primary-700',

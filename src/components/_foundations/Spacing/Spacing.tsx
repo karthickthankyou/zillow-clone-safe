@@ -52,11 +52,12 @@ const Spacing = () => (
           <div className='w-6 mr-2 text-right text-gray-500'>
             {size.split('-')[1]}
           </div>
-          <div className={`h-3  ${size} bg-blue-500 rounded-sm`} />
+          <div className={`h-3  ${size} bg-primary-500 rounded-sm`} />
           <div className='w-6 px-3 text-gray-600'>{text}</div>
         </div>
       ))}
     </div>
+    <div className='mb-48' />
   </div>
 )
 

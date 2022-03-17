@@ -12,5 +12,8 @@ const Template: ComponentStory<typeof Initials> = (args) => (
 )
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  name: 'Karthick Ragavendran',
+  color: 'primary',
+}
 Primary.parameters = {}

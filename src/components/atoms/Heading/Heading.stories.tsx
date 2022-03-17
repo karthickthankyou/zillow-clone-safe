@@ -1,6 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Heading from './Heading'
+import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/Heading',
@@ -8,13 +9,13 @@ export default {
 } as ComponentMeta<typeof Heading>
 
 const Template: ComponentStory<typeof Heading> = ({ variant, children }) => (
-  <div>
+  <Wrapper>
     <hr className='border-gray-600' />
     <Heading headerType='h3' variant={variant}>
       {children}
     </Heading>
     <hr className='border-gray-600' />
-  </div>
+  </Wrapper>
 )
 
 export const Primary = Template.bind({})

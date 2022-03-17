@@ -1,5 +1,6 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Wrapper } from 'src/components/atoms/utils'
 import Accordion from './Accordion'
 
 export default {
@@ -7,11 +8,6 @@ export default {
   component: Accordion,
 } as ComponentMeta<typeof Accordion>
 
-const Wrapper = ({ children }: { children: ReactElement | ReactElement[] }) => (
-  <div className='max-w-md p-3 mx-auto mt-12 rounded-lg shadow-lg'>
-    {children}
-  </div>
-)
 const Template: ComponentStory<typeof Accordion> = (args) => (
   <Wrapper>
     <Accordion {...args} />

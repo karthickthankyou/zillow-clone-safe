@@ -1,6 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import HtmlTextArea from './HtmlTextArea'
+import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/HtmlTextArea',
@@ -8,7 +9,9 @@ export default {
 } as ComponentMeta<typeof HtmlTextArea>
 
 const Template: ComponentStory<typeof HtmlTextArea> = (args) => (
-  <HtmlTextArea {...args} />
+  <Wrapper>
+    <HtmlTextArea {...args} />
+  </Wrapper>
 )
 
 export const Primary = Template.bind({})

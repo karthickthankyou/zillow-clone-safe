@@ -7,9 +7,7 @@ export default {
   component: ImageUpload,
 } as ComponentMeta<typeof ImageUpload>
 
-const Template: ComponentStory<typeof ImageUpload> = (args) => (
-  <ImageUpload {...args} />
-)
+const Template: ComponentStory<typeof ImageUpload> = () => <ImageUpload />
 
 export const Primary = Template.bind({})
 Primary.args = {}

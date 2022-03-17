@@ -21,7 +21,7 @@ const DropZone = (
       <input {...getInputProps({ onChange })} />
       Drop images here or click to upload
       {input.value
-        ? input.value?.map((file: { path: {} | null | undefined }) => (
+        ? input.value?.map((file: { path: string | null | undefined }) => (
             <div key={file.path}>{file.path}</div>
           ))
         : null}

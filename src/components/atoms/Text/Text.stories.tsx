@@ -1,6 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Text from './Text'
+import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/Text',
@@ -14,14 +15,13 @@ const Template: ComponentStory<typeof Text> = ({
   weight,
   children,
 }) => (
-  <div>
-    {/* The hrs are for showing the margins */}
+  <Wrapper>
     <hr className='border-gray-600' />
     <Text size={size} mb={mb} muted={muted} weight={weight}>
       {children}
     </Text>
     <hr className='border-gray-600' />
-  </div>
+  </Wrapper>
 )
 
 export const Primary = Template.bind({})

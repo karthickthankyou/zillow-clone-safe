@@ -7,7 +7,7 @@ interface ISelectProps {
   className?: string
 }
 
-const Example = ({ options, className }: ISelectProps) => {
+const Select = ({ options, className }: ISelectProps) => {
   const [selectedOption, setSelectedOption] = useState(options[0])
 
   return (
@@ -70,4 +70,4 @@ const Example = ({ options, className }: ISelectProps) => {
   )
 }
 
-export default Example
+export default Select

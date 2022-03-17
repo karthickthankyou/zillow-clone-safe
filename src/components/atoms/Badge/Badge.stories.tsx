@@ -1,6 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Badge from './Badge'
+import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/Badge',
@@ -8,9 +9,9 @@ export default {
 } as ComponentMeta<typeof Badge>
 
 const Template: ComponentStory<typeof Badge> = (args) => (
-  <div className='p-12 bg-white'>
+  <Wrapper>
     <Badge {...args} />
-  </div>
+  </Wrapper>
 )
 
 export const Primary = Template.bind({})

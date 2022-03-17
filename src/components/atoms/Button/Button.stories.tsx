@@ -1,6 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Button from './Button'
+import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/Button',
@@ -17,7 +18,7 @@ const Template: ComponentStory<typeof Button> = ({
   children,
   className,
 }) => (
-  <div className='flex items-center justify-center h-screen'>
+  <Wrapper>
     <Button
       size={size}
       variant={variant}
@@ -29,7 +30,7 @@ const Template: ComponentStory<typeof Button> = ({
     >
       {children}
     </Button>
-  </div>
+  </Wrapper>
 )
 
 export const Small = Template.bind({})
