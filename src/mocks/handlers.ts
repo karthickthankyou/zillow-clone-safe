@@ -19,6 +19,7 @@ import {
 } from '../generated/graphql'
 import {
   mockDataGetCities,
+  mockDataGetRegionById,
   mockDataSearchCities,
   mockDataSearchCitiesByLocation,
   mockDataSearchStatesByLocation,
@@ -74,17 +75,9 @@ export const mockGetHomeById = zillowAPI.query<
 export const mockGetRegionByIdQuery = zillowAPI.query<
   GetRegionByIdQuery,
   GetRegionByIdQueryVariables
->(QUERY_NAMES.GetHomeById, (req, res, ctx) => {
-  console.log('Within mockGetRegionByIdQuery')
-  return res(
-    ctx.data({
-      location_stats_by_pk: {
-        totalHomes: 100,
-        id: 'Portland',
-      },
-    })
-  )
-})
+>(QUERY_NAMES.GetRegionById, (req, res, ctx) =>
+  res(ctx.data(mockDataGetRegionById))
+)
 
 export const mockSearchCities = rest.get(
   'https://api.mapbox.com/geocoding/v5/mapbox.places/:searchTerm.json',
@@ -184,4 +177,5 @@ export const handlers = [
   mockSearchCitiesByLocation,
   mockSearchStatesByLocation,
   mockSearchCities,
+  mockGetRegionByIdQuery,
 ]

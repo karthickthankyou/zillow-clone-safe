@@ -1,4 +1,5 @@
 import {
+  GetRegionByIdQuery,
   SearchCitiesByLocationQuery,
   SearchStatesByLocationQuery,
 } from 'src/generated/graphql'
@@ -381,4 +382,38 @@ export const mockDataSearchStatesByLocation: SearchStatesByLocationQuery = {
       __typename: 'location_stats',
     },
   ],
+}
+
+export const mockDataGetRegionById: GetRegionByIdQuery = {
+  location_stats_by_pk: {
+    id: 'Mocked State',
+    totalHomes: 18,
+    bedsPrice: [
+      {
+        avg: 405000,
+        beds: '2',
+        count: 1,
+        sqftAvg: 311,
+      },
+      {
+        avg: 441660,
+        beds: '3',
+        count: 5,
+        sqftAvg: 265,
+      },
+      {
+        avg: 647976,
+        beds: '4',
+        count: 10,
+        sqftAvg: 234,
+      },
+      {
+        avg: 849950,
+        beds: '5+',
+        count: 2,
+        sqftAvg: 215,
+      },
+    ],
+    __typename: 'location_stats',
+  },
 }

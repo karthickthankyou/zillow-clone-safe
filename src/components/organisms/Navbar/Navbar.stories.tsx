@@ -35,18 +35,40 @@ const store = createStore(
   },
   composedEnhancers
 )
+const publicUserStore = createStore(
+  combineReducers({
+    user: userReducer,
+  }),
+  {
+    user: userInitialState,
+  },
+  composedEnhancers
+)
 
-export const Primary = Template.bind({})
-Primary.args = {}
-Primary.parameters = {}
-Primary.decorators = [
+export const PublicUser = Template.bind({})
+PublicUser.args = {}
+PublicUser.parameters = {}
+PublicUser.decorators = [
+  (story) => (
+    <Provider store={publicUserStore}>
+      <AppLevelHooksWithoutAuth />
+      {story()}
+      <NotesFixed>Public user.</NotesFixed>
+    </Provider>
+  ),
+]
+
+export const LoggedInUser = Template.bind({})
+LoggedInUser.args = {}
+LoggedInUser.parameters = {}
+LoggedInUser.decorators = [
   (story) => (
     <Provider store={store}>
       <AppLevelHooksWithoutAuth />
       {story()}
       <NotesFixed>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto
-        voluptate at nisi?
+        <div>Logged in user. Note the initials in the top left.</div>
+        <div>The state is being provided by a mock redux store. </div>
       </NotesFixed>
     </Provider>
   ),
