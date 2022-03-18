@@ -14,6 +14,7 @@ const Notifications = () => {
   useNotification()
   const notifications = useAppSelector(selectNotifications)
   const dispatch = useAppDispatch()
+  console.log('notifications', notifications)
 
   const markersTransitions = useTransition([...notifications] || [], {
     keys: (notification) => notification.id,

@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from 'src/store'
+import { useAppSelector } from 'src/store'
 import {
   selectHomesDetailed,
   selectCitiesMap,
@@ -25,6 +25,7 @@ const ProductListingResult = () => {
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
   const { data, fetching, error } = useAppSelector(selectHomesDetailed)
+
   const cities = useAppSelector(selectCitiesMap)
   const states = useAppSelector(selectStatesMap)
 

@@ -35,7 +35,7 @@ export const MainCardSkeleton = ({ className }: { className?: string }) => (
 
 const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
   const homeData = home?.data?.homes_by_pk
-  console.log('homeData main card: ', home)
+
   return home?.fetching ? (
     <MainCardSkeleton className={`${className}`} />
   ) : (

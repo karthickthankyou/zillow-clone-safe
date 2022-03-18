@@ -79,6 +79,7 @@ module.exports = {
       files: ['*stories.tsx'],
       rules: {
         'react/jsx-props-no-spreading': 'off',
+        'no-param-reassign': 'off',
       },
     },
     {

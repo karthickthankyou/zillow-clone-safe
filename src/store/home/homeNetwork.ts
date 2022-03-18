@@ -67,6 +67,8 @@ export const useGetHighlightedHomeData = (
     },
     pause: !highlightedHomeId,
   })
+
+  console.log('highlightedHomeDetails within hook: ', highlightedHomeDetails)
   return highlightedHomeDetails
 }
 
@@ -88,6 +90,7 @@ export const useHomesDetailed = () => {
     useSearchHomesByLocationDetailedQuery({
       variables,
     })
+
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(setHomesDetailed({ data, fetching, error, stale }))

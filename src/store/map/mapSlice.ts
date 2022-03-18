@@ -17,7 +17,7 @@ export interface MapSlice {
   mapSearchSelected?: MapSearch
 }
 
-const initialState: MapSlice = {
+export const initialState: MapSlice = {
   viewport: initialViewport,
   debouncedViewport: initialViewport,
   bounds: [

@@ -33,6 +33,7 @@ module.exports = {
   important: true,
   theme: {
     colors: {
+      transparent: colors.transparent,
       black: colors.black,
       white: colors.white,
       primary: primaryPallete,

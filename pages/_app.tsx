@@ -22,11 +22,18 @@ import { useUserListener } from 'src/store/user/userHooks'
   }
  */
 
-const AppLevelHooks = () => {
+export const AppLevelHooks = () => {
   useDebouncedDispatch()
   useLongHoverDispatch()
   useGetWishlisted()
   useUserListener()
+
+  return null
+}
+export const AppLevelHooksWithoutAuth = () => {
+  useDebouncedDispatch()
+  useLongHoverDispatch()
+  useGetWishlisted()
 
   return null
 }

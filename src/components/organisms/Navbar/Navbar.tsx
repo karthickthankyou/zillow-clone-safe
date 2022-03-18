@@ -158,7 +158,9 @@ const NavSidebar = ({
 const pathWithFixedNav: string[] = []
 
 const Navbar = () => {
-  const url = useRouter().pathname
+  console.log('----> Navbar')
+  const router = useRouter()
+  const url = router.pathname
   const navCls = useMemo(
     () => (pathWithFixedNav.includes(url) ? 'fixed' : 'relative'),
     [url]
@@ -167,6 +169,8 @@ const Navbar = () => {
   const uid = useAppSelector(selectUid)
   const userDisplayName = useAppSelector(selectDisplayName)
   const userRoles = useAppSelector(selectUserRoles)
+
+  console.log('navbar: ', uid, userDisplayName, userRoles)
 
   const dispatch = useAppDispatch()
 

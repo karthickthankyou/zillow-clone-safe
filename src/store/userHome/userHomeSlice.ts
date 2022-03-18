@@ -9,7 +9,7 @@ export type UserHomeSliceType = {
   wishlisted: UseQueryResponse<GetWishlistedHomesQuery, object>[0]
 }
 
-const initialState: UserHomeSliceType = {
+export const initialState: UserHomeSliceType = {
   wishlisted: {
     stale: false,
     fetching: false,

@@ -22,7 +22,7 @@ export type UserSliceType = AsyncData<{
   claims: Claims | null
 }>
 
-const initialState: UserSliceType = {
+export const initialState: UserSliceType = {
   data: {
     user: null,
     claims: null,

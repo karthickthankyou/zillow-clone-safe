@@ -35,7 +35,7 @@ export interface HomeSliceType {
     highlightedState?: SearchStatesByLocationQuery['states'][0]['id'] | null
   }
 }
-const initialState: HomeSliceType = {
+export const initialState: HomeSliceType = {
   homesFilter: {},
   homes: {
     fetching: false,

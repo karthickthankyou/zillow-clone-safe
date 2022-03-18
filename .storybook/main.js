@@ -7,6 +7,7 @@ module.exports = {
     '@storybook/addon-essentials',
     'storybook-addon-designs',
     '@storybook/addon-a11y',
+    'storybook-addon-next-router',
   ],
   framework: '@storybook/react',
   webpackFinal: async (config) => {

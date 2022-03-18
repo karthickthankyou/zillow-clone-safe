@@ -3386,6 +3386,7 @@ export function useGetHomeByIdQuery(
     ...options,
   })
 }
+
 export const GetRegionByIdDocument = /*#__PURE__*/ gql`
   query GetRegionById($id: String!) {
     location_stats_by_pk(id: $id) {
