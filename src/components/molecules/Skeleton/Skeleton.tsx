@@ -3,7 +3,7 @@ export interface ISkeletonProps {
 }
 
 const Skeleton = ({ className }: ISkeletonProps) => (
-  <div className={`bg-gray-400 animate-pulse ${className}`} />
+  <div className={`bg-gray-300 animate-pulse ${className}`} />
 )
 
 export default Skeleton

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { SbReduxProvider } from 'src/lib/sb'
+import { SbUrqlProvider } from 'src/lib/sb'
 import { Provider } from 'react-redux'
 import { combineReducers, createStore } from '@reduxjs/toolkit'
 import homesReducer, {
@@ -25,7 +25,7 @@ import ProductListingPage from './ProductListingPage'
 export default {
   title: 'templates/ProductListingPage',
   component: ProductListingPage,
-  decorators: [SbReduxProvider],
+  decorators: [SbUrqlProvider],
 } as ComponentMeta<typeof ProductListingPage>
 
 const Template: ComponentStory<typeof ProductListingPage> = () => (

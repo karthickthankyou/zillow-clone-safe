@@ -15,16 +15,31 @@ export interface IPopupRegionContentProps {
 }
 
 const Skeleton = () => (
-  <div className='flex flex-col w-48 text-gray-200 '>
-    <Image src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />
+  <div className='flex flex-col w-56 text-gray-200 '>
+    <Image
+      src='https://via.placeholder.com/150'
+      className='w-full h-36'
+      alt=''
+    />
     <div className='flex flex-col p-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
-      <div className='w-3/4 mb-1 text-lg font-semibold leading-none bg-gray-200 animate-pulse'>
-        -
-      </div>
-      <div className='w-1/3 mb-1 text-xs bg-gray-200 animate-pulse'>-</div>
-      <div className='flex w-1/2 gap-2 text-sm bg-gray-200 animate-pulse'>
-        -
-      </div>
+      <div className='w-full h-8 mb-1 font-semibold leading-none bg-gray-200 animate-pulse' />
+      <div className='w-1/3 h-4 mb-1' />
+      <div className='w-full h-6 mb-1 bg-gray-200 animate-pulse' />
+      <div className='w-full h-6 mb-1 bg-gray-200 animate-pulse' />
+      <div className='w-full h-6 mb-1 bg-gray-200 animate-pulse' />
+      <div className='w-full h-6 mb-1 bg-gray-200 animate-pulse' />
+    </div>
+  </div>
+)
+const Error = ({ error }: { error: string }) => (
+  <div className='flex flex-col w-56 text-gray-800 '>
+    <Image
+      src='https://via.placeholder.com/150'
+      className='w-full h-36'
+      alt=''
+    />
+    <div className='flex flex-col p-2 bg-white/90'>
+      <div>{error}</div>
     </div>
   </div>
 )
@@ -35,7 +50,7 @@ const PopupRegionContent = ({ id, onClick }: IPopupRegionContentProps) => {
   console.log('highlightedRegionDetails ', highlightedRegionDetails)
 
   if (fetching) return <Skeleton />
-  if (error) return <div>{error.message}</div>
+  if (error) return <Error error='Something went wrong...' />
 
   return (
     <div

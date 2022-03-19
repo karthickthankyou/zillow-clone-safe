@@ -55,8 +55,9 @@ export const mockGetWishlistedHomes = zillowAPI.query<
 export const mockGetHomeById = zillowAPI.query<
   GetHomeByIdQuery,
   GetHomeByIdQueryVariables
->(QUERY_NAMES.GetHomeById, (req, res, ctx) =>
-  res(
+>(QUERY_NAMES.GetHomeById, (req, res, ctx) => {
+  console.log('mockGetHomeById running in handler...', req.variables)
+  return res(
     ctx.data({
       homes_by_pk: {
         price: 100000,
@@ -64,18 +65,27 @@ export const mockGetHomeById = zillowAPI.query<
         sqft: 1200,
         bath: 8,
         beds: 12,
-        address: 'string',
-        style: 'string',
+        address: '13, Main St',
+        style: 'Single Family',
       },
     })
   )
-)
+})
 
 export const mockGetRegionByIdQuery = zillowAPI.query<
   GetRegionByIdQuery,
   GetRegionByIdQueryVariables
 >(QUERY_NAMES.GetRegionById, (req, res, ctx) =>
   res(ctx.data(mockDataGetRegionById))
+)
+
+export const mockGetRegionByIdQueryFetching = zillowAPI.query(
+  QUERY_NAMES.GetRegionById,
+  (req, res, ctx) => res(ctx.delay(1000 * 60 * 60 * 60), ctx.data([]))
+)
+export const mockGetRegionByIdQueryError = zillowAPI.query(
+  QUERY_NAMES.GetRegionById,
+  (req, res, ctx) => res(ctx.errors([{ message: 'Something went wrong...' }]))
 )
 
 export const mockSearchCities = rest.get(

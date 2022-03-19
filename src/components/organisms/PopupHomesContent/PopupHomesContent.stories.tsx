@@ -8,11 +8,13 @@ import produce from 'immer'
 import { composedEnhancers } from 'src/store'
 import { Provider } from 'react-redux'
 import { AppLevelHooksWithoutAuth } from 'pages/_app'
+import { SbUrqlProvider } from 'src/lib/sb'
 import PopupHomesContent from './PopupHomesContent'
 
 export default {
   title: 'organisms/PopupHomesContent',
   component: PopupHomesContent,
+  decorators: [SbUrqlProvider],
 } as ComponentMeta<typeof PopupHomesContent>
 
 const Template: ComponentStory<typeof PopupHomesContent> = (args) => (
@@ -37,7 +39,9 @@ const store = createStore(
 )
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  id: 123456,
+}
 Primary.parameters = {}
 Primary.decorators = [
   (story) => (

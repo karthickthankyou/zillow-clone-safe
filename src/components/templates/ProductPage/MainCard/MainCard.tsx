@@ -13,7 +13,7 @@ export interface IMainCardProps {
 }
 
 export const MainCardSkeleton = ({ className }: { className?: string }) => (
-  <div className={`${className}`}>
+  <div className={`${className} p-6`}>
     <Skeleton className='w-1/4 h-4' />
     <Skeleton className='h-4 mt-3 ' />
     <Skeleton className='w-1/4 h-4 mt-1 ' />
@@ -29,16 +29,18 @@ export const MainCardSkeleton = ({ className }: { className?: string }) => (
         <Skeleton className='w-3/4 h-4 mt-1' />
       </div>
     </div>
-    <Skeleton className='h-12 mt-2 ' />
+    <Skeleton className='h-12 mt-2 rounded' />
   </div>
 )
 
 const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
   const homeData = home?.data?.homes_by_pk
 
-  return home?.fetching ? (
-    <MainCardSkeleton className={`${className}`} />
-  ) : (
+  if (home.fetching) {
+    return <MainCardSkeleton className={`${className}`} />
+  }
+
+  return (
     <div className={`col-span-1 ${className}`}>
       <div className='sticky top-0 p-6 rounded-lg shadow-lg bg-striped'>
         <div className='text-xs tracking-wide text-gray-600 uppercase'>

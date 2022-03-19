@@ -3381,6 +3381,7 @@ export const GetHomeByIdDocument = /*#__PURE__*/ gql`
 export function useGetHomeByIdQuery(
   options: Omit<Urql.UseQueryArgs<GetHomeByIdQueryVariables>, 'query'> = {}
 ) {
+  console.log('useGetHomeByIdQuery running...')
   return Urql.useQuery<GetHomeByIdQuery>({
     query: GetHomeByIdDocument,
     ...options,

@@ -1,12 +1,12 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { SbReduxProvider } from 'src/lib/sb'
+import { SbUrqlProvider } from 'src/lib/sb'
 import { PanelContainer, Panel } from './MapboxContent'
 
 export default {
   title: 'organisms/MapboxContent',
   component: PanelContainer,
-  decorators: [SbReduxProvider],
+  decorators: [SbUrqlProvider],
 } as ComponentMeta<typeof PanelContainer>
 
 const Template: ComponentStory<typeof PanelContainer> = () => (

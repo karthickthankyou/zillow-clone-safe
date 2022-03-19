@@ -3,7 +3,7 @@ import { mswWorker } from 'src/mocks/mswWorker'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { SbReduxProvider } from 'src/lib/sb'
+import { SbUrqlProvider } from 'src/lib/sb'
 import {
   mockSearchHomesByLocation,
   mockSearchHomesByLocationErrors,
@@ -13,23 +13,27 @@ import {
 import {} from '@urql/storybook-addon'
 import { MapProvider } from 'src/store/map/mapContext'
 import Mapbox from './Mapbox'
+import {
+  FetchingBool,
+  MapMessage,
+  ErrorBool,
+  Panel,
+} from '../MapboxContent/MapboxContent'
 
 export default {
   title: 'organisms/Mapbox',
   component: Mapbox,
-  decorators: [SbReduxProvider],
+  decorators: [SbUrqlProvider],
 } as ComponentMeta<typeof Mapbox>
 
-const Template: ComponentStory<typeof Mapbox> = () => (
-  <MapProvider>
-    <Mapbox>
-      <div>Hello</div>
-    </Mapbox>
+const Template: ComponentStory<typeof Mapbox> = (args) => (
+  <MapProvider className='h-screen'>
+    <Mapbox {...args} />
   </MapProvider>
 )
 
-export const Primary = Template.bind({})
-Primary.decorators = [
+export const EmptyMap = Template.bind({})
+EmptyMap.decorators = [
   (Story) => {
     mswWorker.use(mockSearchHomesByLocation)
     return <Story />
@@ -37,6 +41,13 @@ Primary.decorators = [
 ]
 
 export const Fetching = Template.bind({})
+Fetching.args = {
+  children: (
+    <Panel position='center-bottom'>
+      <FetchingBool fetching />
+    </Panel>
+  ),
+}
 Fetching.decorators = [
   (Story) => {
     mswWorker.use(mockSearchHomesByLocationFetching)
@@ -44,6 +55,13 @@ Fetching.decorators = [
   },
 ]
 export const Error = Template.bind({})
+Error.args = {
+  children: (
+    <Panel position='center-bottom'>
+      <ErrorBool error='Custom error message.' />
+    </Panel>
+  ),
+}
 Error.decorators = [
   (Story) => {
     mswWorker.use(mockSearchHomesByLocationErrors)

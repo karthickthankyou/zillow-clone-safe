@@ -1,12 +1,12 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { SbReduxProvider } from 'src/lib/sb'
+import { SbUrqlProvider } from 'src/lib/sb'
 import Hero from './Hero'
 
 export default {
   title: 'templates/Hero',
   component: Hero,
-  decorators: [SbReduxProvider],
+  decorators: [SbUrqlProvider],
 } as ComponentMeta<typeof Hero>
 
 const Template: ComponentStory<typeof Hero> = () => (
