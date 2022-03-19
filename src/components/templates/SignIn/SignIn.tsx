@@ -44,7 +44,7 @@ const SignIn = () => {
       rememberMe: false,
     },
   })
-  const onSubmit = handleSubmit((data) => console.log('Signup: ', data))
+  const onSubmit = handleSubmit((data) => console.log('Signin: ', data))
 
   return (
     <SplitLayoutImage imgSrc='https://res.cloudinary.com/thankyou/image/upload/v1640791791/nike/wallpapers/alexander-andrews-A3DPhhAL6Zg-unsplash_lngmew.png'>

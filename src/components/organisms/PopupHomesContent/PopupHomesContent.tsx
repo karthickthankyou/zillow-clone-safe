@@ -38,8 +38,6 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   const highlightedHomeDetails = useGetHighlightedHomeData(id)
   const { data, fetching, error } = highlightedHomeDetails!
 
-  console.log('highlightedHomeDetails: ', highlightedHomeDetails)
-
   if (fetching) return <Skeleton />
   if (error) return <div>{error.message}</div>
 

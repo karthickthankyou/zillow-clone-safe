@@ -55,9 +55,8 @@ export const mockGetWishlistedHomes = zillowAPI.query<
 export const mockGetHomeById = zillowAPI.query<
   GetHomeByIdQuery,
   GetHomeByIdQueryVariables
->(QUERY_NAMES.GetHomeById, (req, res, ctx) => {
-  console.log('Within mockGetHomeByIdQuery ', req)
-  return res(
+>(QUERY_NAMES.GetHomeById, (req, res, ctx) =>
+  res(
     ctx.data({
       homes_by_pk: {
         price: 100000,
@@ -70,7 +69,7 @@ export const mockGetHomeById = zillowAPI.query<
       },
     })
   )
-})
+)
 
 export const mockGetRegionByIdQuery = zillowAPI.query<
   GetRegionByIdQuery,

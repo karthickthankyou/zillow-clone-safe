@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import SignIn from 'src/components/templates/SignIn'
+import SignIn from 'src/components/templates/Signin'
 import { useRedirectLoggedInUsers } from 'src/hooks'
 
 const Login: NextPage = () => {
