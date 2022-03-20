@@ -14,15 +14,15 @@ import { setViewportLocation } from 'src/store/map/mapSlice'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export interface IMapMarkerProps {
-  home: SearchHomesByLocationQuery['homes'][number]
+  home: SearchHomesByLocationQuery['homes'][0]
   highlighted?: boolean
-  wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
+  wishlisted?: GetWishlistedHomesQuery['wishlisted'][0]
 }
 
 const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
   let MarkerIcon = HomeIcon
 
-  if (['Coop', 'Apartment'].includes(home.style))
+  if (['Coop', 'Apartment'].includes(home?.style || ''))
     MarkerIcon = OfficeBuildingIcon
 
   const highlightedClasses =

@@ -17,3 +17,9 @@ Primary.args = {
   color: 'primary',
 }
 Primary.parameters = {}
+export const Yellow = Template.bind({})
+Yellow.args = {
+  name: 'Sachin Tendulkar',
+  color: 'yellow',
+}
+Yellow.parameters = {}

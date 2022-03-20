@@ -2,6 +2,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Text from './Text'
 import { Wrapper } from '../utils'
+import NotesFixed from 'src/components/molecules/NotesFixed'
 
 export default {
   title: 'atoms/Text',
@@ -15,13 +16,18 @@ const Template: ComponentStory<typeof Text> = ({
   weight,
   children,
 }) => (
-  <Wrapper>
-    <hr className='border-gray-600' />
-    <Text size={size} mb={mb} muted={muted} weight={weight}>
-      {children}
-    </Text>
-    <hr className='border-gray-600' />
-  </Wrapper>
+  <>
+    <Wrapper>
+      <hr className='border-gray-600' />
+      <Text size={size} mb={mb} muted={muted} weight={weight}>
+        {children}
+      </Text>
+      <hr className='border-gray-600' />
+    </Wrapper>
+    <NotesFixed>
+      The lines are there to show the line height and bottom margin.
+    </NotesFixed>
+  </>
 )
 
 export const Primary = Template.bind({})

@@ -40,7 +40,6 @@ const SearchHomesFilter = () => {
 
   const [showSidebar, setShowSidebar] = useState(false)
   const zoom = useAppSelector(selectDebouncedZoom)
-  console.log('zoom', zoom)
 
   return (
     <div className='relative flex items-center gap-12 mb-2 bg-white '>

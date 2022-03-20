@@ -13,7 +13,7 @@ const NotesFixed = ({ title = 'Notes', children }: INotesFixedProps) => {
   const [open, setOpen] = useState(true)
   return (
     <ShowHide show={open}>
-      <div className='fixed bottom-0 w-full max-w-sm p-3 mx-auto mb-4 bg-white shadow-lg'>
+      <div className='fixed bottom-0 w-full max-w-sm p-3 mx-auto mb-4 ml-4 bg-white shadow-lg'>
         <div className='flex items-center mb-2 text-lg font-bold'>
           <InformationCircleIcon className='w-6 h-6 mr-1' /> {title}
         </div>
