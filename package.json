@@ -49,6 +49,7 @@
     "@react-icons/all-files": "^4.1.0",
     "@reduxjs/toolkit": "^1.7.2",
     "@sentry/nextjs": "^6.18.2",
+    "@storybook/addon-notes": "^5.3.21",
     "@turf/turf": "^6.5.0",
     "@urql/core": "^2.4.3",
     "@urql/devtools": "^2.0.3",

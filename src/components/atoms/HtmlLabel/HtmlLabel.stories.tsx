@@ -1,8 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import NotesFixed from 'src/components/molecules/NotesFixed'
 import HtmlLabel from './HtmlLabel'
-import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/HtmlLabel',
@@ -18,11 +16,3 @@ const Template: ComponentStory<typeof HtmlLabel> = (args) => (
 
 export const Primary = Template.bind({})
 Primary.args = {}
-Primary.decorators = [
-  (story) => (
-    <Wrapper>
-      {story()}
-      <NotesFixed>HtmlLabel wraps a color picker in this example.</NotesFixed>
-    </Wrapper>
-  ),
-]

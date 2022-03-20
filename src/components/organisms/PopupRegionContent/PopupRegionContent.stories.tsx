@@ -7,7 +7,7 @@ import {
   mockGetRegionByIdQueryFetching,
 } from 'src/mocks/handlers'
 import { mswWorker } from 'src/mocks/mswWorker'
-import NotesFixed from 'src/components/molecules/NotesFixed'
+
 import PopupRegionContent from './PopupRegionContent'
 
 export default {
@@ -27,12 +27,7 @@ Primary.args = {
 Primary.decorators = [
   (Story) => {
     mswWorker.use(mockGetRegionByIdQuery)
-    return (
-      <div>
-        <Story />
-        <NotesFixed>The data comes from msw.</NotesFixed>
-      </div>
-    )
+    return <Story />
   },
 ]
 
@@ -43,18 +38,7 @@ Fetching.args = {
 Fetching.decorators = [
   (Story) => {
     mswWorker.use(mockGetRegionByIdQueryFetching)
-    return (
-      <div>
-        <Story />
-        <NotesFixed>
-          <div>
-            We mimic this eternal fetching state by setting a delay of
-            <em>1000 * 60 * 60 * 60</em>
-          </div>
-          <div>Kindly do not wait for this loading to end.</div>
-        </NotesFixed>
-      </div>
-    )
+    return <Story />
   },
 ]
 export const Error = Template.bind({})
@@ -64,13 +48,6 @@ Error.args = {
 Error.decorators = [
   (Story) => {
     mswWorker.use(mockGetRegionByIdQueryError)
-    return (
-      <div>
-        <Story />
-        <NotesFixed>
-          Humm... Should we have a component wise error management?
-        </NotesFixed>
-      </div>
-    )
+    return <Story />
   },
 ]

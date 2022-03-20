@@ -5,7 +5,6 @@ import Mapbox from 'src/components/organisms/Mapbox/Mapbox'
 import { SbReduxProvider } from 'src/lib/sb'
 import Popup from './Popup'
 import ShowHide from '../ShowHide/ShowHide'
-import NotesFixed from '../NotesFixed'
 
 export default {
   title: 'molecules/Popup',
@@ -54,14 +53,6 @@ Primary.decorators = [
   (story) => (
     <MapProvider className='h-screen'>
       <Mapbox>{story()}</Mapbox>
-      <NotesFixed>
-        <div>
-          A <span className='font-bold text-red-600'>bug</span> stops from
-          rendering the popup on the initial load. Drag the map or refresh the
-          page to see it.
-        </div>
-        <div>This bug wont happen in the application.</div>
-      </NotesFixed>
     </MapProvider>
   ),
 ]
@@ -70,14 +61,6 @@ Multiple.decorators = [
   (story) => (
     <MapProvider className='h-screen'>
       <Mapbox>{story()}</Mapbox>
-      <NotesFixed>
-        <div>
-          A <span className='font-bold text-red-600'>bug</span> stops from
-          rendering the popup on the initial load. Drag the map or refresh the
-          page to see it.
-        </div>
-        <div>This bug wont happen in the application.</div>
-      </NotesFixed>
     </MapProvider>
   ),
 ]

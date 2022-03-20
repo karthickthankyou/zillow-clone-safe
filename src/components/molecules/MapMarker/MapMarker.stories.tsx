@@ -4,7 +4,6 @@ import { MapProvider } from 'src/store/map/mapContext'
 import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 import Mapbox from 'src/components/organisms/Mapbox'
 import MapMarker from './MapMarker'
-import NotesFixed from '../NotesFixed'
 
 export default {
   title: 'molecules/MapMarker',
@@ -29,14 +28,7 @@ Primary.args = {
     style: 'Single Family',
   },
 }
-Primary.decorators = [
-  (story) => (
-    <>
-      {story()}
-      <NotesFixed>This component is wrapped within a map provider.</NotesFixed>
-    </>
-  ),
-]
+
 export const Coop = Template.bind({})
 Coop.args = {
   home: {
@@ -46,16 +38,7 @@ Coop.args = {
     style: 'Apartment',
   },
 }
-Coop.decorators = [
-  (story) => (
-    <>
-      {story()}
-      <NotesFixed>
-        Currenty this map marker supports two types of icons.
-      </NotesFixed>
-    </>
-  ),
-]
+
 export const Wishlisted = Template.bind({})
 Wishlisted.args = {
   wishlisted: {
@@ -69,16 +52,7 @@ Wishlisted.args = {
     style: 'Apartment',
   },
 }
-Wishlisted.decorators = [
-  (story) => (
-    <>
-      {story()}
-      <NotesFixed>
-        Wishlisted homes are red as a heart and is scaled 1.5 times.
-      </NotesFixed>
-    </>
-  ),
-]
+
 export const Highlighted = Template.bind({})
 Highlighted.args = {
   highlighted: true,
@@ -89,14 +63,3 @@ Highlighted.args = {
     style: 'Apartment',
   },
 }
-Highlighted.decorators = [
-  (story) => (
-    <>
-      {story()}
-      <NotesFixed>
-        As the house is hovered over, The marker icon will scale up while
-        turning blue with a border and a white background.
-      </NotesFixed>
-    </>
-  ),
-]

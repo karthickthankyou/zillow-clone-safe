@@ -1,7 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Button from './Button'
-import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/Button',
@@ -18,19 +17,17 @@ const Template: ComponentStory<typeof Button> = ({
   children,
   className,
 }) => (
-  <Wrapper>
-    <Button
-      size={size}
-      variant={variant}
-      color={color}
-      fullWidth={fullWidth}
-      disabled={disabled}
-      onClickAction={onClickAction}
-      className={className}
-    >
-      {children}
-    </Button>
-  </Wrapper>
+  <Button
+    size={size}
+    variant={variant}
+    color={color}
+    fullWidth={fullWidth}
+    disabled={disabled}
+    onClickAction={onClickAction}
+    className={className}
+  >
+    {children}
+  </Button>
 )
 
 export const Small = Template.bind({})

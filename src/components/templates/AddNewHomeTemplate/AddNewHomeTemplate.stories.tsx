@@ -2,7 +2,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 import Container from 'src/components/atoms/Container'
-import NotesFixed from 'src/components/molecules/NotesFixed'
+
 import AddNewHomeTemplate from './AddNewHomeTemplate'
 
 export default {
@@ -12,14 +12,13 @@ export default {
 } as ComponentMeta<typeof AddNewHomeTemplate>
 
 const Template: ComponentStory<typeof AddNewHomeTemplate> = () => (
-  <>
-    <Container>
-      <AddNewHomeTemplate />
-    </Container>
-    <NotesFixed>This component is wrapped within a container.</NotesFixed>
-  </>
+  <Container>
+    <AddNewHomeTemplate />
+  </Container>
 )
 
 export const Primary = Template.bind({})
 Primary.args = {}
 Primary.parameters = {}
+
+// <>This component is wrapped within a container.</>

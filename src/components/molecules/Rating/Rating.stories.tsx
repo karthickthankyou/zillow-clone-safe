@@ -1,26 +1,13 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Wrapper } from 'src/components/atoms/utils'
 import Rating from './Rating'
-import NotesFixed from '../NotesFixed'
 
 export default {
   title: 'molecules/Rating',
   component: Rating,
 } as ComponentMeta<typeof Rating>
 
-const Template: ComponentStory<typeof Rating> = (args) => (
-  <Wrapper>
-    <Rating {...args} />
-    <NotesFixed>
-      <div>
-        This component is from{' '}
-        <span className='font-bold'>@mui/material/Rating</span> styled with
-        tailwind classes.
-      </div>
-    </NotesFixed>
-  </Wrapper>
-)
+const Template: ComponentStory<typeof Rating> = (args) => <Rating {...args} />
 
 export const Small = Template.bind({})
 Small.args = {

@@ -1,12 +1,11 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Wrapper } from 'src/components/atoms/utils'
+
 import Skeleton from './Skeleton'
 
 export default {
   title: 'molecules/Skeleton',
   component: Skeleton,
-  decorators: [(story) => <Wrapper>{story()}</Wrapper>],
 } as ComponentMeta<typeof Skeleton>
 
 const Template: ComponentStory<typeof Skeleton> = (args) => (

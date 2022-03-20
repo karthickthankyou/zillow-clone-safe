@@ -2,7 +2,6 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Image from 'src/components/atoms/Image'
 import HScroll from './HScroll'
-import NotesFixed from '../NotesFixed'
 
 export default {
   title: 'molecules/HScroll',
@@ -142,7 +141,6 @@ const TemplateText: ComponentStory<typeof HScroll> = () => (
         ))}
       </HScroll.Body>
     </HScroll>
-    <NotesFixed>Dad jokes.</NotesFixed>
   </div>
 )
 export const Text = TemplateText.bind({})

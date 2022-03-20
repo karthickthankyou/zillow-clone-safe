@@ -1,10 +1,9 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Controller, useForm } from 'react-hook-form'
-import { Wrapper } from 'src/components/atoms/utils'
+
 import { addDollar, shortenNumber } from 'src/lib/util'
 import RangeSlider from './RangeSlider'
-import NotesFixed from '../NotesFixed'
 
 export default {
   title: 'molecules/RangeSlider',
@@ -76,25 +75,14 @@ Primary.args = {
   initialData: [0, 10],
   step: 1,
 }
-Primary.decorators = [(story) => <Wrapper>{story()}</Wrapper>]
 
 export const LabelFormat = LabelFormatTemplate.bind({})
 LabelFormat.args = {
   initialData: [0, 10_000_000],
   step: 10_000,
 }
-LabelFormat.decorators = [
-  (story) => <Wrapper>{story()}</Wrapper>,
-  (story) => (
-    <div>
-      {story()}
-      <NotesFixed>
-        <div>
-          We can use the{' '}
-          <span className='font-bold text-primary-600'>labelFormat</span> prop
-          to modify the text format.
-        </div>
-      </NotesFixed>
-    </div>
-  ),
-]
+LabelFormat.parameters = {
+  notes: {
+    Introduction: 'We can use the labelFormat prop to modify the text format.',
+  },
+}

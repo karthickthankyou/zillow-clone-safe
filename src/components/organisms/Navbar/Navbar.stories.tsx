@@ -9,7 +9,6 @@ import userReducer, {
 import { AppLevelHooksWithoutAuth } from 'pages/_app'
 import produce from 'immer'
 import { composedEnhancers } from 'src/store'
-import NotesFixed from 'src/components/molecules/NotesFixed'
 import Navbar from './Navbar'
 
 export default {
@@ -53,7 +52,6 @@ PublicUser.decorators = [
     <Provider store={publicUserStore}>
       <AppLevelHooksWithoutAuth />
       {story()}
-      <NotesFixed>Public user.</NotesFixed>
     </Provider>
   ),
 ]
@@ -66,10 +64,6 @@ LoggedInUser.decorators = [
     <Provider store={store}>
       <AppLevelHooksWithoutAuth />
       {story()}
-      <NotesFixed>
-        <div>Logged in user. Note the initials in the top left.</div>
-        <div>The state is being provided by a mock redux store. </div>
-      </NotesFixed>
     </Provider>
   ),
 ]
