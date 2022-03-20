@@ -16,6 +16,7 @@ import {
 
 export type ICityCardProps = SearchCitiesByLocationQuery['cities'][number] & {
   type: 'city' | 'state'
+  zoomEffect?: boolean
 }
 
 export const CityCardShadow = () => (
@@ -35,6 +36,7 @@ const CityCard = ({
   totalHomes,
   priceSqft,
   type,
+  zoomEffect = false,
 }: ICityCardProps) => {
   const dispatch = useAppDispatch()
 
@@ -50,24 +52,34 @@ const CityCard = ({
   const longHoverDispatch =
     type === 'city' ? setHighlightedCityId : setHighlightedStateId
 
+  const zoomEffectClassesParent =
+    zoomEffect && 'hover:scale-105 hover:shadow-xl hover:z-10'
+  const zoomEffectClassesImage =
+    zoomEffect &&
+    ' scale-110 group-hover:brightness-110 brightness-95 group-hover:scale-100'
+  const zoomEffectClassesBody =
+    zoomEffect && 'group-hover:border-l-8 group-hover:border-white'
+
   return (
     <div
       role='button'
       tabIndex={0}
       onKeyPress={dispatchLocation}
       onClick={dispatchLocation}
-      className='relative block w-full overflow-hidden transition-all duration-500 border-2 border-white rounded-md shadow-md cursor-pointer hover:scale-105 hover:shadow-xl hover:z-10 group h-96'
+      className={`relative block w-full overflow-hidden transition-all duration-500 border-2 border-white rounded-md shadow-md cursor-pointer group h-96 ${zoomEffectClassesParent}`}
       onMouseOver={() => startLongHoverDispatch(longHoverDispatch(id))}
       onFocus={() => startLongHoverDispatch(longHoverDispatch(id))}
       onMouseLeave={() => stopLongHoverDispatch()}
     >
       <Image
-        className='h-full transition-all duration-700 scale-110 group-hover:brightness-110 brightness-95 group-hover:scale-100'
+        className={`h-full transition-all duration-700 ${zoomEffectClassesImage}`}
         alt=''
         priority={false}
         src='https://res.cloudinary.com/thankyou/image/upload/v1640715615/nike/cities/newyork_zqnljo.jpg'
       />
-      <div className='absolute bottom-0 pt-24 pb-3 pl-3 pr-24 text-white bg-gradient-to-tr from-primary-800 via-transparent to-transparent'>
+      <div
+        className={`absolute pt-24 pb-3 pl-3 pr-24 bottom-0 text-white bg-gradient-to-tr from-primary-800 via-transparent to-transparent ${zoomEffectClassesBody}`}
+      >
         <div className='text-2xl font-semibold tracking-tighter'>{id}</div>
         <div className='text-sm text-opacity-75'>{totalHomes} homes</div>
         <div className='text-sm text-opacity-75'>$ {priceSqft}/sqft</div>
