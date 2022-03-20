@@ -22,7 +22,7 @@ const AutocompleteComponent = <
       paper: 'rounded-md shadow-md border border-white mt-1 bg-transparent',
     }}
     handleHomeEndKeys
-    filterOptions={(x) => x}
+    // filterOptions={(x) => x}
     renderInput={(params) => (
       <div ref={params.InputProps.ref} className='flex items-center w-full '>
         <input

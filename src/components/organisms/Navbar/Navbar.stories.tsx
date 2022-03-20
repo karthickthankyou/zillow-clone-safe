@@ -9,8 +9,8 @@ import userReducer, {
 import { AppLevelHooksWithoutAuth } from 'pages/_app'
 import produce from 'immer'
 import { composedEnhancers } from 'src/store'
-import Navbar from './Navbar'
 import NotesFixed from 'src/components/molecules/NotesFixed'
+import Navbar from './Navbar'
 
 export default {
   title: 'organisms/Navbar',

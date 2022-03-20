@@ -1,6 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Switch from './Switch'
+import { Wrapper } from '../utils'
 
 export default {
   title: 'atoms/Switch',
@@ -11,4 +12,4 @@ const Template: ComponentStory<typeof Switch> = () => <Switch />
 
 export const Primary = Template.bind({})
 Primary.args = {}
-Primary.parameters = {}
+Primary.decorators = [(story) => <Wrapper>{story()}</Wrapper>]

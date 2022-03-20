@@ -1,6 +1,8 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Controller, useForm } from 'react-hook-form'
+import { Wrapper } from 'src/components/atoms/utils'
+import NotesFixed from 'src/components/molecules/NotesFixed'
 import Autocomplete from './Autocomplete'
 
 export default {
@@ -16,7 +18,7 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
   })
 
   return (
-    <div>
+    <Wrapper>
       <Controller
         name='autocomplete'
         control={control}
@@ -25,13 +27,27 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
           <Autocomplete {...args} onChange={onChange} value={value} />
         )}
       />
-      <div className='flex -rotate-12'>
-        <div className='w-12 bg-red-600 h-96' />
-        <div className='w-12 bg-green-600 h-96' />
-        <div className='w-12 bg-blue-600 h-96' />
-        <div className='w-12 bg-purple-600 h-96' />
+      <div className='relative flex mt-3 overflow-hidden rounded-md'>
+        <div className='absolute flex items-center justify-center w-full h-full text-gray-600'>
+          <div className='max-w-xs'>
+            Some cool background. Click on the search bar to see the
+            autocomplete dropdown.
+          </div>
+        </div>
+        <div className='w-12 bg-red-100 h-96' />
+        <div className='w-12 bg-green-100 h-96' />
+        <div className='w-12 bg-primary-100 h-96' />
+        <div className='w-12 bg-yellow-100 h-96' />
+        <div className='w-12 bg-red-100 h-96' />
+        <div className='w-12 bg-green-100 h-96' />
+        <div className='w-12 bg-primary-100 h-96' />
+        <div className='w-12 bg-yellow-100 h-96' />
+        <div className='w-12 bg-red-100 h-96' />
+        <div className='w-12 bg-green-100 h-96' />
+        <div className='w-12 bg-primary-100 h-96' />
+        <div className='w-12 bg-yellow-100 h-96' />
       </div>
-    </div>
+    </Wrapper>
   )
 }
 
@@ -53,3 +69,14 @@ Primary.args = {
   ],
 }
 Primary.parameters = {}
+Primary.decorators = [
+  (Story) => (
+    <div>
+      <Story />
+      <NotesFixed>
+        Don't get distracted with the color stripes. They are just there to
+        demonstrate the cool blurriness of the drop down.
+      </NotesFixed>
+    </div>
+  ),
+]

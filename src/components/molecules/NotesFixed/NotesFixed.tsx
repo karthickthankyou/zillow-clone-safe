@@ -17,7 +17,7 @@ const NotesFixed = ({ title = 'Notes', children }: INotesFixedProps) => {
         <div className='flex items-center mb-2 text-lg font-bold'>
           <InformationCircleIcon className='w-6 h-6 mr-1' /> {title}
         </div>
-        <div className='space-y-1 text-sm text-gray-600'>{children}</div>
+        <div className='space-y-1 text-sm text-gray-800'>{children}</div>
         <button
           type='button'
           className='absolute top-0 right-0 p-1 bg-white'

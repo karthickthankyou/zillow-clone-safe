@@ -10,7 +10,10 @@ export default {
 
 const Template: ComponentStory<typeof HtmlTextArea> = (args) => (
   <Wrapper>
-    <HtmlTextArea {...args} />
+    <label className='flex flex-col items-start'>
+      <div className='mb-2'>Sample textarea</div>
+      <HtmlTextArea {...args} />
+    </label>
   </Wrapper>
 )
 

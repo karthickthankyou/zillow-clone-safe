@@ -47,7 +47,7 @@ const ColorPill = ({
   return (
     <div key={shade} className={`${buttonClasses} ${bgColor} group flex-1`}>
       <div className='p-3 transition-all duration-500 opacity-0 group-hover:opacity-100'>
-        <div className='text-2xl font-light'>{shade}</div>
+        <div className='text-xl font-light'>{shade}</div>
         <div className='flex gap-2 mt-4'>
           <button
             type='button'
@@ -141,11 +141,11 @@ const ColorBoxLayout = ({
 const Notification = () => {
   const { selected } = useContext(ColorContext)
   return selected ? (
-    <div className='fixed bottom-0 px-3 mb-12 border border-white rounded-full shadow-2xl backdrop-blur backdrop-filter shadow-black/40 bg-gray-100/80'>
+    <div className='fixed bottom-0 px-3 mb-12 text-white border border-white rounded-full shadow-2xl backdrop-blur backdrop-filter shadow-black/40 bg-gray-900/50'>
       <p className='flex items-center'>
         <ClipboardCheckIcon className='w-6 h-6 mr-2' />
         Text
-        <div className='px-2 py-1 mx-2 text-lg -skew-x-12 bg-white'>
+        <div className='px-2 py-1 mx-2 text-lg -skew-x-12 bg-black'>
           {selected}
         </div>
         copied.
@@ -200,5 +200,75 @@ const Colors = () => {
     </ColorContext.Provider>
   )
 }
+
+const colors = [
+  {
+    primary: [
+      'bg-primary-25',
+      'bg-primary-50',
+      'bg-primary-100',
+      'bg-primary-200',
+      'bg-primary-300',
+      'bg-primary-400',
+      'bg-primary-500',
+      'bg-primary-600',
+      'bg-primary-700',
+      'bg-primary-800',
+      'bg-primary-900',
+    ],
+    gray: [
+      'bg-gray-25',
+      'bg-gray-50',
+      'bg-gray-100',
+      'bg-gray-200',
+      'bg-gray-300',
+      'bg-gray-400',
+      'bg-gray-500',
+      'bg-gray-600',
+      'bg-gray-700',
+      'bg-gray-800',
+      'bg-gray-900',
+    ],
+    red: [
+      'bg-red-25',
+      'bg-red-50',
+      'bg-red-100',
+      'bg-red-200',
+      'bg-red-300',
+      'bg-red-400',
+      'bg-red-500',
+      'bg-red-600',
+      'bg-red-700',
+      'bg-red-800',
+      'bg-red-900',
+    ],
+    green: [
+      'bg-green-25',
+      'bg-green-50',
+      'bg-green-100',
+      'bg-green-200',
+      'bg-green-300',
+      'bg-green-400',
+      'bg-green-500',
+      'bg-green-600',
+      'bg-green-700',
+      'bg-green-800',
+      'bg-green-900',
+    ],
+    yellow: [
+      'bg-yellow-25',
+      'bg-yellow-50',
+      'bg-yellow-100',
+      'bg-yellow-200',
+      'bg-yellow-300',
+      'bg-yellow-400',
+      'bg-yellow-500',
+      'bg-yellow-600',
+      'bg-yellow-700',
+      'bg-yellow-800',
+      'bg-yellow-900',
+    ],
+  },
+]
 
 export default Colors

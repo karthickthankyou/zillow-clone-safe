@@ -4,6 +4,6 @@ import NotesFixed from './NotesFixed'
 
 describe('NotesFixed Component', () => {
   test('NotesFixed renders', () => {
-    render(<NotesFixed />)
+    render(<NotesFixed>Sample text</NotesFixed>)
   })
 })
