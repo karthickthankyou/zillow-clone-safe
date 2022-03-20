@@ -36,21 +36,16 @@ import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
 import { ZOOM_CITIES, ZOOM_HOMES, ZOOM_STATES } from 'src/store/static'
+import { Children } from 'src/types'
 import PopupHomesContent from '../PopupHomesContent'
 import PopupRegionContent from '../PopupRegionContent'
 
-export const PanelContainer = ({
-  children,
-}: {
-  children: ReactElement | ReactElement[]
-}) => <div className='h-full '>{children}</div>
+export const PanelContainer = ({ children }: { children: Children }) => (
+  <div className='h-full '>{children}</div>
+)
 
-export const Panel = ({
-  children,
-  className,
-  position,
-}: {
-  children?: ReactElement | ReactElement[]
+export type MapPanelTypes = {
+  children?: Children
   className?: string
   position?:
     | 'left-top'
@@ -62,7 +57,9 @@ export const Panel = ({
     | 'right-top'
     | 'center-top'
     | 'center-center'
-}) => {
+}
+
+export const Panel = ({ children, className, position }: MapPanelTypes) => {
   const classes = {
     'left-top': 'top-0 left-0 flex flex-col items-start',
     'left-center': 'top-1/2 -translate-y-1/2 left-0 flex flex-col items-start',
@@ -120,8 +117,8 @@ export const MapMessage = ({ message }: { message: string | null }) =>
 
 export const ErrorBool = ({ error }: { error: string | null }) =>
   error ? (
-    <div className='px-4 py-2 text-white bg-red-600 rounded-full shadow-xl'>
-      Someting went wrong.
+    <div className='px-4 py-2 text-white border border-red-600 rounded-full shadow-xl shadow-black/30 bg-red-600/60'>
+      {error}
     </div>
   ) : null
 

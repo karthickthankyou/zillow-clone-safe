@@ -1,29 +1,27 @@
 import React from 'react'
-import { mswWorker } from 'src/mocks/mswWorker'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { SbUrqlProvider } from 'src/lib/sb'
-import {
-  mockSearchHomesByLocation,
-  mockSearchHomesByLocationErrors,
-  mockSearchHomesByLocationFetching,
-} from 'src/mocks/handlers'
+import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 
 import {} from '@urql/storybook-addon'
 import { MapProvider } from 'src/store/map/mapContext'
 import Mapbox from './Mapbox'
 import {
   FetchingBool,
-  MapMessage,
   ErrorBool,
   Panel,
+  PanelContainer,
+  MapPanelTypes,
+  HomeMarkers,
+  StateMarkers,
 } from '../MapboxContent/MapboxContent'
+import ZoomControls from '../ZoomControls'
 
 export default {
   title: 'organisms/Mapbox',
   component: Mapbox,
-  decorators: [SbUrqlProvider],
+  decorators: [SbUrqlProvider, SbReduxProvider],
 } as ComponentMeta<typeof Mapbox>
 
 const Template: ComponentStory<typeof Mapbox> = (args) => (
@@ -33,12 +31,6 @@ const Template: ComponentStory<typeof Mapbox> = (args) => (
 )
 
 export const EmptyMap = Template.bind({})
-EmptyMap.decorators = [
-  (Story) => {
-    mswWorker.use(mockSearchHomesByLocation)
-    return <Story />
-  },
-]
 
 export const Fetching = Template.bind({})
 Fetching.args = {
@@ -48,12 +40,7 @@ Fetching.args = {
     </Panel>
   ),
 }
-Fetching.decorators = [
-  (Story) => {
-    mswWorker.use(mockSearchHomesByLocationFetching)
-    return <Story />
-  },
-]
+
 export const Error = Template.bind({})
 Error.args = {
   children: (
@@ -62,9 +49,52 @@ Error.args = {
     </Panel>
   ),
 }
-Error.decorators = [
-  (Story) => {
-    mswWorker.use(mockSearchHomesByLocationErrors)
-    return <Story />
-  },
-]
+
+const positionArray = [
+  'left-top',
+  'left-center',
+  'left-bottom',
+  'center-bottom',
+  'right-bottom',
+  'right-center',
+  'right-top',
+  'center-top',
+  'center-center',
+] as MapPanelTypes['position'][]
+
+export const Panels = Template.bind({})
+Panels.args = {
+  children: (
+    <PanelContainer>
+      {positionArray.map((position) => (
+        <Panel
+          key={position}
+          position={position}
+          className='max-w-xs text-xl italic font-semibold bg-yellow-500/20 outline-yellow-200 outline-dashed'
+        >
+          <div>Panel {position}</div>
+        </Panel>
+      ))}
+    </PanelContainer>
+  ),
+}
+export const MarkersState = Template.bind({})
+MarkersState.args = {
+  children: <StateMarkers />,
+}
+export const MarkersStateWithZoom = Template.bind({})
+MarkersStateWithZoom.args = {
+  children: (
+    <>
+      <StateMarkers />
+      <PanelContainer>
+        <Panel position='left-top'>
+          <ZoomControls>
+            <ZoomControls.ZoomIn />
+            <ZoomControls.ZoomOut />
+          </ZoomControls>
+        </Panel>
+      </PanelContainer>
+    </>
+  ),
+}
