@@ -46,13 +46,7 @@ Primary.decorators = [
 
 export const Zoom6 = Template.bind({})
 Zoom6.args = {}
-Zoom6.parameters = {
-  viewport: {
-    viewports: INITIAL_VIEWPORTS,
 
-    defaultViewport: 'iphone6',
-  },
-}
 Zoom6.decorators = [
   (story: any) => <Provider store={storeZoom6}>{story()}</Provider>,
 ]
