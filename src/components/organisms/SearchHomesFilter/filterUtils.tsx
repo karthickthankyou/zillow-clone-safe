@@ -1,4 +1,4 @@
-import SliderMui from 'src/components/molecules/SliderMui'
+import RangeSlider from 'src/components/molecules/RangeSlider'
 
 import Autocomplete from 'src/components/molecules/Autocomplete'
 import { RadioGroup } from '@headlessui/react'
@@ -74,7 +74,7 @@ export const FilterPrice = ({
 }: any) => (
   <div>
     <div className='font-semibold'>Price range</div>
-    <SliderMui
+    <RangeSlider
       step={10_000}
       onChange={onChange}
       value={value}
@@ -91,7 +91,7 @@ export const FilterYear = ({
 }: any) => (
   <div>
     <div className='font-semibold'>Year built</div>
-    <SliderMui
+    <RangeSlider
       onChange={onChange}
       value={value}
       initialData={filterDefaultValues.yearBuilt}
@@ -107,7 +107,7 @@ export const FilterSqft = ({
 }: any) => (
   <div>
     <div className='font-semibold'>Sqft</div>
-    <SliderMui
+    <RangeSlider
       onChange={onChange}
       value={value}
       initialData={filterDefaultValues.sqft}

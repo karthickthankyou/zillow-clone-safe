@@ -10,7 +10,7 @@ export interface ISliderMuiProps {
   value: number[]
 }
 
-const SliderMui = ({
+const RangeSlider = ({
   onChange,
   initialData,
   step,
@@ -42,6 +42,6 @@ const SliderMui = ({
   </div>
 )
 
-SliderMui.displayName = 'SliderMui'
+RangeSlider.displayName = 'SliderMui'
 
-export default SliderMui
+export default RangeSlider
