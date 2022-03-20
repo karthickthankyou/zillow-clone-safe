@@ -1,31 +1,27 @@
-import { ReactElement } from 'react'
 import Image from 'src/components/atoms/Image'
 import SlideUp from 'src/components/molecules/Slideup/Slideup'
+import { Children } from 'src/types'
 
 export interface IBannerHomeLoanProps {
   reverse?: boolean
-  title: string
-  description: string | ReactElement
-  btnText: string
   src?: string
+  children: Children
 }
 
-const BannerHomeLoan = ({
+const BannerSplit = ({
   reverse = false,
-  title,
-  description,
+  children,
   src = 'https://res.cloudinary.com/thankyou/image/upload/c_fit,q_auto:eco/a_0/v1640717751/nike/misc/surface-0WFE46jwO8o-unsplash_lk8dfy.jpg',
-  btnText,
 }: IBannerHomeLoanProps) => {
   const flexClass = reverse ? 'flex-row-reverse' : ''
-  const skewClass = reverse ? '-skew-y-6' : 'skew-y-6'
+  const skewClass = reverse ? '-skew-y-2' : 'skew-y-2'
   const textAlignClass = reverse
     ? 'items-end text-right'
     : 'items-start text-left'
 
   return (
-    <div className={`flex gap-6 bg-opacity-25 bg-contain h-144 ${flexClass}`}>
-      <div className={`transform ${skewClass} flex-1`}>
+    <div className={`md:flex gap-12 bg-opacity-25  ${flexClass}`}>
+      <div className={`transform flex-1 ${skewClass} md:h-144 h-64`}>
         <Image
           className='block w-full h-full shadow-md rounded-3xl'
           alt=''
@@ -33,26 +29,51 @@ const BannerHomeLoan = ({
         />
       </div>
       <div
-        className={`flex flex-col justify-center flex-1 p-3 ${textAlignClass} `}
+        className={`flex flex-1 flex-col justify-center md:mt-0 mt-8 p-3 ${textAlignClass} `}
       >
-        <SlideUp>
-          <div className='text-4xl font-semibold tracking-tighter text-gradient bg-gradient-to-tr via-black to-primary-500 from-primary-500'>
-            {title}
-          </div>
-          <div className='max-w-xs mt-2 text-gray-500'>
-            {/* Get pre-approved and take a big step toward buying your new home. */}
-            {description}
-          </div>
-          <button
-            type='button'
-            className='px-4 py-2 mt-12 border rounded-full text-primary-600 border-primary-600'
-          >
-            {btnText}
-          </button>
-        </SlideUp>
+        <SlideUp>{children}</SlideUp>
       </div>
     </div>
   )
 }
 
-export default BannerHomeLoan
+const Heading = ({
+  children,
+  className,
+}: {
+  children: Children
+  className?: string
+}) => (
+  <div
+    className={`text-4xl font-semibold tracking-tighter text-gradient bg-gradient-to-tr via-black to-primary-500 from-primary-500 ${className}`}
+  >
+    {children}
+  </div>
+)
+
+const Description = ({
+  children,
+  className,
+}: {
+  children: Children
+  className?: string
+}) => <div className={`max-w-xs  text-gray-500 ${className}`}>{children}</div>
+
+BannerSplit.Heading = Heading
+BannerSplit.Description = Description
+
+export default BannerSplit
+
+//  <div className='text-4xl font-semibold tracking-tighter text-gradient bg-gradient-to-tr via-black to-primary-500 from-primary-500'>
+//     {title}
+//   </div>
+//   <div className='max-w-xs mt-2 text-gray-500'>
+//     {/* Get pre-approved and take a big step toward buying your new home. */}
+//     {description}
+//   </div>
+//   <button
+//     type='button'
+//     className='px-4 py-2 mt-12 border rounded-full text-primary-600 border-primary-600'
+//   >
+//     {btnText}
+//   </button>

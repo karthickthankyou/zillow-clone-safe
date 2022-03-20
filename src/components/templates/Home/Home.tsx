@@ -1,4 +1,4 @@
-import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
+import BannerSplit from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import { MapProvider } from 'src/store/map/mapContext'
 import ScrollText from 'src/components/molecules/ScrollBanner'
@@ -64,54 +64,63 @@ const Home = () => {
         </div>
 
         <div className='container mx-auto mt-12 space-y-24'>
-          <BannerHomeLoan
-            title='Zillow Home Loans'
-            description={
-              <div>
-                Get pre-approved and take a big step toward buying your new
-                home.
-              </div>
-            }
-            btnText='Request Pre approval'
-          />
-          <BannerHomeLoan
+          <BannerSplit>
+            <BannerSplit.Heading>Zillow Home Loans</BannerSplit.Heading>
+            <BannerSplit.Description>
+              Get pre-approved and take a big step toward buying your new home.
+            </BannerSplit.Description>
+            <button
+              className='flex items-center px-8 py-3 mt-6 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
+              type='button'
+            >
+              Request Pre approval
+            </button>
+          </BannerSplit>
+          <BannerSplit
             reverse
-            title='Find an Agent'
             src='https://res.cloudinary.com/thankyou/image/upload/v1640726673/nike/people/austin-distel-va_Opp86kfQ-unsplash_avexl4.jpg'
-            description={
-              <div>
-                Zillow&apos;s directory of local real estate agents and brokers
-                connects you with professionals who can help meet your needs.
-              </div>
-            }
-            btnText='Find agents'
-          />
-          <BannerHomeLoan
-            title='Zillow Rental Manager'
-            description={
-              <div>
-                <ul>
-                  <li className='flex items-center gap-2'>
-                    <BadgeCheckIcon className='w-5 h-5 text-black' /> List your
-                    rental.
-                  </li>
-                  <li className='flex items-center gap-2'>
-                    <BadgeCheckIcon className='w-5 h-5 text-black' /> Screen
-                    tenants.
-                  </li>
-                  <li className='flex items-center gap-2'>
-                    <BadgeCheckIcon className='w-5 h-5 text-black' /> Sign a
-                    lease.
-                  </li>
-                  <li className='flex items-center gap-2'>
-                    <BadgeCheckIcon className='w-5 h-5 text-black' /> Get paid.
-                  </li>
-                </ul>
-                <div className='mt-2'>All in one place!</div>
-              </div>
-            }
-            btnText='Post your first listing free'
-          />
+          >
+            <BannerSplit.Heading>Find an Agent</BannerSplit.Heading>
+            <BannerSplit.Description>
+              Zillow&apos;s directory of local real estate agents and brokers
+              connects you with professionals who can help meet your needs.
+            </BannerSplit.Description>
+            <button
+              className='flex items-center px-8 py-3 mt-6 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
+              type='button'
+            >
+              Find agents
+            </button>
+          </BannerSplit>
+          <BannerSplit>
+            <BannerSplit.Heading>Zillow Rental Manager</BannerSplit.Heading>
+            <BannerSplit.Description>
+              <ul>
+                <li className='flex items-center gap-2'>
+                  <BadgeCheckIcon className='w-5 h-5 text-black' /> List your
+                  rental.
+                </li>
+                <li className='flex items-center gap-2'>
+                  <BadgeCheckIcon className='w-5 h-5 text-black' /> Screen
+                  tenants.
+                </li>
+                <li className='flex items-center gap-2'>
+                  <BadgeCheckIcon className='w-5 h-5 text-black' /> Sign a
+                  lease.
+                </li>
+                <li className='flex items-center gap-2'>
+                  <BadgeCheckIcon className='w-5 h-5 text-black' /> Get paid.
+                </li>
+              </ul>
+              <div className='mt-2'>All in one place!</div>
+            </BannerSplit.Description>
+            <button
+              type='button'
+              className='px-4 py-2 mt-12 border rounded-full text-primary-600 border-primary-600'
+            >
+              Post your first listing free
+            </button>
+          </BannerSplit>
           <div className='flex flex-col items-center justify-center h-96'>
             <div className='text-4xl font-bold tracking-tighter text-luxury'>
               Most visited rental network
