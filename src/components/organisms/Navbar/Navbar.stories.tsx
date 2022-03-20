@@ -45,8 +45,6 @@ const publicUserStore = createStore(
 )
 
 export const PublicUser = Template.bind({})
-PublicUser.args = {}
-PublicUser.parameters = {}
 PublicUser.decorators = [
   (story) => (
     <Provider store={publicUserStore}>
