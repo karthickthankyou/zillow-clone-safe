@@ -13,7 +13,13 @@ const Template: ComponentStory<typeof NotesFixed> = (args) => (
 
 export const Primary = Template.bind({})
 Primary.args = {
-  children: 'This is text as children.',
+  children: (
+    <div>
+      This notes component is mainly used for providing developer commentery on
+      the storybook components. For the consumer facing web application we have
+      the <strong>molecules/Notification</strong> component.
+    </div>
+  ),
 }
 
 export const CustomTitle = Template.bind({})
