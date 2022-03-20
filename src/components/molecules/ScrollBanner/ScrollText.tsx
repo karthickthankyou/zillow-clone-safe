@@ -6,7 +6,7 @@ export interface IScrollBannerProps {
   className?: string
 }
 
-const ScrollBanner = ({ input, className }: IScrollBannerProps) => {
+const ScrollText = ({ input, className }: IScrollBannerProps) => {
   const [selected, setSelected] = useState(0)
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,4 +40,4 @@ const ScrollBanner = ({ input, className }: IScrollBannerProps) => {
   )
 }
 
-export default ScrollBanner
+export default ScrollText

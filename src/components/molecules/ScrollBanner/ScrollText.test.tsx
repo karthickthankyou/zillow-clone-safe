@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import ScrollBanner from './ScrollBanner'
+import ScrollText from './ScrollText
 
 describe('ScrollBanner Component', () => {
   test('ScrollBanner renders', () => {
-    render(<ScrollBanner input={['Hello', 'World']} />)
+    render(<ScrollText input={['Hello', 'World']} />)
   })
 })

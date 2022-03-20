@@ -1,7 +1,7 @@
 import BannerHomeLoan from 'src/components/organisms/BannerHomeLoan'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import { MapProvider } from 'src/store/map/mapContext'
-import ScrollBanner from 'src/components/molecules/ScrollBanner'
+import ScrollText from 'src/components/molecules/ScrollBanner'
 import Mapbox from 'src/components/organisms/Mapbox'
 import {
   CityMarkers,
@@ -35,7 +35,7 @@ const Home = () => {
           </div>
           <div className='max-w-md mt-4 text-gray-600'>
             Whether you’re{' '}
-            <ScrollBanner
+            <ScrollText
               input={['buying', 'selling', 'renting']}
               className='font-bold text-primary-600 '
             />

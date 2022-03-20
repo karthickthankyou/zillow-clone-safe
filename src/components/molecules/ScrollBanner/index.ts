@@ -1,3 +1,3 @@
-import ScrollBanner from './ScrollBanner'
+import ScrollText from './ScrollText'
 
-export default ScrollBanner
+export default ScrollText

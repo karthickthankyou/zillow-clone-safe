@@ -1,5 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Wrapper } from 'src/components/atoms/utils'
 import Rating from './Rating'
 import NotesFixed from '../NotesFixed'
 
@@ -9,7 +10,7 @@ export default {
 } as ComponentMeta<typeof Rating>
 
 const Template: ComponentStory<typeof Rating> = (args) => (
-  <>
+  <Wrapper>
     <Rating {...args} />
     <NotesFixed>
       <div>
@@ -18,7 +19,7 @@ const Template: ComponentStory<typeof Rating> = (args) => (
         tailwind classes.
       </div>
     </NotesFixed>
-  </>
+  </Wrapper>
 )
 
 export const Small = Template.bind({})
