@@ -98,7 +98,7 @@ const TemplatePicturesArrowTop: ComponentStory<typeof HScroll> = () => (
           arrowClassName='shadow-md'
         />
       </div>
-      <HScroll.Body className='gap-2 h-28'>
+      <HScroll.Body className='h-64 gap-2'>
         {data.map((item) => (
           <HScroll.Child key={item}>
             <Image

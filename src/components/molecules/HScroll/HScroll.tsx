@@ -50,15 +50,17 @@ const Arrow = ({
   return (
     <button
       type='button'
-      className={`${className} z-20 ${
+      className={`${className} z-20  ${
         show ? 'opacity-100' : 'opacity-10 cursor-auto'
       }`}
       onClick={() => scroll(scrollDistance)}
     >
       {children || (
-        <ChevronLeftIcon
-          className={`w-10 h-10 p-2 rounded-full ${arrowClasses} ${arrowClassName}`}
-        />
+        <div
+          className={`w-10 h-10 p-2 bg-white rounded-full ${arrowClassName}`}
+        >
+          <ChevronLeftIcon className={` ${arrowClasses} `} />
+        </div>
       )}
     </button>
   )
