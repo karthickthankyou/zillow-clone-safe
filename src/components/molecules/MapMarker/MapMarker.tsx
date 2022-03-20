@@ -30,7 +30,7 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
     'text-primary-700 scale-150 opacity-100  border border-primary-700 rounded bg-white'
 
   const wishlistedClasses =
-    wishlisted && 'text-red-600 fill-red-600 border-red-600 '
+    wishlisted && 'text-red-600 fill-red-600 scale-150 border-red-600 '
 
   return (
     <Marker latitude={home.lat} longitude={home.lng}>
