@@ -2,6 +2,7 @@ import { Popover as HeadlessPopover, Transition } from '@headlessui/react'
 import { createContext, ReactElement, useContext } from 'react'
 import Link from 'src/components/atoms/Link'
 import { ChevronRightIcon } from '@heroicons/react/solid'
+import { Children } from 'src/types'
 
 /** Context for prop sharing among the children */
 const DataContext = createContext({ open: false })
@@ -12,7 +13,7 @@ const Popover = ({
   children,
   className,
 }: {
-  children: ReactElement | ReactElement[]
+  children: Children
   className?: string
 }) => (
   <HeadlessPopover className={className}>
@@ -57,8 +58,8 @@ const PopoverOverlay = () => {
   return (
     <HeadlessPopover.Overlay
       className={`${
-        open ? 'opacity-30 fixed inset-0' : 'opacity-0'
-      }  backdrop-filter backdrop-blur-sm`}
+        open ? 'opacity-20 fixed inset-0' : 'opacity-0'
+      }  backdrop-filter bg-black backdrop-blur-sm`}
     />
   )
 }

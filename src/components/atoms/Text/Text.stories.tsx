@@ -1,8 +1,8 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import NotesFixed from 'src/components/molecules/NotesFixed'
 import Text from './Text'
 import { Wrapper } from '../utils'
-import NotesFixed from 'src/components/molecules/NotesFixed'
 
 export default {
   title: 'atoms/Text',

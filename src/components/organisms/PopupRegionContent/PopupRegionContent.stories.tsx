@@ -7,8 +7,8 @@ import {
   mockGetRegionByIdQueryFetching,
 } from 'src/mocks/handlers'
 import { mswWorker } from 'src/mocks/mswWorker'
-import PopupRegionContent from './PopupRegionContent'
 import NotesFixed from 'src/components/molecules/NotesFixed'
+import PopupRegionContent from './PopupRegionContent'
 
 export default {
   title: 'organisms/PopupRegionContent',

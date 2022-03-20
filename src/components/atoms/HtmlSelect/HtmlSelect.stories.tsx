@@ -10,9 +10,9 @@ export default {
 
 const Template: ComponentStory<typeof HtmlSelect> = (args) => (
   <Wrapper>
-    <label className='flex flex-col items-start'>
+    <label className='flex flex-col items-start' htmlFor='select'>
       <div className='mb-2'>Sample select</div>
-      <HtmlSelect {...args} />
+      <HtmlSelect {...args} id='select' />
     </label>
   </Wrapper>
 )

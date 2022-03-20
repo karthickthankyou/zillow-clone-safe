@@ -10,9 +10,9 @@ export default {
 
 const Template: ComponentStory<typeof HtmlTextArea> = (args) => (
   <Wrapper>
-    <label className='flex flex-col items-start'>
+    <label className='flex flex-col items-start' htmlFor='textarea'>
       <div className='mb-2'>Sample textarea</div>
-      <HtmlTextArea {...args} />
+      <HtmlTextArea {...args} id='textarea' />
     </label>
   </Wrapper>
 )

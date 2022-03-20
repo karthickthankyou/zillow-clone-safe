@@ -74,7 +74,7 @@ Primary.decorators = [
     <div>
       <Story />
       <NotesFixed>
-        Don't get distracted with the color stripes. They are just there to
+        Don&apos;t get distracted with the color stripes. They are just there to
         demonstrate the cool blurriness of the drop down.
       </NotesFixed>
     </div>

@@ -5,8 +5,8 @@ import { combineReducers, createStore } from '@reduxjs/toolkit'
 import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
-import SignIn from './SignIn'
 import { AppLevelHooks } from 'pages/_app'
+import SignIn from './SignIn'
 
 export default {
   title: 'templates/SignIn',
