@@ -8,13 +8,19 @@ import produce from 'immer'
 import { composedEnhancers } from 'src/store'
 import { Provider } from 'react-redux'
 import { AppLevelHooksWithoutAuth } from 'pages/_app'
-import { SbUrqlProvider } from 'src/lib/sb'
+import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
+import { mswWorker } from 'src/mocks/mswWorker'
+import {
+  mockGetHomeByIdQuery,
+  mockGetHomeByIdQueryFetching,
+  mockGetHomeByIdQueryError,
+} from 'src/mocks/handlers'
 import PopupHomesContent from './PopupHomesContent'
 
 export default {
   title: 'organisms/PopupHomesContent',
   component: PopupHomesContent,
-  decorators: [SbUrqlProvider],
+  decorators: [SbUrqlProvider, SbReduxProvider],
 } as ComponentMeta<typeof PopupHomesContent>
 
 const Template: ComponentStory<typeof PopupHomesContent> = (args) => (
@@ -40,14 +46,32 @@ const store = createStore(
 
 export const Primary = Template.bind({})
 Primary.args = {
-  id: 123456,
+  id: 1,
 }
-Primary.parameters = {}
 Primary.decorators = [
-  (story) => (
-    <Provider store={store}>
-      <AppLevelHooksWithoutAuth />
-      {story()}
-    </Provider>
-  ),
+  (Story) => {
+    mswWorker.use(mockGetHomeByIdQuery)
+    return Story()
+  },
+]
+
+export const Fetching = Template.bind({})
+Fetching.args = {
+  id: 4,
+}
+Fetching.decorators = [
+  (Story) => {
+    mswWorker.use(mockGetHomeByIdQueryFetching)
+    return Story()
+  },
+]
+export const Error = Template.bind({})
+Error.args = {
+  id: 9,
+}
+Error.decorators = [
+  (Story) => {
+    mswWorker.use(mockGetHomeByIdQueryError)
+    return Story()
+  },
 ]

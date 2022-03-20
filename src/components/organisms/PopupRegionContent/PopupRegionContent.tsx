@@ -31,14 +31,14 @@ const Skeleton = () => (
     </div>
   </div>
 )
-const Error = ({ error }: { error: string }) => (
+export const ErrorSkeleton = ({ error }: { error: string }) => (
   <div className='flex flex-col w-56 text-gray-800 '>
     <Image
       src='https://via.placeholder.com/150'
       className='w-full h-36'
       alt=''
     />
-    <div className='flex flex-col p-2 bg-white/90'>
+    <div className='flex flex-col items-center justify-center p-2 bg-white/90'>
       <div>{error}</div>
     </div>
   </div>
@@ -50,7 +50,7 @@ const PopupRegionContent = ({ id, onClick }: IPopupRegionContentProps) => {
   console.log('highlightedRegionDetails ', highlightedRegionDetails)
 
   if (fetching) return <Skeleton />
-  if (error) return <Error error='Something went wrong...' />
+  if (error) return <ErrorSkeleton error='Something went wrong...' />
 
   return (
     <div

@@ -63,7 +63,7 @@ export const useGetHighlightedHomeData = (
 ) => {
   const [highlightedHomeDetails] = useGetHomeByIdQuery({
     variables: {
-      id: highlightedHomeId || -999,
+      id: highlightedHomeId || -9999,
     },
     pause: !highlightedHomeId,
   })

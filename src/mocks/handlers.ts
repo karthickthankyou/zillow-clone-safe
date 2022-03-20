@@ -52,7 +52,7 @@ export const mockGetWishlistedHomes = zillowAPI.query<
   res(ctx.data({ wishlisted: [] }))
 )
 
-export const mockGetHomeById = zillowAPI.query<
+export const mockGetHomeByIdQuery = zillowAPI.query<
   GetHomeByIdQuery,
   GetHomeByIdQueryVariables
 >(QUERY_NAMES.GetHomeById, (req, res, ctx) => {
@@ -71,6 +71,14 @@ export const mockGetHomeById = zillowAPI.query<
     })
   )
 })
+export const mockGetHomeByIdQueryFetching = zillowAPI.query(
+  QUERY_NAMES.GetHomeById,
+  (req, res, ctx) => res(ctx.delay(1000 * 60 * 60 * 60), ctx.data([]))
+)
+export const mockGetHomeByIdQueryError = zillowAPI.query(
+  QUERY_NAMES.GetHomeById,
+  (req, res, ctx) => res(ctx.errors([{ message: 'Something went wrong...' }]))
+)
 
 export const mockGetRegionByIdQuery = zillowAPI.query<
   GetRegionByIdQuery,
@@ -179,7 +187,9 @@ export const mockInsertUserHome = zillowAPI.mutation(
 export const handlers = [
   mockGetCities,
   mockGetWishlistedHomes,
-  mockGetHomeById,
+  mockGetHomeByIdQuery,
+  mockGetHomeByIdQueryFetching,
+  mockGetHomeByIdQueryError,
   mockInsertUserHome,
   mockSearchHomesByLocation,
   mockSearchHomesByLocationDetailed,

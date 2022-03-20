@@ -10,23 +10,22 @@ import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 import { useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
 import Link from 'src/components/atoms/Link'
+import Skeleton from 'src/components/molecules/Skeleton'
+import { ErrorSkeleton } from '../PopupRegionContent/PopupRegionContent'
 
 export interface IPopupHomesContentProps {
   id: number
   wishlisted: boolean
 }
 
-const Skeleton = () => (
+const HomeContentSkeleton = () => (
   <div className='flex flex-col w-48 text-gray-200 '>
     <Image src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />
     <div className='flex flex-col p-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
-      <div className='w-3/4 mb-1 text-lg font-semibold leading-none bg-gray-200 animate-pulse'>
-        -
-      </div>
-      <div className='w-1/3 mb-1 text-xs bg-gray-200 animate-pulse'>-</div>
-      <div className='flex w-1/2 gap-2 text-sm bg-gray-200 animate-pulse'>
-        -
-      </div>
+      <Skeleton className='w-full h-6' />
+      <Skeleton className='w-3/4 h-4 mt-4' />
+      <Skeleton className='w-1/2 h-4 mt-1' />
+      <Skeleton className='w-3/4 h-4 mt-2' />
     </div>
   </div>
 )
@@ -37,9 +36,10 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   const uid = useAppSelector(selectUid)
   const highlightedHomeDetails = useGetHighlightedHomeData(id)
   const { data, fetching, error } = highlightedHomeDetails!
+  console.log('highlightedHomeDetails ', highlightedHomeDetails)
 
-  if (fetching) return <Skeleton />
-  if (error) return <div>{error.message}</div>
+  if (fetching) return <HomeContentSkeleton />
+  if (error) return <ErrorSkeleton error='Something went wrong...' />
 
   return (
     <Link href={`/home/${id}`} className='flex flex-col w-48 '>
