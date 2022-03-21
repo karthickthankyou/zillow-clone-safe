@@ -1,5 +1,5 @@
 import BannerSplit from 'src/components/organisms/BannerHomeLoan'
-import { BadgeCheckIcon } from '@heroicons/react/solid'
+import BadgeCheckIcon from '@heroicons/react/outline/BadgeCheckIcon'
 import { MapProvider } from 'src/store/map/mapContext'
 import ScrollText from 'src/components/molecules/ScrollBanner'
 import Mapbox from 'src/components/organisms/Mapbox'
@@ -66,11 +66,14 @@ const Home = () => {
         <div className='container mx-auto mt-12 space-y-24'>
           <BannerSplit>
             <BannerSplit.Heading>Zillow Home Loans</BannerSplit.Heading>
-            <BannerSplit.Description>
-              Get pre-approved and take a big step toward buying your new home.
+            <BannerSplit.Description className='mt-4'>
+              <div>
+                Get pre-approved and take a big step toward buying your new
+                home.
+              </div>
             </BannerSplit.Description>
             <button
-              className='flex items-center px-8 py-3 mt-6 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
+              className='flex items-center px-8 py-3 mt-8 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
               type='button'
             >
               Request Pre approval
@@ -81,12 +84,14 @@ const Home = () => {
             src='https://res.cloudinary.com/thankyou/image/upload/v1640726673/nike/people/austin-distel-va_Opp86kfQ-unsplash_avexl4.jpg'
           >
             <BannerSplit.Heading>Find an Agent</BannerSplit.Heading>
-            <BannerSplit.Description>
-              Zillow&apos;s directory of local real estate agents and brokers
-              connects you with professionals who can help meet your needs.
+            <BannerSplit.Description className='mt-4'>
+              <div>
+                Zillow&apos;s directory of local real estate agents and brokers
+                connects you with professionals who can help meet your needs.
+              </div>
             </BannerSplit.Description>
             <button
-              className='flex items-center px-8 py-3 mt-6 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
+              className='px-8 py-3 mt-8 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
               type='button'
             >
               Find agents
@@ -94,29 +99,26 @@ const Home = () => {
           </BannerSplit>
           <BannerSplit>
             <BannerSplit.Heading>Zillow Rental Manager</BannerSplit.Heading>
-            <BannerSplit.Description>
+            <BannerSplit.Description className='mt-4'>
               <ul>
                 <li className='flex items-center gap-2'>
-                  <BadgeCheckIcon className='w-5 h-5 text-black' /> List your
-                  rental.
+                  <BadgeCheckIcon className='w-5 h-5' /> List your rental.
                 </li>
                 <li className='flex items-center gap-2'>
-                  <BadgeCheckIcon className='w-5 h-5 text-black' /> Screen
-                  tenants.
+                  <BadgeCheckIcon className='w-5 h-5' /> Screen tenants.
                 </li>
                 <li className='flex items-center gap-2'>
-                  <BadgeCheckIcon className='w-5 h-5 text-black' /> Sign a
-                  lease.
+                  <BadgeCheckIcon className='w-5 h-5' /> Sign a lease.
                 </li>
                 <li className='flex items-center gap-2'>
-                  <BadgeCheckIcon className='w-5 h-5 text-black' /> Get paid.
+                  <BadgeCheckIcon className='w-5 h-5' /> Get paid.
                 </li>
               </ul>
               <div className='mt-2'>All in one place!</div>
             </BannerSplit.Description>
             <button
               type='button'
-              className='px-4 py-2 mt-12 border rounded-full text-primary-600 border-primary-600'
+              className='px-4 py-2 mt-8 border rounded-full text-primary-600 border-primary-600'
             >
               Post your first listing free
             </button>

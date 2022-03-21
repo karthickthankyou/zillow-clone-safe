@@ -29,7 +29,7 @@ const BannerSplit = ({
         />
       </div>
       <div
-        className={`flex flex-1 flex-col justify-center md:mt-0 mt-8 p-3 ${textAlignClass} `}
+        className={`flex flex-1 flex-col justify-center md:mt-0 mt-8 p-3 ${textAlignClass}`}
       >
         <SlideUp>{children}</SlideUp>
       </div>
@@ -57,23 +57,9 @@ const Description = ({
 }: {
   children: Children
   className?: string
-}) => <div className={`max-w-xs  text-gray-500 ${className}`}>{children}</div>
+}) => <div className={`max-w-xs text-gray-700 ${className}`}>{children}</div>
 
 BannerSplit.Heading = Heading
 BannerSplit.Description = Description
 
 export default BannerSplit
-
-//  <div className='text-4xl font-semibold tracking-tighter text-gradient bg-gradient-to-tr via-black to-primary-500 from-primary-500'>
-//     {title}
-//   </div>
-//   <div className='max-w-xs mt-2 text-gray-500'>
-//     {/* Get pre-approved and take a big step toward buying your new home. */}
-//     {description}
-//   </div>
-//   <button
-//     type='button'
-//     className='px-4 py-2 mt-12 border rounded-full text-primary-600 border-primary-600'
-//   >
-//     {btnText}
-//   </button>
