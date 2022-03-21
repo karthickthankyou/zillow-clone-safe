@@ -270,41 +270,42 @@ const AddNewHomeTemplate = () => {
             multiple
             {...register('imgFiles')}
           />
-          {formData.imgFiles?.length > 0 && !(formData.imgs?.length > 0) && (
-            <button
-              type='button'
-              className='flex items-center px-3 py-2 mt-4 space-x-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed bg-primary-500'
-              onClick={async () => {
-                if (formData.imgFiles && formData.imgFiles.length > 0) {
-                  const promises = Object.values(formData.imgFiles).map(
-                    (file: any) => {
-                      const imageFormData = new FormData()
-                      imageFormData.append('file', file)
-                      imageFormData.append('upload_preset', 'zillow-clone')
-                      imageFormData.append('cloud_name', 'thankyou')
+          {formData.imgFiles?.length > 0 &&
+            !(formData && formData.imgs && formData.imgs.length > 0) && (
+              <button
+                type='button'
+                className='flex items-center px-3 py-2 mt-4 space-x-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed bg-primary-500'
+                onClick={async () => {
+                  if (formData.imgFiles && formData.imgFiles.length > 0) {
+                    const promises = Object.values(formData.imgFiles).map(
+                      (file: any) => {
+                        const imageFormData = new FormData()
+                        imageFormData.append('file', file)
+                        imageFormData.append('upload_preset', 'zillow-clone')
+                        imageFormData.append('cloud_name', 'thankyou')
 
-                      return fetch(
-                        'https://api.cloudinary.com/v1_1/thankyou/image/upload',
-                        {
-                          method: 'post',
-                          body: imageFormData,
-                        }
-                      ).then((res) => res.json())
-                    }
-                  )
+                        return fetch(
+                          'https://api.cloudinary.com/v1_1/thankyou/image/upload',
+                          {
+                            method: 'post',
+                            body: imageFormData,
+                          }
+                        ).then((res) => res.json())
+                      }
+                    )
 
-                  Promise.all(promises).then((res) => {
-                    const urls = res.map((url) => url.secure_url)
-                    setValue('imgs', urls)
-                  })
-                }
-              }}
-            >
-              <div>Upload</div>
-              <UploadIcon className='w-6 h-6' />
-            </button>
-          )}
-          {formData?.imgs?.length > 0 && (
+                    Promise.all(promises).then((res) => {
+                      const urls = res.map((url) => url.secure_url)
+                      setValue('imgs', urls)
+                    })
+                  }
+                }}
+              >
+                <div>Upload</div>
+                <UploadIcon className='w-6 h-6' />
+              </button>
+            )}
+          {formData && formData.imgs && formData.imgs.length > 0 && (
             <div>{formData.imgs?.length} pictures uploaded</div>
           )}
         </Label>

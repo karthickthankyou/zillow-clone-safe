@@ -11,7 +11,6 @@ import {
   Subject,
   switchMap,
   tap,
-  onErrorResumeNext,
 } from 'rxjs'
 
 import { MapSearch, PlaceTypesType } from 'src/types'
@@ -27,7 +26,6 @@ export const searchPlaces$ = store$.pipe(
   distinctUntilChanged(),
   filter((text) => text.length > 0),
   debounceTime(500),
-  tap(() => console.log('searching...')),
   tap(() => store.dispatch(setMapSearchOptions({ data: [], fetching: true }))),
 
   switchMap((searchText) =>
@@ -51,25 +49,6 @@ export const searchPlaces$ = store$.pipe(
           .catch((err) => [])
       : of([])
   ),
-  tap((v) => console.log('before mapping...', v)),
-  // map((value): MapSearch[] => {
-  //   console.log('Value: ', value)
-  //   return value.features.length > 0
-  //     ? value.features.map((features: any) => ({
-  //         displayName: features.place_name,
-  //         longitude: features.geometry.coordinates[0],
-  //         latitude: features.geometry.coordinates[1],
-  //         zoom: placeTypeZoom[features.place_type[0] as PlaceTypesType] || 6,
-  //       }))
-  //     : []
-  // }),
-  // onErrorResumeNext(EMPTY),
-  catchError((err, o) => {
-    // eslint-disable-next-line no-console
-    console.log('Error!: ', err)
-    return searchPlaces$()
-  }),
-  tap(() => console.log('before changing to data...')),
   map((value) => {
     store.dispatch(setMapSearchOptions({ data: value, fetching: false }))
   }),
