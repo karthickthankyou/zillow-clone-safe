@@ -98,7 +98,15 @@ export const mockGetRegionByIdQueryError = zillowAPI.query(
 
 export const mockSearchCities = rest.get(
   'https://api.mapbox.com/geocoding/v5/mapbox.places/:searchTerm.json',
-  (req, res, ctx) => res(ctx.json(mockDataSearchCities))
+  (req, res, ctx) => {
+    const result = mockDataSearchCities.features.filter((city) =>
+      city.place_name
+        .toLowerCase()
+        .includes(req.params.searchTerm.toLowerCase())
+    )
+    console.log('mockSearchCities: ', req.params.searchTerm, result)
+    return res(ctx.json({ features: result }))
+  }
 )
 
 const applyFilter = (allHomes: Homes[], whereConditions: any) => {

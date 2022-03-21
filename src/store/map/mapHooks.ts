@@ -60,7 +60,11 @@ export const useInitializeViewport = () => {
 
 export const useSearchPlaces = () => {
   useEffect(() => {
-    const subscription = searchPlaces$.subscribe()
+    const subscription = searchPlaces$.subscribe({
+      complete: () => {
+        console.log('Completed.')
+      },
+    })
     return () => {
       subscription.unsubscribe()
     }
