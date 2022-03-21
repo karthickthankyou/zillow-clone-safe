@@ -12,9 +12,11 @@ export default {
 } as ComponentMeta<typeof AddNewHomeTemplate>
 
 const Template: ComponentStory<typeof AddNewHomeTemplate> = () => (
-  <Container>
-    <AddNewHomeTemplate />
-  </Container>
+  <div className='bg-white'>
+    <Container>
+      <AddNewHomeTemplate />
+    </Container>
+  </div>
 )
 
 export const Primary = Template.bind({})

@@ -95,8 +95,8 @@ const AddNewHomeTemplate = () => {
   }, [])
 
   return (
-    <form onSubmit={onSubmit} className='mt-12 mb-24 space-y-20'>
-      <div className='text-3xl font-medium'>Add new home</div>
+    <form onSubmit={onSubmit} className='mb-24 space-y-20'>
+      <div className='mt-12 text-3xl font-medium'>Add new home</div>
 
       <Dialog open={showDialog} setOpen={setshowDialog} className='max-w-md'>
         <div className='text-xl font-semibold'>🎊 New home posted! 🎊</div>
