@@ -7,7 +7,7 @@ export default {
   component: Dialog,
 } as ComponentMeta<typeof Dialog>
 
-const Template: ComponentStory<typeof Dialog> = ({ children }) => {
+const Template: ComponentStory<typeof Dialog> = () => {
   const [open, setOpen] = useState(false)
   return (
     <>

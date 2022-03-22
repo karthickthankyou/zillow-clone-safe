@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import Link from 'src/components/atoms/Link'
+
 import PopoverParent, {
   PopoverButton,
   PopoverOverlay,

@@ -12,7 +12,7 @@ export default {
   decorators: [SbReduxProvider],
 } as ComponentMeta<typeof Popup>
 
-const Template: ComponentStory<typeof Popup> = (args) => {
+const Template: ComponentStory<typeof Popup> = () => {
   const [open, setOpen] = useState(true)
 
   return (
@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof Popup> = (args) => {
     </ShowHide>
   )
 }
-const MultipleTemplate: ComponentStory<typeof Popup> = (args) => {
+const MultipleTemplate: ComponentStory<typeof Popup> = () => {
   const [open, setOpen] = useState(true)
   const [open2, setOpen2] = useState(true)
   return (

@@ -6,7 +6,7 @@ import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
 import { AppLevelHooks } from 'pages/_app'
-import SignIn from './SignIn'
+import SignIn from './Signin'
 
 export default {
   title: 'templates/SignIn',

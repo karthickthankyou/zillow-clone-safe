@@ -201,6 +201,8 @@ const Colors = () => {
   )
 }
 
+// For purgecss.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const colors = [
   {
     primary: [
