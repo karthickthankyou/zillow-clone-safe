@@ -4,7 +4,7 @@
 /**
  * Mock Service Worker (0.36.8).
  * @see https://github.com/mswjs/msw
- * - Please do NOT modify this file.
+ * - Please do NOT modify this file. Ok.
  * - Please do NOT serve this file on production.
  */
 
