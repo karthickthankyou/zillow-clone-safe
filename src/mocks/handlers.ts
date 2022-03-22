@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { graphql, rest } from 'msw'
+import { getQueryParam } from 'src/lib/util'
 import {
-  Homes,
   namedOperations,
   SearchCitiesByLocationQuery,
   SearchCitiesByLocationQueryVariables,
@@ -55,9 +55,8 @@ export const mockGetWishlistedHomes = zillowAPI.query<
 export const mockGetHomeByIdQuery = zillowAPI.query<
   GetHomeByIdQuery,
   GetHomeByIdQueryVariables
->(QUERY_NAMES.GetHomeById, (req, res, ctx) => {
-  console.log('mockGetHomeById running in handler...', req.variables)
-  return res(
+>(QUERY_NAMES.GetHomeById, (req, res, ctx) =>
+  res(
     ctx.data({
       homes_by_pk: {
         price: 100000,
@@ -70,7 +69,7 @@ export const mockGetHomeByIdQuery = zillowAPI.query<
       },
     })
   )
-})
+)
 export const mockGetHomeByIdQueryFetching = zillowAPI.query(
   QUERY_NAMES.GetHomeById,
   (req, res, ctx) => res(ctx.delay(1000 * 60 * 60 * 60), ctx.data([]))
@@ -99,18 +98,22 @@ export const mockGetRegionByIdQueryError = zillowAPI.query(
 export const mockSearchCities = rest.get(
   'https://api.mapbox.com/geocoding/v5/mapbox.places/:searchTerm.json',
   (req, res, ctx) => {
+    const searchTerm = getQueryParam(
+      req.params.searchTerm as string | string[]
+    )?.toLowerCase()
     const result = mockDataSearchCities.features.filter((city) =>
-      city.place_name
-        .toLowerCase()
-        .includes(req.params.searchTerm.toLowerCase())
+      city.place_name.toLowerCase().includes(searchTerm || '')
     )
-    console.log('mockSearchCities: ', req.params.searchTerm, result)
+
     return res(ctx.json({ features: result }))
   }
 )
 
-const applyFilter = (allHomes: Homes[], whereConditions: any) => {
-  const { beds, bath, price, sqft, yearBuilt, lat, long } = whereConditions
+const applyFilter = (
+  allHomes: typeof homesMockData.homes,
+  whereConditions: any
+) => {
+  const { beds, bath, price, sqft, yearBuilt } = whereConditions
   let homes = allHomes
 
   if (price)

@@ -5,14 +5,6 @@ import ProductPage from './ProductPage'
 
 describe('ProductPage Component', () => {
   test('ProductPage renders', () => {
-    render(
-      <ProductPage
-        home={{
-          fetching: false,
-          stale: false,
-          data: { homes_by_pk: homeData },
-        }}
-      />
-    )
+    render(<ProductPage home={homeData} />)
   })
 })

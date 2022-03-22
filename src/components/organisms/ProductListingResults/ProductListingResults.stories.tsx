@@ -16,10 +16,7 @@ export default {
 } as ComponentMeta<typeof ProductListingResults>
 
 const store = createStore(combineReducers({ home: homeReducer }), {
-  home: produce(
-    homeInitialState,
-    (draft) => (draft.states = mockDataSearchCitiesByLocation)
-  ),
+  home: homeInitialState,
 })
 
 const Template: ComponentStory<typeof ProductListingResults> = () => (

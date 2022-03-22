@@ -16,7 +16,7 @@ import { useHomesDetailed } from 'src/store/home/homeNetwork'
 const ProductPage = () => {
   useHomesDetailed()
 
-  const id = getQueryParam(useRouter().query.id)
+  const id = parseInt(getQueryParam(useRouter().query.id), 10)
   const [home] = useGetHomeQuery({
     variables: { id },
   })

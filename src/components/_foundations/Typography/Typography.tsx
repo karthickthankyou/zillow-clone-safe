@@ -49,20 +49,19 @@ export const RenderScale = ({
   display?: string | ReactElement
   input: { title: string; size?: string }[]
 }) => (
-  <div className='mt-5' id={id}>
+  <div className='mt-8' id={id}>
     <div className='text-2xl '>{title}</div>
-    <div className='grid grid-cols-1 gap-4 mt-3 -ml-2'>
+    <div className='grid grid-cols-1 gap-4 mt-4 -ml-2'>
       {input.map((style) => (
-        <div key={style.title} className='pl-2 border-l border-primary-200'>
-          <div className='flex'>
-            <div className='inline-block px-1 py-0.5 text-xs text-primary-800 rounded-sm'>
-              {style.title}
-            </div>
-            <div className='inline-block  px-1 py-0.5 text-xs text-gray-700 rounded-sm ml-1'>
-              {style.size}
-            </div>
+        <div
+          key={style.title}
+          className='pl-2 mt-8 border-l border-primary-200'
+        >
+          <div className='inline-block px-2 py-0.5 text-xs text-primary-800 rounded-r-full border border-primary-200 shadow-lg shadow-primary-500/20'>
+            {style.title}
           </div>
-          <div className={`${style.title} mt-2`}>{display}</div>
+
+          <div className={`${style.title} mt-2 ml-2`}>{display}</div>
         </div>
       ))}
     </div>

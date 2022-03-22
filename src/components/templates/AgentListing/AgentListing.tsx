@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import AgentCard from 'src/components/organisms/AgentCard'
 import { Children } from 'src/types'
 
 export interface IAgentListingProps {}

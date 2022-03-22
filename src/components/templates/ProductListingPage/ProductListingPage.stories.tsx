@@ -6,12 +6,10 @@ import { combineReducers, createStore } from '@reduxjs/toolkit'
 import homesReducer, {
   initialState as homeInitialData,
 } from 'src/store/home/homeSlice'
-import produce from 'immer'
 
 import mapsReducer, {
   initialState as mapInitialState,
 } from 'src/store/map/mapSlice'
-import { RootState } from 'src/store'
 
 import userHomeReducer, {
   initialState as userHomeInitialState,

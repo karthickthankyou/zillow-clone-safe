@@ -1,7 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next'
 import Head from 'next/head'
 import { NextSeo } from 'next-seo'
-import React from 'react'
 import Home from 'src/components/templates/Home'
 
 export const getStaticProps: GetStaticProps = async () => ({

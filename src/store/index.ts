@@ -1,12 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import { from } from 'rxjs'
 
-import {
-  Provider,
-  TypedUseSelectorHook,
-  useDispatch,
-  useSelector,
-} from 'react-redux'
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import userReducer from './user'
 import mapReducer from './map/mapSlice'

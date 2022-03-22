@@ -12,14 +12,19 @@ const FontSizeTemplate: ComponentStory<typeof Typography> = () => (
   <RenderScale
     title='Font size'
     input={[
-      { title: 'text-xs', size: '12px' },
-      { title: 'text-sm', size: '14px' },
-      { title: 'text-base', size: '16px' },
-      { title: 'text-lg', size: '18px' },
-      { title: 'text-xl', size: '24px' },
-      { title: 'text-2xl', size: '32px' },
-      { title: 'text-3xl', size: '80px' },
-      { title: 'text-4xl', size: '160px' },
+      { title: 'text-xs' },
+      { title: 'text-sm' },
+      { title: 'text-base' },
+      { title: 'text-lg' },
+      { title: 'text-xl' },
+      { title: 'text-2xl' },
+      { title: 'text-3xl' },
+      { title: 'text-4xl' },
+      { title: 'text-5xl' },
+      { title: 'text-6xl' },
+      { title: 'text-7xl' },
+      { title: 'text-8xl' },
+      { title: 'text-9xl' },
     ]}
   />
 )

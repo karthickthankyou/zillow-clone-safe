@@ -9,7 +9,11 @@ export default {
 } as ComponentMeta<typeof SplitLayoutImage>
 
 const Template: ComponentStory<typeof SplitLayoutImage> = (args) => (
-  <SplitLayoutImage {...args}>Sample child content.</SplitLayoutImage>
+  <SplitLayoutImage {...args}>
+    <div className='w-full h-full p-4 rounded outline-dashed bg-gray-50 outline-gray-200'>
+      Sample child content.
+    </div>
+  </SplitLayoutImage>
 )
 
 export const Primary = Template.bind({})

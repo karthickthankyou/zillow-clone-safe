@@ -44,6 +44,7 @@ const SignIn = () => {
       rememberMe: false,
     },
   })
+  // eslint-disable-next-line no-console
   const onSubmit = handleSubmit((data) => console.log('Signin: ', data))
 
   return (

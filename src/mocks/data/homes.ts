@@ -314,7 +314,7 @@ export const searchHomesByLocationMockData = {
       __typename: 'homes',
     },
   ],
-}
+} as const
 
 export const searchHomesResultsMockData = {
   homes: [

@@ -48,6 +48,7 @@ const SignUp = () => {
     },
   })
 
+  // eslint-disable-next-line no-console
   const onSubmit = handleSubmit((data) => console.log('Signup: ', data))
   return (
     <SplitLayoutImage imgSrc='https://res.cloudinary.com/thankyou/image/upload/v1640845175/nike/joel-filipe-RFDP7_80v5A-unsplash_ucp0oa.webp'>

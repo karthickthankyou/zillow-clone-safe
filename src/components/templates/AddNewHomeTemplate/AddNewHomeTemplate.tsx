@@ -89,7 +89,6 @@ const AddNewHomeTemplate = () => {
     setshowDialog(Boolean(publishedHome.data?.insert_homes_one?.id))
   }, [publishedHome])
 
-  console.log('showDialog', showDialog, publishedHome)
   useEffect(() => {
     scrollToTop()
   }, [])

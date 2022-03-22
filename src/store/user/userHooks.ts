@@ -40,7 +40,6 @@ export const useUserListener = () => {
           })
         }
       } else {
-        console.log('Setting user to null.')
         setAuthState({ user: null, token: null, claims: null })
       }
     })

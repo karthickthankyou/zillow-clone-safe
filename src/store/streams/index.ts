@@ -32,27 +32,26 @@ export const searchPlaces$ = store$.pipe(
     searchText
       ? fetch(
           `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchText}.json?country=us&fuzzyMatch=true&access_token=pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ`
-        )
-          .then((response) => response.json())
-          .then((value) =>
-            value.features.length > 0
-              ? value.features.map((features: any) => ({
-                  displayName: features.place_name,
-                  longitude: features.geometry.coordinates[0],
-                  latitude: features.geometry.coordinates[1],
-                  zoom:
-                    placeTypeZoom[features.place_type[0] as PlaceTypesType] ||
-                    6,
-                }))
-              : []
-          )
-          .catch((err) => [])
+        ).then((response) => response.json())
       : of([])
   ),
   map((value) => {
-    store.dispatch(setMapSearchOptions({ data: value, fetching: false }))
+    try {
+      return value.features.length > 0
+        ? value.features.map((features: any) => ({
+            displayName: features.place_name,
+            longitude: features.geometry.coordinates[0],
+            latitude: features.geometry.coordinates[1],
+            zoom: placeTypeZoom[features.place_type[0] as PlaceTypesType] || 6,
+          }))
+        : []
+    } catch (error) {
+      return []
+    }
   }),
-  tap(() => console.log('after mapping...'))
+  map((value) => {
+    store.dispatch(setMapSearchOptions({ data: value, fetching: false }))
+  })
 )
 
 export const useSearchAddress = ({

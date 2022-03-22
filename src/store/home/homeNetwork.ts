@@ -68,7 +68,6 @@ export const useGetHighlightedHomeData = (
     pause: !highlightedHomeId,
   })
 
-  console.log('highlightedHomeDetails within hook: ', highlightedHomeDetails)
   return highlightedHomeDetails
 }
 

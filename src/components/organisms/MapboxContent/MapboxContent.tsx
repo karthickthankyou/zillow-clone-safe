@@ -126,6 +126,7 @@ export const HomeMarkers = () => {
   useFetchHomesMap()
 
   const homes = useAppSelector(selectHomesMap).data?.homes || []
+
   const dispatch = useAppDispatch()
 
   const markersTransitions = useTransition(homes || [], {
