@@ -11,7 +11,7 @@
     "lint": "eslint --ext .tsx,.ts . --fix",
     "test": "jest --watch",
     "test:ci": "jest --ci",
-    "prettier": "prettier --ignore-path .gitignore \"**/*.{js,jsx,ts,tsx,json}\"",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.{ts,tsx}\"",
     "format:check": "npm run prettier -- --check",
     "format:fix": "npm run prettier -- --write",
     "type:check": "tsc",
