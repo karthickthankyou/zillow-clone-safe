@@ -8,7 +8,7 @@ const Signup: NextPage = () => {
   return (
     <div>
       <NextSeo
-        title='🏡 Next boilerplate - Sample page.'
+        title='Sign up | Zillow clone | Karthick Ragavendran'
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
       <SignUp />
