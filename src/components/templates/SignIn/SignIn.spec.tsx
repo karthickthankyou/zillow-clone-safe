@@ -1,11 +1,11 @@
 import React from 'react'
 import { mount } from '@cypress/react'
-import SignIn from './Signin'
+import Signin from './Signin'
 
-describe('SignIn Component', () => {
+describe('Signin Component', () => {
   beforeEach(() => {
-    mount(<SignIn />)
+    mount(<Signin />)
   })
-  it('SignIn renders', () => {})
-  it('SignIn still renders', () => {})
+  it('Signin renders', () => {})
+  it('Signin still renders', () => {})
 })

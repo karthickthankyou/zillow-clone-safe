@@ -6,14 +6,14 @@ import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
 import { AppLevelHooks } from 'pages/_app'
-import SignIn from './Signin'
+import Signin from './Signin'
 
 export default {
-  title: 'templates/SignIn',
-  component: SignIn,
-} as ComponentMeta<typeof SignIn>
+  title: 'templates/Signin',
+  component: Signin,
+} as ComponentMeta<typeof Signin>
 
-const Template: ComponentStory<typeof SignIn> = () => <SignIn />
+const Template: ComponentStory<typeof Signin> = () => <Signin />
 
 const store = createStore(
   combineReducers({
