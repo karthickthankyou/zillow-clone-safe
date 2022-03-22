@@ -16,7 +16,7 @@
     "format:fix": "npm run prettier -- --write",
     "type:check": "tsc",
     "validate": "npm-run-all --parallel type:check format:check lint",
-    "validate-nobuild": "npm-run-all --parallel type:check format:check lint test:ci",
+    "validate-nobuild": "npm-run-all --parallel type:check format:check lint",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook",
     "prepare": "husky install",
