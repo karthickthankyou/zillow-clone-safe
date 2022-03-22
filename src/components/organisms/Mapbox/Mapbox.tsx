@@ -46,6 +46,7 @@ const MapBox = ({
       transitionInterpolator={new FlyToInterpolator()}
       {...props}
       className={`rounded ${className}`}
+      data-chromatic='ignore'
     >
       {children}
     </ReactMapGL>

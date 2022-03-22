@@ -4,7 +4,9 @@ export interface IAnimationsProps {
 }
 
 const Animations = ({ className, children }: IAnimationsProps) => (
-  <div className={`${className} `}>{children}</div>
+  <div data-chromatic='ignore' className={`${className} `}>
+    {children}
+  </div>
 )
 
 export default Animations

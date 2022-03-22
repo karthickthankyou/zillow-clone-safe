@@ -40,7 +40,10 @@ const Notifications = () => {
     }
   }
   return (
-    <div className='fixed bottom-0 flex flex-col items-center w-full p-2 space-y-3'>
+    <div
+      data-chromatic='ignore'
+      className='fixed bottom-0 flex flex-col items-center w-full p-2 space-y-3'
+    >
       {markersTransitions((style, marker) => (
         <animated.div className='flex shadow-xl' key={marker.id} style={style}>
           <div

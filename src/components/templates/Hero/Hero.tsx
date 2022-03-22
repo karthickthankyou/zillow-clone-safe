@@ -33,7 +33,10 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
           className='w-full px-4 py-2 mt-6 font-bold text-white underline rounded-md underline-offset-4 hover:bg-black/20'
         >
           Or, Use the interactive map.
-          <MapIcon className='inline w-8 h-8 p-1 animate-pulse' />
+          <MapIcon
+            className='inline w-8 h-8 p-1 animate-pulse'
+            data-chromatic='ignore'
+          />
         </button>
       </div>
       <ArrowCircleDownIcon className='bottom-0 w-8 h-8 text-white justify-self-stretch animate-bounce' />
