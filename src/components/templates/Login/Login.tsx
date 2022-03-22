@@ -30,7 +30,7 @@ type SigninFormSchema = yup.InferType<typeof signinFormSchema>
 
 // https://res.cloudinary.com/thankyou/image/upload/v1640791791/nike/wallpapers/alexander-andrews-A3DPhhAL6Zg-unsplash_lngmew.png
 
-const SignIn = () => {
+const Login = () => {
   const dispatch = useAppDispatch()
   const {
     register,
@@ -53,7 +53,7 @@ const SignIn = () => {
       <form onSubmit={onSubmit} className='w-full mt-6 space-y-4'>
         <div>
           <label className='block text-sm text-gray-700'>
-            Email address
+            Email
             <input
               {...register('email')}
               className='block w-full px-3 py-2 mt-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm'
@@ -133,4 +133,4 @@ const SignIn = () => {
   )
 }
 
-export default SignIn
+export default Login

@@ -22,7 +22,7 @@ Primary.parameters = {}
 
 // <>
 //   <div>
-//     This layout is used in auth pages. Have a look at templates/SignIn and
+//     This layout is used in auth pages. Have a look at templates/Signin and
 //     templates/SignUp.
 //   </div>
 //   <div>Currently the brand logo is static.</div>
