@@ -1,68 +1,85 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import type { AppProps } from 'next/app'
-import { createClient, Provider as UrqlProvider, defaultExchanges } from 'urql'
-import { devtoolsExchange } from '@urql/devtools'
-import { onAuthStateChanged } from 'firebase/auth'
-import { useEffect, useState } from 'react'
-import { auth } from 'src/config/firebase'
+
 import { Provider as ReduxProvider } from 'react-redux'
 import Layout from 'src/components/templates/Layout'
+import Notifications from 'src/components/molecules/Notification'
+
+import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
+import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
+import UrqlProvider, {
+  ssrCache,
+} from 'src/components/templates/UrqlProvider/UrqlProvider'
+import { store } from 'src/store'
 import 'src/globals.css'
+import { useUserListener } from 'src/store/user/userHooks'
 
-import Streams from 'src/components/molecules/Streams'
-import { store } from '../src/store'
+/** Enable mocking
+ * if (process.env.NEXT_PUBLIC_API_MOCKING) {
+    import('../src/mocks').then(({ setupMockServer }) => {
+      setupMockServer()
+    })
+  }
+ */
 
-// if (process.env.NEXT_PUBLIC_API_MOCKING) {
-//   import('../src/mocks').then(({ setupMockServer }) => {
-//     setupMockServer()
-//   })
-// }
+export const AppLevelHooks = () => {
+  useDebouncedDispatch()
+  useLongHoverDispatch()
+  useGetWishlisted()
+  useUserListener()
+
+  return null
+}
+export const AppLevelHooksWithoutAuth = () => {
+  useDebouncedDispatch()
+  useLongHoverDispatch()
+  useGetWishlisted()
+
+  return null
+}
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const [token, settoken] = useState('')
-
-  useEffect(
-    () =>
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          const jwtToken = await user.getIdToken()
-          settoken(jwtToken)
-
-          const idTokenResult = await user.getIdTokenResult()
-          const hasuraClaim =
-            idTokenResult.claims['https://hasura.io/jwt/claims']
-        } else {
-          settoken('')
-        }
-      }),
-    []
-  )
-
-  const headers = token
-    ? {
-        Authorization: `Bearer ${token}`,
-      }
-    : {}
-
-  const client = createClient({
-    url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
-    exchanges: [devtoolsExchange, ...defaultExchanges],
-    fetchOptions: {
-      // @ts-ignore
-      headers,
-    },
-  })
+  if (pageProps.urqlState) {
+    ssrCache.restoreData(pageProps.urqlState)
+  }
 
   return (
-    <UrqlProvider value={client}>
-      <ReduxProvider store={store}>
+    <ReduxProvider store={store}>
+      <UrqlProvider>
         <Layout>
-          <Streams />
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+          <AppLevelHooks />
+          <Notifications />
           <Component {...pageProps} />
         </Layout>
-      </ReduxProvider>
-    </UrqlProvider>
+      </UrqlProvider>
+    </ReduxProvider>
   )
 }
 
 export default MyApp
+
+/**
+ * Getting the subscriptions to work in urql with hasura is hard.
+ * https://github.com/hasura/graphql-engine/discussions/6996
+ *
+ * Good urql post:
+ * https://levelup.gitconnected.com/urql-the-highly-customizable-and-versatile-graphql-client-69e4e3406904
+ *
+ * Offline support:
+ * https://formidable.com/open-source/urql/docs/graphcache/offline/
+ *
+ * About firebase JWT expire.
+ * https://github.com/hasura/graphql-engine/issues/1062
+ *
+ * About JWT by hasura
+ * https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/
+ */
+
+/**
+ * Urql exchange with Firebase
+ * https://gist.github.com/acro5piano/c911361b3da1e6b871214fe7c100e08c
+ *
+ *
+ * Urql fetch options exchange.
+ * https://github.com/FormidableLabs/urql/issues/234
+ */

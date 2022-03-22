@@ -7,8 +7,12 @@ describe('<Posts />', () => {
     // given
     mount(
       <CityCard
-        displayName='Chennai'
-        image='https://res.cloudinary.com/thankyou/image/upload/v1640715615/nike/cities/newyork_zqnljo.jpg'
+        id='Chennai'
+        lat={45.0}
+        lng={-90}
+        totalHomes={100}
+        priceSqft={100}
+        type='city'
       />
     )
   })

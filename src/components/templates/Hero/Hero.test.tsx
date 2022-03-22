@@ -4,6 +4,6 @@ import Hero from './Hero'
 
 describe('Hero Component', () => {
   test('Hero renders', () => {
-    render(<Hero />)
+    render(<Hero executeScroll={() => {}} />)
   })
 })

@@ -8,13 +8,13 @@ export default {
 } as ComponentMeta<typeof Heading>
 
 const Template: ComponentStory<typeof Heading> = ({ variant, children }) => (
-  <div>
+  <>
     <hr className='border-gray-600' />
     <Heading headerType='h3' variant={variant}>
       {children}
     </Heading>
     <hr className='border-gray-600' />
-  </div>
+  </>
 )
 
 export const Primary = Template.bind({})

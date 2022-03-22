@@ -1,15 +1,7 @@
-import {
-  createContext,
-  ReactElement,
-  useContext,
-  useMemo,
-  ReactChild,
-  ReactNode,
-  JSX,
-} from 'react'
-
-// import { HiOutlineChevronRight } from '@react-icons/all-files/hi/HiOutlineChevronRight'
+import React, { createContext, ReactElement, useContext, useMemo } from 'react'
 import { useScroll } from 'src/hooks'
+import ChevronLeftIcon from '@heroicons/react/outline/ChevronLeftIcon'
+import { Children } from 'src/types'
 
 export interface IHScrollProps {
   children: ReactElement[] | ReactElement
@@ -28,80 +20,62 @@ export const useScrollContext = () => {
   return context
 }
 
-const RightArrow = ({
-  children,
-  className,
-  distance = -120,
-}: {
-  children: ReactElement | string
-  distance?: number
-  className?: string
-}) => {
-  const { scrollPos, scroll } = useScrollContext()
-  // const show = scrollPos[ 0 ] > 0
-  const show = useMemo(() => scrollPos[0] > 0, [scrollPos])
-  return (
-    <div>
-      <button
-        type='button'
-        className={`${className} ${
-          show ? 'opacity-100' : 'opacity-10 cursor-auto'
-        }`}
-        onClick={() => scroll(distance)}
-      >
-        {children}
-      </button>
-    </div>
-  )
+const getArrowDetails = ({ scrollPos, right, distance }: any) => {
+  const show = right ? scrollPos[1] > 0 : scrollPos[0] > 0
+  const scrollDistance = right ? -distance : distance
+  const arrowClasses = right && 'rotate-180'
+  return { show, scrollDistance, arrowClasses }
 }
 
-const LeftArrow = ({
+const Arrow = ({
   children,
   className,
-  distance = 120,
+  arrowClassName,
+  distance = -120,
+  right,
 }: {
-  children: ReactElement | string
-  className?: string
+  children?: ReactElement | string
   distance?: number
+  className?: string
+  arrowClassName?: string
+  right?: boolean
 }) => {
   const { scrollPos, scroll } = useScrollContext()
-  const show = useMemo(() => scrollPos[1] > 0, [scrollPos])
+  const { show, scrollDistance, arrowClasses } = getArrowDetails({
+    scrollPos,
+    right,
+    distance,
+  })
 
   return (
-    <div>
-      <button
-        type='button'
-        className={`${className} ${
-          show ? 'opacity-100' : 'opacity-10 cursor-auto'
-        }`}
-        onClick={() => scroll(distance)}
-      >
-        {children}
-      </button>
-    </div>
+    <button
+      type='button'
+      className={`${className} z-20  ${
+        show ? 'opacity-100' : 'opacity-10 cursor-auto'
+      }`}
+      onClick={() => scroll(scrollDistance)}
+    >
+      {children || (
+        <div
+          className={`w-10 h-10 p-2 bg-white rounded-full ${arrowClassName}`}
+        >
+          <ChevronLeftIcon className={` ${arrowClasses} `} />
+        </div>
+      )}
+    </button>
   )
 }
 
 export type HScrollBodyProps = {
-  children?: JSX.Element<{ id: string }>[] | JSX.Element<{ id: string }>
+  children?: ReactElement[] | ReactElement
   className?: string
 }
 
 const HScrollBody = ({ children, className }: HScrollBodyProps) => {
-  const { scrollEl, scrollListener, scrollPos } = useScrollContext()
-  // const showLeft = scrollPos[0] > 0
-  // const showRight = scrollPos[1] > 0
-
-  // const shadowClasses = useMemo(() => {
-  //   if (showLeft && showRight) return 'shadow-inner-lr'
-  //   if (showRight) return 'shadow-inner-r'
-  //   return 'shadow-inner-l'
-  // }, [showLeft, showRight])
-  const renderChildren: JSX.Element[] = (() => {
-    if (!children) return []
-    if (!Array.isArray(children)) return [children]
-    return children
-  })()
+  const { scrollEl, scrollListener } = useScrollContext()
+  // React.Children.forEach(children, (child) => {
+  //   console.log('name =', child)
+  // })
 
   return (
     <div
@@ -109,24 +83,24 @@ const HScrollBody = ({ children, className }: HScrollBodyProps) => {
       onScroll={scrollListener}
       className={`flex w-full py-3 space-x-2 overflow-x-scroll snap-x snap-mandatory scrollbar-hide ${className}`}
     >
-      {renderChildren?.map((child) => (
-        <div key={child.props.id} className='flex-shrink-0 snap-start'>
-          {child}
-        </div>
-      ))}
+      {children}
     </div>
   )
 }
 
+const Child = ({
+  children,
+  className,
+}: {
+  children: Children
+  className?: string
+}) => <div className={`flex-shrink-0 snap-start ${className}`}>{children}</div>
+
+Child.displayName = 'ScrollChild'
+
 const HScroll = ({ children, className }: IHScrollProps) => {
   const [scrollPos, scrollEl, scrollListener, scroll] = useScroll()
 
-  // const value = {
-  //   scrollPos,
-  //   scrollEl,
-  //   scrollListener,
-  //   scroll,
-  // }
   const value = useMemo(
     () => ({
       scrollPos,
@@ -138,14 +112,14 @@ const HScroll = ({ children, className }: IHScrollProps) => {
   )
 
   return (
-    <div className={`relative ${className} mb-12`}>
+    <div className={`relative ${className}`}>
       <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>
     </div>
   )
 }
 
-HScroll.LeftArrow = LeftArrow
-HScroll.RightArrow = RightArrow
+HScroll.Arrow = Arrow
 HScroll.Body = HScrollBody
+HScroll.Child = Child
 
 export default HScroll

@@ -1,14 +1,18 @@
 import { Provider } from 'react-redux'
 import { store } from 'src/store'
-import { createClient, Provider as UrqlProvider } from 'urql'
+import { Provider as UrqlProvider } from 'urql'
+import { client } from 'src/config/urqlClientWonka'
+import { AppLevelHooks } from 'pages/_app'
 
-const client = createClient({
-  url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
-  requestPolicy: 'network-only',
-})
-
+export const SbUrqlProvider = (story: any) => (
+  <UrqlProvider value={client}>{story()}</UrqlProvider>
+)
 export const SbReduxProvider = (story: any) => (
-  <UrqlProvider value={client}>
-    <Provider store={store}>{story()}</Provider>
-  </UrqlProvider>
+  <Provider store={store}>{story()}</Provider>
+)
+export const SbAppLevelHooks = (story: any) => (
+  <>
+    <AppLevelHooks />
+    {story()}
+  </>
 )

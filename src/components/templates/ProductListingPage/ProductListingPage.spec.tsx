@@ -1,10 +1,12 @@
+import { createMount } from 'cypress/support/commands'
 import React from 'react'
 // import { mount } from '@cypress/react'
 import ProductListingPage from './ProductListingPage'
 
 describe('ProductListingPage Component', () => {
+  const mount = createMount()
   it('ProductListingPage renders', () => {
-    cy.mount(<ProductListingPage />)
+    mount(<ProductListingPage />)
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
     cy.findAllByRole('button', { name: 'Year built' }).click()

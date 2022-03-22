@@ -26,7 +26,11 @@ const moduleExports = withPWA({
     maximumFileSizeToCacheInBytes: 3000000,
   },
   images: {
-    domains: ['res.cloudinary.com', 'wp-tid.zillowstatic.com'],
+    domains: [
+      'via.placeholder.com',
+      'res.cloudinary.com',
+      'wp-tid.zillowstatic.com',
+    ],
   },
 })
 

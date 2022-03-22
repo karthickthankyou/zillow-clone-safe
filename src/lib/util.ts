@@ -1,8 +1,8 @@
 export const getQueryParam = (
   searchParam: string | string[] | undefined,
-  defaultValue: string
-) => {
-  if (!searchParam) return defaultValue
+  defaultValue?: string
+): string => {
+  if (!searchParam) return defaultValue || ''
   return Array.isArray(searchParam) ? searchParam[0] : searchParam
 }
 
@@ -32,3 +32,21 @@ export const shortenNumber = (value: number) => {
 }
 
 export const addDollar = (value: string) => `$${value}`
+
+export const bringHighlightedItemToFront = (id: any, items: { id: any }[]) => {
+  if (!id) return items
+
+  const itemFound = items.find((item) => item.id === id)
+
+  if (!itemFound) return items
+  return [...items.filter((item) => item.id !== id), itemFound]
+}
+
+export const getInitials = (text: string) =>
+  text
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+
+export const toAcres = (sqft: number) => (sqft / 43560).toFixed(2)

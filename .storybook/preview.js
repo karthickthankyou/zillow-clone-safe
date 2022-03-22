@@ -4,6 +4,8 @@ import * as NextImage from 'next/image'
 import { addDecorator } from '@storybook/react'
 import { initialize, mswDecorator } from 'msw-storybook-addon'
 import { handlers } from 'src/mocks/handlers'
+import { RouterContext } from 'next/dist/shared/lib/router-context' // next 12
+
 // import { urqlDecorator } from '@urql/storybook-addon'
 
 // addDecorator(urqlDecorator)
@@ -53,6 +55,9 @@ export const parameters = {
   layout: 'fullscreen',
   msw: {
     handlers: handlers,
+  },
+  nextRouter: {
+    Provider: RouterContext.Provider,
   },
 }
 

@@ -22,7 +22,7 @@ export type Scalars = {
   float8: any
   geography: any
   geometry: any
-  json: any
+  jsonb: any
   smallint: any
   timestamptz: any
 }
@@ -102,6 +102,7 @@ export type Cities = {
   lat: Scalars['float8']
   lng: Scalars['float8']
   propertiesCount: Scalars['Int']
+  searches?: Maybe<Scalars['Int']>
   updatedAt: Scalars['timestamptz']
 }
 
@@ -141,6 +142,7 @@ export type Cities_Avg_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** Boolean expression to filter rows from the table "cities". All fields are combined with a logical 'AND'. */
@@ -155,6 +157,7 @@ export type Cities_Bool_Exp = {
   lat?: InputMaybe<Float8_Comparison_Exp>
   lng?: InputMaybe<Float8_Comparison_Exp>
   propertiesCount?: InputMaybe<Int_Comparison_Exp>
+  searches?: InputMaybe<Int_Comparison_Exp>
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>
 }
 
@@ -172,6 +175,7 @@ export type Cities_Inc_Input = {
   lat?: InputMaybe<Scalars['float8']>
   lng?: InputMaybe<Scalars['float8']>
   propertiesCount?: InputMaybe<Scalars['Int']>
+  searches?: InputMaybe<Scalars['Int']>
 }
 
 /** input type for inserting data into table "cities" */
@@ -183,6 +187,7 @@ export type Cities_Insert_Input = {
   lat?: InputMaybe<Scalars['float8']>
   lng?: InputMaybe<Scalars['float8']>
   propertiesCount?: InputMaybe<Scalars['Int']>
+  searches?: InputMaybe<Scalars['Int']>
   updatedAt?: InputMaybe<Scalars['timestamptz']>
 }
 
@@ -196,6 +201,7 @@ export type Cities_Max_Fields = {
   lat?: Maybe<Scalars['float8']>
   lng?: Maybe<Scalars['float8']>
   propertiesCount?: Maybe<Scalars['Int']>
+  searches?: Maybe<Scalars['Int']>
   updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
@@ -209,6 +215,7 @@ export type Cities_Min_Fields = {
   lat?: Maybe<Scalars['float8']>
   lng?: Maybe<Scalars['float8']>
   propertiesCount?: Maybe<Scalars['Int']>
+  searches?: Maybe<Scalars['Int']>
   updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
@@ -237,6 +244,7 @@ export type Cities_Order_By = {
   lat?: InputMaybe<Order_By>
   lng?: InputMaybe<Order_By>
   propertiesCount?: InputMaybe<Order_By>
+  searches?: InputMaybe<Order_By>
   updatedAt?: InputMaybe<Order_By>
 }
 
@@ -262,6 +270,8 @@ export enum Cities_Select_Column {
   /** column name */
   PropertiesCount = 'propertiesCount',
   /** column name */
+  Searches = 'searches',
+  /** column name */
   UpdatedAt = 'updatedAt',
 }
 
@@ -274,6 +284,7 @@ export type Cities_Set_Input = {
   lat?: InputMaybe<Scalars['float8']>
   lng?: InputMaybe<Scalars['float8']>
   propertiesCount?: InputMaybe<Scalars['Int']>
+  searches?: InputMaybe<Scalars['Int']>
   updatedAt?: InputMaybe<Scalars['timestamptz']>
 }
 
@@ -284,6 +295,7 @@ export type Cities_Stddev_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_pop on columns */
@@ -293,6 +305,7 @@ export type Cities_Stddev_Pop_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_samp on columns */
@@ -302,6 +315,7 @@ export type Cities_Stddev_Samp_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** aggregate sum on columns */
@@ -311,6 +325,7 @@ export type Cities_Sum_Fields = {
   lat?: Maybe<Scalars['float8']>
   lng?: Maybe<Scalars['float8']>
   propertiesCount?: Maybe<Scalars['Int']>
+  searches?: Maybe<Scalars['Int']>
 }
 
 /** update columns of table "cities" */
@@ -330,6 +345,8 @@ export enum Cities_Update_Column {
   /** column name */
   PropertiesCount = 'propertiesCount',
   /** column name */
+  Searches = 'searches',
+  /** column name */
   UpdatedAt = 'updatedAt',
 }
 
@@ -340,6 +357,7 @@ export type Cities_Var_Pop_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** aggregate var_samp on columns */
@@ -349,6 +367,7 @@ export type Cities_Var_Samp_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** aggregate variance on columns */
@@ -358,6 +377,7 @@ export type Cities_Variance_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   propertiesCount?: Maybe<Scalars['Float']>
+  searches?: Maybe<Scalars['Float']>
 }
 
 /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -638,6 +658,13 @@ export type Homes_Mutation_Response = {
   returning: Array<Homes>
 }
 
+/** input type for inserting object relation for remote table "homes" */
+export type Homes_Obj_Rel_Insert_Input = {
+  data: Homes_Insert_Input
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Homes_On_Conflict>
+}
+
 /** on conflict condition type for table "homes" */
 export type Homes_On_Conflict = {
   constraint: Homes_Constraint
@@ -891,210 +918,322 @@ export type Homes_Variance_Fields = {
   yearBuilt?: Maybe<Scalars['Float']>
 }
 
-/** Boolean expression to compare columns of type "json". All fields are combined with logical 'AND'. */
-export type Json_Comparison_Exp = {
-  _eq?: InputMaybe<Scalars['json']>
-  _gt?: InputMaybe<Scalars['json']>
-  _gte?: InputMaybe<Scalars['json']>
-  _in?: InputMaybe<Array<Scalars['json']>>
+/** Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'. */
+export type Jsonb_Comparison_Exp = {
+  /** is the column contained in the given json value */
+  _contained_in?: InputMaybe<Scalars['jsonb']>
+  /** does the column contain the given json value at the top level */
+  _contains?: InputMaybe<Scalars['jsonb']>
+  _eq?: InputMaybe<Scalars['jsonb']>
+  _gt?: InputMaybe<Scalars['jsonb']>
+  _gte?: InputMaybe<Scalars['jsonb']>
+  /** does the string exist as a top-level key in the column */
+  _has_key?: InputMaybe<Scalars['String']>
+  /** do all of these strings exist as top-level keys in the column */
+  _has_keys_all?: InputMaybe<Array<Scalars['String']>>
+  /** do any of these strings exist as top-level keys in the column */
+  _has_keys_any?: InputMaybe<Array<Scalars['String']>>
+  _in?: InputMaybe<Array<Scalars['jsonb']>>
   _is_null?: InputMaybe<Scalars['Boolean']>
-  _lt?: InputMaybe<Scalars['json']>
-  _lte?: InputMaybe<Scalars['json']>
-  _neq?: InputMaybe<Scalars['json']>
-  _nin?: InputMaybe<Array<Scalars['json']>>
+  _lt?: InputMaybe<Scalars['jsonb']>
+  _lte?: InputMaybe<Scalars['jsonb']>
+  _neq?: InputMaybe<Scalars['jsonb']>
+  _nin?: InputMaybe<Array<Scalars['jsonb']>>
 }
 
-/** columns and relationships of "landmark" */
-export type Landmark = {
-  __typename?: 'landmark'
-  id: Scalars['Int']
-  location?: Maybe<Scalars['geography']>
-  name?: Maybe<Scalars['String']>
-  type?: Maybe<Scalars['String']>
+/**
+ * Stats for states and cities.
+ *
+ *
+ * columns and relationships of "location_stats"
+ *
+ */
+export type Location_Stats = {
+  __typename?: 'location_stats'
+  bedsPrice: Scalars['jsonb']
+  id: Scalars['String']
+  lat: Scalars['float8']
+  lng: Scalars['float8']
+  priceSqft: Scalars['smallint']
+  totalHomes: Scalars['smallint']
+  type: Scalars['String']
 }
 
-/** aggregated selection of "landmark" */
-export type Landmark_Aggregate = {
-  __typename?: 'landmark_aggregate'
-  aggregate?: Maybe<Landmark_Aggregate_Fields>
-  nodes: Array<Landmark>
+/**
+ * Stats for states and cities.
+ *
+ *
+ * columns and relationships of "location_stats"
+ *
+ */
+export type Location_StatsBedsPriceArgs = {
+  path?: InputMaybe<Scalars['String']>
 }
 
-/** aggregate fields of "landmark" */
-export type Landmark_Aggregate_Fields = {
-  __typename?: 'landmark_aggregate_fields'
-  avg?: Maybe<Landmark_Avg_Fields>
+/** aggregated selection of "location_stats" */
+export type Location_Stats_Aggregate = {
+  __typename?: 'location_stats_aggregate'
+  aggregate?: Maybe<Location_Stats_Aggregate_Fields>
+  nodes: Array<Location_Stats>
+}
+
+/** aggregate fields of "location_stats" */
+export type Location_Stats_Aggregate_Fields = {
+  __typename?: 'location_stats_aggregate_fields'
+  avg?: Maybe<Location_Stats_Avg_Fields>
   count: Scalars['Int']
-  max?: Maybe<Landmark_Max_Fields>
-  min?: Maybe<Landmark_Min_Fields>
-  stddev?: Maybe<Landmark_Stddev_Fields>
-  stddev_pop?: Maybe<Landmark_Stddev_Pop_Fields>
-  stddev_samp?: Maybe<Landmark_Stddev_Samp_Fields>
-  sum?: Maybe<Landmark_Sum_Fields>
-  var_pop?: Maybe<Landmark_Var_Pop_Fields>
-  var_samp?: Maybe<Landmark_Var_Samp_Fields>
-  variance?: Maybe<Landmark_Variance_Fields>
+  max?: Maybe<Location_Stats_Max_Fields>
+  min?: Maybe<Location_Stats_Min_Fields>
+  stddev?: Maybe<Location_Stats_Stddev_Fields>
+  stddev_pop?: Maybe<Location_Stats_Stddev_Pop_Fields>
+  stddev_samp?: Maybe<Location_Stats_Stddev_Samp_Fields>
+  sum?: Maybe<Location_Stats_Sum_Fields>
+  var_pop?: Maybe<Location_Stats_Var_Pop_Fields>
+  var_samp?: Maybe<Location_Stats_Var_Samp_Fields>
+  variance?: Maybe<Location_Stats_Variance_Fields>
 }
 
-/** aggregate fields of "landmark" */
-export type Landmark_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Landmark_Select_Column>>
+/** aggregate fields of "location_stats" */
+export type Location_Stats_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Location_Stats_Select_Column>>
   distinct?: InputMaybe<Scalars['Boolean']>
 }
 
-/** aggregate avg on columns */
-export type Landmark_Avg_Fields = {
-  __typename?: 'landmark_avg_fields'
-  id?: Maybe<Scalars['Float']>
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Location_Stats_Append_Input = {
+  bedsPrice?: InputMaybe<Scalars['jsonb']>
 }
 
-/** Boolean expression to filter rows from the table "landmark". All fields are combined with a logical 'AND'. */
-export type Landmark_Bool_Exp = {
-  _and?: InputMaybe<Array<Landmark_Bool_Exp>>
-  _not?: InputMaybe<Landmark_Bool_Exp>
-  _or?: InputMaybe<Array<Landmark_Bool_Exp>>
-  id?: InputMaybe<Int_Comparison_Exp>
-  location?: InputMaybe<Geography_Comparison_Exp>
-  name?: InputMaybe<String_Comparison_Exp>
+/** aggregate avg on columns */
+export type Location_Stats_Avg_Fields = {
+  __typename?: 'location_stats_avg_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
+}
+
+/** Boolean expression to filter rows from the table "location_stats". All fields are combined with a logical 'AND'. */
+export type Location_Stats_Bool_Exp = {
+  _and?: InputMaybe<Array<Location_Stats_Bool_Exp>>
+  _not?: InputMaybe<Location_Stats_Bool_Exp>
+  _or?: InputMaybe<Array<Location_Stats_Bool_Exp>>
+  bedsPrice?: InputMaybe<Jsonb_Comparison_Exp>
+  id?: InputMaybe<String_Comparison_Exp>
+  lat?: InputMaybe<Float8_Comparison_Exp>
+  lng?: InputMaybe<Float8_Comparison_Exp>
+  priceSqft?: InputMaybe<Smallint_Comparison_Exp>
+  totalHomes?: InputMaybe<Smallint_Comparison_Exp>
   type?: InputMaybe<String_Comparison_Exp>
 }
 
-/** unique or primary key constraints on table "landmark" */
-export enum Landmark_Constraint {
+/** unique or primary key constraints on table "location_stats" */
+export enum Location_Stats_Constraint {
   /** unique or primary key constraint */
-  LandmarkPkey = 'landmark_pkey',
+  LocationStatsPkey = 'location_stats_pkey',
 }
 
-/** input type for incrementing numeric columns in table "landmark" */
-export type Landmark_Inc_Input = {
-  id?: InputMaybe<Scalars['Int']>
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Location_Stats_Delete_At_Path_Input = {
+  bedsPrice?: InputMaybe<Array<Scalars['String']>>
 }
 
-/** input type for inserting data into table "landmark" */
-export type Landmark_Insert_Input = {
-  id?: InputMaybe<Scalars['Int']>
-  location?: InputMaybe<Scalars['geography']>
-  name?: InputMaybe<Scalars['String']>
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Location_Stats_Delete_Elem_Input = {
+  bedsPrice?: InputMaybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Location_Stats_Delete_Key_Input = {
+  bedsPrice?: InputMaybe<Scalars['String']>
+}
+
+/** input type for incrementing numeric columns in table "location_stats" */
+export type Location_Stats_Inc_Input = {
+  lat?: InputMaybe<Scalars['float8']>
+  lng?: InputMaybe<Scalars['float8']>
+  priceSqft?: InputMaybe<Scalars['smallint']>
+  totalHomes?: InputMaybe<Scalars['smallint']>
+}
+
+/** input type for inserting data into table "location_stats" */
+export type Location_Stats_Insert_Input = {
+  bedsPrice?: InputMaybe<Scalars['jsonb']>
+  id?: InputMaybe<Scalars['String']>
+  lat?: InputMaybe<Scalars['float8']>
+  lng?: InputMaybe<Scalars['float8']>
+  priceSqft?: InputMaybe<Scalars['smallint']>
+  totalHomes?: InputMaybe<Scalars['smallint']>
   type?: InputMaybe<Scalars['String']>
 }
 
 /** aggregate max on columns */
-export type Landmark_Max_Fields = {
-  __typename?: 'landmark_max_fields'
-  id?: Maybe<Scalars['Int']>
-  name?: Maybe<Scalars['String']>
+export type Location_Stats_Max_Fields = {
+  __typename?: 'location_stats_max_fields'
+  id?: Maybe<Scalars['String']>
+  lat?: Maybe<Scalars['float8']>
+  lng?: Maybe<Scalars['float8']>
+  priceSqft?: Maybe<Scalars['smallint']>
+  totalHomes?: Maybe<Scalars['smallint']>
   type?: Maybe<Scalars['String']>
 }
 
 /** aggregate min on columns */
-export type Landmark_Min_Fields = {
-  __typename?: 'landmark_min_fields'
-  id?: Maybe<Scalars['Int']>
-  name?: Maybe<Scalars['String']>
+export type Location_Stats_Min_Fields = {
+  __typename?: 'location_stats_min_fields'
+  id?: Maybe<Scalars['String']>
+  lat?: Maybe<Scalars['float8']>
+  lng?: Maybe<Scalars['float8']>
+  priceSqft?: Maybe<Scalars['smallint']>
+  totalHomes?: Maybe<Scalars['smallint']>
   type?: Maybe<Scalars['String']>
 }
 
-/** response of any mutation on the table "landmark" */
-export type Landmark_Mutation_Response = {
-  __typename?: 'landmark_mutation_response'
+/** response of any mutation on the table "location_stats" */
+export type Location_Stats_Mutation_Response = {
+  __typename?: 'location_stats_mutation_response'
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int']
   /** data from the rows affected by the mutation */
-  returning: Array<Landmark>
+  returning: Array<Location_Stats>
 }
 
-/** on conflict condition type for table "landmark" */
-export type Landmark_On_Conflict = {
-  constraint: Landmark_Constraint
-  update_columns?: Array<Landmark_Update_Column>
-  where?: InputMaybe<Landmark_Bool_Exp>
+/** on conflict condition type for table "location_stats" */
+export type Location_Stats_On_Conflict = {
+  constraint: Location_Stats_Constraint
+  update_columns?: Array<Location_Stats_Update_Column>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
 }
 
-/** Ordering options when selecting data from "landmark". */
-export type Landmark_Order_By = {
+/** Ordering options when selecting data from "location_stats". */
+export type Location_Stats_Order_By = {
+  bedsPrice?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
-  location?: InputMaybe<Order_By>
-  name?: InputMaybe<Order_By>
+  lat?: InputMaybe<Order_By>
+  lng?: InputMaybe<Order_By>
+  priceSqft?: InputMaybe<Order_By>
+  totalHomes?: InputMaybe<Order_By>
   type?: InputMaybe<Order_By>
 }
 
-/** primary key columns input for table: landmark */
-export type Landmark_Pk_Columns_Input = {
-  id: Scalars['Int']
+/** primary key columns input for table: location_stats */
+export type Location_Stats_Pk_Columns_Input = {
+  id: Scalars['String']
 }
 
-/** select columns of table "landmark" */
-export enum Landmark_Select_Column {
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Location_Stats_Prepend_Input = {
+  bedsPrice?: InputMaybe<Scalars['jsonb']>
+}
+
+/** select columns of table "location_stats" */
+export enum Location_Stats_Select_Column {
+  /** column name */
+  BedsPrice = 'bedsPrice',
   /** column name */
   Id = 'id',
   /** column name */
-  Location = 'location',
+  Lat = 'lat',
   /** column name */
-  Name = 'name',
+  Lng = 'lng',
+  /** column name */
+  PriceSqft = 'priceSqft',
+  /** column name */
+  TotalHomes = 'totalHomes',
   /** column name */
   Type = 'type',
 }
 
-/** input type for updating data in table "landmark" */
-export type Landmark_Set_Input = {
-  id?: InputMaybe<Scalars['Int']>
-  location?: InputMaybe<Scalars['geography']>
-  name?: InputMaybe<Scalars['String']>
+/** input type for updating data in table "location_stats" */
+export type Location_Stats_Set_Input = {
+  bedsPrice?: InputMaybe<Scalars['jsonb']>
+  id?: InputMaybe<Scalars['String']>
+  lat?: InputMaybe<Scalars['float8']>
+  lng?: InputMaybe<Scalars['float8']>
+  priceSqft?: InputMaybe<Scalars['smallint']>
+  totalHomes?: InputMaybe<Scalars['smallint']>
   type?: InputMaybe<Scalars['String']>
 }
 
 /** aggregate stddev on columns */
-export type Landmark_Stddev_Fields = {
-  __typename?: 'landmark_stddev_fields'
-  id?: Maybe<Scalars['Float']>
+export type Location_Stats_Stddev_Fields = {
+  __typename?: 'location_stats_stddev_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_pop on columns */
-export type Landmark_Stddev_Pop_Fields = {
-  __typename?: 'landmark_stddev_pop_fields'
-  id?: Maybe<Scalars['Float']>
+export type Location_Stats_Stddev_Pop_Fields = {
+  __typename?: 'location_stats_stddev_pop_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_samp on columns */
-export type Landmark_Stddev_Samp_Fields = {
-  __typename?: 'landmark_stddev_samp_fields'
-  id?: Maybe<Scalars['Float']>
+export type Location_Stats_Stddev_Samp_Fields = {
+  __typename?: 'location_stats_stddev_samp_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
 }
 
 /** aggregate sum on columns */
-export type Landmark_Sum_Fields = {
-  __typename?: 'landmark_sum_fields'
-  id?: Maybe<Scalars['Int']>
+export type Location_Stats_Sum_Fields = {
+  __typename?: 'location_stats_sum_fields'
+  lat?: Maybe<Scalars['float8']>
+  lng?: Maybe<Scalars['float8']>
+  priceSqft?: Maybe<Scalars['smallint']>
+  totalHomes?: Maybe<Scalars['smallint']>
 }
 
-/** update columns of table "landmark" */
-export enum Landmark_Update_Column {
+/** update columns of table "location_stats" */
+export enum Location_Stats_Update_Column {
+  /** column name */
+  BedsPrice = 'bedsPrice',
   /** column name */
   Id = 'id',
   /** column name */
-  Location = 'location',
+  Lat = 'lat',
   /** column name */
-  Name = 'name',
+  Lng = 'lng',
+  /** column name */
+  PriceSqft = 'priceSqft',
+  /** column name */
+  TotalHomes = 'totalHomes',
   /** column name */
   Type = 'type',
 }
 
 /** aggregate var_pop on columns */
-export type Landmark_Var_Pop_Fields = {
-  __typename?: 'landmark_var_pop_fields'
-  id?: Maybe<Scalars['Float']>
+export type Location_Stats_Var_Pop_Fields = {
+  __typename?: 'location_stats_var_pop_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
 }
 
 /** aggregate var_samp on columns */
-export type Landmark_Var_Samp_Fields = {
-  __typename?: 'landmark_var_samp_fields'
-  id?: Maybe<Scalars['Float']>
+export type Location_Stats_Var_Samp_Fields = {
+  __typename?: 'location_stats_var_samp_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
 }
 
 /** aggregate variance on columns */
-export type Landmark_Variance_Fields = {
-  __typename?: 'landmark_variance_fields'
-  id?: Maybe<Scalars['Float']>
+export type Location_Stats_Variance_Fields = {
+  __typename?: 'location_stats_variance_fields'
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  priceSqft?: Maybe<Scalars['Float']>
+  totalHomes?: Maybe<Scalars['Float']>
 }
 
 /** mutation root */
@@ -1108,10 +1247,10 @@ export type Mutation_Root = {
   delete_homes?: Maybe<Homes_Mutation_Response>
   /** delete single row from the table: "homes" */
   delete_homes_by_pk?: Maybe<Homes>
-  /** delete data from the table: "landmark" */
-  delete_landmark?: Maybe<Landmark_Mutation_Response>
-  /** delete single row from the table: "landmark" */
-  delete_landmark_by_pk?: Maybe<Landmark>
+  /** delete data from the table: "location_stats" */
+  delete_location_stats?: Maybe<Location_Stats_Mutation_Response>
+  /** delete single row from the table: "location_stats" */
+  delete_location_stats_by_pk?: Maybe<Location_Stats>
   /** delete data from the table: "properties" */
   delete_properties?: Maybe<Properties_Mutation_Response>
   /** delete single row from the table: "properties" */
@@ -1120,12 +1259,14 @@ export type Mutation_Root = {
   delete_styles?: Maybe<Styles_Mutation_Response>
   /** delete single row from the table: "styles" */
   delete_styles_by_pk?: Maybe<Styles>
-  /** delete data from the table: "user_landmarks" */
-  delete_user_landmarks?: Maybe<User_Landmarks_Mutation_Response>
-  /** delete data from the table: "user_location" */
-  delete_user_location?: Maybe<User_Location_Mutation_Response>
-  /** delete single row from the table: "user_location" */
-  delete_user_location_by_pk?: Maybe<User_Location>
+  /** delete data from the table: "user_homes" */
+  delete_user_homes?: Maybe<User_Homes_Mutation_Response>
+  /** delete single row from the table: "user_homes" */
+  delete_user_homes_by_pk?: Maybe<User_Homes>
+  /** delete data from the table: "user_homes_types" */
+  delete_user_homes_types?: Maybe<User_Homes_Types_Mutation_Response>
+  /** delete single row from the table: "user_homes_types" */
+  delete_user_homes_types_by_pk?: Maybe<User_Homes_Types>
   /** insert data into the table: "cities" */
   insert_cities?: Maybe<Cities_Mutation_Response>
   /** insert a single row into the table: "cities" */
@@ -1134,10 +1275,10 @@ export type Mutation_Root = {
   insert_homes?: Maybe<Homes_Mutation_Response>
   /** insert a single row into the table: "homes" */
   insert_homes_one?: Maybe<Homes>
-  /** insert data into the table: "landmark" */
-  insert_landmark?: Maybe<Landmark_Mutation_Response>
-  /** insert a single row into the table: "landmark" */
-  insert_landmark_one?: Maybe<Landmark>
+  /** insert data into the table: "location_stats" */
+  insert_location_stats?: Maybe<Location_Stats_Mutation_Response>
+  /** insert a single row into the table: "location_stats" */
+  insert_location_stats_one?: Maybe<Location_Stats>
   /** insert data into the table: "properties" */
   insert_properties?: Maybe<Properties_Mutation_Response>
   /** insert a single row into the table: "properties" */
@@ -1146,18 +1287,14 @@ export type Mutation_Root = {
   insert_styles?: Maybe<Styles_Mutation_Response>
   /** insert a single row into the table: "styles" */
   insert_styles_one?: Maybe<Styles>
-  /** insert data into the table: "user_landmarks" */
-  insert_user_landmarks?: Maybe<User_Landmarks_Mutation_Response>
-  /** insert a single row into the table: "user_landmarks" */
-  insert_user_landmarks_one?: Maybe<User_Landmarks>
-  /** insert data into the table: "user_location" */
-  insert_user_location?: Maybe<User_Location_Mutation_Response>
-  /** insert a single row into the table: "user_location" */
-  insert_user_location_one?: Maybe<User_Location>
-  /** execute VOLATILE function "properties_condo1" which returns "properties" */
-  properties_condo1?: Maybe<Properties>
-  /** execute VOLATILE function "properties_style" which returns "properties" */
-  properties_style?: Maybe<Properties>
+  /** insert data into the table: "user_homes" */
+  insert_user_homes?: Maybe<User_Homes_Mutation_Response>
+  /** insert a single row into the table: "user_homes" */
+  insert_user_homes_one?: Maybe<User_Homes>
+  /** insert data into the table: "user_homes_types" */
+  insert_user_homes_types?: Maybe<User_Homes_Types_Mutation_Response>
+  /** insert a single row into the table: "user_homes_types" */
+  insert_user_homes_types_one?: Maybe<User_Homes_Types>
   /** update data of the table: "cities" */
   update_cities?: Maybe<Cities_Mutation_Response>
   /** update single row of the table: "cities" */
@@ -1166,10 +1303,10 @@ export type Mutation_Root = {
   update_homes?: Maybe<Homes_Mutation_Response>
   /** update single row of the table: "homes" */
   update_homes_by_pk?: Maybe<Homes>
-  /** update data of the table: "landmark" */
-  update_landmark?: Maybe<Landmark_Mutation_Response>
-  /** update single row of the table: "landmark" */
-  update_landmark_by_pk?: Maybe<Landmark>
+  /** update data of the table: "location_stats" */
+  update_location_stats?: Maybe<Location_Stats_Mutation_Response>
+  /** update single row of the table: "location_stats" */
+  update_location_stats_by_pk?: Maybe<Location_Stats>
   /** update data of the table: "properties" */
   update_properties?: Maybe<Properties_Mutation_Response>
   /** update single row of the table: "properties" */
@@ -1178,12 +1315,14 @@ export type Mutation_Root = {
   update_styles?: Maybe<Styles_Mutation_Response>
   /** update single row of the table: "styles" */
   update_styles_by_pk?: Maybe<Styles>
-  /** update data of the table: "user_landmarks" */
-  update_user_landmarks?: Maybe<User_Landmarks_Mutation_Response>
-  /** update data of the table: "user_location" */
-  update_user_location?: Maybe<User_Location_Mutation_Response>
-  /** update single row of the table: "user_location" */
-  update_user_location_by_pk?: Maybe<User_Location>
+  /** update data of the table: "user_homes" */
+  update_user_homes?: Maybe<User_Homes_Mutation_Response>
+  /** update single row of the table: "user_homes" */
+  update_user_homes_by_pk?: Maybe<User_Homes>
+  /** update data of the table: "user_homes_types" */
+  update_user_homes_types?: Maybe<User_Homes_Types_Mutation_Response>
+  /** update single row of the table: "user_homes_types" */
+  update_user_homes_types_by_pk?: Maybe<User_Homes_Types>
 }
 
 /** mutation root */
@@ -1207,13 +1346,13 @@ export type Mutation_RootDelete_Homes_By_PkArgs = {
 }
 
 /** mutation root */
-export type Mutation_RootDelete_LandmarkArgs = {
-  where: Landmark_Bool_Exp
+export type Mutation_RootDelete_Location_StatsArgs = {
+  where: Location_Stats_Bool_Exp
 }
 
 /** mutation root */
-export type Mutation_RootDelete_Landmark_By_PkArgs = {
-  id: Scalars['Int']
+export type Mutation_RootDelete_Location_Stats_By_PkArgs = {
+  id: Scalars['String']
 }
 
 /** mutation root */
@@ -1237,18 +1376,23 @@ export type Mutation_RootDelete_Styles_By_PkArgs = {
 }
 
 /** mutation root */
-export type Mutation_RootDelete_User_LandmarksArgs = {
-  where: User_Landmarks_Bool_Exp
+export type Mutation_RootDelete_User_HomesArgs = {
+  where: User_Homes_Bool_Exp
 }
 
 /** mutation root */
-export type Mutation_RootDelete_User_LocationArgs = {
-  where: User_Location_Bool_Exp
+export type Mutation_RootDelete_User_Homes_By_PkArgs = {
+  id: Scalars['Int']
 }
 
 /** mutation root */
-export type Mutation_RootDelete_User_Location_By_PkArgs = {
-  user_id: Scalars['Int']
+export type Mutation_RootDelete_User_Homes_TypesArgs = {
+  where: User_Homes_Types_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_User_Homes_Types_By_PkArgs = {
+  id: Scalars['String']
 }
 
 /** mutation root */
@@ -1276,15 +1420,15 @@ export type Mutation_RootInsert_Homes_OneArgs = {
 }
 
 /** mutation root */
-export type Mutation_RootInsert_LandmarkArgs = {
-  objects: Array<Landmark_Insert_Input>
-  on_conflict?: InputMaybe<Landmark_On_Conflict>
+export type Mutation_RootInsert_Location_StatsArgs = {
+  objects: Array<Location_Stats_Insert_Input>
+  on_conflict?: InputMaybe<Location_Stats_On_Conflict>
 }
 
 /** mutation root */
-export type Mutation_RootInsert_Landmark_OneArgs = {
-  object: Landmark_Insert_Input
-  on_conflict?: InputMaybe<Landmark_On_Conflict>
+export type Mutation_RootInsert_Location_Stats_OneArgs = {
+  object: Location_Stats_Insert_Input
+  on_conflict?: InputMaybe<Location_Stats_On_Conflict>
 }
 
 /** mutation root */
@@ -1312,45 +1456,27 @@ export type Mutation_RootInsert_Styles_OneArgs = {
 }
 
 /** mutation root */
-export type Mutation_RootInsert_User_LandmarksArgs = {
-  objects: Array<User_Landmarks_Insert_Input>
+export type Mutation_RootInsert_User_HomesArgs = {
+  objects: Array<User_Homes_Insert_Input>
+  on_conflict?: InputMaybe<User_Homes_On_Conflict>
 }
 
 /** mutation root */
-export type Mutation_RootInsert_User_Landmarks_OneArgs = {
-  object: User_Landmarks_Insert_Input
+export type Mutation_RootInsert_User_Homes_OneArgs = {
+  object: User_Homes_Insert_Input
+  on_conflict?: InputMaybe<User_Homes_On_Conflict>
 }
 
 /** mutation root */
-export type Mutation_RootInsert_User_LocationArgs = {
-  objects: Array<User_Location_Insert_Input>
-  on_conflict?: InputMaybe<User_Location_On_Conflict>
+export type Mutation_RootInsert_User_Homes_TypesArgs = {
+  objects: Array<User_Homes_Types_Insert_Input>
+  on_conflict?: InputMaybe<User_Homes_Types_On_Conflict>
 }
 
 /** mutation root */
-export type Mutation_RootInsert_User_Location_OneArgs = {
-  object: User_Location_Insert_Input
-  on_conflict?: InputMaybe<User_Location_On_Conflict>
-}
-
-/** mutation root */
-export type Mutation_RootProperties_Condo1Args = {
-  args: Properties_Condo1_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-/** mutation root */
-export type Mutation_RootProperties_StyleArgs = {
-  args: Properties_Style_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
+export type Mutation_RootInsert_User_Homes_Types_OneArgs = {
+  object: User_Homes_Types_Insert_Input
+  on_conflict?: InputMaybe<User_Homes_Types_On_Conflict>
 }
 
 /** mutation root */
@@ -1382,17 +1508,27 @@ export type Mutation_RootUpdate_Homes_By_PkArgs = {
 }
 
 /** mutation root */
-export type Mutation_RootUpdate_LandmarkArgs = {
-  _inc?: InputMaybe<Landmark_Inc_Input>
-  _set?: InputMaybe<Landmark_Set_Input>
-  where: Landmark_Bool_Exp
+export type Mutation_RootUpdate_Location_StatsArgs = {
+  _append?: InputMaybe<Location_Stats_Append_Input>
+  _delete_at_path?: InputMaybe<Location_Stats_Delete_At_Path_Input>
+  _delete_elem?: InputMaybe<Location_Stats_Delete_Elem_Input>
+  _delete_key?: InputMaybe<Location_Stats_Delete_Key_Input>
+  _inc?: InputMaybe<Location_Stats_Inc_Input>
+  _prepend?: InputMaybe<Location_Stats_Prepend_Input>
+  _set?: InputMaybe<Location_Stats_Set_Input>
+  where: Location_Stats_Bool_Exp
 }
 
 /** mutation root */
-export type Mutation_RootUpdate_Landmark_By_PkArgs = {
-  _inc?: InputMaybe<Landmark_Inc_Input>
-  _set?: InputMaybe<Landmark_Set_Input>
-  pk_columns: Landmark_Pk_Columns_Input
+export type Mutation_RootUpdate_Location_Stats_By_PkArgs = {
+  _append?: InputMaybe<Location_Stats_Append_Input>
+  _delete_at_path?: InputMaybe<Location_Stats_Delete_At_Path_Input>
+  _delete_elem?: InputMaybe<Location_Stats_Delete_Elem_Input>
+  _delete_key?: InputMaybe<Location_Stats_Delete_Key_Input>
+  _inc?: InputMaybe<Location_Stats_Inc_Input>
+  _prepend?: InputMaybe<Location_Stats_Prepend_Input>
+  _set?: InputMaybe<Location_Stats_Set_Input>
+  pk_columns: Location_Stats_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -1422,24 +1558,29 @@ export type Mutation_RootUpdate_Styles_By_PkArgs = {
 }
 
 /** mutation root */
-export type Mutation_RootUpdate_User_LandmarksArgs = {
-  _inc?: InputMaybe<User_Landmarks_Inc_Input>
-  _set?: InputMaybe<User_Landmarks_Set_Input>
-  where: User_Landmarks_Bool_Exp
+export type Mutation_RootUpdate_User_HomesArgs = {
+  _inc?: InputMaybe<User_Homes_Inc_Input>
+  _set?: InputMaybe<User_Homes_Set_Input>
+  where: User_Homes_Bool_Exp
 }
 
 /** mutation root */
-export type Mutation_RootUpdate_User_LocationArgs = {
-  _inc?: InputMaybe<User_Location_Inc_Input>
-  _set?: InputMaybe<User_Location_Set_Input>
-  where: User_Location_Bool_Exp
+export type Mutation_RootUpdate_User_Homes_By_PkArgs = {
+  _inc?: InputMaybe<User_Homes_Inc_Input>
+  _set?: InputMaybe<User_Homes_Set_Input>
+  pk_columns: User_Homes_Pk_Columns_Input
 }
 
 /** mutation root */
-export type Mutation_RootUpdate_User_Location_By_PkArgs = {
-  _inc?: InputMaybe<User_Location_Inc_Input>
-  _set?: InputMaybe<User_Location_Set_Input>
-  pk_columns: User_Location_Pk_Columns_Input
+export type Mutation_RootUpdate_User_Homes_TypesArgs = {
+  _set?: InputMaybe<User_Homes_Types_Set_Input>
+  where: User_Homes_Types_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_User_Homes_Types_By_PkArgs = {
+  _set?: InputMaybe<User_Homes_Types_Set_Input>
+  pk_columns: User_Homes_Types_Pk_Columns_Input
 }
 
 /** column ordering options */
@@ -1546,10 +1687,6 @@ export type Properties_Bool_Exp = {
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>
   year_built?: InputMaybe<String_Comparison_Exp>
   zipcode?: InputMaybe<String_Comparison_Exp>
-}
-
-export type Properties_Condo1_Args = {
-  input_style?: InputMaybe<Scalars['String']>
 }
 
 /** unique or primary key constraints on table "properties" */
@@ -1779,10 +1916,6 @@ export type Properties_Stddev_Samp_Fields = {
   sqft?: Maybe<Scalars['Float']>
 }
 
-export type Properties_Style_Args = {
-  input_style?: InputMaybe<Scalars['String']>
-}
-
 /** aggregate sum on columns */
 export type Properties_Sum_Fields = {
   __typename?: 'properties_sum_fields'
@@ -1883,12 +2016,12 @@ export type Query_Root = {
   homes_aggregate: Homes_Aggregate
   /** fetch data from the table: "homes" using primary key columns */
   homes_by_pk?: Maybe<Homes>
-  /** fetch data from the table: "landmark" */
-  landmark: Array<Landmark>
-  /** fetch aggregated fields from the table: "landmark" */
-  landmark_aggregate: Landmark_Aggregate
-  /** fetch data from the table: "landmark" using primary key columns */
-  landmark_by_pk?: Maybe<Landmark>
+  /** fetch data from the table: "location_stats" */
+  location_stats: Array<Location_Stats>
+  /** fetch aggregated fields from the table: "location_stats" */
+  location_stats_aggregate: Location_Stats_Aggregate
+  /** fetch data from the table: "location_stats" using primary key columns */
+  location_stats_by_pk?: Maybe<Location_Stats>
   /** fetch data from the table: "properties" */
   properties: Array<Properties>
   /** fetch aggregated fields from the table: "properties" */
@@ -1899,42 +2032,24 @@ export type Query_Root = {
   search_cities: Array<Cities>
   /** execute function "search_cities" and query aggregates on result of table type "cities" */
   search_cities_aggregate: Cities_Aggregate
-  /** execute function "search_landmarks_near_user" which returns "user_landmarks" */
-  search_landmarks_near_user: Array<User_Landmarks>
-  /** execute function "search_landmarks_near_user" and query aggregates on result of table type "user_landmarks" */
-  search_landmarks_near_user_aggregate: User_Landmarks_Aggregate
-  /** execute function "search_properties_by_location" which returns "properties" */
-  search_properties_by_location: Array<Properties>
-  /** execute function "search_properties_by_location2" which returns "properties" */
-  search_properties_by_location2: Array<Properties>
-  /** execute function "search_properties_by_location2" and query aggregates on result of table type "properties" */
-  search_properties_by_location2_aggregate: Properties_Aggregate
-  /** execute function "search_properties_by_location3" which returns "properties" */
-  search_properties_by_location3: Array<Properties>
-  /** execute function "search_properties_by_location3" and query aggregates on result of table type "properties" */
-  search_properties_by_location3_aggregate: Properties_Aggregate
-  /** execute function "search_properties_by_location4" which returns "properties" */
-  search_properties_by_location4: Array<Properties>
-  /** execute function "search_properties_by_location4" and query aggregates on result of table type "properties" */
-  search_properties_by_location4_aggregate: Properties_Aggregate
-  /** execute function "search_properties_by_location" and query aggregates on result of table type "properties" */
-  search_properties_by_location_aggregate: Properties_Aggregate
   /** fetch data from the table: "styles" */
   styles: Array<Styles>
   /** fetch aggregated fields from the table: "styles" */
   styles_aggregate: Styles_Aggregate
   /** fetch data from the table: "styles" using primary key columns */
   styles_by_pk?: Maybe<Styles>
-  /** fetch data from the table: "user_landmarks" */
-  user_landmarks: Array<User_Landmarks>
-  /** fetch aggregated fields from the table: "user_landmarks" */
-  user_landmarks_aggregate: User_Landmarks_Aggregate
-  /** fetch data from the table: "user_location" */
-  user_location: Array<User_Location>
-  /** fetch aggregated fields from the table: "user_location" */
-  user_location_aggregate: User_Location_Aggregate
-  /** fetch data from the table: "user_location" using primary key columns */
-  user_location_by_pk?: Maybe<User_Location>
+  /** fetch data from the table: "user_homes" */
+  user_homes: Array<User_Homes>
+  /** fetch aggregated fields from the table: "user_homes" */
+  user_homes_aggregate: User_Homes_Aggregate
+  /** fetch data from the table: "user_homes" using primary key columns */
+  user_homes_by_pk?: Maybe<User_Homes>
+  /** fetch data from the table: "user_homes_types" */
+  user_homes_types: Array<User_Homes_Types>
+  /** fetch aggregated fields from the table: "user_homes_types" */
+  user_homes_types_aggregate: User_Homes_Types_Aggregate
+  /** fetch data from the table: "user_homes_types" using primary key columns */
+  user_homes_types_by_pk?: Maybe<User_Homes_Types>
 }
 
 export type Query_RootCitiesArgs = {
@@ -1977,24 +2092,24 @@ export type Query_RootHomes_By_PkArgs = {
   id: Scalars['Int']
 }
 
-export type Query_RootLandmarkArgs = {
-  distinct_on?: InputMaybe<Array<Landmark_Select_Column>>
+export type Query_RootLocation_StatsArgs = {
+  distinct_on?: InputMaybe<Array<Location_Stats_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Landmark_Order_By>>
-  where?: InputMaybe<Landmark_Bool_Exp>
+  order_by?: InputMaybe<Array<Location_Stats_Order_By>>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
 }
 
-export type Query_RootLandmark_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Landmark_Select_Column>>
+export type Query_RootLocation_Stats_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Location_Stats_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Landmark_Order_By>>
-  where?: InputMaybe<Landmark_Bool_Exp>
+  order_by?: InputMaybe<Array<Location_Stats_Order_By>>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
 }
 
-export type Query_RootLandmark_By_PkArgs = {
-  id: Scalars['Int']
+export type Query_RootLocation_Stats_By_PkArgs = {
+  id: Scalars['String']
 }
 
 export type Query_RootPropertiesArgs = {
@@ -2035,96 +2150,6 @@ export type Query_RootSearch_Cities_AggregateArgs = {
   where?: InputMaybe<Cities_Bool_Exp>
 }
 
-export type Query_RootSearch_Landmarks_Near_UserArgs = {
-  args: Search_Landmarks_Near_User_Args
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
-}
-
-export type Query_RootSearch_Landmarks_Near_User_AggregateArgs = {
-  args: Search_Landmarks_Near_User_Args
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_LocationArgs = {
-  args: Search_Properties_By_Location_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location2Args = {
-  args: Search_Properties_By_Location2_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location2_AggregateArgs = {
-  args: Search_Properties_By_Location2_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location3Args = {
-  args: Search_Properties_By_Location3_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location3_AggregateArgs = {
-  args: Search_Properties_By_Location3_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location4Args = {
-  args: Search_Properties_By_Location4_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location4_AggregateArgs = {
-  args: Search_Properties_By_Location4_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Query_RootSearch_Properties_By_Location_AggregateArgs = {
-  args: Search_Properties_By_Location_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
 export type Query_RootStylesArgs = {
   distinct_on?: InputMaybe<Array<Styles_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
@@ -2145,71 +2170,48 @@ export type Query_RootStyles_By_PkArgs = {
   id: Scalars['String']
 }
 
-export type Query_RootUser_LandmarksArgs = {
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
+export type Query_RootUser_HomesArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Order_By>>
+  where?: InputMaybe<User_Homes_Bool_Exp>
 }
 
-export type Query_RootUser_Landmarks_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
+export type Query_RootUser_Homes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Order_By>>
+  where?: InputMaybe<User_Homes_Bool_Exp>
 }
 
-export type Query_RootUser_LocationArgs = {
-  distinct_on?: InputMaybe<Array<User_Location_Select_Column>>
+export type Query_RootUser_Homes_By_PkArgs = {
+  id: Scalars['Int']
+}
+
+export type Query_RootUser_Homes_TypesArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Types_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Location_Order_By>>
-  where?: InputMaybe<User_Location_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Types_Order_By>>
+  where?: InputMaybe<User_Homes_Types_Bool_Exp>
 }
 
-export type Query_RootUser_Location_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Location_Select_Column>>
+export type Query_RootUser_Homes_Types_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Types_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Location_Order_By>>
-  where?: InputMaybe<User_Location_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Types_Order_By>>
+  where?: InputMaybe<User_Homes_Types_Bool_Exp>
 }
 
-export type Query_RootUser_Location_By_PkArgs = {
-  user_id: Scalars['Int']
+export type Query_RootUser_Homes_Types_By_PkArgs = {
+  id: Scalars['String']
 }
 
 export type Search_Cities_Args = {
   search?: InputMaybe<Scalars['String']>
-}
-
-export type Search_Landmarks_Near_User_Args = {
-  distance_kms?: InputMaybe<Scalars['Int']>
-  userid?: InputMaybe<Scalars['Int']>
-}
-
-export type Search_Properties_By_Location2_Args = {
-  distance_kms?: InputMaybe<Scalars['Int']>
-  location?: InputMaybe<Scalars['geometry']>
-}
-
-export type Search_Properties_By_Location3_Args = {
-  distance_kms?: InputMaybe<Scalars['Int']>
-  lat?: InputMaybe<Scalars['float8']>
-  lng?: InputMaybe<Scalars['float8']>
-}
-
-export type Search_Properties_By_Location4_Args = {
-  distance_kms?: InputMaybe<Scalars['Int']>
-  lat?: InputMaybe<Scalars['float8']>
-  lng?: InputMaybe<Scalars['float8']>
-}
-
-export type Search_Properties_By_Location_Args = {
-  distance_kms?: InputMaybe<Scalars['Int']>
-  location?: InputMaybe<Scalars['geometry']>
 }
 
 /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
@@ -2357,12 +2359,12 @@ export type Subscription_Root = {
   homes_aggregate: Homes_Aggregate
   /** fetch data from the table: "homes" using primary key columns */
   homes_by_pk?: Maybe<Homes>
-  /** fetch data from the table: "landmark" */
-  landmark: Array<Landmark>
-  /** fetch aggregated fields from the table: "landmark" */
-  landmark_aggregate: Landmark_Aggregate
-  /** fetch data from the table: "landmark" using primary key columns */
-  landmark_by_pk?: Maybe<Landmark>
+  /** fetch data from the table: "location_stats" */
+  location_stats: Array<Location_Stats>
+  /** fetch aggregated fields from the table: "location_stats" */
+  location_stats_aggregate: Location_Stats_Aggregate
+  /** fetch data from the table: "location_stats" using primary key columns */
+  location_stats_by_pk?: Maybe<Location_Stats>
   /** fetch data from the table: "properties" */
   properties: Array<Properties>
   /** fetch aggregated fields from the table: "properties" */
@@ -2373,42 +2375,24 @@ export type Subscription_Root = {
   search_cities: Array<Cities>
   /** execute function "search_cities" and query aggregates on result of table type "cities" */
   search_cities_aggregate: Cities_Aggregate
-  /** execute function "search_landmarks_near_user" which returns "user_landmarks" */
-  search_landmarks_near_user: Array<User_Landmarks>
-  /** execute function "search_landmarks_near_user" and query aggregates on result of table type "user_landmarks" */
-  search_landmarks_near_user_aggregate: User_Landmarks_Aggregate
-  /** execute function "search_properties_by_location" which returns "properties" */
-  search_properties_by_location: Array<Properties>
-  /** execute function "search_properties_by_location2" which returns "properties" */
-  search_properties_by_location2: Array<Properties>
-  /** execute function "search_properties_by_location2" and query aggregates on result of table type "properties" */
-  search_properties_by_location2_aggregate: Properties_Aggregate
-  /** execute function "search_properties_by_location3" which returns "properties" */
-  search_properties_by_location3: Array<Properties>
-  /** execute function "search_properties_by_location3" and query aggregates on result of table type "properties" */
-  search_properties_by_location3_aggregate: Properties_Aggregate
-  /** execute function "search_properties_by_location4" which returns "properties" */
-  search_properties_by_location4: Array<Properties>
-  /** execute function "search_properties_by_location4" and query aggregates on result of table type "properties" */
-  search_properties_by_location4_aggregate: Properties_Aggregate
-  /** execute function "search_properties_by_location" and query aggregates on result of table type "properties" */
-  search_properties_by_location_aggregate: Properties_Aggregate
   /** fetch data from the table: "styles" */
   styles: Array<Styles>
   /** fetch aggregated fields from the table: "styles" */
   styles_aggregate: Styles_Aggregate
   /** fetch data from the table: "styles" using primary key columns */
   styles_by_pk?: Maybe<Styles>
-  /** fetch data from the table: "user_landmarks" */
-  user_landmarks: Array<User_Landmarks>
-  /** fetch aggregated fields from the table: "user_landmarks" */
-  user_landmarks_aggregate: User_Landmarks_Aggregate
-  /** fetch data from the table: "user_location" */
-  user_location: Array<User_Location>
-  /** fetch aggregated fields from the table: "user_location" */
-  user_location_aggregate: User_Location_Aggregate
-  /** fetch data from the table: "user_location" using primary key columns */
-  user_location_by_pk?: Maybe<User_Location>
+  /** fetch data from the table: "user_homes" */
+  user_homes: Array<User_Homes>
+  /** fetch aggregated fields from the table: "user_homes" */
+  user_homes_aggregate: User_Homes_Aggregate
+  /** fetch data from the table: "user_homes" using primary key columns */
+  user_homes_by_pk?: Maybe<User_Homes>
+  /** fetch data from the table: "user_homes_types" */
+  user_homes_types: Array<User_Homes_Types>
+  /** fetch aggregated fields from the table: "user_homes_types" */
+  user_homes_types_aggregate: User_Homes_Types_Aggregate
+  /** fetch data from the table: "user_homes_types" using primary key columns */
+  user_homes_types_by_pk?: Maybe<User_Homes_Types>
 }
 
 export type Subscription_RootCitiesArgs = {
@@ -2451,24 +2435,24 @@ export type Subscription_RootHomes_By_PkArgs = {
   id: Scalars['Int']
 }
 
-export type Subscription_RootLandmarkArgs = {
-  distinct_on?: InputMaybe<Array<Landmark_Select_Column>>
+export type Subscription_RootLocation_StatsArgs = {
+  distinct_on?: InputMaybe<Array<Location_Stats_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Landmark_Order_By>>
-  where?: InputMaybe<Landmark_Bool_Exp>
+  order_by?: InputMaybe<Array<Location_Stats_Order_By>>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
 }
 
-export type Subscription_RootLandmark_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Landmark_Select_Column>>
+export type Subscription_RootLocation_Stats_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Location_Stats_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Landmark_Order_By>>
-  where?: InputMaybe<Landmark_Bool_Exp>
+  order_by?: InputMaybe<Array<Location_Stats_Order_By>>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
 }
 
-export type Subscription_RootLandmark_By_PkArgs = {
-  id: Scalars['Int']
+export type Subscription_RootLocation_Stats_By_PkArgs = {
+  id: Scalars['String']
 }
 
 export type Subscription_RootPropertiesArgs = {
@@ -2509,96 +2493,6 @@ export type Subscription_RootSearch_Cities_AggregateArgs = {
   where?: InputMaybe<Cities_Bool_Exp>
 }
 
-export type Subscription_RootSearch_Landmarks_Near_UserArgs = {
-  args: Search_Landmarks_Near_User_Args
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Landmarks_Near_User_AggregateArgs = {
-  args: Search_Landmarks_Near_User_Args
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_LocationArgs = {
-  args: Search_Properties_By_Location_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location2Args = {
-  args: Search_Properties_By_Location2_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location2_AggregateArgs = {
-  args: Search_Properties_By_Location2_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location3Args = {
-  args: Search_Properties_By_Location3_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location3_AggregateArgs = {
-  args: Search_Properties_By_Location3_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location4Args = {
-  args: Search_Properties_By_Location4_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location4_AggregateArgs = {
-  args: Search_Properties_By_Location4_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
-export type Subscription_RootSearch_Properties_By_Location_AggregateArgs = {
-  args: Search_Properties_By_Location_Args
-  distinct_on?: InputMaybe<Array<Properties_Select_Column>>
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By>>
-  where?: InputMaybe<Properties_Bool_Exp>
-}
-
 export type Subscription_RootStylesArgs = {
   distinct_on?: InputMaybe<Array<Styles_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
@@ -2619,40 +2513,44 @@ export type Subscription_RootStyles_By_PkArgs = {
   id: Scalars['String']
 }
 
-export type Subscription_RootUser_LandmarksArgs = {
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
+export type Subscription_RootUser_HomesArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Order_By>>
+  where?: InputMaybe<User_Homes_Bool_Exp>
 }
 
-export type Subscription_RootUser_Landmarks_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Landmarks_Select_Column>>
+export type Subscription_RootUser_Homes_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Landmarks_Order_By>>
-  where?: InputMaybe<User_Landmarks_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Order_By>>
+  where?: InputMaybe<User_Homes_Bool_Exp>
 }
 
-export type Subscription_RootUser_LocationArgs = {
-  distinct_on?: InputMaybe<Array<User_Location_Select_Column>>
+export type Subscription_RootUser_Homes_By_PkArgs = {
+  id: Scalars['Int']
+}
+
+export type Subscription_RootUser_Homes_TypesArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Types_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Location_Order_By>>
-  where?: InputMaybe<User_Location_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Types_Order_By>>
+  where?: InputMaybe<User_Homes_Types_Bool_Exp>
 }
 
-export type Subscription_RootUser_Location_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<User_Location_Select_Column>>
+export type Subscription_RootUser_Homes_Types_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Homes_Types_Select_Column>>
   limit?: InputMaybe<Scalars['Int']>
   offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<User_Location_Order_By>>
-  where?: InputMaybe<User_Location_Bool_Exp>
+  order_by?: InputMaybe<Array<User_Homes_Types_Order_By>>
+  where?: InputMaybe<User_Homes_Types_Bool_Exp>
 }
 
-export type Subscription_RootUser_Location_By_PkArgs = {
-  user_id: Scalars['Int']
+export type Subscription_RootUser_Homes_Types_By_PkArgs = {
+  id: Scalars['String']
 }
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -2668,332 +2566,376 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>
 }
 
-/** columns and relationships of "user_landmarks" */
-export type User_Landmarks = {
-  __typename?: 'user_landmarks'
-  location?: Maybe<Scalars['geography']>
-  nearby_landmarks?: Maybe<Scalars['json']>
-  user_id?: Maybe<Scalars['Int']>
+/**
+ * The homes that the user interacted with.
+ *
+ *
+ * columns and relationships of "user_homes"
+ *
+ */
+export type User_Homes = {
+  __typename?: 'user_homes'
+  createdAt: Scalars['timestamptz']
+  hId: Scalars['Int']
+  /** An object relationship */
+  home: Homes
+  id: Scalars['Int']
+  type: User_Homes_Types_Enum
+  uid: Scalars['String']
+  updatedAt: Scalars['timestamptz']
+  /** An object relationship */
+  user_homes_type: User_Homes_Types
 }
 
-/** columns and relationships of "user_landmarks" */
-export type User_LandmarksNearby_LandmarksArgs = {
-  path?: InputMaybe<Scalars['String']>
+/** aggregated selection of "user_homes" */
+export type User_Homes_Aggregate = {
+  __typename?: 'user_homes_aggregate'
+  aggregate?: Maybe<User_Homes_Aggregate_Fields>
+  nodes: Array<User_Homes>
 }
 
-/** aggregated selection of "user_landmarks" */
-export type User_Landmarks_Aggregate = {
-  __typename?: 'user_landmarks_aggregate'
-  aggregate?: Maybe<User_Landmarks_Aggregate_Fields>
-  nodes: Array<User_Landmarks>
-}
-
-/** aggregate fields of "user_landmarks" */
-export type User_Landmarks_Aggregate_Fields = {
-  __typename?: 'user_landmarks_aggregate_fields'
-  avg?: Maybe<User_Landmarks_Avg_Fields>
+/** aggregate fields of "user_homes" */
+export type User_Homes_Aggregate_Fields = {
+  __typename?: 'user_homes_aggregate_fields'
+  avg?: Maybe<User_Homes_Avg_Fields>
   count: Scalars['Int']
-  max?: Maybe<User_Landmarks_Max_Fields>
-  min?: Maybe<User_Landmarks_Min_Fields>
-  stddev?: Maybe<User_Landmarks_Stddev_Fields>
-  stddev_pop?: Maybe<User_Landmarks_Stddev_Pop_Fields>
-  stddev_samp?: Maybe<User_Landmarks_Stddev_Samp_Fields>
-  sum?: Maybe<User_Landmarks_Sum_Fields>
-  var_pop?: Maybe<User_Landmarks_Var_Pop_Fields>
-  var_samp?: Maybe<User_Landmarks_Var_Samp_Fields>
-  variance?: Maybe<User_Landmarks_Variance_Fields>
+  max?: Maybe<User_Homes_Max_Fields>
+  min?: Maybe<User_Homes_Min_Fields>
+  stddev?: Maybe<User_Homes_Stddev_Fields>
+  stddev_pop?: Maybe<User_Homes_Stddev_Pop_Fields>
+  stddev_samp?: Maybe<User_Homes_Stddev_Samp_Fields>
+  sum?: Maybe<User_Homes_Sum_Fields>
+  var_pop?: Maybe<User_Homes_Var_Pop_Fields>
+  var_samp?: Maybe<User_Homes_Var_Samp_Fields>
+  variance?: Maybe<User_Homes_Variance_Fields>
 }
 
-/** aggregate fields of "user_landmarks" */
-export type User_Landmarks_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<User_Landmarks_Select_Column>>
+/** aggregate fields of "user_homes" */
+export type User_Homes_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Homes_Select_Column>>
   distinct?: InputMaybe<Scalars['Boolean']>
 }
 
 /** aggregate avg on columns */
-export type User_Landmarks_Avg_Fields = {
-  __typename?: 'user_landmarks_avg_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Avg_Fields = {
+  __typename?: 'user_homes_avg_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
-/** Boolean expression to filter rows from the table "user_landmarks". All fields are combined with a logical 'AND'. */
-export type User_Landmarks_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Landmarks_Bool_Exp>>
-  _not?: InputMaybe<User_Landmarks_Bool_Exp>
-  _or?: InputMaybe<Array<User_Landmarks_Bool_Exp>>
-  location?: InputMaybe<Geography_Comparison_Exp>
-  nearby_landmarks?: InputMaybe<Json_Comparison_Exp>
-  user_id?: InputMaybe<Int_Comparison_Exp>
+/** Boolean expression to filter rows from the table "user_homes". All fields are combined with a logical 'AND'. */
+export type User_Homes_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Homes_Bool_Exp>>
+  _not?: InputMaybe<User_Homes_Bool_Exp>
+  _or?: InputMaybe<Array<User_Homes_Bool_Exp>>
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>
+  hId?: InputMaybe<Int_Comparison_Exp>
+  home?: InputMaybe<Homes_Bool_Exp>
+  id?: InputMaybe<Int_Comparison_Exp>
+  type?: InputMaybe<User_Homes_Types_Enum_Comparison_Exp>
+  uid?: InputMaybe<String_Comparison_Exp>
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>
+  user_homes_type?: InputMaybe<User_Homes_Types_Bool_Exp>
 }
 
-/** input type for incrementing numeric columns in table "user_landmarks" */
-export type User_Landmarks_Inc_Input = {
-  user_id?: InputMaybe<Scalars['Int']>
-}
-
-/** input type for inserting data into table "user_landmarks" */
-export type User_Landmarks_Insert_Input = {
-  location?: InputMaybe<Scalars['geography']>
-  nearby_landmarks?: InputMaybe<Scalars['json']>
-  user_id?: InputMaybe<Scalars['Int']>
-}
-
-/** aggregate max on columns */
-export type User_Landmarks_Max_Fields = {
-  __typename?: 'user_landmarks_max_fields'
-  user_id?: Maybe<Scalars['Int']>
-}
-
-/** aggregate min on columns */
-export type User_Landmarks_Min_Fields = {
-  __typename?: 'user_landmarks_min_fields'
-  user_id?: Maybe<Scalars['Int']>
-}
-
-/** response of any mutation on the table "user_landmarks" */
-export type User_Landmarks_Mutation_Response = {
-  __typename?: 'user_landmarks_mutation_response'
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int']
-  /** data from the rows affected by the mutation */
-  returning: Array<User_Landmarks>
-}
-
-/** Ordering options when selecting data from "user_landmarks". */
-export type User_Landmarks_Order_By = {
-  location?: InputMaybe<Order_By>
-  nearby_landmarks?: InputMaybe<Order_By>
-  user_id?: InputMaybe<Order_By>
-}
-
-/** select columns of table "user_landmarks" */
-export enum User_Landmarks_Select_Column {
-  /** column name */
-  Location = 'location',
-  /** column name */
-  NearbyLandmarks = 'nearby_landmarks',
-  /** column name */
-  UserId = 'user_id',
-}
-
-/** input type for updating data in table "user_landmarks" */
-export type User_Landmarks_Set_Input = {
-  location?: InputMaybe<Scalars['geography']>
-  nearby_landmarks?: InputMaybe<Scalars['json']>
-  user_id?: InputMaybe<Scalars['Int']>
-}
-
-/** aggregate stddev on columns */
-export type User_Landmarks_Stddev_Fields = {
-  __typename?: 'user_landmarks_stddev_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** aggregate stddev_pop on columns */
-export type User_Landmarks_Stddev_Pop_Fields = {
-  __typename?: 'user_landmarks_stddev_pop_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** aggregate stddev_samp on columns */
-export type User_Landmarks_Stddev_Samp_Fields = {
-  __typename?: 'user_landmarks_stddev_samp_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** aggregate sum on columns */
-export type User_Landmarks_Sum_Fields = {
-  __typename?: 'user_landmarks_sum_fields'
-  user_id?: Maybe<Scalars['Int']>
-}
-
-/** aggregate var_pop on columns */
-export type User_Landmarks_Var_Pop_Fields = {
-  __typename?: 'user_landmarks_var_pop_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** aggregate var_samp on columns */
-export type User_Landmarks_Var_Samp_Fields = {
-  __typename?: 'user_landmarks_var_samp_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** aggregate variance on columns */
-export type User_Landmarks_Variance_Fields = {
-  __typename?: 'user_landmarks_variance_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** columns and relationships of "user_location" */
-export type User_Location = {
-  __typename?: 'user_location'
-  location?: Maybe<Scalars['geography']>
-  user_id: Scalars['Int']
-}
-
-/** aggregated selection of "user_location" */
-export type User_Location_Aggregate = {
-  __typename?: 'user_location_aggregate'
-  aggregate?: Maybe<User_Location_Aggregate_Fields>
-  nodes: Array<User_Location>
-}
-
-/** aggregate fields of "user_location" */
-export type User_Location_Aggregate_Fields = {
-  __typename?: 'user_location_aggregate_fields'
-  avg?: Maybe<User_Location_Avg_Fields>
-  count: Scalars['Int']
-  max?: Maybe<User_Location_Max_Fields>
-  min?: Maybe<User_Location_Min_Fields>
-  stddev?: Maybe<User_Location_Stddev_Fields>
-  stddev_pop?: Maybe<User_Location_Stddev_Pop_Fields>
-  stddev_samp?: Maybe<User_Location_Stddev_Samp_Fields>
-  sum?: Maybe<User_Location_Sum_Fields>
-  var_pop?: Maybe<User_Location_Var_Pop_Fields>
-  var_samp?: Maybe<User_Location_Var_Samp_Fields>
-  variance?: Maybe<User_Location_Variance_Fields>
-}
-
-/** aggregate fields of "user_location" */
-export type User_Location_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<User_Location_Select_Column>>
-  distinct?: InputMaybe<Scalars['Boolean']>
-}
-
-/** aggregate avg on columns */
-export type User_Location_Avg_Fields = {
-  __typename?: 'user_location_avg_fields'
-  user_id?: Maybe<Scalars['Float']>
-}
-
-/** Boolean expression to filter rows from the table "user_location". All fields are combined with a logical 'AND'. */
-export type User_Location_Bool_Exp = {
-  _and?: InputMaybe<Array<User_Location_Bool_Exp>>
-  _not?: InputMaybe<User_Location_Bool_Exp>
-  _or?: InputMaybe<Array<User_Location_Bool_Exp>>
-  location?: InputMaybe<Geography_Comparison_Exp>
-  user_id?: InputMaybe<Int_Comparison_Exp>
-}
-
-/** unique or primary key constraints on table "user_location" */
-export enum User_Location_Constraint {
+/** unique or primary key constraints on table "user_homes" */
+export enum User_Homes_Constraint {
   /** unique or primary key constraint */
-  UserLocationPkey = 'user_location_pkey',
+  UserHomesHomeIdUidKey = 'user_homes_home_id_uid_key',
+  /** unique or primary key constraint */
+  UserHomesPkey = 'user_homes_pkey',
 }
 
-/** input type for incrementing numeric columns in table "user_location" */
-export type User_Location_Inc_Input = {
-  user_id?: InputMaybe<Scalars['Int']>
+/** input type for incrementing numeric columns in table "user_homes" */
+export type User_Homes_Inc_Input = {
+  hId?: InputMaybe<Scalars['Int']>
+  id?: InputMaybe<Scalars['Int']>
 }
 
-/** input type for inserting data into table "user_location" */
-export type User_Location_Insert_Input = {
-  location?: InputMaybe<Scalars['geography']>
-  user_id?: InputMaybe<Scalars['Int']>
+/** input type for inserting data into table "user_homes" */
+export type User_Homes_Insert_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>
+  hId?: InputMaybe<Scalars['Int']>
+  home?: InputMaybe<Homes_Obj_Rel_Insert_Input>
+  id?: InputMaybe<Scalars['Int']>
+  type?: InputMaybe<User_Homes_Types_Enum>
+  uid?: InputMaybe<Scalars['String']>
+  updatedAt?: InputMaybe<Scalars['timestamptz']>
+  user_homes_type?: InputMaybe<User_Homes_Types_Obj_Rel_Insert_Input>
 }
 
 /** aggregate max on columns */
-export type User_Location_Max_Fields = {
-  __typename?: 'user_location_max_fields'
-  user_id?: Maybe<Scalars['Int']>
+export type User_Homes_Max_Fields = {
+  __typename?: 'user_homes_max_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  hId?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['Int']>
+  uid?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
 /** aggregate min on columns */
-export type User_Location_Min_Fields = {
-  __typename?: 'user_location_min_fields'
-  user_id?: Maybe<Scalars['Int']>
+export type User_Homes_Min_Fields = {
+  __typename?: 'user_homes_min_fields'
+  createdAt?: Maybe<Scalars['timestamptz']>
+  hId?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['Int']>
+  uid?: Maybe<Scalars['String']>
+  updatedAt?: Maybe<Scalars['timestamptz']>
 }
 
-/** response of any mutation on the table "user_location" */
-export type User_Location_Mutation_Response = {
-  __typename?: 'user_location_mutation_response'
+/** response of any mutation on the table "user_homes" */
+export type User_Homes_Mutation_Response = {
+  __typename?: 'user_homes_mutation_response'
   /** number of rows affected by the mutation */
   affected_rows: Scalars['Int']
   /** data from the rows affected by the mutation */
-  returning: Array<User_Location>
+  returning: Array<User_Homes>
 }
 
-/** on conflict condition type for table "user_location" */
-export type User_Location_On_Conflict = {
-  constraint: User_Location_Constraint
-  update_columns?: Array<User_Location_Update_Column>
-  where?: InputMaybe<User_Location_Bool_Exp>
+/** on conflict condition type for table "user_homes" */
+export type User_Homes_On_Conflict = {
+  constraint: User_Homes_Constraint
+  update_columns?: Array<User_Homes_Update_Column>
+  where?: InputMaybe<User_Homes_Bool_Exp>
 }
 
-/** Ordering options when selecting data from "user_location". */
-export type User_Location_Order_By = {
-  location?: InputMaybe<Order_By>
-  user_id?: InputMaybe<Order_By>
+/** Ordering options when selecting data from "user_homes". */
+export type User_Homes_Order_By = {
+  createdAt?: InputMaybe<Order_By>
+  hId?: InputMaybe<Order_By>
+  home?: InputMaybe<Homes_Order_By>
+  id?: InputMaybe<Order_By>
+  type?: InputMaybe<Order_By>
+  uid?: InputMaybe<Order_By>
+  updatedAt?: InputMaybe<Order_By>
+  user_homes_type?: InputMaybe<User_Homes_Types_Order_By>
 }
 
-/** primary key columns input for table: user_location */
-export type User_Location_Pk_Columns_Input = {
-  user_id: Scalars['Int']
+/** primary key columns input for table: user_homes */
+export type User_Homes_Pk_Columns_Input = {
+  id: Scalars['Int']
 }
 
-/** select columns of table "user_location" */
-export enum User_Location_Select_Column {
+/** select columns of table "user_homes" */
+export enum User_Homes_Select_Column {
   /** column name */
-  Location = 'location',
+  CreatedAt = 'createdAt',
   /** column name */
-  UserId = 'user_id',
+  HId = 'hId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updatedAt',
 }
 
-/** input type for updating data in table "user_location" */
-export type User_Location_Set_Input = {
-  location?: InputMaybe<Scalars['geography']>
-  user_id?: InputMaybe<Scalars['Int']>
+/** input type for updating data in table "user_homes" */
+export type User_Homes_Set_Input = {
+  createdAt?: InputMaybe<Scalars['timestamptz']>
+  hId?: InputMaybe<Scalars['Int']>
+  id?: InputMaybe<Scalars['Int']>
+  type?: InputMaybe<User_Homes_Types_Enum>
+  uid?: InputMaybe<Scalars['String']>
+  updatedAt?: InputMaybe<Scalars['timestamptz']>
 }
 
 /** aggregate stddev on columns */
-export type User_Location_Stddev_Fields = {
-  __typename?: 'user_location_stddev_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Stddev_Fields = {
+  __typename?: 'user_homes_stddev_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_pop on columns */
-export type User_Location_Stddev_Pop_Fields = {
-  __typename?: 'user_location_stddev_pop_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Stddev_Pop_Fields = {
+  __typename?: 'user_homes_stddev_pop_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate stddev_samp on columns */
-export type User_Location_Stddev_Samp_Fields = {
-  __typename?: 'user_location_stddev_samp_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Stddev_Samp_Fields = {
+  __typename?: 'user_homes_stddev_samp_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate sum on columns */
-export type User_Location_Sum_Fields = {
-  __typename?: 'user_location_sum_fields'
-  user_id?: Maybe<Scalars['Int']>
+export type User_Homes_Sum_Fields = {
+  __typename?: 'user_homes_sum_fields'
+  hId?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['Int']>
 }
 
-/** update columns of table "user_location" */
-export enum User_Location_Update_Column {
+/**
+ * Types of interactions the user can make with homes
+ *
+ *
+ * columns and relationships of "user_homes_types"
+ *
+ */
+export type User_Homes_Types = {
+  __typename?: 'user_homes_types'
+  id: Scalars['String']
+}
+
+/** aggregated selection of "user_homes_types" */
+export type User_Homes_Types_Aggregate = {
+  __typename?: 'user_homes_types_aggregate'
+  aggregate?: Maybe<User_Homes_Types_Aggregate_Fields>
+  nodes: Array<User_Homes_Types>
+}
+
+/** aggregate fields of "user_homes_types" */
+export type User_Homes_Types_Aggregate_Fields = {
+  __typename?: 'user_homes_types_aggregate_fields'
+  count: Scalars['Int']
+  max?: Maybe<User_Homes_Types_Max_Fields>
+  min?: Maybe<User_Homes_Types_Min_Fields>
+}
+
+/** aggregate fields of "user_homes_types" */
+export type User_Homes_Types_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Homes_Types_Select_Column>>
+  distinct?: InputMaybe<Scalars['Boolean']>
+}
+
+/** Boolean expression to filter rows from the table "user_homes_types". All fields are combined with a logical 'AND'. */
+export type User_Homes_Types_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Homes_Types_Bool_Exp>>
+  _not?: InputMaybe<User_Homes_Types_Bool_Exp>
+  _or?: InputMaybe<Array<User_Homes_Types_Bool_Exp>>
+  id?: InputMaybe<String_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "user_homes_types" */
+export enum User_Homes_Types_Constraint {
+  /** unique or primary key constraint */
+  UserHomesTypesPkey = 'user_homes_types_pkey',
+}
+
+export enum User_Homes_Types_Enum {
+  Contacted = 'CONTACTED',
+  RemovedFromWishlist = 'REMOVED_FROM_WISHLIST',
+  Viewed = 'VIEWED',
+  Wishlisted = 'WISHLISTED',
+}
+
+/** Boolean expression to compare columns of type "user_homes_types_enum". All fields are combined with logical 'AND'. */
+export type User_Homes_Types_Enum_Comparison_Exp = {
+  _eq?: InputMaybe<User_Homes_Types_Enum>
+  _in?: InputMaybe<Array<User_Homes_Types_Enum>>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  _neq?: InputMaybe<User_Homes_Types_Enum>
+  _nin?: InputMaybe<Array<User_Homes_Types_Enum>>
+}
+
+/** input type for inserting data into table "user_homes_types" */
+export type User_Homes_Types_Insert_Input = {
+  id?: InputMaybe<Scalars['String']>
+}
+
+/** aggregate max on columns */
+export type User_Homes_Types_Max_Fields = {
+  __typename?: 'user_homes_types_max_fields'
+  id?: Maybe<Scalars['String']>
+}
+
+/** aggregate min on columns */
+export type User_Homes_Types_Min_Fields = {
+  __typename?: 'user_homes_types_min_fields'
+  id?: Maybe<Scalars['String']>
+}
+
+/** response of any mutation on the table "user_homes_types" */
+export type User_Homes_Types_Mutation_Response = {
+  __typename?: 'user_homes_types_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Homes_Types>
+}
+
+/** input type for inserting object relation for remote table "user_homes_types" */
+export type User_Homes_Types_Obj_Rel_Insert_Input = {
+  data: User_Homes_Types_Insert_Input
+  /** on conflict condition */
+  on_conflict?: InputMaybe<User_Homes_Types_On_Conflict>
+}
+
+/** on conflict condition type for table "user_homes_types" */
+export type User_Homes_Types_On_Conflict = {
+  constraint: User_Homes_Types_Constraint
+  update_columns?: Array<User_Homes_Types_Update_Column>
+  where?: InputMaybe<User_Homes_Types_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "user_homes_types". */
+export type User_Homes_Types_Order_By = {
+  id?: InputMaybe<Order_By>
+}
+
+/** primary key columns input for table: user_homes_types */
+export type User_Homes_Types_Pk_Columns_Input = {
+  id: Scalars['String']
+}
+
+/** select columns of table "user_homes_types" */
+export enum User_Homes_Types_Select_Column {
   /** column name */
-  Location = 'location',
+  Id = 'id',
+}
+
+/** input type for updating data in table "user_homes_types" */
+export type User_Homes_Types_Set_Input = {
+  id?: InputMaybe<Scalars['String']>
+}
+
+/** update columns of table "user_homes_types" */
+export enum User_Homes_Types_Update_Column {
   /** column name */
-  UserId = 'user_id',
+  Id = 'id',
+}
+
+/** update columns of table "user_homes" */
+export enum User_Homes_Update_Column {
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  HId = 'hId',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Type = 'type',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updatedAt',
 }
 
 /** aggregate var_pop on columns */
-export type User_Location_Var_Pop_Fields = {
-  __typename?: 'user_location_var_pop_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Var_Pop_Fields = {
+  __typename?: 'user_homes_var_pop_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate var_samp on columns */
-export type User_Location_Var_Samp_Fields = {
-  __typename?: 'user_location_var_samp_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Var_Samp_Fields = {
+  __typename?: 'user_homes_var_samp_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
 /** aggregate variance on columns */
-export type User_Location_Variance_Fields = {
-  __typename?: 'user_location_variance_fields'
-  user_id?: Maybe<Scalars['Float']>
+export type User_Homes_Variance_Fields = {
+  __typename?: 'user_homes_variance_fields'
+  hId?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
 }
 
 export type MyQueryQueryVariables = Exact<{ [key: string]: never }>
@@ -3004,20 +2946,6 @@ export type MyQueryQuery = {
     __typename?: 'properties'
     address: string
     description: string
-  }>
-}
-
-export type SearchCitiesQueryVariables = Exact<{
-  search: Scalars['String']
-}>
-
-export type SearchCitiesQuery = {
-  __typename?: 'query_root'
-  search_cities: Array<{
-    __typename?: 'cities'
-    lat: any
-    lng: any
-    displayName: string
   }>
 }
 
@@ -3035,32 +2963,6 @@ export type GetCitiesQuery = {
   }>
 }
 
-export type SearchPropertiesByLocationQueryVariables = Exact<{
-  args: Search_Properties_By_Location4_Args
-  distinct_on?: InputMaybe<
-    Array<Properties_Select_Column> | Properties_Select_Column
-  >
-  limit?: InputMaybe<Scalars['Int']>
-  offset?: InputMaybe<Scalars['Int']>
-  order_by?: InputMaybe<Array<Properties_Order_By> | Properties_Order_By>
-  where?: InputMaybe<Properties_Bool_Exp>
-}>
-
-export type SearchPropertiesByLocationQuery = {
-  __typename?: 'query_root'
-  search_properties_by_location4: Array<{
-    __typename?: 'properties'
-    id: number
-    bath: number
-    beds: number
-    address: string
-    location: any
-    price: number
-    zipcode: string
-    sqft: number
-  }>
-}
-
 export type SearchHomesByLocationQueryVariables = Exact<{
   distinct_on?: InputMaybe<Array<Homes_Select_Column> | Homes_Select_Column>
   limit?: InputMaybe<Scalars['Int']>
@@ -3071,7 +2973,47 @@ export type SearchHomesByLocationQueryVariables = Exact<{
 
 export type SearchHomesByLocationQuery = {
   __typename?: 'query_root'
-  homes: Array<{ __typename?: 'homes'; id: number; lat: number; lng: number }>
+  homes: Array<{
+    __typename?: 'homes'
+    id: number
+    lat: number
+    lng: number
+    style: string
+  }>
+}
+
+export type SearchCitiesByLocationQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
+}>
+
+export type SearchCitiesByLocationQuery = {
+  __typename?: 'query_root'
+  cities: Array<{
+    __typename?: 'location_stats'
+    id: string
+    lat: any
+    lng: any
+    priceSqft: any
+    totalHomes: any
+  }>
+}
+
+export type SearchStatesByLocationQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<Location_Stats_Bool_Exp>
+}>
+
+export type SearchStatesByLocationQuery = {
+  __typename?: 'query_root'
+  states: Array<{
+    __typename?: 'location_stats'
+    id: string
+    lat: any
+    lng: any
+    priceSqft: any
+    totalHomes: any
+  }>
 }
 
 export type SearchHomesByLocationDetailedQueryVariables = Exact<{
@@ -3109,6 +3051,139 @@ export type GetHomeByIdQuery = {
         sqft: number
         bath: number
         beds: number
+        address: string
+        style: string
+      }
+    | null
+    | undefined
+}
+
+export type GetRegionByIdQueryVariables = Exact<{
+  id: Scalars['String']
+}>
+
+export type GetRegionByIdQuery = {
+  __typename?: 'query_root'
+  location_stats_by_pk?:
+    | {
+        __typename?: 'location_stats'
+        id: string
+        totalHomes: any
+        bedsPrice: any
+      }
+    | null
+    | undefined
+}
+
+export type InsertUserHomeMutationVariables = Exact<{
+  hId: Scalars['Int']
+  uid: Scalars['String']
+  type: User_Homes_Types_Enum
+}>
+
+export type InsertUserHomeMutation = {
+  __typename?: 'mutation_root'
+  insert_user_homes_one?:
+    | {
+        __typename?: 'user_homes'
+        id: number
+        type: User_Homes_Types_Enum
+        uid: string
+        hId: number
+      }
+    | null
+    | undefined
+}
+
+export type GetWishlistedHomesQueryVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type GetWishlistedHomesQuery = {
+  __typename?: 'query_root'
+  wishlisted: Array<{ __typename?: 'user_homes'; id: number; hId: number }>
+}
+
+export type RemoveWishlistMutationVariables = Exact<{
+  id: Scalars['Int']
+}>
+
+export type RemoveWishlistMutation = {
+  __typename?: 'mutation_root'
+  update_user_homes_by_pk?:
+    | {
+        __typename?: 'user_homes'
+        type: User_Homes_Types_Enum
+        id: number
+        hId: number
+      }
+    | null
+    | undefined
+}
+
+export type GetHomeQueryVariables = Exact<{
+  id: Scalars['Int']
+}>
+
+export type GetHomeQuery = {
+  __typename?: 'query_root'
+  homes_by_pk?:
+    | {
+        __typename?: 'homes'
+        address: string
+        bath: number
+        beds: number
+        city: string
+        createdAt: any
+        description: string
+        facts: string
+        features: string
+        id: number
+        lat: number
+        lng: number
+        lotSize: number
+        price: number
+        priceSqft: number
+        sqft: number
+        state: string
+        style: string
+        updatedAt: any
+        yearBuilt: any
+        zipcode: string
+      }
+    | null
+    | undefined
+}
+
+export type InsertHomeMutationVariables = Exact<{
+  object: Homes_Insert_Input
+}>
+
+export type InsertHomeMutation = {
+  __typename?: 'mutation_root'
+  insert_homes_one?:
+    | {
+        __typename?: 'homes'
+        address: string
+        bath: number
+        beds: number
+        city: string
+        createdAt: any
+        description: string
+        facts: string
+        features: string
+        id: number
+        lat: number
+        lng: number
+        lotSize: number
+        price: number
+        priceSqft: number
+        sqft: number
+        state: string
+        style: string
+        updatedAt: any
+        yearBuilt: any
+        zipcode: string
       }
     | null
     | undefined
@@ -3117,12 +3192,20 @@ export type GetHomeByIdQuery = {
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
-    searchCities: 'searchCities',
     getCities: 'getCities',
-    SearchPropertiesByLocation: 'SearchPropertiesByLocation',
     SearchHomesByLocation: 'SearchHomesByLocation',
+    SearchCitiesByLocation: 'SearchCitiesByLocation',
+    SearchStatesByLocation: 'SearchStatesByLocation',
     SearchHomesByLocationDetailed: 'SearchHomesByLocationDetailed',
     GetHomeById: 'GetHomeById',
+    GetRegionById: 'GetRegionById',
+    GetWishlistedHomes: 'GetWishlistedHomes',
+    GetHome: 'GetHome',
+  },
+  Mutation: {
+    InsertUserHome: 'InsertUserHome',
+    RemoveWishlist: 'RemoveWishlist',
+    InsertHome: 'InsertHome',
   },
 }
 
@@ -3140,24 +3223,6 @@ export function useMyQueryQuery(
 ) {
   return Urql.useQuery<MyQueryQuery>({ query: MyQueryDocument, ...options })
 }
-export const SearchCitiesDocument = /*#__PURE__*/ gql`
-  query searchCities($search: String!) {
-    search_cities(args: { search: $search }) {
-      lat
-      lng
-      displayName
-    }
-  }
-`
-
-export function useSearchCitiesQuery(
-  options: Omit<Urql.UseQueryArgs<SearchCitiesQueryVariables>, 'query'> = {}
-) {
-  return Urql.useQuery<SearchCitiesQuery>({
-    query: SearchCitiesDocument,
-    ...options,
-  })
-}
 export const GetCitiesDocument = /*#__PURE__*/ gql`
   query getCities {
     cities(limit: 10) {
@@ -3174,46 +3239,6 @@ export function useGetCitiesQuery(
   options: Omit<Urql.UseQueryArgs<GetCitiesQueryVariables>, 'query'> = {}
 ) {
   return Urql.useQuery<GetCitiesQuery>({ query: GetCitiesDocument, ...options })
-}
-export const SearchPropertiesByLocationDocument = /*#__PURE__*/ gql`
-  query SearchPropertiesByLocation(
-    $args: search_properties_by_location4_args!
-    $distinct_on: [properties_select_column!]
-    $limit: Int
-    $offset: Int
-    $order_by: [properties_order_by!]
-    $where: properties_bool_exp
-  ) {
-    search_properties_by_location4(
-      args: $args
-      distinct_on: $distinct_on
-      limit: $limit
-      offset: $offset
-      order_by: $order_by
-      where: $where
-    ) {
-      id
-      bath
-      beds
-      address
-      location
-      price
-      zipcode
-      sqft
-    }
-  }
-`
-
-export function useSearchPropertiesByLocationQuery(
-  options: Omit<
-    Urql.UseQueryArgs<SearchPropertiesByLocationQueryVariables>,
-    'query'
-  > = {}
-) {
-  return Urql.useQuery<SearchPropertiesByLocationQuery>({
-    query: SearchPropertiesByLocationDocument,
-    ...options,
-  })
 }
 export const SearchHomesByLocationDocument = /*#__PURE__*/ gql`
   query SearchHomesByLocation(
@@ -3233,6 +3258,7 @@ export const SearchHomesByLocationDocument = /*#__PURE__*/ gql`
       id
       lat
       lng
+      style
     }
   }
 `
@@ -3245,6 +3271,60 @@ export function useSearchHomesByLocationQuery(
 ) {
   return Urql.useQuery<SearchHomesByLocationQuery>({
     query: SearchHomesByLocationDocument,
+    ...options,
+  })
+}
+export const SearchCitiesByLocationDocument = /*#__PURE__*/ gql`
+  query SearchCitiesByLocation($limit: Int, $where: location_stats_bool_exp) {
+    cities: location_stats(
+      limit: $limit
+      where: $where
+      order_by: { totalHomes: desc_nulls_last }
+    ) {
+      id
+      lat
+      lng
+      priceSqft
+      totalHomes
+    }
+  }
+`
+
+export function useSearchCitiesByLocationQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SearchCitiesByLocationQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<SearchCitiesByLocationQuery>({
+    query: SearchCitiesByLocationDocument,
+    ...options,
+  })
+}
+export const SearchStatesByLocationDocument = /*#__PURE__*/ gql`
+  query SearchStatesByLocation($limit: Int, $where: location_stats_bool_exp) {
+    states: location_stats(
+      limit: $limit
+      where: $where
+      order_by: { totalHomes: desc_nulls_last }
+    ) {
+      id
+      lat
+      lng
+      priceSqft
+      totalHomes
+    }
+  }
+`
+
+export function useSearchStatesByLocationQuery(
+  options: Omit<
+    Urql.UseQueryArgs<SearchStatesByLocationQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<SearchStatesByLocationQuery>({
+    query: SearchStatesByLocationDocument,
     ...options,
   })
 }
@@ -3292,6 +3372,8 @@ export const GetHomeByIdDocument = /*#__PURE__*/ gql`
       sqft
       bath
       beds
+      address
+      style
     }
   }
 `
@@ -3299,8 +3381,160 @@ export const GetHomeByIdDocument = /*#__PURE__*/ gql`
 export function useGetHomeByIdQuery(
   options: Omit<Urql.UseQueryArgs<GetHomeByIdQueryVariables>, 'query'> = {}
 ) {
+  console.log('useGetHomeByIdQuery running...')
   return Urql.useQuery<GetHomeByIdQuery>({
     query: GetHomeByIdDocument,
     ...options,
   })
+}
+
+export const GetRegionByIdDocument = /*#__PURE__*/ gql`
+  query GetRegionById($id: String!) {
+    location_stats_by_pk(id: $id) {
+      id
+      totalHomes
+      bedsPrice
+    }
+  }
+`
+
+export function useGetRegionByIdQuery(
+  options: Omit<Urql.UseQueryArgs<GetRegionByIdQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetRegionByIdQuery>({
+    query: GetRegionByIdDocument,
+    ...options,
+  })
+}
+export const InsertUserHomeDocument = /*#__PURE__*/ gql`
+  mutation InsertUserHome(
+    $hId: Int!
+    $uid: String!
+    $type: user_homes_types_enum!
+  ) {
+    insert_user_homes_one(
+      object: { hId: $hId, uid: $uid, type: $type }
+      on_conflict: {
+        constraint: user_homes_home_id_uid_key
+        update_columns: [hId, type]
+      }
+    ) {
+      id
+      type
+      uid
+      hId
+    }
+  }
+`
+
+export function useInsertUserHomeMutation() {
+  return Urql.useMutation<
+    InsertUserHomeMutation,
+    InsertUserHomeMutationVariables
+  >(InsertUserHomeDocument)
+}
+export const GetWishlistedHomesDocument = /*#__PURE__*/ gql`
+  query GetWishlistedHomes($uid: String!) {
+    wishlisted: user_homes(
+      where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+    ) {
+      id
+      hId
+    }
+  }
+`
+
+export function useGetWishlistedHomesQuery(
+  options: Omit<
+    Urql.UseQueryArgs<GetWishlistedHomesQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<GetWishlistedHomesQuery>({
+    query: GetWishlistedHomesDocument,
+    ...options,
+  })
+}
+export const RemoveWishlistDocument = /*#__PURE__*/ gql`
+  mutation RemoveWishlist($id: Int!) {
+    update_user_homes_by_pk(
+      pk_columns: { id: $id }
+      _set: { type: REMOVED_FROM_WISHLIST }
+    ) {
+      type
+      id
+      hId
+    }
+  }
+`
+
+export function useRemoveWishlistMutation() {
+  return Urql.useMutation<
+    RemoveWishlistMutation,
+    RemoveWishlistMutationVariables
+  >(RemoveWishlistDocument)
+}
+export const GetHomeDocument = /*#__PURE__*/ gql`
+  query GetHome($id: Int!) {
+    homes_by_pk(id: $id) {
+      address
+      bath
+      beds
+      city
+      createdAt
+      description
+      facts
+      features
+      id
+      lat
+      lng
+      lotSize
+      price
+      priceSqft
+      sqft
+      state
+      style
+      updatedAt
+      yearBuilt
+      zipcode
+    }
+  }
+`
+
+export function useGetHomeQuery(
+  options: Omit<Urql.UseQueryArgs<GetHomeQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetHomeQuery>({ query: GetHomeDocument, ...options })
+}
+export const InsertHomeDocument = /*#__PURE__*/ gql`
+  mutation InsertHome($object: homes_insert_input!) {
+    insert_homes_one(object: $object) {
+      address
+      bath
+      beds
+      city
+      createdAt
+      description
+      facts
+      features
+      id
+      lat
+      lng
+      lotSize
+      price
+      priceSqft
+      sqft
+      state
+      style
+      updatedAt
+      yearBuilt
+      zipcode
+    }
+  }
+`
+
+export function useInsertHomeMutation() {
+  return Urql.useMutation<InsertHomeMutation, InsertHomeMutationVariables>(
+    InsertHomeDocument
+  )
 }

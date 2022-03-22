@@ -13,7 +13,7 @@ const Image = (props: IImageProps) => {
   const [imgSrc, setImgSrc] = useState(src)
 
   return (
-    <div className={`relative w-full ${className} overflow-hidden`}>
+    <div className={`relative overflow-hidden ${className}`}>
       <NextImage
         {...rest}
         alt={alt}

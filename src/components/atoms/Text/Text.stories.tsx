@@ -14,14 +14,13 @@ const Template: ComponentStory<typeof Text> = ({
   weight,
   children,
 }) => (
-  <div>
-    {/* The hrs are for showing the margins */}
+  <>
     <hr className='border-gray-600' />
     <Text size={size} mb={mb} muted={muted} weight={weight}>
       {children}
     </Text>
     <hr className='border-gray-600' />
-  </div>
+  </>
 )
 
 export const Primary = Template.bind({})

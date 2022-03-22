@@ -1,11 +1,13 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { mount } from '@cypress/react'
+import { sampleAgentProps } from 'src/components/organisms/AgentCard/AgentCard.stories'
 import AgentCard from './AgentCard'
 
 describe('<Posts />', () => {
   beforeEach(() => {
     // given
-    mount(<AgentCard />)
+    mount(<AgentCard {...sampleAgentProps} />)
   })
 
   it('renders agent data', () => {

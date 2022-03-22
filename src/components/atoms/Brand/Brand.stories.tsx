@@ -10,5 +10,7 @@ export default {
 const Template: ComponentStory<typeof Brand> = (args) => <Brand {...args} />
 
 export const Primary = Template.bind({})
-Primary.args = {}
-Primary.parameters = {}
+export const Red = Template.bind({})
+Red.args = {
+  className: 'fill-red-600',
+}

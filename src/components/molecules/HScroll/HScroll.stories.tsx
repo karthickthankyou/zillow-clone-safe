@@ -1,5 +1,6 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import Image from 'src/components/atoms/Image'
 import HScroll from './HScroll'
 
 export default {
@@ -7,106 +8,139 @@ export default {
   component: HScroll,
 } as ComponentMeta<typeof HScroll>
 
-const childrenItems: ReactElement[] = [
-  <div key='Hello' className='px-5 py-2 bg-blue-200 rounded-full'>
-    Hello
-  </div>,
-  <div key='World' className='px-5 py-2 bg-blue-200 rounded-full'>
-    World
-  </div>,
-  <div key='!</' className='px-5 py-2 bg-blue-200 rounded-full'>
-    !
-  </div>,
-  <div key='How' className='px-5 py-2 bg-blue-200 rounded-full'>
-    How
-  </div>,
-  <div key='are' className='px-5 py-2 bg-blue-200 rounded-full'>
-    are
-  </div>,
-  <div key='you' className='px-5 py-2 bg-blue-200 rounded-full'>
-    you
-  </div>,
-  <div key='?</' className='px-5 py-2 bg-blue-200 rounded-full'>
-    ?
-  </div>,
-  <div key='I' className='px-5 py-2 bg-blue-200 rounded-full'>
-    I
-  </div>,
-  <div key='am' className='px-5 py-2 bg-blue-200 rounded-full'>
-    am
-  </div>,
-  <div key='fine' className='px-5 py-2 bg-blue-200 rounded-full'>
-    fine
-  </div>,
-  <div key='Thank' className='px-5 py-2 bg-blue-200 rounded-full'>
-    Thank
-  </div>,
-  <div key='you' className='px-5 py-2 bg-blue-200 rounded-full'>
-    you
-  </div>,
-  <div key='Bye' className='px-5 py-2 bg-blue-200 rounded-full'>
-    Bye
-  </div>,
+const data = [
+  'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640617959/nike/house1_tmtonc.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640674085/nike/villas_xev2wm.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640617959/nike/house1_tmtonc.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640674085/nike/villas_xev2wm.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640617959/nike/house1_tmtonc.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640674085/nike/villas_xev2wm.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640617959/nike/house1_tmtonc.jpg',
+  'https://res.cloudinary.com/thankyou/image/upload/v1640674085/nike/villas_xev2wm.jpg',
 ]
 
-const Template: ComponentStory<typeof HScroll> = () => (
-  <HScroll>
-    <HScroll.RightArrow className='absolute left-0 h-full '>
-      <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
-        &lt;
-      </div>
-    </HScroll.RightArrow>
-    <HScroll.LeftArrow className='absolute right-0 h-full'>
-      <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
-        &gt;
-      </div>
-    </HScroll.LeftArrow>
-    <HScroll.Body>{[<div key='1'>Helo</div>]}</HScroll.Body>
-  </HScroll>
+const textData = [
+  {
+    text: `Today, my son asked "Can I have a book mark?" and I burst into tears.`,
+    punch: `11 years old and he still doesn't know my name is Brian.`,
+  },
+  {
+    text: `To the guy who invented zero...`,
+    punch: 'thanks for nothing.',
+  },
+  { text: `Mountains aren't just funny`, punch: 'they are hill areas' },
+  {
+    text: `Thanks for explaining the word "many" to me.`,
+    punch: 'It means a lot.',
+  },
+  {
+    text: `I used to be a banker,`,
+    punch: ' but I lost interest.',
+  },
+  {
+    text: `I got an A on my origami assignment`,
+    punch: 'when I turned my paper into my teacher',
+  },
+  {
+    text: `What creature is smarter than a talking parrot?`,
+    punch: 'A spelling bee.',
+  },
+
+  {
+    text: `What's red and bad for your teeth?`,
+    punch: 'A Brick.',
+  },
+]
+
+const TemplatePictures: ComponentStory<typeof HScroll> = () => (
+  <div className='p-12'>
+    <HScroll className='relative flex gap-2 h-28'>
+      <HScroll.Body>
+        {data.map((item) => (
+          <HScroll.Child key={item}>
+            <Image
+              src={item}
+              alt=''
+              className='h-full border border-white rounded-lg shadow-md w-44'
+            />
+          </HScroll.Child>
+        ))}
+      </HScroll.Body>
+      <HScroll.Arrow
+        className='absolute left-0 z-10 h-full -translate-x-1/2'
+        arrowClassName='shadow-md'
+      />
+      <HScroll.Arrow
+        right
+        className='absolute right-0 z-10 h-full translate-x-1/2'
+        arrowClassName='shadow-md'
+      />
+    </HScroll>
+  </div>
 )
+export const Pictures = TemplatePictures.bind({})
 
-const Template2: ComponentStory<typeof HScroll> = () => (
-  <HScroll>
-    <div className='flex py-2'>
-      <h2 className='font-bold'>Some Title</h2>
-      <div className='flex ml-auto space-x-2'>
-        <HScroll.RightArrow>
-          <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
-            &lt;
-          </div>
-        </HScroll.RightArrow>
-        <HScroll.LeftArrow>
-          <div className='flex items-center justify-center w-6 h-6 bg-white rounded-full'>
-            &gt;
-          </div>
-        </HScroll.LeftArrow>
+const TemplatePicturesArrowTop: ComponentStory<typeof HScroll> = () => (
+  <div className='p-12 '>
+    <HScroll>
+      <div className='flex justify-end space-x-2'>
+        <HScroll.Arrow
+          className='left-0 z-10 h-full '
+          arrowClassName='shadow-md'
+        />
+        <HScroll.Arrow
+          right
+          className='right-0 z-10 h-full '
+          arrowClassName='shadow-md'
+        />
       </div>
-    </div>
-    <HScroll.Body className='pb-24'>
-      {[
-        <div key='1'>Helo</div>,
-        <div key='2'>Helo 2</div>,
-        <div key='3'>Helo 3 </div>,
-        <div key='4'>Helo 4</div>,
-        <div key='5'>Helo 5</div>,
-        <div key='6'>Helo 6</div>,
-        <div key='7'>Helo 7</div>,
-        <div key='8'>Helo 8</div>,
-        <div key='9'>Helo 9</div>,
-        <div key='10'>Helo 10</div>,
-      ]}
-    </HScroll.Body>
-  </HScroll>
+      <HScroll.Body className='h-64 gap-2'>
+        {data.map((item) => (
+          <HScroll.Child key={item}>
+            <Image
+              src={item}
+              alt=''
+              className='h-full border border-white rounded-lg shadow-md w-44'
+            />
+          </HScroll.Child>
+        ))}
+      </HScroll.Body>
+    </HScroll>
+  </div>
 )
+export const PicturesArrowsTop = TemplatePicturesArrowTop.bind({})
 
-export const Absolute = Template.bind({})
-Absolute.args = {
-  children: childrenItems,
-}
-Absolute.parameters = {}
-
-export const Relative = Template2.bind({})
-Relative.args = {
-  children: childrenItems,
-}
-Relative.parameters = {}
+const TemplateText: ComponentStory<typeof HScroll> = () => (
+  <div className='p-12 '>
+    <HScroll className=''>
+      <div className='flex justify-end space-x-2'>
+        <HScroll.Arrow
+          distance={-240}
+          className='left-0 z-10 h-full '
+          arrowClassName='shadow-md'
+        />
+        <HScroll.Arrow
+          distance={-240}
+          right
+          className='right-0 z-10 h-full '
+          arrowClassName='shadow-md'
+        />
+      </div>
+      <HScroll.Body className='gap-2 mb-6'>
+        {textData.map((item) => (
+          <HScroll.Child key={item.text} className='pb-6'>
+            <div className='max-w-xs p-3 border border-white rounded shadow-lg '>
+              <div className='text-lg'>{item.text}</div>
+              <div className='mt-2 text-sm text-gray-600'>{item.punch}</div>
+            </div>
+          </HScroll.Child>
+        ))}
+      </HScroll.Body>
+    </HScroll>
+  </div>
+)
+export const Text = TemplateText.bind({})

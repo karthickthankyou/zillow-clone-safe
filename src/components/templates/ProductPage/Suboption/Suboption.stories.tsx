@@ -12,5 +12,8 @@ const Template: ComponentStory<typeof Suboption> = (args) => (
 )
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  title: 'Sample title',
+  value: 'Sample value',
+}
 Primary.parameters = {}

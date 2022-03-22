@@ -1,7 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
-import { AsyncUser, User } from '../../types'
+import { RootState } from '..'
+import { AsyncData, AsyncUser, User } from '../../types'
 import {
   signup,
   signin,
@@ -10,10 +11,21 @@ import {
   googleSignin,
 } from './userActions'
 
-const initialState: AsyncUser = {
+type Claims = {
+  'x-hasura-default-role': string
+  'x-hasura-user-id': string
+  'x-hasura-allowed-roles': string[]
+}
+
+export type UserSliceType = AsyncData<{
+  user: User | null
+  claims: Claims | null
+}>
+
+export const initialState: UserSliceType = {
   data: {
-    uid: null,
-    displayName: null,
+    user: null,
+    claims: null,
   },
   fulfilled: true,
   loading: false,
@@ -42,9 +54,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<User | null>) => {
-      state.data.uid = action.payload?.uid || null
-      state.data.displayName = action.payload?.displayName || null
+    setUser: (state, action: PayloadAction<UserSliceType['data']>) => {
+      state.data = action.payload
       state.fulfilled = true
       state.loading = false
       state.error = false
@@ -52,7 +63,7 @@ export const userSlice = createSlice({
 
     resetUser: () => initialState,
   },
-  extraReducers: {
+  extraReducers: () => ({
     // We manage only the response status here. The setUser is set from the auth listener.
 
     // Default extra reducer will look like.
@@ -90,8 +101,14 @@ export const userSlice = createSlice({
     //     googleSignin.pending,
     //   ].map((key) => [key.toString(), setStatus({ loading: true })])
     // ),
-  },
+  }),
 })
 export const { setUser } = userSlice.actions
+
+export const selectUid = (state: RootState) => state.user.data.user?.uid
+export const selectDisplayName = (state: RootState) =>
+  state.user.data.user?.displayName
+export const selectUserRoles = (state: RootState) =>
+  state.user.data.claims?.['x-hasura-allowed-roles']
 
 export default userSlice.reducer

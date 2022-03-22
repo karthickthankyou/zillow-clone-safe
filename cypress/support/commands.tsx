@@ -26,20 +26,39 @@
 
 import '@testing-library/cypress/add-commands'
 
-import { mount as cypressMount } from '@cypress/react'
+import { mount as cypressMount, MountOptions } from '@cypress/react'
 import { Provider as ReduxProvider } from 'react-redux'
-import { Provider } from 'urql'
-import { client } from 'src/config/urql'
-import { store as actualStore } from 'src/store'
-import { ReactElement } from 'react'
+import { Provider as UrqlProvider, Client as UrqlClient } from 'urql'
+import { client as urqlClient } from 'src/config/urqlClientWonka'
+import { RootState, store as actualStore } from 'src/store'
+import { Children } from 'src/types'
+import { EnhancedStore } from '@reduxjs/toolkit'
 
-Cypress.Commands.add('mount', (children: ReactElement) =>
-  cypressMount(
-    <Provider value={client}>
-      <ReduxProvider store={actualStore}>{children}</ReduxProvider>
-    </Provider>
-  )
-)
+/**
+ * About cypress mount
+ * https://github.com/cypress-io/cypress/blob/develop/npm/react/docs/providers-and-composition.md
+ */
+
+export type CustomMountOptions = MountOptions & {
+  client: UrqlClient
+  reduxStore: EnhancedStore<RootState>
+}
+
+export const createMount =
+  (
+    { client, reduxStore, ...mountOpts }: CustomMountOptions = {
+      client: urqlClient,
+      reduxStore: actualStore,
+    }
+  ) =>
+  (children: Children) => {
+    cypressMount(
+      <UrqlProvider value={client}>
+        <ReduxProvider store={reduxStore}>{children}</ReduxProvider>
+      </UrqlProvider>,
+      mountOpts
+    )
+  }
 
 Cypress.Commands.add(
   'reactComponent',
@@ -52,32 +71,12 @@ Cypress.Commands.add(
         `cy.component() requires element of length 1 but got ${$el.length}`
       )
     }
-    console.log('$el', $el)
+
     // Query for key starting with __reactInternalInstance$ for React v16.x
-    const key = Object.keys($el.get(0)).find((key) =>
+    const reactFiber = Object.keys($el.get(0)).find((key) =>
       key.startsWith('__reactFiber$')
     )
-    const domFiber = $el.prop(key)
+    const domFiber = $el.prop(reactFiber!)
     return domFiber.child.memoizedProps.ownerState
   }
-)
-
-Cypress.Commands.add('setSlider', { prevSubject: 'element' }, (subject) => {
-  const key = Object.keys(subject.get(0)).find((key) =>
-    key.startsWith('__reactFiber$')
-  )
-  const fiberNode = subject.prop(key)
-  // fiberNode.child.memoizedProps.onChange(null, value)
-  return subject
-})
-
-// cy.findByTestId('transaction-list-filter-amount-range-button')
-//   .scrollIntoView()
-//   .click({ force: true })
-Cypress.Commands.add('setTransactionAmountRange', (min, max) =>
-  cy
-    .findByTestId('slider')
-    .reactComponent()
-    .its('memoizedProps')
-    .invoke('onChange', null, [min, max])
 )

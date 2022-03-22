@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { ReactElement } from 'react'
 
 export interface IBadgeProps {
@@ -11,18 +10,18 @@ const Badge = ({ children, size = 'md', variant = 'gray' }: IBadgeProps) => {
   const sizeCls = {
     sm: 'px-2  text-xs',
     md: 'px-2 py-1.5 text-sm',
-    lg: 'px-3 py-2 text-sm',
+    lg: 'px-3 py-1.5',
   }
   const variantCls = {
-    primary: 'bg-primary-50 border border-primary-200 ',
-    gray: 'bg-gray-50 border border-gray-200 ',
-    red: 'bg-red-50 border border-red-200 ',
-    yellow: 'bg-yellow-50 border border-yellow-200  text-yellow-800',
-    green: 'bg-green-50 border border-green-200  text-green-800',
+    primary: 'bg-primary-100 border border-white shadow text-primary-700',
+    gray: 'bg-gray-100 border border-white shadow text-gray-700',
+    red: 'bg-red-100 border border-white shadow text-red-700',
+    yellow: 'bg-yellow-100 border border-white shadow  text-yellow-700',
+    green: 'bg-green-100 border border-white shadow  text-green-700',
   }
   return (
     <span
-      className={`transition-all py-1 px-2 items-center justify-center duration-300  rounded-full ${sizeCls[size]} ${variantCls[variant]}`}
+      className={`transition-all  py-1 px-2 items-center justify-center duration-300  rounded-full ${sizeCls[size]} ${variantCls[variant]}`}
     >
       {children}
     </span>

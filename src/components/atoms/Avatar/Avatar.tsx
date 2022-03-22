@@ -6,6 +6,7 @@ export interface IAvatarProps {
   count?: number
   rounded?: boolean
   shadow?: boolean
+  className?: string
 }
 
 const Avatar = ({
@@ -14,27 +15,16 @@ const Avatar = ({
   count = 0,
   rounded = false,
   shadow = false,
+  className,
 }: IAvatarProps) => {
   const sizeCls = {
-    sm: 'w-6 h-6',
+    sm: 'w-10 h-10',
     md: 'w-14 h-14',
     lg: 'w-20 h-20 p-0.5',
   }
   return (
-    <div className={` overflow-hidden p-1 inline-block relative `}>
-      {/* <div className={` ${sizeCls[size]}`}>
-        <Image
-          src={src}
-          alt=''
-          layout='fill'
-          placeholder='blur' // this is new!
-          className={`object-cover ${rounded ? 'rounded-full' : 'rounded'} ${
-            shadow && 'shadow-lg'
-          } `}
-        />
-      </div> */}
-
-      <div className={`${sizeCls[size]} overflow-hidden`}>
+    <div className={` overflow-hidden p-1 inline-block relative ${className}`}>
+      <div className={`${sizeCls[size]} overflow-hidden  `}>
         <Image
           src={src}
           alt=''

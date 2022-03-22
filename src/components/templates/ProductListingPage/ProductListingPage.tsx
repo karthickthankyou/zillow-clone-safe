@@ -3,8 +3,19 @@ import Mapbox from 'src/components/organisms/Mapbox'
 import ProductListingResult from 'src/components/organisms/ProductListingResults/ProductListingResults'
 import { NextSeo } from 'next-seo'
 import SearchHomesFilter from 'src/components/organisms/SearchHomesFilter'
+import {
+  HomeMarkers,
+  PanelContainer,
+  Panel,
+  Fetching,
+  Error,
+  CityMarkers,
+  StateMarkers,
+} from 'src/components/organisms/MapboxContent/MapboxContent'
 
-// Get search, lat, lng from query string
+import { MapProvider } from 'src/store/map/mapContext'
+import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
+
 const ProductListingPage = () => (
   <div>
     <NextSeo
@@ -13,10 +24,25 @@ const ProductListingPage = () => (
     />
     <div className='container mx-auto'>
       <SearchHomesFilter />
-      <div className='flex gap-5'>
-        <div className='flex-1 hidden lg:block'>
-          <div className='sticky top-0 col-span-1 overflow-hidden rounded'>
-            <Mapbox />
+      <div className='flex flex-col gap-5 lg:flex-row'>
+        <div className='flex-1 lg:block'>
+          <div className='sticky top-0 w-full col-span-1 overflow-hidden rounded h-screen50 lg:h-screen '>
+            <MapProvider className='h-full'>
+              <Mapbox>
+                <HomeMarkers />
+                <CityMarkers />
+                <StateMarkers />
+                <PanelContainer>
+                  <Panel position='center-bottom'>
+                    <Fetching />
+                    <Error />
+                  </Panel>
+                  <Panel position='left-top'>
+                    <ZoomControls />
+                  </Panel>
+                </PanelContainer>
+              </Mapbox>
+            </MapProvider>
           </div>
         </div>
         <div className='flex-1'>

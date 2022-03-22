@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import Link from 'src/components/atoms/Link'
+
 import PopoverParent, {
   PopoverButton,
   PopoverOverlay,
@@ -15,21 +15,30 @@ export default {
 const Template: ComponentStory<typeof PopoverParent> = () => (
   <div className='relative'>
     <PopoverParent>
-      <PopoverButton>Hello</PopoverButton>
-      <PopoverOverlay />
+      <PopoverButton>Menu button</PopoverButton>
       <PopoverPanel>
-        <Link href='/'>Helo World</Link>
-        <Link href='/'>Helo World 2</Link>
-        <Link href='/'>Helo World 3</Link>
-        <label htmlFor='checkbox'>
-          <input type='checkbox' />
-          Click me
-        </label>
+        <div className='max-w-sm'>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla
+          placeat nostrum natus!
+        </div>
+      </PopoverPanel>
+    </PopoverParent>
+  </div>
+)
+const WithOverlayTemplate: ComponentStory<typeof PopoverParent> = () => (
+  <div className='relative'>
+    <PopoverParent>
+      <PopoverOverlay />
+      <PopoverButton>Menu button</PopoverButton>
+      <PopoverPanel>
+        <div className='max-w-sm'>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla
+          placeat nostrum natus!
+        </div>
       </PopoverPanel>
     </PopoverParent>
   </div>
 )
 
 export const Primary = Template.bind({})
-Primary.args = {}
-Primary.parameters = {}
+export const WithOverlay = WithOverlayTemplate.bind({})

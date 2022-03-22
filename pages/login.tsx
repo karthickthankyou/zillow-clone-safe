@@ -1,15 +1,20 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import SignIn from 'src/components/templates/SignIn'
+import SignIn from 'src/components/templates/Signin'
+import { useRedirectLoggedInUsers } from 'src/hooks'
 
-const Login: NextPage = () => (
-  <div>
-    <NextSeo
-      title='Zillow clone - Login page'
-      description='This is the amazing sample page. A short description goes here which says what goes here.'
-    />
-    <SignIn />
-  </div>
-)
+const Login: NextPage = () => {
+  useRedirectLoggedInUsers()
+
+  return (
+    <div>
+      <NextSeo
+        title='Zillow clone - Login page'
+        description='This is the amazing sample page. A short description goes here which says what goes here.'
+      />
+      <SignIn />
+    </div>
+  )
+}
 
 export default Login

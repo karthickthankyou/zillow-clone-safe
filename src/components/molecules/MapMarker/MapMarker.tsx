@@ -1,32 +1,62 @@
 import { Marker } from 'react-map-gl'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
+import OfficeBuildingIcon from '@heroicons/react/solid/OfficeBuildingIcon'
+import {
+  SearchHomesByLocationQuery,
+  GetWishlistedHomesQuery,
+} from 'src/generated/graphql'
+import {
+  debouncedDispatch,
+  startLongHoverDispatch,
+  stopLongHoverDispatch,
+} from 'src/hooks'
+import { setViewportLocation } from 'src/store/map/mapSlice'
+import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 
 export interface IMapMarkerProps {
-  lat: number
-  lng: number
-  mouseHoverAction: () => void
-  mouseLeaveAction: () => void
+  home: SearchHomesByLocationQuery['homes'][0]
   highlighted?: boolean
+  wishlisted?: GetWishlistedHomesQuery['wishlisted'][0]
 }
 
-const MapMarker = ({
-  lat,
-  lng,
-  highlighted,
-  mouseHoverAction,
-  mouseLeaveAction,
-}: IMapMarkerProps) => (
-  <Marker latitude={lat} longitude={lng}>
-    <HomeIcon
-      onMouseOver={mouseHoverAction}
-      onMouseLeave={mouseLeaveAction}
-      className={`w-5 h-5 transition-all shadow-2xl cursor-pointer ease-in-out duration-500 relative ${
-        highlighted
-          ? 'text-primary-500 scale-150 opacity-100  border border-primary-500 rounded  '
-          : 'text-primary-900 opacity-70'
-      }`}
-    />
-  </Marker>
-)
+const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
+  let MarkerIcon = HomeIcon
+
+  if (['Coop', 'Apartment'].includes(home?.style || ''))
+    MarkerIcon = OfficeBuildingIcon
+
+  const highlightedClasses =
+    highlighted &&
+    'text-primary-700 scale-150 opacity-100  border border-primary-700 rounded bg-white'
+
+  const wishlistedClasses =
+    wishlisted && 'text-red-600 fill-red-600 scale-150 border-red-600 '
+
+  return (
+    <Marker latitude={home.lat} longitude={home.lng}>
+      <MarkerIcon
+        onMouseOver={() =>
+          startLongHoverDispatch(setHighlightedHomeId(home.id))
+        }
+        onTouchStart={() =>
+          startLongHoverDispatch(setHighlightedHomeId(home.id))
+        }
+        onMouseOut={() => stopLongHoverDispatch()}
+        // onTouchEnd={() => console.log('Touch end')}
+        // onTouchStart={() => console.log('Touched start')}
+        onClick={() => {
+          debouncedDispatch(
+            setViewportLocation({
+              latitude: home.lat,
+              longitude: home.lng,
+            })
+          )
+        }}
+        // onMouseLeave={() => debouncedDispatch(setHighlightedHomeId(null))}
+        className={`w-5 h-5 opacity-90  text-primary-900 transition-all shadow-2xl cursor-pointer ease-in-out duration-200 relative ${highlightedClasses} ${wishlistedClasses}`}
+      />
+    </Marker>
+  )
+}
 
 export default MapMarker

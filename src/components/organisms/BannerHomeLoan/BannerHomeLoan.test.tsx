@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import BannerHomeLoan from './BannerHomeLoan'
+import BannerSplit from './BannerHomeLoan'
 
 describe('BannerHomeLoan Component', () => {
   test('BannerHomeLoan renders', () => {
-    render(<BannerHomeLoan title='' description='' btnText='' />)
+    render(<BannerSplit>Hello World</BannerSplit>)
   })
 })

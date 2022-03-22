@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import Accordion from './Accordion'
 
@@ -7,19 +7,12 @@ export default {
   component: Accordion,
 } as ComponentMeta<typeof Accordion>
 
-const Wrapper = ({ children }: { children: ReactElement | ReactElement[] }) => (
-  <div className='max-w-md p-3 mx-auto mt-12 rounded-lg shadow-lg'>
-    {children}
-  </div>
-)
 const Template: ComponentStory<typeof Accordion> = (args) => (
-  <Wrapper>
-    <Accordion {...args} />
-  </Wrapper>
+  <Accordion {...args} />
 )
 
 const AccordionListTemplate: ComponentStory<typeof Accordion> = () => (
-  <Wrapper>
+  <>
     <Accordion title='Title 1'>
       <div>Body 1</div>
     </Accordion>
@@ -29,10 +22,10 @@ const AccordionListTemplate: ComponentStory<typeof Accordion> = () => (
     <Accordion title='Title 3'>
       <div>Body 3</div>
     </Accordion>
-  </Wrapper>
+  </>
 )
 const AccordionListTemplateLoose: ComponentStory<typeof Accordion> = () => (
-  <Wrapper>
+  <>
     <Accordion title='Title 1' className='py-3'>
       <div>Body 1</div>
     </Accordion>
@@ -42,52 +35,16 @@ const AccordionListTemplateLoose: ComponentStory<typeof Accordion> = () => (
     <Accordion title='Title 3' className='py-3'>
       <div>Body 3</div>
     </Accordion>
-  </Wrapper>
+  </>
 )
 const NestedAccordionListTemplate: ComponentStory<typeof Accordion> = () => (
-  <Wrapper>
-    <Accordion title='I have an accodion' className='py-3'>
-      <Accordion title='Click me too.' className='py-3'>
-        <Accordion title='I have a simple body. 🙄' className='py-3'>
-          <div>Body 1</div>
-        </Accordion>
-        <Accordion title='Title 2' className='py-3'>
-          <div>Body 2</div>
-        </Accordion>
-        <Accordion title='Title 3' className='py-3'>
-          <div>Body 3</div>
-        </Accordion>
-      </Accordion>
-      <Accordion title='Title 2' className='py-3'>
-        <div>Body 2</div>
-      </Accordion>
-      <Accordion title='Title 3' className='py-3'>
-        <div>Body 3</div>
+  <Accordion title='I have an accodion inside me!' className='py-3'>
+    <Accordion title='I have one too.' className='py-3'>
+      <Accordion title='I have nothing. 🙄' className='py-3'>
+        <div>You have me... 😟</div>
       </Accordion>
     </Accordion>
-    <Accordion title='Title 2' className='py-3'>
-      <Accordion title='Title 1' className='py-3'>
-        <div>Body 1</div>
-      </Accordion>
-      <Accordion title='Title 2' className='py-3'>
-        <div>Body 2</div>
-      </Accordion>
-      <Accordion title='Title 3' className='py-3'>
-        <div>Body 3</div>
-      </Accordion>
-    </Accordion>
-    <Accordion title='Title 3' className='py-3'>
-      <Accordion title='Title 1' className='py-3'>
-        <div>Body 1</div>
-      </Accordion>
-      <Accordion title='Title 2' className='py-3'>
-        <div>Body 2</div>
-      </Accordion>
-      <Accordion title='Title 3' className='py-3'>
-        <div>Body 3</div>
-      </Accordion>
-    </Accordion>
-  </Wrapper>
+  </Accordion>
 )
 
 export const Primary = Template.bind({})

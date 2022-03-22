@@ -7,9 +7,7 @@ export default {
   component: Badge,
 } as ComponentMeta<typeof Badge>
 
-const Template: ComponentStory<typeof Badge> = ({ children, size }) => (
-  <Badge size={size}>{children}</Badge>
-)
+const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />
 
 export const Primary = Template.bind({})
 Primary.args = {

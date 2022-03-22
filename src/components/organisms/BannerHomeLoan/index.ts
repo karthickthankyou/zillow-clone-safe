@@ -1,3 +1,3 @@
-import BannerHomeLoan from './BannerHomeLoan'
+import BannerSplit from './BannerHomeLoan'
 
-export default BannerHomeLoan
+export default BannerSplit

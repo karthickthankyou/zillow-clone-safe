@@ -3,15 +3,6 @@ import * as React from 'react'
 import Autocomplete, { AutocompleteProps } from '@mui/material/Autocomplete'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 
-// export interface IAutocompleteProps {
-//   value?: string
-//   options: string[]
-//   onChange: AutocompleteProps<string, false, false, false>['onChange']
-//   onInputChange: AutocompleteProps<string, false, false, false>['onInputChange']
-//   className?: string
-//   loading?: boolean
-// }
-
 const AutocompleteComponent = <
   T,
   Multiple extends boolean | undefined,
@@ -25,17 +16,13 @@ const AutocompleteComponent = <
 ) => (
   <Autocomplete
     classes={{
-      listbox: 'p-0 bg-opacity-90 backdrop-filter backdrop-blur max-h-64',
+      listbox:
+        'p-0 bg-opacity-90 bg-white/50 backdrop-filter backdrop-blur max-h-64',
       option: 'hover:bg-white bg-opacity-100',
-      paper: 'rounded-sm shadow-md border border-white mt-1 bg-transparent',
+      paper: 'rounded-md shadow-md border border-white mt-1 bg-transparent',
     }}
     handleHomeEndKeys
-    filterOptions={(x) => x}
-    // ListboxProps={{
-    //   style: {
-    //     maxHeight: '150px',
-    //   },
-    // }}
+    // filterOptions={(x) => x}
     renderInput={(params) => (
       <div ref={params.InputProps.ref} className='flex items-center w-full '>
         <input

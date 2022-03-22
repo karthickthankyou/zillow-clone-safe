@@ -8,13 +8,14 @@ interface IMyDialogProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   children: ReactElement | ReactElement[]
+  className?: string
 }
 
-const MyDialog = ({ open, setOpen, children }: IMyDialogProps) => (
+const MyDialog = ({ open, setOpen, children, className }: IMyDialogProps) => (
   <Transition appear show={open} as={Fragment}>
     <Dialog
       as='div'
-      className='fixed inset-0 z-10 overflow-y-auto'
+      className={`fixed inset-0 z-10 overflow-y-auto `}
       onClose={() => setOpen(false)}
     >
       <div className='relative min-h-screen px-4 text-center'>
@@ -27,7 +28,7 @@ const MyDialog = ({ open, setOpen, children }: IMyDialogProps) => (
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <Dialog.Overlay className='fixed inset-0' />
+          <Dialog.Overlay className='fixed inset-0 bg-black/20' />
         </Transition.Child>
 
         {/* This element is to trick the browser into centering the modal contents. */}
@@ -43,7 +44,9 @@ const MyDialog = ({ open, setOpen, children }: IMyDialogProps) => (
           leaveFrom='opacity-100 scale-100'
           leaveTo='opacity-0 scale-95'
         >
-          <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white rounded-sm shadow-xl '>
+          <div
+            className={`${className} inline-block w-full p-6 overflow-scroll text-left align-middle transition-all transform bg-white rounded-sm shadow-xl `}
+          >
             <button
               type='button'
               className='absolute top-0 right-0 flex items-center justify-center w-8 h-8'

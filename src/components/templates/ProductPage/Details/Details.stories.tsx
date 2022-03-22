@@ -10,5 +10,13 @@ export default {
 const Template: ComponentStory<typeof Details> = (args) => <Details {...args} />
 
 export const Primary = Template.bind({})
-Primary.args = {}
+Primary.args = {
+  title: 'Sample details',
+  content: [
+    {
+      title: 'Sample details',
+      content: 'Sample content',
+    },
+  ],
+}
 Primary.parameters = {}

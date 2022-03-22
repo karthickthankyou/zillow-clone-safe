@@ -1,42 +1,122 @@
 /* eslint-disable no-underscore-dangle */
 import { graphql, rest } from 'msw'
-import { Homes, namedOperations } from 'src/generated/graphql'
-import { getCitiesMockData, mockSearchCities } from './data/cities'
+import { getQueryParam } from 'src/lib/util'
 import {
-  searchHomesByLocationMockData,
-  searchHomesResultsMockData,
-  homesMockData,
-} from './data/homes'
+  namedOperations,
+  SearchCitiesByLocationQuery,
+  SearchCitiesByLocationQueryVariables,
+  SearchHomesByLocationDetailedQuery,
+  SearchHomesByLocationDetailedQueryVariables,
+  SearchHomesByLocationQuery,
+  SearchStatesByLocationQuery,
+  SearchStatesByLocationQueryVariables,
+  GetWishlistedHomesQuery,
+  GetWishlistedHomesQueryVariables,
+  GetHomeByIdQuery,
+  GetHomeByIdQueryVariables,
+  GetRegionByIdQuery,
+  GetRegionByIdQueryVariables,
+} from '../generated/graphql'
+import {
+  mockDataGetCities,
+  mockDataGetRegionById,
+  mockDataSearchCities,
+  mockDataSearchCitiesByLocation,
+  mockDataSearchStatesByLocation,
+} from './data/cities'
+import { homesMockData } from './data/homes'
 
 const zillowAPI = graphql.link(
   'https://zillow-karthick.herokuapp.com/v1/graphql'
 )
 
-const { SearchHomesByLocation, getCities, SearchHomesByLocationDetailed } =
-  namedOperations.Query
+// const {
+//   SearchHomesByLocation,
+//   getCities,
+//   SearchHomesByLocationDetailed,
+//   SearchCitiesByLocation,
+//   SearchStatesByLocation,
+// } = namedOperations.Query
 
-export const mockGetCities = zillowAPI.query(getCities, (req, res, ctx) =>
-  res(ctx.data(getCitiesMockData))
+const QUERY_NAMES = namedOperations.Query
+
+export const mockGetCities = zillowAPI.query(
+  QUERY_NAMES.getCities,
+  (req, res, ctx) => res(ctx.data(mockDataGetCities))
 )
 
-export const searchCities = rest.get(
+export const mockGetWishlistedHomes = zillowAPI.query<
+  GetWishlistedHomesQuery,
+  GetWishlistedHomesQueryVariables
+>(QUERY_NAMES.GetWishlistedHomes, (req, res, ctx) =>
+  res(ctx.data({ wishlisted: [] }))
+)
+
+export const mockGetHomeByIdQuery = zillowAPI.query<
+  GetHomeByIdQuery,
+  GetHomeByIdQueryVariables
+>(QUERY_NAMES.GetHomeById, (req, res, ctx) =>
+  res(
+    ctx.data({
+      homes_by_pk: {
+        price: 100000,
+        id: 10,
+        sqft: 1200,
+        bath: 8,
+        beds: 12,
+        address: '13, Main St',
+        style: 'Single Family',
+      },
+    })
+  )
+)
+export const mockGetHomeByIdQueryFetching = zillowAPI.query(
+  QUERY_NAMES.GetHomeById,
+  (req, res, ctx) => res(ctx.delay(1000 * 60 * 60 * 60), ctx.data([]))
+)
+export const mockGetHomeByIdQueryError = zillowAPI.query(
+  QUERY_NAMES.GetHomeById,
+  (req, res, ctx) => res(ctx.errors([{ message: 'Something went wrong...' }]))
+)
+
+export const mockGetRegionByIdQuery = zillowAPI.query<
+  GetRegionByIdQuery,
+  GetRegionByIdQueryVariables
+>(QUERY_NAMES.GetRegionById, (req, res, ctx) =>
+  res(ctx.data(mockDataGetRegionById))
+)
+
+export const mockGetRegionByIdQueryFetching = zillowAPI.query(
+  QUERY_NAMES.GetRegionById,
+  (req, res, ctx) => res(ctx.delay(1000 * 60 * 60 * 60), ctx.data([]))
+)
+export const mockGetRegionByIdQueryError = zillowAPI.query(
+  QUERY_NAMES.GetRegionById,
+  (req, res, ctx) => res(ctx.errors([{ message: 'Something went wrong...' }]))
+)
+
+export const mockSearchCities = rest.get(
   'https://api.mapbox.com/geocoding/v5/mapbox.places/:searchTerm.json',
   (req, res, ctx) => {
-    const { searchTerm } = req.params
-    console.log('searchTerm', searchTerm)
+    const searchTerm = getQueryParam(
+      req.params.searchTerm as string | string[]
+    )?.toLowerCase()
+    const result = mockDataSearchCities.features.filter((city) =>
+      city.place_name.toLowerCase().includes(searchTerm || '')
+    )
 
-    return res(ctx.json(mockSearchCities))
+    return res(ctx.json({ features: result }))
   }
 )
 
-const applyFilter = (allHomes: Partial<Homes>[], whereConditions: any) => {
-  const { id, lat, lng, beds, bath, price, sqft, yearBuilt } = whereConditions
+const applyFilter = (
+  allHomes: typeof homesMockData.homes,
+  whereConditions: any
+) => {
+  const { beds, bath, price, sqft, yearBuilt } = whereConditions
   let homes = allHomes
 
-  // if (lat)
   if (price)
-    // homes.filter(home=>)
-
     homes = homes.filter(
       (home) => home.price! >= price._gte && home.price! <= price._lte
     )
@@ -55,36 +135,77 @@ const applyFilter = (allHomes: Partial<Homes>[], whereConditions: any) => {
   return homes
 }
 
-export const mockSearchHomesByLocation = zillowAPI.query(
-  SearchHomesByLocation,
-  (req, res, ctx) => {
-    const { homes } = homesMockData
-    const filteredHomes = applyFilter(homes, req.variables.where)
-    return res(ctx.data({ homes: filteredHomes }))
-  }
-)
+export const mockSearchHomesByLocation = zillowAPI.query<
+  SearchHomesByLocationQuery,
+  SearchCitiesByLocationQueryVariables
+>(QUERY_NAMES.SearchHomesByLocation, (req, res, ctx) => {
+  const { homes } = homesMockData
+  const { where, limit } = req.variables
+  const filteredHomes = limit ? applyFilter(homes, where) : []
+  return res(ctx.data({ homes: filteredHomes }))
+})
+
+export const mockSearchCitiesByLocation = zillowAPI.query<
+  SearchCitiesByLocationQuery,
+  SearchCitiesByLocationQueryVariables
+>(QUERY_NAMES.SearchCitiesByLocation, (req, res, ctx) => {
+  const { cities } = mockDataSearchCitiesByLocation
+  const { limit } = req.variables
+  const filteredCities = limit ? cities : []
+  return res(ctx.data({ cities: filteredCities }))
+})
+
+export const mockSearchStatesByLocation = zillowAPI.query<
+  SearchStatesByLocationQuery,
+  SearchStatesByLocationQueryVariables
+>(QUERY_NAMES.SearchStatesByLocation, (req, res, ctx) => {
+  const { states } = mockDataSearchStatesByLocation
+  const { limit } = req.variables
+  const filteredStates = limit ? states : []
+  return res(ctx.data({ states: filteredStates }))
+})
 
 export const mockSearchHomesByLocationErrors = zillowAPI.query(
-  SearchHomesByLocation,
+  QUERY_NAMES.SearchHomesByLocation,
   (req, res, ctx) => res(ctx.errors([{ message: 'Something went wrong...' }]))
 )
 export const mockSearchHomesByLocationFetching = zillowAPI.query(
-  SearchHomesByLocation,
+  QUERY_NAMES.SearchHomesByLocation,
   (req, res, ctx) => res(ctx.delay(1000 * 60 * 60 * 60), ctx.data([]))
 )
 
-export const mockSearchHomesByLocationDetailed = zillowAPI.query(
-  SearchHomesByLocationDetailed,
-  (req, res, ctx) => {
-    const { homes } = homesMockData
-    const filteredHomes = applyFilter(homes, req.variables.where)
-    return res(ctx.data({ homes: filteredHomes }))
-  }
+export const mockSearchHomesByLocationDetailed = zillowAPI.query<
+  SearchHomesByLocationDetailedQuery,
+  SearchHomesByLocationDetailedQueryVariables
+>(QUERY_NAMES.SearchHomesByLocationDetailed, (req, res, ctx) => {
+  const { homes } = homesMockData
+  // const filteredHomes = applyFilter(homes, req.variables.where)
+  return res(ctx.data({ homes }))
+})
+
+export const mockInsertUserHome = zillowAPI.mutation(
+  'InsertUserHome',
+  (req, res, ctx) =>
+    res(
+      ctx.data({
+        user: {
+          sessionId: 'abc-123',
+        },
+      })
+    )
 )
 
 export const handlers = [
   mockGetCities,
+  mockGetWishlistedHomes,
+  mockGetHomeByIdQuery,
+  mockGetHomeByIdQueryFetching,
+  mockGetHomeByIdQueryError,
+  mockInsertUserHome,
   mockSearchHomesByLocation,
   mockSearchHomesByLocationDetailed,
-  searchCities,
+  mockSearchCitiesByLocation,
+  mockSearchStatesByLocation,
+  mockSearchCities,
+  mockGetRegionByIdQuery,
 ]

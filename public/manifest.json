@@ -4,8 +4,8 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Next boilerplate",
-  "short_name": "Next Boiler",
+  "name": "Zillow clone | Karthick Ragavendran",
+  "short_name": "Zillow clone",
   "description": "This fully loaded boilerplate should give you everything to start with next js. ",
   "icons": [
     {

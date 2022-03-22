@@ -1,16 +1,42 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Dispatch, Fragment, ReactElement, SetStateAction } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import Link from 'src/components/atoms/Link'
 import { XIcon } from '@heroicons/react/outline'
 
-export interface ISidebar2Props {
+export interface ISidebarProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  children: ReactElement | ReactElement[]
+  children: (string | ReactElement | null) | (string | ReactElement | null)[]
+  className?: string
 }
 
-const Sidebar2 = ({ open, setOpen, children }: ISidebar2Props) => (
+const Header = ({
+  children,
+  setOpen,
+}: Partial<Pick<ISidebarProps, 'children' | 'setOpen'>>) => (
+  <div className='flex items-center p-2 border-b'>
+    <div>{children}</div>
+    <button
+      type='button'
+      className='ml-auto text-gray-500 rounded-md hover:text-gray-500 focus:ring-2 focus:ring-indigo-500'
+      onClick={() => setOpen && setOpen(false)}
+    >
+      <XIcon className='w-6 h-6' aria-hidden='true' />
+    </button>
+  </div>
+)
+
+const Footer = ({ children }: Pick<ISidebarProps, 'children'>) => (
+  <div className='p-2 border-t'>{children}</div>
+)
+
+const Body = ({ children }: Pick<ISidebarProps, 'children'>) => (
+  <div className='flex flex-col flex-grow p-2 pb-12 overflow-y-scroll '>
+    {children}
+  </div>
+)
+
+const Sidebar = ({ open, setOpen, children }: ISidebarProps) => (
   <Transition.Root show={open} as={Fragment}>
     <Dialog
       as='div'
@@ -27,10 +53,10 @@ const Sidebar2 = ({ open, setOpen, children }: ISidebar2Props) => (
           leaveFrom='opacity-100'
           leaveTo='opacity-0'
         >
-          <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-25 backdrop-filter backdrop-blur-sm' />
+          <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm' />
         </Transition.Child>
 
-        <div className='fixed inset-y-0 right-0 flex max-w-full'>
+        <div className='fixed inset-y-0 right-0 flex max-w-full bg-white'>
           <Transition.Child
             as={Fragment}
             enter='transform transition ease-in-out duration-150'
@@ -40,29 +66,8 @@ const Sidebar2 = ({ open, setOpen, children }: ISidebar2Props) => (
             leaveFrom='translate-x-0'
             leaveTo='translate-x-full'
           >
-            <div className='w-screen max-w-md'>
-              <div className='flex items-center p-2 bg-white'>
-                <Link
-                  href='/'
-                  className='absolute font-black text-primary-600 '
-                >
-                  {/* ZILLOW */}
-                  <img
-                    src='https://s.zillowstatic.com/pfs/static/z-logo-default.svg'
-                    className='w-full h-full'
-                  />
-                </Link>
-                <button
-                  type='button'
-                  className='ml-auto text-gray-500 rounded-md hover:text-gray-500 focus:ring-2 focus:ring-indigo-500'
-                  onClick={() => setOpen(false)}
-                >
-                  <XIcon className='w-6 h-6' aria-hidden='true' />
-                </button>
-              </div>
-              <div className='flex flex-col h-full p-2 overflow-y-scroll bg-white shadow-xl'>
-                {children}
-              </div>
+            <div className='flex flex-col w-screen max-w-md p-2'>
+              {children}
             </div>
           </Transition.Child>
         </div>
@@ -71,4 +76,8 @@ const Sidebar2 = ({ open, setOpen, children }: ISidebar2Props) => (
   </Transition.Root>
 )
 
-export default Sidebar2
+Sidebar.Header = Header
+Sidebar.Body = Body
+Sidebar.Footer = Footer
+
+export default Sidebar

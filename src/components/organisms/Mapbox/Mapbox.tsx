@@ -1,58 +1,54 @@
-import React from 'react'
-import ReactMapGL from 'react-map-gl'
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { ReactElement } from 'react'
+import ReactMapGL, {
+  InteractiveMapProps,
+  FlyToInterpolator,
+} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import { useAppSelector } from 'src/store'
-
-import { selectMapLocation, setMapBounds } from 'src/store/cities/citySlice'
-
-import {
-  useDispatchMapBoundsWhenViewportChanges,
-  useViewport,
-} from 'src/store/cities/cityHooks'
-import MapboxContent from '../MapboxContent'
-import mapStyle from './mapLight.json'
-
-const accessToken =
-  'pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ'
+import { Viewport } from 'src/types'
+import { useInitializeViewport } from 'src/store/map/mapHooks'
+// import mapStyleLight from './mapLight.json'
 
 export type MarkerType = { id: string; lat: number; lng: number }[]
 
-const MapBox = () => {
-  /**
-   * useViewport gets override map location.
-   */
-  const updatedMapPosition = useAppSelector(selectMapLocation)!
-  console.log('updatedMapPosition', updatedMapPosition)
-  const [viewport, setViewPort, ref] = useViewport(updatedMapPosition)
+const defaultMapProps: InteractiveMapProps = {
+  dragPan: true,
+  dragRotate: false,
+  scrollZoom: false,
+  width: '100%',
+  height: '100%',
+  mapboxApiAccessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
+  // mapStyle: mapStyleLight,
+}
 
-  /**
-   * Dispatch map bounds when viewport changes.
-   */
-  useDispatchMapBoundsWhenViewportChanges(viewport, ref, setMapBounds)
+const MapBox = ({
+  children,
+  props = defaultMapProps,
+  className,
+}: {
+  children: ReactElement | ReactElement[]
+  props?: InteractiveMapProps
+  className?: string
+}) => {
+  /** useInitializeViewport feeds viewport state to the map. */
+  const { viewport, setViewport } = useInitializeViewport()
 
   return (
-    <div className='w-full h-screen '>
-      <ReactMapGL
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...viewport}
-        onViewportChange={(v) => {
-          setViewPort(v)
-        }}
-        dragPan
-        scrollZoom={false}
-        width='100%'
-        height='100%'
-        ref={(el) => {
-          ref.current = el
-        }}
-        // pitch={45}
-        mapboxApiAccessToken={accessToken}
-        mapStyle={mapStyle}
-      >
-        <MapboxContent />
-      </ReactMapGL>
-    </div>
+    <ReactMapGL
+      latitude={viewport.latitude}
+      longitude={viewport.longitude}
+      zoom={viewport.zoom}
+      onViewportChange={({ latitude, longitude, zoom }: Viewport) => {
+        setViewport({ latitude, longitude, zoom })
+      }}
+      transitionDuration='auto'
+      transitionInterpolator={new FlyToInterpolator()}
+      {...props}
+      className={`rounded ${className}`}
+    >
+      {children}
+    </ReactMapGL>
   )
 }
 

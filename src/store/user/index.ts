@@ -1,11 +1,6 @@
 import userReducer from './userSlice'
 
 /**
- * Selectors: Feeds data in to the UI.
- */
-export { selectUser } from './userSelectors'
-
-/**
  * Actions: All possible actions we can do in this domain.
  */
 

@@ -1,37 +1,48 @@
-import { SearchHomesByLocationQuery } from 'src/generated/graphql'
+/* eslint-disable camelcase */
 import { Popup } from 'react-map-gl'
-import { IMapBoxProps } from 'src/components/organisms/Mapbox/Mapbox'
 
-export interface IPopupProps {
-  marker?: SearchHomesByLocationQuery['homes'][number]
-  highlightedHome?: IMapBoxProps['highlightedHome']
+import XIcon from '@heroicons/react/outline/XIcon'
+import { useKeypress } from 'src/hooks'
+import { Viewport, Children } from 'src/types'
+
+export type IPopupProps = {
+  latitude: Viewport['latitude']
+  longitude: Viewport['longitude']
+  children: Children
+  onClose: () => void
 }
 
-const PopupComponent = ({ marker, highlightedHome }: IPopupProps) => (
-  <Popup
-    latitude={marker?.lat || 0}
-    longitude={marker?.lng || 0}
-    sortByDepth
-    closeButton={false}
-    offsetLeft={10}
-    offsetTop={-10}
-  >
-    <div className='flex flex-col '>
-      <img src='https://via.placeholder.com/150' className='w-48 h-36' alt='' />
-      <div className='flex flex-col p-2 bg-white/90 backdrop-filter backdrop-blur-sm filter'>
-        <div className='mb-1 text-lg font-semibold leading-none'>
-          ${highlightedHome?.data?.price.toLocaleString()}
-        </div>
-        <div className='text-sm text-gray-600'>
-          {highlightedHome?.data?.sqft} sqft
-        </div>
-        <div className='flex gap-2 text-sm text-gray-600'>
-          <div>{highlightedHome?.data?.beds} bd</div>
-          <div>{highlightedHome?.data?.bath} ba</div>
+const PopupComponent = ({
+  latitude,
+  longitude,
+  children,
+  onClose,
+}: IPopupProps) => {
+  useKeypress('Escape', onClose)
+  return (
+    <Popup
+      latitude={latitude}
+      longitude={longitude}
+      sortByDepth
+      offsetLeft={10}
+      offsetTop={-10}
+      dynamicPosition={false}
+      closeButton={false}
+    >
+      <div className='grid grid-cols-1 grid-rows-1'>
+        <div className='col-start-1 row-start-1 '>{children}</div>
+        <div className='flex justify-end col-start-1 row-start-1 p-2 items-top'>
+          <button
+            type='button'
+            className='absolute top-0 right-0 p-0.5 rounded-bl bg-black/30 hover:bg-black/40'
+            onClick={onClose}
+          >
+            <XIcon className='w-5 h-5 text-white' />
+          </button>
         </div>
       </div>
-    </div>
-  </Popup>
-)
+    </Popup>
+  )
+}
 
 export default PopupComponent

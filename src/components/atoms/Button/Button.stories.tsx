@@ -17,19 +17,17 @@ const Template: ComponentStory<typeof Button> = ({
   children,
   className,
 }) => (
-  <div className='flex items-center justify-center h-screen'>
-    <Button
-      size={size}
-      variant={variant}
-      color={color}
-      fullWidth={fullWidth}
-      disabled={disabled}
-      onClickAction={onClickAction}
-      className={className}
-    >
-      {children}
-    </Button>
-  </div>
+  <Button
+    size={size}
+    variant={variant}
+    color={color}
+    fullWidth={fullWidth}
+    disabled={disabled}
+    onClickAction={onClickAction}
+    className={className}
+  >
+    {children}
+  </Button>
 )
 
 export const Small = Template.bind({})
