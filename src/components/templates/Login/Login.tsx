@@ -30,7 +30,7 @@ type SigninFormSchema = yup.InferType<typeof signinFormSchema>
 
 // https://res.cloudinary.com/thankyou/image/upload/v1640791791/nike/wallpapers/alexander-andrews-A3DPhhAL6Zg-unsplash_lngmew.png
 
-const Signin = () => {
+const Login = () => {
   const dispatch = useAppDispatch()
   const {
     register,
@@ -133,4 +133,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default Login

@@ -1,9 +1,10 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import Signin from 'src/components/templates/Signin/Signin'
+import Login from 'src/components/templates/Login/Login'
+
 import { useRedirectLoggedInUsers } from 'src/hooks'
 
-const Login: NextPage = () => {
+const LoginPage: NextPage = () => {
   useRedirectLoggedInUsers()
 
   return (
@@ -12,9 +13,9 @@ const Login: NextPage = () => {
         title='Zillow clone - Login page'
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
-      <Signin />
+      <Login />
     </div>
   )
 }
 
-export default Login
+export default LoginPage

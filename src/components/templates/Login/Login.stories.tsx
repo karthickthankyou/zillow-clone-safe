@@ -1,19 +1,22 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Provider } from 'react-redux'
+
 import { combineReducers, createStore } from '@reduxjs/toolkit'
 import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
+import { Provider } from 'react-redux'
 import { AppLevelHooks } from 'pages/_app'
-import Signin from './Signin'
+import Login from './Login'
 
 export default {
-  title: 'templates/Signin',
-  component: Signin,
-} as ComponentMeta<typeof Signin>
+  title: 'src/components/templates/Login',
+  component: Login,
+} as ComponentMeta<typeof Login>
 
-const Template: ComponentStory<typeof Signin> = () => <Signin />
+const Template: ComponentStory<typeof Login> = () => <Login />
+
+export const Primary = Template.bind({})
 
 const store = createStore(
   combineReducers({
@@ -24,9 +27,6 @@ const store = createStore(
   }
 )
 
-export const Primary = Template.bind({})
-Primary.args = {}
-Primary.parameters = {}
 Primary.decorators = [
   (story) => (
     <Provider store={store}>
