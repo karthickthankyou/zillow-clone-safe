@@ -47,7 +47,6 @@ export const ErrorSkeleton = ({ error }: { error: string }) => (
 const PopupRegionContent = ({ id, onClick }: IPopupRegionContentProps) => {
   const highlightedRegionDetails = useGetHighlightedRegionData(id)
   const { data, fetching, error } = highlightedRegionDetails!
-  console.log('highlightedRegionDetails ', highlightedRegionDetails)
 
   if (fetching) return <Skeleton />
   if (error) return <ErrorSkeleton error='Something went wrong...' />

@@ -6,8 +6,6 @@ import userReducer, {
 } from 'src/store/user/userSlice'
 import produce from 'immer'
 import { composedEnhancers } from 'src/store'
-import { Provider } from 'react-redux'
-import { AppLevelHooksWithoutAuth } from 'pages/_app'
 import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 import { mswWorker } from 'src/mocks/mswWorker'
 import {

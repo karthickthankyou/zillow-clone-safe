@@ -15,9 +15,11 @@ const AutocompleteComponent = <
   >
 ) => (
   <Autocomplete
+    autoSelect
+    placeholder='Type something...'
     classes={{
-      listbox:
-        'p-0 bg-opacity-90 bg-white/50 backdrop-filter backdrop-blur max-h-64',
+      noOptions: 'bg-white/50 backdrop-filter backdrop-blur',
+      listbox: 'p-0 bg-white/50 backdrop-filter backdrop-blur max-h-64',
       option: 'hover:bg-white bg-opacity-100',
       paper: 'rounded-md shadow-md border border-white mt-1 bg-transparent',
     }}

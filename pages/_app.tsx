@@ -30,6 +30,7 @@ export const AppLevelHooks = () => {
 
   return null
 }
+
 export const AppLevelHooksWithoutAuth = () => {
   useDebouncedDispatch()
   useLongHoverDispatch()

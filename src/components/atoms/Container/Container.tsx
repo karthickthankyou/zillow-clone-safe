@@ -6,7 +6,7 @@ export interface IContainerProps {
 }
 
 const Container = ({ children, className }: IContainerProps) => (
-  <div className={`container mx-auto ${className}`}>{children}</div>
+  <div className={`container px-3 mx-auto ${className}`}>{children}</div>
 )
 
 export default Container

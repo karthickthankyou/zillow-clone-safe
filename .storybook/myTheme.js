@@ -45,6 +45,7 @@ export default create({
   inputBorderRadius: 4,
 
   brandTitle: 'Zillow clone',
-  brandUrl: 'https://iamkarthick.com',
-  //   brandImage: 'https://place-hold.it/350x150',
+  brandUrl: 'https://zillow.iamkarthick.com',
+  brandImage:
+    'https://res.cloudinary.com/thankyou/image/upload/v1649743446/zillow-clone/Zillow_2_fyxqcu.png',
 })

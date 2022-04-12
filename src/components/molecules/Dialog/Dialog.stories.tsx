@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof Dialog> = () => {
             <button
               type='button'
               onClick={() => setOpen(false)}
-              className='inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-black border border-transparent rounded-sm hover:bg-gray-900'
+              className='inline-flex justify-center px-4 py-2 text-sm font-medium text-white border border-transparent rounded-sm bg-primary hover:bg-primary-600'
             >
               Got it, thanks!
             </button>

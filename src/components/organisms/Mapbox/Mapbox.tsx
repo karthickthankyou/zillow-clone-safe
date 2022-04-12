@@ -36,6 +36,7 @@ const MapBox = ({
 
   return (
     <ReactMapGL
+      dragPan={false}
       latitude={viewport.latitude}
       longitude={viewport.longitude}
       zoom={viewport.zoom}

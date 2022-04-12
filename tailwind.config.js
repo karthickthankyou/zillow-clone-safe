@@ -1,6 +1,7 @@
 const colors = require('tailwindcss/colors')
 
 const template = {
+  DEFAULT: '50%',
   25: '98%',
   50: '96%',
   100: '92%',

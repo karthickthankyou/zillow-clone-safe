@@ -34,6 +34,8 @@ Primary.args = {
   priceSqft: '220',
   type: 'city',
 }
+Primary.decorators = [(story) => <div className='max-w-lg'>{story()} </div>]
+
 export const SampleLayout = SampleLayoutTemplate.bind({})
 SampleLayout.args = {
   id: 'Los Angeles',

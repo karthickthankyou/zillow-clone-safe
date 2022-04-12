@@ -38,5 +38,7 @@ export const sampleAgentProps = {
 
 export const Primary = Template.bind({})
 Primary.args = sampleAgentProps
+Primary.decorators = [(story) => <div className='max-w-md'>{story()}</div>]
+
 export const SampleLayout = SampleLayoutTemplate.bind({})
 SampleLayout.args = sampleAgentProps

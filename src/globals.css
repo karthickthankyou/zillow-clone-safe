@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  @apply thin-scrollbar;
 }
 
 a {
@@ -112,4 +113,20 @@ input[type='checkbox'] {
 
 input[type='file']::file-selector-button {
   @apply px-4 py-2 -ml-1 text-sm bg-white border-0 rounded shadow-lg cursor-pointer text-primary-600;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  @apply w-0.5 h-0.5;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  @apply bg-black/10;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  @apply w-0.5 h-0.5 bg-black/50 shadow-md shadow-black/80;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

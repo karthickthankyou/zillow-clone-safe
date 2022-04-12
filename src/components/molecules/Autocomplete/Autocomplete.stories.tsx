@@ -7,6 +7,9 @@ import Autocomplete from './Autocomplete'
 export default {
   title: 'molecules/Autocomplete',
   component: Autocomplete,
+  decorators: [
+    (story) => <div className='max-w-md mx-auto mt-24'>{story()}</div>,
+  ],
 } as ComponentMeta<typeof Autocomplete>
 
 const Template: ComponentStory<typeof Autocomplete> = (args) => {
@@ -28,10 +31,7 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
       />
       <div className='relative flex mt-3 overflow-hidden rounded-md'>
         <div className='absolute flex items-center justify-center w-full h-full text-gray-600'>
-          <div className='max-w-xs'>
-            Some cool background. Click on the search bar to see the
-            autocomplete dropdown.
-          </div>
+          <div className='max-w-xs'>Some cool background to show the blur.</div>
         </div>
         <div className='w-12 bg-red-100 h-96' />
         <div className='w-12 bg-green-100 h-96' />
@@ -50,8 +50,15 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
   )
 }
 
+export const NoOptions = Template.bind({})
+NoOptions.args = {
+  open: true,
+  options: [],
+}
+
 export const Primary = Template.bind({})
 Primary.args = {
+  open: true,
   options: [
     'Option 1',
     'Option 2',
@@ -67,4 +74,3 @@ Primary.args = {
     'Tiger',
   ],
 }
-Primary.parameters = {}
