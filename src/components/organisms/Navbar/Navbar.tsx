@@ -208,7 +208,9 @@ const Navbar = () => {
                     <Initials name={userDisplayName || ''} size='sm' />
                   </PopoverButton>
                   <PopoverPanelMainMenu className='flex-col items-end gap-1'>
-                    <SubMenuLink url={`/user/${uid}`}>My Account</SubMenuLink>
+                    <SubMenuLink url='/user'>My Account</SubMenuLink>
+                    <SubMenuLink url='/wishlist'>Wishlist</SubMenuLink>
+                    <SubMenuLink url='/messages'>Messages</SubMenuLink>
                     {userRoles?.includes('agent') ? (
                       <SubMenuLink url='/homes/new'>Add new home</SubMenuLink>
                     ) : (

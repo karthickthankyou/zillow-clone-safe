@@ -131,6 +131,16 @@ mutation InsertUserHome(
     hId
   }
 }
+mutation InsertMessage($object: messages_insert_input!) {
+  insert_messages_one(object: $object) {
+    uid
+    id
+    home_id
+    updated_at
+    created_at
+  }
+}
+
 # ($uid: String!)
 query GetWishlistedHomes($uid: String!) {
   wishlisted: user_homes(
@@ -138,6 +148,20 @@ query GetWishlistedHomes($uid: String!) {
   ) {
     id
     hId
+  }
+}
+
+query GetWishlistedHomesDetailed($uid: String!) {
+  wishlisted: user_homes(
+    where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+  ) {
+    id
+    hId
+    home {
+      address
+      price
+      imgs
+    }
   }
 }
 
@@ -199,5 +223,19 @@ mutation InsertHome($object: homes_insert_input!) {
     updatedAt
     yearBuilt
     zipcode
+  }
+}
+
+query GetMessages($uid: String!) {
+  messages(where: { uid: { _eq: $uid } }) {
+    id
+    home {
+      id
+      address
+      price
+      imgs
+    }
+    message
+    created_at
   }
 }

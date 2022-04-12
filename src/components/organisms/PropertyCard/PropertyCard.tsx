@@ -3,6 +3,7 @@ import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
+
 import {
   GetWishlistedHomesQuery,
   Homes,
@@ -17,9 +18,11 @@ import {
   startLongHoverDispatch,
   stopLongHoverDispatch,
   useKeypress,
+  notify,
 } from 'src/hooks'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import Link from 'src/components/atoms/Link'
+import { loginNotification } from 'src/lib/util'
 
 export type IPropertyCardProps = Partial<Homes> & {
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
@@ -54,31 +57,36 @@ const PropertyCard = ({
             src='https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
             alt=''
           />
-          <button
-            type='button'
-            onClick={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-              const hId = id
-              if (!hId || !uid) return
-              updateHomeMutation({
-                hId,
-                type: wishlisted
-                  ? User_Homes_Types_Enum.RemovedFromWishlist
-                  : User_Homes_Types_Enum.Wishlisted,
-                uid,
-              })
-            }}
-            className='absolute top-0 right-0 z-10 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
-          >
-            {/* eslint-disable-next-line no-nested-ternary */}
-            {fetching && 'Loading...'}
-            {!wishlisted ? (
-              <HeartIconReg className='w-8 h-8 p-1' />
-            ) : (
-              <HeartIconSolid className='w-8 h-8 p-1 fill-red-600' />
-            )}
-          </button>
+          <div className='font-semibold'>
+            <button
+              type='button'
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+                const hId = id
+                if (!hId || !uid) {
+                  loginNotification()
+                  return
+                }
+                updateHomeMutation({
+                  hId,
+                  type: wishlisted
+                    ? User_Homes_Types_Enum.RemovedFromWishlist
+                    : User_Homes_Types_Enum.Wishlisted,
+                  uid,
+                })
+              }}
+              className='absolute top-0 right-0 z-10 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
+            >
+              {/* eslint-disable-next-line no-nested-ternary */}
+              {fetching && 'Loading...'}
+              {!wishlisted ? (
+                <HeartIconReg className='w-8 h-8 p-1' />
+              ) : (
+                <HeartIconSolid className='w-8 h-8 p-1 fill-red-600' />
+              )}
+            </button>
+          </div>
         </div>
         <div className='mt-2 mb-4 ml-1'>
           <div className='text-lg font-medium'>$ {price?.toLocaleString()}</div>

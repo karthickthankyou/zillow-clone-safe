@@ -471,17 +471,29 @@ export type Homes = {
   facts: Scalars['String']
   features: Scalars['String']
   id: Scalars['Int']
+  imgs?: Maybe<Scalars['jsonb']>
   lat: Scalars['Float']
   lng: Scalars['Float']
   lotSize: Scalars['Int']
   price: Scalars['Int']
-  priceSqft: Scalars['Int']
+  priceSqft?: Maybe<Scalars['Int']>
   sqft: Scalars['Int']
   state: Scalars['String']
   style: Scalars['String']
   updatedAt: Scalars['timestamptz']
   yearBuilt: Scalars['smallint']
   zipcode: Scalars['String']
+}
+
+/**
+ * Contains all homes.
+ *
+ *
+ * columns and relationships of "homes"
+ *
+ */
+export type HomesImgsArgs = {
+  path?: InputMaybe<Scalars['String']>
 }
 
 /** aggregated selection of "homes" */
@@ -513,6 +525,11 @@ export type Homes_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>
 }
 
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type Homes_Append_Input = {
+  imgs?: InputMaybe<Scalars['jsonb']>
+}
+
 /** aggregate avg on columns */
 export type Homes_Avg_Fields = {
   __typename?: 'homes_avg_fields'
@@ -542,6 +559,7 @@ export type Homes_Bool_Exp = {
   facts?: InputMaybe<String_Comparison_Exp>
   features?: InputMaybe<String_Comparison_Exp>
   id?: InputMaybe<Int_Comparison_Exp>
+  imgs?: InputMaybe<Jsonb_Comparison_Exp>
   lat?: InputMaybe<Float_Comparison_Exp>
   lng?: InputMaybe<Float_Comparison_Exp>
   lotSize?: InputMaybe<Int_Comparison_Exp>
@@ -559,6 +577,21 @@ export type Homes_Bool_Exp = {
 export enum Homes_Constraint {
   /** unique or primary key constraint */
   HomesPkey = 'homes_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type Homes_Delete_At_Path_Input = {
+  imgs?: InputMaybe<Array<Scalars['String']>>
+}
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type Homes_Delete_Elem_Input = {
+  imgs?: InputMaybe<Scalars['Int']>
+}
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type Homes_Delete_Key_Input = {
+  imgs?: InputMaybe<Scalars['String']>
 }
 
 /** input type for incrementing numeric columns in table "homes" */
@@ -586,6 +619,7 @@ export type Homes_Insert_Input = {
   facts?: InputMaybe<Scalars['String']>
   features?: InputMaybe<Scalars['String']>
   id?: InputMaybe<Scalars['Int']>
+  imgs?: InputMaybe<Scalars['jsonb']>
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
   lotSize?: InputMaybe<Scalars['Int']>
@@ -683,6 +717,7 @@ export type Homes_Order_By = {
   facts?: InputMaybe<Order_By>
   features?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
+  imgs?: InputMaybe<Order_By>
   lat?: InputMaybe<Order_By>
   lng?: InputMaybe<Order_By>
   lotSize?: InputMaybe<Order_By>
@@ -699,6 +734,11 @@ export type Homes_Order_By = {
 /** primary key columns input for table: homes */
 export type Homes_Pk_Columns_Input = {
   id: Scalars['Int']
+}
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type Homes_Prepend_Input = {
+  imgs?: InputMaybe<Scalars['jsonb']>
 }
 
 /** select columns of table "homes" */
@@ -721,6 +761,8 @@ export enum Homes_Select_Column {
   Features = 'features',
   /** column name */
   Id = 'id',
+  /** column name */
+  Imgs = 'imgs',
   /** column name */
   Lat = 'lat',
   /** column name */
@@ -756,6 +798,7 @@ export type Homes_Set_Input = {
   facts?: InputMaybe<Scalars['String']>
   features?: InputMaybe<Scalars['String']>
   id?: InputMaybe<Scalars['Int']>
+  imgs?: InputMaybe<Scalars['jsonb']>
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
   lotSize?: InputMaybe<Scalars['Int']>
@@ -849,6 +892,8 @@ export enum Homes_Update_Column {
   Features = 'features',
   /** column name */
   Id = 'id',
+  /** column name */
+  Imgs = 'imgs',
   /** column name */
   Lat = 'lat',
   /** column name */
@@ -1236,6 +1281,243 @@ export type Location_Stats_Variance_Fields = {
   totalHomes?: Maybe<Scalars['Float']>
 }
 
+/**
+ * The messages sent to the agent.
+ *
+ *
+ * columns and relationships of "messages"
+ *
+ */
+export type Messages = {
+  __typename?: 'messages'
+  created_at: Scalars['timestamptz']
+  /** An object relationship */
+  home: Homes
+  home_id: Scalars['Int']
+  id: Scalars['Int']
+  message: Scalars['String']
+  uid: Scalars['String']
+  updated_at: Scalars['timestamptz']
+}
+
+/** aggregated selection of "messages" */
+export type Messages_Aggregate = {
+  __typename?: 'messages_aggregate'
+  aggregate?: Maybe<Messages_Aggregate_Fields>
+  nodes: Array<Messages>
+}
+
+/** aggregate fields of "messages" */
+export type Messages_Aggregate_Fields = {
+  __typename?: 'messages_aggregate_fields'
+  avg?: Maybe<Messages_Avg_Fields>
+  count: Scalars['Int']
+  max?: Maybe<Messages_Max_Fields>
+  min?: Maybe<Messages_Min_Fields>
+  stddev?: Maybe<Messages_Stddev_Fields>
+  stddev_pop?: Maybe<Messages_Stddev_Pop_Fields>
+  stddev_samp?: Maybe<Messages_Stddev_Samp_Fields>
+  sum?: Maybe<Messages_Sum_Fields>
+  var_pop?: Maybe<Messages_Var_Pop_Fields>
+  var_samp?: Maybe<Messages_Var_Samp_Fields>
+  variance?: Maybe<Messages_Variance_Fields>
+}
+
+/** aggregate fields of "messages" */
+export type Messages_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Messages_Select_Column>>
+  distinct?: InputMaybe<Scalars['Boolean']>
+}
+
+/** aggregate avg on columns */
+export type Messages_Avg_Fields = {
+  __typename?: 'messages_avg_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
+/** Boolean expression to filter rows from the table "messages". All fields are combined with a logical 'AND'. */
+export type Messages_Bool_Exp = {
+  _and?: InputMaybe<Array<Messages_Bool_Exp>>
+  _not?: InputMaybe<Messages_Bool_Exp>
+  _or?: InputMaybe<Array<Messages_Bool_Exp>>
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>
+  home?: InputMaybe<Homes_Bool_Exp>
+  home_id?: InputMaybe<Int_Comparison_Exp>
+  id?: InputMaybe<Int_Comparison_Exp>
+  message?: InputMaybe<String_Comparison_Exp>
+  uid?: InputMaybe<String_Comparison_Exp>
+  updated_at?: InputMaybe<Timestamptz_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "messages" */
+export enum Messages_Constraint {
+  /** unique or primary key constraint */
+  MessagesPkey = 'messages_pkey',
+}
+
+/** input type for incrementing numeric columns in table "messages" */
+export type Messages_Inc_Input = {
+  home_id?: InputMaybe<Scalars['Int']>
+  id?: InputMaybe<Scalars['Int']>
+}
+
+/** input type for inserting data into table "messages" */
+export type Messages_Insert_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>
+  home?: InputMaybe<Homes_Obj_Rel_Insert_Input>
+  home_id?: InputMaybe<Scalars['Int']>
+  id?: InputMaybe<Scalars['Int']>
+  message?: InputMaybe<Scalars['String']>
+  uid?: InputMaybe<Scalars['String']>
+  updated_at?: InputMaybe<Scalars['timestamptz']>
+}
+
+/** aggregate max on columns */
+export type Messages_Max_Fields = {
+  __typename?: 'messages_max_fields'
+  created_at?: Maybe<Scalars['timestamptz']>
+  home_id?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['Int']>
+  message?: Maybe<Scalars['String']>
+  uid?: Maybe<Scalars['String']>
+  updated_at?: Maybe<Scalars['timestamptz']>
+}
+
+/** aggregate min on columns */
+export type Messages_Min_Fields = {
+  __typename?: 'messages_min_fields'
+  created_at?: Maybe<Scalars['timestamptz']>
+  home_id?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['Int']>
+  message?: Maybe<Scalars['String']>
+  uid?: Maybe<Scalars['String']>
+  updated_at?: Maybe<Scalars['timestamptz']>
+}
+
+/** response of any mutation on the table "messages" */
+export type Messages_Mutation_Response = {
+  __typename?: 'messages_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Messages>
+}
+
+/** on conflict condition type for table "messages" */
+export type Messages_On_Conflict = {
+  constraint: Messages_Constraint
+  update_columns?: Array<Messages_Update_Column>
+  where?: InputMaybe<Messages_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "messages". */
+export type Messages_Order_By = {
+  created_at?: InputMaybe<Order_By>
+  home?: InputMaybe<Homes_Order_By>
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+  message?: InputMaybe<Order_By>
+  uid?: InputMaybe<Order_By>
+  updated_at?: InputMaybe<Order_By>
+}
+
+/** primary key columns input for table: messages */
+export type Messages_Pk_Columns_Input = {
+  id: Scalars['Int']
+}
+
+/** select columns of table "messages" */
+export enum Messages_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  HomeId = 'home_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at',
+}
+
+/** input type for updating data in table "messages" */
+export type Messages_Set_Input = {
+  created_at?: InputMaybe<Scalars['timestamptz']>
+  home_id?: InputMaybe<Scalars['Int']>
+  id?: InputMaybe<Scalars['Int']>
+  message?: InputMaybe<Scalars['String']>
+  uid?: InputMaybe<Scalars['String']>
+  updated_at?: InputMaybe<Scalars['timestamptz']>
+}
+
+/** aggregate stddev on columns */
+export type Messages_Stddev_Fields = {
+  __typename?: 'messages_stddev_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
+/** aggregate stddev_pop on columns */
+export type Messages_Stddev_Pop_Fields = {
+  __typename?: 'messages_stddev_pop_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
+/** aggregate stddev_samp on columns */
+export type Messages_Stddev_Samp_Fields = {
+  __typename?: 'messages_stddev_samp_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
+/** aggregate sum on columns */
+export type Messages_Sum_Fields = {
+  __typename?: 'messages_sum_fields'
+  home_id?: Maybe<Scalars['Int']>
+  id?: Maybe<Scalars['Int']>
+}
+
+/** update columns of table "messages" */
+export enum Messages_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  HomeId = 'home_id',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Message = 'message',
+  /** column name */
+  Uid = 'uid',
+  /** column name */
+  UpdatedAt = 'updated_at',
+}
+
+/** aggregate var_pop on columns */
+export type Messages_Var_Pop_Fields = {
+  __typename?: 'messages_var_pop_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
+/** aggregate var_samp on columns */
+export type Messages_Var_Samp_Fields = {
+  __typename?: 'messages_var_samp_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
+/** aggregate variance on columns */
+export type Messages_Variance_Fields = {
+  __typename?: 'messages_variance_fields'
+  home_id?: Maybe<Scalars['Float']>
+  id?: Maybe<Scalars['Float']>
+}
+
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root'
@@ -1251,6 +1533,10 @@ export type Mutation_Root = {
   delete_location_stats?: Maybe<Location_Stats_Mutation_Response>
   /** delete single row from the table: "location_stats" */
   delete_location_stats_by_pk?: Maybe<Location_Stats>
+  /** delete data from the table: "messages" */
+  delete_messages?: Maybe<Messages_Mutation_Response>
+  /** delete single row from the table: "messages" */
+  delete_messages_by_pk?: Maybe<Messages>
   /** delete data from the table: "properties" */
   delete_properties?: Maybe<Properties_Mutation_Response>
   /** delete single row from the table: "properties" */
@@ -1279,6 +1565,10 @@ export type Mutation_Root = {
   insert_location_stats?: Maybe<Location_Stats_Mutation_Response>
   /** insert a single row into the table: "location_stats" */
   insert_location_stats_one?: Maybe<Location_Stats>
+  /** insert data into the table: "messages" */
+  insert_messages?: Maybe<Messages_Mutation_Response>
+  /** insert a single row into the table: "messages" */
+  insert_messages_one?: Maybe<Messages>
   /** insert data into the table: "properties" */
   insert_properties?: Maybe<Properties_Mutation_Response>
   /** insert a single row into the table: "properties" */
@@ -1307,6 +1597,10 @@ export type Mutation_Root = {
   update_location_stats?: Maybe<Location_Stats_Mutation_Response>
   /** update single row of the table: "location_stats" */
   update_location_stats_by_pk?: Maybe<Location_Stats>
+  /** update data of the table: "messages" */
+  update_messages?: Maybe<Messages_Mutation_Response>
+  /** update single row of the table: "messages" */
+  update_messages_by_pk?: Maybe<Messages>
   /** update data of the table: "properties" */
   update_properties?: Maybe<Properties_Mutation_Response>
   /** update single row of the table: "properties" */
@@ -1353,6 +1647,16 @@ export type Mutation_RootDelete_Location_StatsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Location_Stats_By_PkArgs = {
   id: Scalars['String']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_MessagesArgs = {
+  where: Messages_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Messages_By_PkArgs = {
+  id: Scalars['Int']
 }
 
 /** mutation root */
@@ -1432,6 +1736,18 @@ export type Mutation_RootInsert_Location_Stats_OneArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootInsert_MessagesArgs = {
+  objects: Array<Messages_Insert_Input>
+  on_conflict?: InputMaybe<Messages_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Messages_OneArgs = {
+  object: Messages_Insert_Input
+  on_conflict?: InputMaybe<Messages_On_Conflict>
+}
+
+/** mutation root */
 export type Mutation_RootInsert_PropertiesArgs = {
   objects: Array<Properties_Insert_Input>
   on_conflict?: InputMaybe<Properties_On_Conflict>
@@ -1495,14 +1811,24 @@ export type Mutation_RootUpdate_Cities_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_HomesArgs = {
+  _append?: InputMaybe<Homes_Append_Input>
+  _delete_at_path?: InputMaybe<Homes_Delete_At_Path_Input>
+  _delete_elem?: InputMaybe<Homes_Delete_Elem_Input>
+  _delete_key?: InputMaybe<Homes_Delete_Key_Input>
   _inc?: InputMaybe<Homes_Inc_Input>
+  _prepend?: InputMaybe<Homes_Prepend_Input>
   _set?: InputMaybe<Homes_Set_Input>
   where: Homes_Bool_Exp
 }
 
 /** mutation root */
 export type Mutation_RootUpdate_Homes_By_PkArgs = {
+  _append?: InputMaybe<Homes_Append_Input>
+  _delete_at_path?: InputMaybe<Homes_Delete_At_Path_Input>
+  _delete_elem?: InputMaybe<Homes_Delete_Elem_Input>
+  _delete_key?: InputMaybe<Homes_Delete_Key_Input>
   _inc?: InputMaybe<Homes_Inc_Input>
+  _prepend?: InputMaybe<Homes_Prepend_Input>
   _set?: InputMaybe<Homes_Set_Input>
   pk_columns: Homes_Pk_Columns_Input
 }
@@ -1529,6 +1855,20 @@ export type Mutation_RootUpdate_Location_Stats_By_PkArgs = {
   _prepend?: InputMaybe<Location_Stats_Prepend_Input>
   _set?: InputMaybe<Location_Stats_Set_Input>
   pk_columns: Location_Stats_Pk_Columns_Input
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_MessagesArgs = {
+  _inc?: InputMaybe<Messages_Inc_Input>
+  _set?: InputMaybe<Messages_Set_Input>
+  where: Messages_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Messages_By_PkArgs = {
+  _inc?: InputMaybe<Messages_Inc_Input>
+  _set?: InputMaybe<Messages_Set_Input>
+  pk_columns: Messages_Pk_Columns_Input
 }
 
 /** mutation root */
@@ -2022,6 +2362,12 @@ export type Query_Root = {
   location_stats_aggregate: Location_Stats_Aggregate
   /** fetch data from the table: "location_stats" using primary key columns */
   location_stats_by_pk?: Maybe<Location_Stats>
+  /** fetch data from the table: "messages" */
+  messages: Array<Messages>
+  /** fetch aggregated fields from the table: "messages" */
+  messages_aggregate: Messages_Aggregate
+  /** fetch data from the table: "messages" using primary key columns */
+  messages_by_pk?: Maybe<Messages>
   /** fetch data from the table: "properties" */
   properties: Array<Properties>
   /** fetch aggregated fields from the table: "properties" */
@@ -2110,6 +2456,26 @@ export type Query_RootLocation_Stats_AggregateArgs = {
 
 export type Query_RootLocation_Stats_By_PkArgs = {
   id: Scalars['String']
+}
+
+export type Query_RootMessagesArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Messages_Order_By>>
+  where?: InputMaybe<Messages_Bool_Exp>
+}
+
+export type Query_RootMessages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Messages_Order_By>>
+  where?: InputMaybe<Messages_Bool_Exp>
+}
+
+export type Query_RootMessages_By_PkArgs = {
+  id: Scalars['Int']
 }
 
 export type Query_RootPropertiesArgs = {
@@ -2365,6 +2731,12 @@ export type Subscription_Root = {
   location_stats_aggregate: Location_Stats_Aggregate
   /** fetch data from the table: "location_stats" using primary key columns */
   location_stats_by_pk?: Maybe<Location_Stats>
+  /** fetch data from the table: "messages" */
+  messages: Array<Messages>
+  /** fetch aggregated fields from the table: "messages" */
+  messages_aggregate: Messages_Aggregate
+  /** fetch data from the table: "messages" using primary key columns */
+  messages_by_pk?: Maybe<Messages>
   /** fetch data from the table: "properties" */
   properties: Array<Properties>
   /** fetch aggregated fields from the table: "properties" */
@@ -2453,6 +2825,26 @@ export type Subscription_RootLocation_Stats_AggregateArgs = {
 
 export type Subscription_RootLocation_Stats_By_PkArgs = {
   id: Scalars['String']
+}
+
+export type Subscription_RootMessagesArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Messages_Order_By>>
+  where?: InputMaybe<Messages_Bool_Exp>
+}
+
+export type Subscription_RootMessages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Messages_Order_By>>
+  where?: InputMaybe<Messages_Bool_Exp>
+}
+
+export type Subscription_RootMessages_By_PkArgs = {
+  id: Scalars['Int']
 }
 
 export type Subscription_RootPropertiesArgs = {
@@ -3095,6 +3487,25 @@ export type InsertUserHomeMutation = {
     | undefined
 }
 
+export type InsertMessageMutationVariables = Exact<{
+  object: Messages_Insert_Input
+}>
+
+export type InsertMessageMutation = {
+  __typename?: 'mutation_root'
+  insert_messages_one?:
+    | {
+        __typename?: 'messages'
+        uid: string
+        id: number
+        home_id: number
+        updated_at: any
+        created_at: any
+      }
+    | null
+    | undefined
+}
+
 export type GetWishlistedHomesQueryVariables = Exact<{
   uid: Scalars['String']
 }>
@@ -3102,6 +3513,25 @@ export type GetWishlistedHomesQueryVariables = Exact<{
 export type GetWishlistedHomesQuery = {
   __typename?: 'query_root'
   wishlisted: Array<{ __typename?: 'user_homes'; id: number; hId: number }>
+}
+
+export type GetWishlistedHomesDetailedQueryVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type GetWishlistedHomesDetailedQuery = {
+  __typename?: 'query_root'
+  wishlisted: Array<{
+    __typename?: 'user_homes'
+    id: number
+    hId: number
+    home: {
+      __typename?: 'homes'
+      address: string
+      price: number
+      imgs?: any | null | undefined
+    }
+  }>
 }
 
 export type RemoveWishlistMutationVariables = Exact<{
@@ -3143,7 +3573,7 @@ export type GetHomeQuery = {
         lng: number
         lotSize: number
         price: number
-        priceSqft: number
+        priceSqft?: number | null | undefined
         sqft: number
         state: string
         style: string
@@ -3177,7 +3607,7 @@ export type InsertHomeMutation = {
         lng: number
         lotSize: number
         price: number
-        priceSqft: number
+        priceSqft?: number | null | undefined
         sqft: number
         state: string
         style: string
@@ -3187,6 +3617,27 @@ export type InsertHomeMutation = {
       }
     | null
     | undefined
+}
+
+export type GetMessagesQueryVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type GetMessagesQuery = {
+  __typename?: 'query_root'
+  messages: Array<{
+    __typename?: 'messages'
+    id: number
+    message: string
+    created_at: any
+    home: {
+      __typename?: 'homes'
+      id: number
+      address: string
+      price: number
+      imgs?: any | null | undefined
+    }
+  }>
 }
 
 export const namedOperations = {
@@ -3200,10 +3651,13 @@ export const namedOperations = {
     GetHomeById: 'GetHomeById',
     GetRegionById: 'GetRegionById',
     GetWishlistedHomes: 'GetWishlistedHomes',
+    GetWishlistedHomesDetailed: 'GetWishlistedHomesDetailed',
     GetHome: 'GetHome',
+    GetMessages: 'GetMessages',
   },
   Mutation: {
     InsertUserHome: 'InsertUserHome',
+    InsertMessage: 'InsertMessage',
     RemoveWishlist: 'RemoveWishlist',
     InsertHome: 'InsertHome',
   },
@@ -3381,13 +3835,11 @@ export const GetHomeByIdDocument = /*#__PURE__*/ gql`
 export function useGetHomeByIdQuery(
   options: Omit<Urql.UseQueryArgs<GetHomeByIdQueryVariables>, 'query'> = {}
 ) {
-  console.log('useGetHomeByIdQuery running...')
   return Urql.useQuery<GetHomeByIdQuery>({
     query: GetHomeByIdDocument,
     ...options,
   })
 }
-
 export const GetRegionByIdDocument = /*#__PURE__*/ gql`
   query GetRegionById($id: String!) {
     location_stats_by_pk(id: $id) {
@@ -3433,6 +3885,24 @@ export function useInsertUserHomeMutation() {
     InsertUserHomeMutationVariables
   >(InsertUserHomeDocument)
 }
+export const InsertMessageDocument = /*#__PURE__*/ gql`
+  mutation InsertMessage($object: messages_insert_input!) {
+    insert_messages_one(object: $object) {
+      uid
+      id
+      home_id
+      updated_at
+      created_at
+    }
+  }
+`
+
+export function useInsertMessageMutation() {
+  return Urql.useMutation<
+    InsertMessageMutation,
+    InsertMessageMutationVariables
+  >(InsertMessageDocument)
+}
 export const GetWishlistedHomesDocument = /*#__PURE__*/ gql`
   query GetWishlistedHomes($uid: String!) {
     wishlisted: user_homes(
@@ -3452,6 +3922,33 @@ export function useGetWishlistedHomesQuery(
 ) {
   return Urql.useQuery<GetWishlistedHomesQuery>({
     query: GetWishlistedHomesDocument,
+    ...options,
+  })
+}
+export const GetWishlistedHomesDetailedDocument = /*#__PURE__*/ gql`
+  query GetWishlistedHomesDetailed($uid: String!) {
+    wishlisted: user_homes(
+      where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+    ) {
+      id
+      hId
+      home {
+        address
+        price
+        imgs
+      }
+    }
+  }
+`
+
+export function useGetWishlistedHomesDetailedQuery(
+  options: Omit<
+    Urql.UseQueryArgs<GetWishlistedHomesDetailedQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<GetWishlistedHomesDetailedQuery>({
+    query: GetWishlistedHomesDetailedDocument,
     ...options,
   })
 }
@@ -3537,4 +4034,28 @@ export function useInsertHomeMutation() {
   return Urql.useMutation<InsertHomeMutation, InsertHomeMutationVariables>(
     InsertHomeDocument
   )
+}
+export const GetMessagesDocument = /*#__PURE__*/ gql`
+  query GetMessages($uid: String!) {
+    messages(where: { uid: { _eq: $uid } }) {
+      id
+      home {
+        id
+        address
+        price
+        imgs
+      }
+      message
+      created_at
+    }
+  }
+`
+
+export function useGetMessagesQuery(
+  options: Omit<Urql.UseQueryArgs<GetMessagesQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetMessagesQuery>({
+    query: GetMessagesDocument,
+    ...options,
+  })
 }

@@ -96,7 +96,17 @@ const Footer = ({ className }: { className?: string }) => (
       <hr className='my-4 border-gray-200' />
       <div className='justify-between text-xs md:flex'>
         <ul className='flex gap-2'>
-          <li>Zillow Clone, Karthick Ragavendran</li>
+          <li>
+            Zillow Clone,{' '}
+            <a
+              className='text-[#e63746]'
+              rel='noreferrer'
+              href='https://www.iamkarthick.com'
+              target='_blank'
+            >
+              Karthick Ragavendran
+            </a>
+          </li>
         </ul>
         <ul className='mt-2 md:space-x-2 md:flex md:mt-0'>
           {['Guides', 'Terms of Sale', 'Company details', 'Privacy Policy'].map(

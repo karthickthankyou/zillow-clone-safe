@@ -167,7 +167,7 @@ const ProductPage = ({ home }: IProductPageProps) => {
       <NearByHomes homeId={homeData?.id || 0} />
 
       <Slideup className='mt-12 mb-24'>
-        <div className='flex flex-wrap justify-end gap-2'>
+        <div className='flex flex-wrap justify-end gap-3'>
           <button type='button' onClick={scrollToContactForm}>
             <HighText>
               <PhoneIcon className='w-8 h-8 text-black' />

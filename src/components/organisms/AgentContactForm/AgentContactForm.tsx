@@ -5,8 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 // If yup-phone is creating problems, Use import parsePhoneNumber from 'libphonenumber-js'
-
+import Link from 'src/components/atoms/Link'
 import ExclamationIcon from '@heroicons/react/solid/ExclamationIcon'
+import { useInsertMessageMutation } from 'src/generated/graphql'
+import { useAppSelector } from 'src/store'
 
 export interface IAgentContactFormProps {
   homeId: number
@@ -55,7 +57,20 @@ const AgentContactForm = React.forwardRef(
       },
     })
 
-    const onSubmit = handleSubmit((data) => console.log(data))
+    const uid = useAppSelector((state) => state.user.data.user?.uid)
+
+    const [{ fetching, data: contactData }, contactAgent] =
+      useInsertMessageMutation()
+
+    const onSubmit = handleSubmit((data) =>
+      contactAgent({
+        object: {
+          uid,
+          home_id: homeId,
+          message: data.message,
+        },
+      })
+    )
 
     return (
       <div ref={ref} className='grid grid-cols-1 gap-3 pt-6 md:grid-cols-2'>
@@ -118,9 +133,20 @@ const AgentContactForm = React.forwardRef(
           <button
             className='w-full px-2 py-2 mt-4 text-white rounded bg-primary-500'
             type='submit'
+            disabled={Boolean(contactData)}
           >
-            Send message
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {contactData
+              ? 'Message sent.'
+              : fetching
+              ? 'Sending...'
+              : 'Send message'}
           </button>
+          {contactData && (
+            <div className='py-2 mt-2 underline underline-offset-4'>
+              <Link href='/messages'>Go to messages</Link>
+            </div>
+          )}
         </form>
       </div>
     )

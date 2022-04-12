@@ -18,6 +18,7 @@ const AutocompleteComponent = <
     autoSelect
     classes={{
       noOptions: 'bg-white/50 backdrop-filter backdrop-blur',
+      loading: 'bg-white/50 backdrop-filter backdrop-blur',
       listbox: 'p-0 bg-white/50 backdrop-filter backdrop-blur max-h-64',
       option: 'hover:bg-white bg-opacity-100',
       paper: 'rounded-md shadow-md border border-white mt-1 bg-transparent',

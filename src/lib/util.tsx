@@ -1,3 +1,6 @@
+import Link from 'src/components/atoms/Link/Link'
+import { notify } from 'src/hooks'
+
 export const getQueryParam = (
   searchParam: string | string[] | undefined,
   defaultValue?: string
@@ -50,3 +53,19 @@ export const getInitials = (text: string) =>
     .toUpperCase()
 
 export const toAcres = (sqft: number) => (sqft / 43560).toFixed(2)
+
+export const loginNotification = () =>
+  notify({
+    type: 'warning',
+    message: (
+      <div>
+        <div className='font-semibold'>You are not logged in.</div>
+        <Link
+          href='/login'
+          className='inline-block px-2 py-1 mt-2 text-white rounded bg-primary'
+        >
+          Login
+        </Link>
+      </div>
+    ),
+  })

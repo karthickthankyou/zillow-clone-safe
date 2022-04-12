@@ -141,9 +141,7 @@ export const HomeMarkers = () => {
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
   const getWishlisted = (homeId: number) =>
-    wishlistedHomes?.wishlisted.find(
-      (wishlistedItem) => wishlistedItem.hId === homeId
-    )
+    wishlistedHomes?.wishlisted.find((item) => item.hId === homeId)
 
   const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
 

@@ -11,6 +11,7 @@ import { useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
 import Link from 'src/components/atoms/Link'
 import Skeleton from 'src/components/molecules/Skeleton'
+import { loginNotification } from 'src/lib/util'
 import { ErrorSkeleton } from '../PopupRegionContent/PopupRegionContent'
 
 export interface IPopupHomesContentProps {
@@ -36,21 +37,22 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   const uid = useAppSelector(selectUid)
   const highlightedHomeDetails = useGetHighlightedHomeData(id)
   const { data, fetching, error } = highlightedHomeDetails!
-  console.log('highlightedHomeDetails ', highlightedHomeDetails)
 
   if (fetching) return <HomeContentSkeleton />
   if (error) return <ErrorSkeleton error='Something went wrong...' />
 
   return (
-    <Link href={`/home/${id}`} className='flex flex-col w-48 '>
-      <div className='relative h-36'>
-        <Image
-          src='https://via.placeholder.com/150'
-          className='h-full'
-          alt=''
-        />
-      </div>
-      <div className='relative flex flex-col bg-white/50 backdrop-filter backdrop-blur-sm filter'>
+    <div className='flex flex-col w-48 '>
+      <Link href={`/home/${id}`}>
+        <div className='relative h-36'>
+          <Image
+            src='https://via.placeholder.com/150'
+            className='h-full'
+            alt=''
+          />
+        </div>
+      </Link>
+      <div className='relative flex flex-col cursor-auto bg-white/50 backdrop-filter backdrop-blur-sm filter'>
         <div className='p-2'>
           <div className='flex items-baseline justify-between'>
             <div className='mb-1 text-2xl font-light leading-none'>
@@ -58,9 +60,13 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
             </div>
             <button
               type='button'
+              className='z-40'
               onClick={() => {
                 const hId = id
-                if (!hId || !uid) return
+                if (!hId || !uid) {
+                  loginNotification()
+                  return
+                }
                 updateHomeMutation({
                   hId,
                   type: wishlisted
@@ -89,11 +95,14 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
             <div>{data?.homes_by_pk?.style}</div>
           </div>
         </div>
-        <div className='p-2 text-xs bg-gray-50 line-clamp-2'>
-          {data?.homes_by_pk?.address}
-        </div>
+        <Link
+          href={`/home/${id}`}
+          className='p-2 text-xs bg-gray-50 line-clamp-2'
+        >
+          {data?.homes_by_pk?.address || ''}
+        </Link>
       </div>
-    </Link>
+    </div>
   )
 }
 

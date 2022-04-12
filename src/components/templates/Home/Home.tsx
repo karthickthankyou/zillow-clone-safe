@@ -3,6 +3,7 @@ import BadgeCheckIcon from '@heroicons/react/outline/BadgeCheckIcon'
 import { MapProvider } from 'src/store/map/mapContext'
 import ScrollText from 'src/components/molecules/ScrollBanner'
 import Mapbox from 'src/components/organisms/Mapbox'
+import TripGuide from 'src/components/organisms/TripGuide'
 import {
   CityMarkers,
   Fetching,
@@ -44,7 +45,7 @@ const Home = () => {
           </div>
         </Container>
 
-        <div className='w-screen h-screen90' ref={interactiveMapRef}>
+        <div className='w-screen mb-24 h-screen90' ref={interactiveMapRef}>
           <MapProvider className='h-full'>
             <Mapbox>
               <HomeMarkers />
@@ -62,6 +63,27 @@ const Home = () => {
               </PanelContainer>
             </Mapbox>
           </MapProvider>
+        </div>
+        <div className='mb-16 bg-primary-25'>
+          <Container>
+            <div className='pt-6 text-xl font-medium'>Trip guide</div>
+            <div className='max-w-md mt-2 text-sm text-gray-600'>
+              Dont get lost in the endless menu items. Follow this trip guide
+              that shows the working pages of the application.
+            </div>
+            <div className='mt-4 text-sm text-gray-600'>
+              Thank you, <br />{' '}
+              <a
+                className='text-black'
+                rel='noreferrer'
+                href='https://www.iamkarthick.com'
+                target='_blank'
+              >
+                Karthick Ragavendran.
+              </a>
+            </div>
+            <TripGuide />
+          </Container>
         </div>
 
         <div className='container mx-auto mt-12 space-y-24'>
@@ -141,15 +163,6 @@ const Home = () => {
             >
               join now
             </Link>
-            {/* <ChevronRightIcon className='inline w-6 h-6 ml-3 ' /> */}
-          </div>
-          <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              className='h-12'
-              alt=''
-              src='https://wp-tid.zillowstatic.com/bedrock/app/uploads/sites/2/2020/05/Zillow_Sites2x-cd3144-c697dc-fbb28e.png'
-            />
           </div>
         </div>
       </main>

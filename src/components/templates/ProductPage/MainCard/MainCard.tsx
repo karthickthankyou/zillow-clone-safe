@@ -42,7 +42,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
 
   return (
     <div className={`col-span-1 ${className}`}>
-      <div className='sticky flex flex-col min-h-[30rem] top-0 p-3 rounded-lg border border-primary/10 bg-striped'>
+      <div className='sticky flex flex-col min-h-[30rem] top-0 p-6 rounded-lg shadow-lg bg-striped'>
         <div className='mt-12 text-xs tracking-wide text-gray-600 uppercase'>
           for sale
         </div>
