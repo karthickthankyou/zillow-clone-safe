@@ -109,12 +109,14 @@ const Login = () => {
         </div>
       </div>
       <div className='flex gap-4 mt-6'>
-        <Link
-          href='/'
+        <button
+          type='button'
+          disabled
+          onClick={() => console.error('Not implemented.')}
           className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
         >
           <FaFacebook className=' w-4 h-4 mr-2 text-[#4267B2]' /> Facebook
-        </Link>
+        </button>
         <button
           type='button'
           onClick={() => dispatch(googleSignin())}
@@ -122,12 +124,14 @@ const Login = () => {
         >
           <FaGoogle className=' w-4 h-4 mr-2 text-[#DB4437]' /> Google
         </button>
-        <Link
-          href='/'
+        <button
+          type='button'
+          disabled
+          onClick={() => console.error('Not implemented.')}
           className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
         >
           <FaTwitter className=' w-4 h-4 mr-2 text-[#1DA1F2]' /> Twitter
-        </Link>
+        </button>
       </div>
     </SplitLayoutImage>
   )
