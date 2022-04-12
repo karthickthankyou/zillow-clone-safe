@@ -20,6 +20,7 @@ import {
   selectUid,
   selectUserRoles,
 } from 'src/store/user/userSlice'
+import Container from 'src/components/atoms/Container/Container'
 
 export interface INavbarProps {}
 
@@ -182,7 +183,7 @@ const Navbar = () => {
           uid={uid}
           displayName={userDisplayName}
         />
-        <div className='container flex items-center justify-center w-full h-6 mx-auto'>
+        <Container className='flex items-center justify-center w-full h-6'>
           <div className='hidden w-full py-2 lg:flex'>
             <PopoverGroup className='z-40 flex items-center space-x-4'>
               <MenuItem title='Buy' />
@@ -235,7 +236,7 @@ const Navbar = () => {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <Brand />
           </Link>
-        </div>
+        </Container>
       </div>
     </nav>
   )

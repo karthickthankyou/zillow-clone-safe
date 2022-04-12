@@ -263,6 +263,7 @@ export const LocationSearch = ({
       getOptionLabel={(x) => x.displayName}
       onInputChange={(_, v) => dispatch(setSearchText(v))}
       loading={cityList.fetching}
+      placeholder='Type something...'
       isOptionEqualToValue={(a, b) => a.displayName === b.displayName}
       onChange={(_, v) => {
         if (v) {

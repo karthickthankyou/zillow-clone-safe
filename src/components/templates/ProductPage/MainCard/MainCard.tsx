@@ -13,7 +13,7 @@ export interface IMainCardProps {
 }
 
 export const MainCardSkeleton = ({ className }: { className?: string }) => (
-  <div className={`${className} p-6`}>
+  <div className={`${className} p-3`}>
     <Skeleton className='w-1/4 h-4' />
     <Skeleton className='h-4 mt-3 ' />
     <Skeleton className='w-1/4 h-4 mt-1 ' />
@@ -22,7 +22,7 @@ export const MainCardSkeleton = ({ className }: { className?: string }) => (
     <Skeleton className='w-1/2 h-4 mt-1' />
     <Skeleton className='h-4 mt-6 ' />
     <Skeleton className='w-3/4 h-4 mt-1' />
-    <div className='flex items-center gap-4 mt-6'>
+    <div className='flex items-center gap-3 mt-6'>
       <Skeleton className='flex-shrink-0 rounded-full w-14 h-14' />
       <div className='w-full'>
         <Skeleton className='w-full h-4' />
@@ -42,8 +42,8 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
 
   return (
     <div className={`col-span-1 ${className}`}>
-      <div className='sticky top-0 p-6 rounded-lg shadow-lg bg-striped'>
-        <div className='text-xs tracking-wide text-gray-600 uppercase'>
+      <div className='sticky flex flex-col min-h-[30rem] top-0 p-3 rounded-lg border border-primary/10 bg-striped'>
+        <div className='mt-12 text-xs tracking-wide text-gray-600 uppercase'>
           for sale
         </div>
         <div className='mt-1 text-gray-600'>{homeData?.address}</div>
@@ -71,7 +71,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
           </div>
         </div>
 
-        <div className='mt-6'>
+        <div>
           <div>
             Est. payment: $
             {Math.round((homeData?.price || 0) / 120).toLocaleString()}
@@ -82,7 +82,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
             pre-qualified
           </Link>
         </div>
-        <Link href='agent/5' className='flex items-center gap-3 mt-6'>
+        <Link href='agent/5' className='flex items-center gap-3 mt-auto'>
           <Image
             className='flex-shrink-0 w-12 h-12 rounded-full'
             alt=''

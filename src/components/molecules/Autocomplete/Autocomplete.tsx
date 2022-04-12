@@ -16,7 +16,6 @@ const AutocompleteComponent = <
 ) => (
   <Autocomplete
     autoSelect
-    placeholder='Type something...'
     classes={{
       noOptions: 'bg-white/50 backdrop-filter backdrop-blur',
       listbox: 'p-0 bg-white/50 backdrop-filter backdrop-blur max-h-64',

@@ -16,6 +16,7 @@ import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
 import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 
+import Link from 'src/components/atoms/Link'
 import Hero from '../Hero'
 
 export interface IHomeProps {}
@@ -134,12 +135,12 @@ const Home = () => {
               </strong>{' '}
               average monthly unique users in Q2 2019.
             </div>
-            <button
+            <Link
               className='flex items-center px-8 py-3 mt-6 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
-              type='button'
+              href='/signup'
             >
               join now
-            </button>
+            </Link>
             {/* <ChevronRightIcon className='inline w-6 h-6 ml-3 ' /> */}
           </div>
           <div>

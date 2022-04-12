@@ -57,17 +57,15 @@ const data = [
 const ProductPageCarousel = () => {
   const [selected, setSelected] = useState(0)
   return (
-    <div>
-      <div className='h-64 md:h-96'>
-        <Image
-          key={data[selected].id}
-          src={data[selected].src}
-          alt=''
-          className='h-full border border-white rounded-lg shadow-md'
-        />
-      </div>
+    <div className='min-h-[30rem] flex flex-col'>
+      <Image
+        key={data[selected].id}
+        src={data[selected].src}
+        alt=''
+        className='flex-grow h-full border border-white rounded-lg bg-primary/10 '
+      />
 
-      <HScroll className='relative flex gap-2 h-28'>
+      <HScroll className='relative flex h-28'>
         <HScroll.Body>
           {data.map((item, index) => (
             <HScroll.Child key={item.id}>
