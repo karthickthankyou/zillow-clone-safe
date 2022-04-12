@@ -3,7 +3,6 @@ import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
-import Link from 'src/components/atoms/Link'
 import { useAppDispatch } from 'src/store'
 import { googleSignin } from 'src/store/user'
 import * as yup from 'yup'
@@ -111,14 +110,6 @@ const Login = () => {
       <div className='flex gap-4 mt-6'>
         <button
           type='button'
-          disabled
-          onClick={() => console.error('Not implemented.')}
-          className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
-        >
-          <FaFacebook className=' w-4 h-4 mr-2 text-[#4267B2]' /> Facebook
-        </button>
-        <button
-          type='button'
           onClick={() => dispatch(googleSignin())}
           className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
         >
@@ -130,7 +121,17 @@ const Login = () => {
           onClick={() => console.error('Not implemented.')}
           className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
         >
-          <FaTwitter className=' w-4 h-4 mr-2 text-[#1DA1F2]' /> Twitter
+          <FaFacebook className=' w-4 h-4 mr-2 text-[#4267B2] cursor-not-allowed' />{' '}
+          Facebook
+        </button>
+        <button
+          type='button'
+          disabled
+          onClick={() => console.error('Not implemented.')}
+          className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
+        >
+          <FaTwitter className=' w-4 h-4 mr-2 text-[#1DA1F2] cursor-not-allowed' />{' '}
+          Twitter
         </button>
       </div>
     </SplitLayoutImage>

@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormError } from 'src/components/organisms/AgentContactForm/AgentContactForm'
 import SplitLayoutImage from '../SplitLayoutImage'
+import { useAppDispatch } from 'src/store'
 
 const signupFormSchema = yup
   .object({
@@ -33,6 +34,7 @@ type SignupFormSchema = yup.InferType<typeof signupFormSchema>
 export interface ISignUpProps {}
 
 const SignUp = () => {
+  const dispatch = useAppDispatch()
   const {
     register,
     handleSubmit,
@@ -145,7 +147,7 @@ const SignUp = () => {
       <div className='flex gap-4 mt-6'>
         <button
           type='button'
-          onClick={() => googleSignin()}
+          onClick={() => dispatch(googleSignin())}
           className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
         >
           <FaGoogle className=' w-4 h-4 mr-2 text-[#DB4437]' /> Google
@@ -154,7 +156,7 @@ const SignUp = () => {
           type='button'
           disabled
           onClick={() => console.error('Not implemented.')}
-          className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
+          className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md cursor-not-allowed border-primary-200'
         >
           <FaFacebook className=' w-4 h-4 mr-2 text-[#4267B2]' /> Facebook
         </button>
@@ -162,7 +164,7 @@ const SignUp = () => {
           type='button'
           disabled
           onClick={() => console.error('Not implemented.')}
-          className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md border-primary-200'
+          className='flex items-center justify-center flex-1 px-4 py-2 bg-white border rounded-md cursor-not-allowed border-primary-200'
         >
           <FaTwitter className=' w-4 h-4 mr-2 text-[#1DA1F2]' /> Twitter
         </button>
