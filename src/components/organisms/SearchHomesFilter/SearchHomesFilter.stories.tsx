@@ -15,8 +15,8 @@ export default {
   decorators: [SbUrqlProvider, SbReduxProvider],
 } as ComponentMeta<typeof SearchHomesFilter>
 
-const Template: ComponentStory<typeof SearchHomesFilter> = () => (
-  <SearchHomesFilter />
+const Template: ComponentStory<typeof SearchHomesFilter> = (args) => (
+  <SearchHomesFilter {...args} />
 )
 
 const storeZoom6 = createStore(combineReducers({ map: mapReducer }), {
@@ -38,15 +38,22 @@ const storeZoom12 = createStore(combineReducers({ map: mapReducer }), {
   }),
 })
 
+export const SidebarOpen = Template.bind({})
+SidebarOpen.args = {
+  sidebarOpenDefault: true,
+}
+SidebarOpen.decorators = [
+  (story: any) => <Provider store={storeZoom12}>{story()}</Provider>,
+]
+
 export const Primary = Template.bind({})
 Primary.args = {}
 Primary.decorators = [
   (story: any) => <Provider store={storeZoom12}>{story()}</Provider>,
 ]
 
-export const Zoom6 = Template.bind({})
-Zoom6.args = {}
-
-Zoom6.decorators = [
+export const FiltersDisappearWhenZoomedOut = Template.bind({})
+FiltersDisappearWhenZoomedOut.args = {}
+FiltersDisappearWhenZoomedOut.decorators = [
   (story: any) => <Provider store={storeZoom6}>{story()}</Provider>,
 ]

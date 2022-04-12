@@ -33,7 +33,7 @@ Primary.decorators = [
 
 export const Fetching = Template.bind({})
 Fetching.args = {
-  id: 'Something else',
+  id: 'NW',
 }
 Fetching.decorators = [
   (Story) => {
@@ -43,7 +43,7 @@ Fetching.decorators = [
 ]
 export const Error = Template.bind({})
 Error.args = {
-  id: 'Something else',
+  id: 'NJ',
 }
 Error.decorators = [
   (Story) => {

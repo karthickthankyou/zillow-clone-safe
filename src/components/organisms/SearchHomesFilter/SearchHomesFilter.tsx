@@ -25,7 +25,11 @@ import {
   DirtyMarker,
 } from './filterUtils'
 
-const SearchHomesFilter = () => {
+const SearchHomesFilter = ({
+  sidebarOpenDefault = false,
+}: {
+  sidebarOpenDefault?: boolean
+}) => {
   const {
     watch,
     control,
@@ -38,7 +42,9 @@ const SearchHomesFilter = () => {
   const filterData = watch()
   useDispatchHomeFilter({ filterData, dirtyFields })
 
-  const [showSidebar, setShowSidebar] = useState(false)
+  console.log('sidebarOpenDefault ', sidebarOpenDefault)
+
+  const [showSidebar, setShowSidebar] = useState(sidebarOpenDefault)
   const zoom = useAppSelector(selectDebouncedZoom)
 
   return (

@@ -16,8 +16,8 @@ const Template: ComponentStory<typeof Slideup> = (args) => (
   </>
 )
 
-export const Primary = Template.bind({})
-Primary.args = {
+export const ScrollUpToSeeContent = Template.bind({})
+ScrollUpToSeeContent.args = {
   children: 'Hello World',
 }
 

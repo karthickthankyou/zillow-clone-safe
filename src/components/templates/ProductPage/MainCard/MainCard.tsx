@@ -13,8 +13,8 @@ export interface IMainCardProps {
 }
 
 export const MainCardSkeleton = ({ className }: { className?: string }) => (
-  <div className={`${className} p-3`}>
-    <Skeleton className='w-1/4 h-4' />
+  <div className={`${className} p-6 min-h-[30rem] bg-striped`}>
+    <Skeleton className='w-1/4 h-4 mt-12' />
     <Skeleton className='h-4 mt-3 ' />
     <Skeleton className='w-1/4 h-4 mt-1 ' />
     <Skeleton className='w-3/4 h-10 mt-8' />

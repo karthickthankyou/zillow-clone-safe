@@ -18,7 +18,11 @@ import PopupHomesContent from './PopupHomesContent'
 export default {
   title: 'organisms/PopupHomesContent',
   component: PopupHomesContent,
-  decorators: [SbUrqlProvider, SbReduxProvider],
+  decorators: [
+    (story) => <div className='h-screen bg-white'>{story()}</div>,
+    SbUrqlProvider,
+    SbReduxProvider,
+  ],
 } as ComponentMeta<typeof PopupHomesContent>
 
 const Template: ComponentStory<typeof PopupHomesContent> = (args) => (

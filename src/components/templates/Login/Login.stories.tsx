@@ -10,7 +10,7 @@ import { AppLevelHooks } from 'pages/_app'
 import Login from './Login'
 
 export default {
-  title: 'src/components/templates/Login',
+  title: 'templates/Login',
   component: Login,
 } as ComponentMeta<typeof Login>
 

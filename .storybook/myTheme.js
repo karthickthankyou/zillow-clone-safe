@@ -47,5 +47,7 @@ export default create({
   brandTitle: 'Zillow clone',
   brandUrl: 'https://zillow.iamkarthick.com',
   brandImage:
-    'https://res.cloudinary.com/thankyou/image/upload/v1649743446/zillow-clone/Zillow_2_fyxqcu.png',
+    'https://res.cloudinary.com/thankyou/image/upload/v1640842631/nike/z-logo_zkpauf.svg',
 })
+
+// 'https://res.cloudinary.com/thankyou/image/upload/v1649743446/zillow-clone/Zillow_2_fyxqcu.png',
