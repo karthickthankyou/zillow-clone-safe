@@ -4,7 +4,7 @@ import dateFormat from 'dateformat'
 const HASURA_ADMIN = process.env.HASURA_ADMIN || ''
 
 export const urqlAdminClient = createClient({
-  url: 'https://ikea-karthick.herokuapp.com/v1/graphql',
+  url: 'https://zillow-karthick.herokuapp.com/v1/graphql',
   fetchOptions: {
     headers: {
       'x-hasura-admin-secret': HASURA_ADMIN,
