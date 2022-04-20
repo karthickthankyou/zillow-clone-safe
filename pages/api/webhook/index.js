@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
       console.log('homeData: ', homeData)
       urqlAdminClient
-        .mutation(InsertHomeDocument, { objects: JSON.parse(homeData) })
+        .mutation(InsertHomeDocument, { object: JSON.parse(homeData) })
         .toPromise()
         .then((result) => {
           console.log('Success after mutation: ', JSON.stringify(result))
