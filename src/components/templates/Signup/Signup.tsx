@@ -10,8 +10,8 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormError } from 'src/components/organisms/AgentContactForm/AgentContactForm'
-import SplitLayoutImage from '../SplitLayoutImage'
 import { useAppDispatch } from 'src/store'
+import SplitLayoutImage from '../SplitLayoutImage'
 
 const signupFormSchema = yup
   .object({

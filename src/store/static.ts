@@ -1,3 +1,4 @@
+import { Maybe } from 'src/generated/graphql'
 import { MenuType, PlaceTypesType } from 'src/types'
 
 export const DEBOUNCE_DELAY = 300
@@ -170,3 +171,31 @@ export const initialViewport = {
 export const ZOOM_HOMES = 9
 export const ZOOM_CITIES = 6
 export const ZOOM_STATES = 3
+
+export const getHomeTypes = (
+  type: Maybe<number> | undefined
+): { displayName: string; bg: string; price: number; tag?: string } => {
+  switch (type) {
+    case 0:
+      return { displayName: 'Basic', bg: 'text-black', price: 0 }
+    case 1:
+      return { displayName: 'Standard', price: 29, bg: 'bg-gray text-white' }
+    case 2:
+      return {
+        tag: 'Most Popular',
+        displayName: 'Essentials',
+        price: 49,
+        bg: 'bg-yellow text-black',
+      }
+    case 3:
+      return {
+        displayName: 'Premium',
+        price: 99,
+        bg: 'bg-primary text-white',
+      }
+
+    default:
+      break
+  }
+  return { displayName: '', bg: '', price: 0 }
+}

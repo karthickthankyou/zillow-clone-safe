@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { useEffect } from 'react'
 import {
   useGetHomeByIdQuery,
@@ -6,6 +7,7 @@ import {
   useSearchStatesByLocationQuery,
   useSearchHomesByLocationDetailedQuery,
   useGetRegionByIdQuery,
+  Order_By,
 } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
 
@@ -87,7 +89,12 @@ export const useHomesDetailed = () => {
   const variables = useAppSelector(selectHomeFilters)
   const [{ data, fetching, error, stale }] =
     useSearchHomesByLocationDetailedQuery({
-      variables,
+      variables: {
+        ...variables,
+        order_by: {
+          plan: Order_By.DescNullsLast,
+        },
+      },
     })
 
   const dispatch = useAppDispatch()

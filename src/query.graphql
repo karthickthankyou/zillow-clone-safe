@@ -90,6 +90,7 @@ query SearchHomesByLocationDetailed(
     beds
     price
     sqft
+    plan
   }
 }
 

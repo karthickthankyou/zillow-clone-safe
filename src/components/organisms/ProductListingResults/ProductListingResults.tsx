@@ -92,6 +92,7 @@ const ProductListingResult = () => {
               address={item.address}
               bath={item.bath}
               beds={item.beds}
+              plan={item.plan}
               price={item.price}
               sqft={item.sqft}
               wishlisted={wishlistedHomes?.wishlisted.find(

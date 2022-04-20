@@ -42,6 +42,7 @@ export const newHomeSchema = yup
       )
       .min(0, 'a negative number? Seriously?')
       .max(10000, `doesn't seem possible to me.`),
+    plan: yup.mixed<0 | 1 | 2 | 3>().oneOf([0, 1, 2, 3]),
     beds: yup
       .number()
       .typeError(

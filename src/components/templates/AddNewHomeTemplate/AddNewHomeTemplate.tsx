@@ -2,7 +2,7 @@
 import React, { useEffect, useState, ReactElement } from 'react'
 import { useInsertHomeMutation } from 'src/generated/graphql'
 import Router from 'next/router'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import HtmlSelect from 'src/components/atoms/HtmlSelect'
 import Input from 'src/components/atoms/HtmlInput'
@@ -10,10 +10,15 @@ import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
 import UploadIcon from '@heroicons/react/outline/UploadIcon'
 
+import { loadStripe } from '@stripe/stripe-js'
+import axios from 'axios'
+
 import { scrollToTop } from 'src/hooks'
 import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Dialog from 'src/components/molecules/Dialog'
+import { RadioGroup } from '@headlessui/react'
+import { getHomeTypes } from 'src/store/static'
 import { MapLocationPicker, NewHomeSchema, newHomeSchema } from './utils'
 
 export interface IAddNewHomeTemplateProps {}
@@ -52,6 +57,8 @@ const AddNewHomeTemplate = () => {
     handleSubmit,
     setValue,
     watch,
+    control,
+
     formState: { errors },
   } = useForm<NewHomeSchema>({
     resolver: yupResolver(newHomeSchema),
@@ -66,6 +73,7 @@ const AddNewHomeTemplate = () => {
       lotSize: undefined,
       price: undefined,
       sqft: undefined,
+      plan: 0,
       state: undefined,
       style: 'Select type of house',
       yearBuilt: undefined,
@@ -78,10 +86,28 @@ const AddNewHomeTemplate = () => {
   })
 
   const formData = watch()
+  console.log('Formdata: ', formData, errors)
 
   const onSubmit = handleSubmit(async (data) => {
     const { imgFiles, ...uploadData } = data
-    addNewHome({ object: uploadData })
+
+    if (uploadData.plan === 0) {
+      addNewHome({ object: uploadData })
+    } else {
+      console.log(
+        'process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
+        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      )
+      const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      const stripePromise = loadStripe(publishableKey || '')
+      const stripe = await stripePromise
+      const checkoutSession = await axios.post('/api/create-stripe-session', {
+        homeData: uploadData,
+      })
+      const result = await stripe?.redirectToCheckout({
+        sessionId: checkoutSession.data.id,
+      })
+    }
   })
 
   const [showDialog, setshowDialog] = useState(false)
@@ -137,6 +163,7 @@ const AddNewHomeTemplate = () => {
             {...register('price')}
           />
         </Label>
+
         <Label title='Style' error={errors.style}>
           <HtmlSelect {...register('style')}>
             <option value='Select type of house' disabled>
@@ -201,6 +228,7 @@ const AddNewHomeTemplate = () => {
           />
         </Label>
       </FormSection>
+
       <FormSection
         title={
           <FormSectionTitle
@@ -340,6 +368,61 @@ const AddNewHomeTemplate = () => {
             {...register('facts')}
           />
         </Label>
+      </FormSection>
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Plan'
+            description='Bring your home to the top of search results and sell it faster!'
+          />
+        }
+      >
+        <Controller
+          name='plan'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <RadioGroup
+              value={value?.toString()}
+              onChange={(v) => onChange(+(v || 0))}
+              className='col-span-2 space-y-2'
+            >
+              <div className='grid w-full grid-cols-2 gap-3 my-2 lg:grid-cols-4'>
+                {[0, 1, 2, 3].map((item) => (
+                  <RadioGroup.Option
+                    key={item}
+                    value={`${item}`}
+                    className='cursor-pointer'
+                  >
+                    {({ checked }) => (
+                      <div
+                        className={`p-6 transition-all relative  rounded-lg shadow-lg  ${
+                          checked
+                            ? ' border-white border bg-luxury   shadow-primary/50 text-white'
+                            : 'border border-primary-100 shadow-black/20 '
+                        }`}
+                      >
+                        {getHomeTypes(item).tag && (
+                          <div className='absolute top-0 pt-2 text-xs font-light tracking-wider'>
+                            {getHomeTypes(item).tag}
+                          </div>
+                        )}
+
+                        <div className='font-semibold '>
+                          {getHomeTypes(item).displayName}
+                        </div>
+                        <div className='text-xl'>
+                          {getHomeTypes(item).price
+                            ? `$${getHomeTypes(item).price}`
+                            : 'FREE'}
+                        </div>
+                      </div>
+                    )}
+                  </RadioGroup.Option>
+                ))}
+              </div>
+            </RadioGroup>
+          )}
+        />
       </FormSection>
 
       <div className='flex justify-end space-x-4'>

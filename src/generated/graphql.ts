@@ -475,6 +475,7 @@ export type Homes = {
   lat: Scalars['Float']
   lng: Scalars['Float']
   lotSize: Scalars['Int']
+  plan?: Maybe<Scalars['Int']>
   price: Scalars['Int']
   priceSqft?: Maybe<Scalars['Int']>
   sqft: Scalars['Int']
@@ -539,6 +540,7 @@ export type Homes_Avg_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -563,6 +565,7 @@ export type Homes_Bool_Exp = {
   lat?: InputMaybe<Float_Comparison_Exp>
   lng?: InputMaybe<Float_Comparison_Exp>
   lotSize?: InputMaybe<Int_Comparison_Exp>
+  plan?: InputMaybe<Int_Comparison_Exp>
   price?: InputMaybe<Int_Comparison_Exp>
   priceSqft?: InputMaybe<Int_Comparison_Exp>
   sqft?: InputMaybe<Int_Comparison_Exp>
@@ -602,6 +605,7 @@ export type Homes_Inc_Input = {
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
   lotSize?: InputMaybe<Scalars['Int']>
+  plan?: InputMaybe<Scalars['Int']>
   price?: InputMaybe<Scalars['Int']>
   priceSqft?: InputMaybe<Scalars['Int']>
   sqft?: InputMaybe<Scalars['Int']>
@@ -623,6 +627,7 @@ export type Homes_Insert_Input = {
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
   lotSize?: InputMaybe<Scalars['Int']>
+  plan?: InputMaybe<Scalars['Int']>
   price?: InputMaybe<Scalars['Int']>
   priceSqft?: InputMaybe<Scalars['Int']>
   sqft?: InputMaybe<Scalars['Int']>
@@ -648,6 +653,7 @@ export type Homes_Max_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Int']>
+  plan?: Maybe<Scalars['Int']>
   price?: Maybe<Scalars['Int']>
   priceSqft?: Maybe<Scalars['Int']>
   sqft?: Maybe<Scalars['Int']>
@@ -673,6 +679,7 @@ export type Homes_Min_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Int']>
+  plan?: Maybe<Scalars['Int']>
   price?: Maybe<Scalars['Int']>
   priceSqft?: Maybe<Scalars['Int']>
   sqft?: Maybe<Scalars['Int']>
@@ -721,6 +728,7 @@ export type Homes_Order_By = {
   lat?: InputMaybe<Order_By>
   lng?: InputMaybe<Order_By>
   lotSize?: InputMaybe<Order_By>
+  plan?: InputMaybe<Order_By>
   price?: InputMaybe<Order_By>
   priceSqft?: InputMaybe<Order_By>
   sqft?: InputMaybe<Order_By>
@@ -770,6 +778,8 @@ export enum Homes_Select_Column {
   /** column name */
   LotSize = 'lotSize',
   /** column name */
+  Plan = 'plan',
+  /** column name */
   Price = 'price',
   /** column name */
   PriceSqft = 'priceSqft',
@@ -802,6 +812,7 @@ export type Homes_Set_Input = {
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
   lotSize?: InputMaybe<Scalars['Int']>
+  plan?: InputMaybe<Scalars['Int']>
   price?: InputMaybe<Scalars['Int']>
   priceSqft?: InputMaybe<Scalars['Int']>
   sqft?: InputMaybe<Scalars['Int']>
@@ -821,6 +832,7 @@ export type Homes_Stddev_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -836,6 +848,7 @@ export type Homes_Stddev_Pop_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -851,6 +864,7 @@ export type Homes_Stddev_Samp_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -866,6 +880,7 @@ export type Homes_Sum_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Int']>
+  plan?: Maybe<Scalars['Int']>
   price?: Maybe<Scalars['Int']>
   priceSqft?: Maybe<Scalars['Int']>
   sqft?: Maybe<Scalars['Int']>
@@ -901,6 +916,8 @@ export enum Homes_Update_Column {
   /** column name */
   LotSize = 'lotSize',
   /** column name */
+  Plan = 'plan',
+  /** column name */
   Price = 'price',
   /** column name */
   PriceSqft = 'priceSqft',
@@ -927,6 +944,7 @@ export type Homes_Var_Pop_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -942,6 +960,7 @@ export type Homes_Var_Samp_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -957,6 +976,7 @@ export type Homes_Variance_Fields = {
   lat?: Maybe<Scalars['Float']>
   lng?: Maybe<Scalars['Float']>
   lotSize?: Maybe<Scalars['Float']>
+  plan?: Maybe<Scalars['Float']>
   price?: Maybe<Scalars['Float']>
   priceSqft?: Maybe<Scalars['Float']>
   sqft?: Maybe<Scalars['Float']>
@@ -1537,6 +1557,10 @@ export type Mutation_Root = {
   delete_messages?: Maybe<Messages_Mutation_Response>
   /** delete single row from the table: "messages" */
   delete_messages_by_pk?: Maybe<Messages>
+  /** delete data from the table: "plan_types" */
+  delete_plan_types?: Maybe<Plan_Types_Mutation_Response>
+  /** delete single row from the table: "plan_types" */
+  delete_plan_types_by_pk?: Maybe<Plan_Types>
   /** delete data from the table: "properties" */
   delete_properties?: Maybe<Properties_Mutation_Response>
   /** delete single row from the table: "properties" */
@@ -1569,6 +1593,10 @@ export type Mutation_Root = {
   insert_messages?: Maybe<Messages_Mutation_Response>
   /** insert a single row into the table: "messages" */
   insert_messages_one?: Maybe<Messages>
+  /** insert data into the table: "plan_types" */
+  insert_plan_types?: Maybe<Plan_Types_Mutation_Response>
+  /** insert a single row into the table: "plan_types" */
+  insert_plan_types_one?: Maybe<Plan_Types>
   /** insert data into the table: "properties" */
   insert_properties?: Maybe<Properties_Mutation_Response>
   /** insert a single row into the table: "properties" */
@@ -1601,6 +1629,10 @@ export type Mutation_Root = {
   update_messages?: Maybe<Messages_Mutation_Response>
   /** update single row of the table: "messages" */
   update_messages_by_pk?: Maybe<Messages>
+  /** update data of the table: "plan_types" */
+  update_plan_types?: Maybe<Plan_Types_Mutation_Response>
+  /** update single row of the table: "plan_types" */
+  update_plan_types_by_pk?: Maybe<Plan_Types>
   /** update data of the table: "properties" */
   update_properties?: Maybe<Properties_Mutation_Response>
   /** update single row of the table: "properties" */
@@ -1657,6 +1689,16 @@ export type Mutation_RootDelete_MessagesArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Messages_By_PkArgs = {
   id: Scalars['Int']
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Plan_TypesArgs = {
+  where: Plan_Types_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootDelete_Plan_Types_By_PkArgs = {
+  type: Scalars['Int']
 }
 
 /** mutation root */
@@ -1745,6 +1787,18 @@ export type Mutation_RootInsert_MessagesArgs = {
 export type Mutation_RootInsert_Messages_OneArgs = {
   object: Messages_Insert_Input
   on_conflict?: InputMaybe<Messages_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Plan_TypesArgs = {
+  objects: Array<Plan_Types_Insert_Input>
+  on_conflict?: InputMaybe<Plan_Types_On_Conflict>
+}
+
+/** mutation root */
+export type Mutation_RootInsert_Plan_Types_OneArgs = {
+  object: Plan_Types_Insert_Input
+  on_conflict?: InputMaybe<Plan_Types_On_Conflict>
 }
 
 /** mutation root */
@@ -1872,6 +1926,20 @@ export type Mutation_RootUpdate_Messages_By_PkArgs = {
 }
 
 /** mutation root */
+export type Mutation_RootUpdate_Plan_TypesArgs = {
+  _inc?: InputMaybe<Plan_Types_Inc_Input>
+  _set?: InputMaybe<Plan_Types_Set_Input>
+  where: Plan_Types_Bool_Exp
+}
+
+/** mutation root */
+export type Mutation_RootUpdate_Plan_Types_By_PkArgs = {
+  _inc?: InputMaybe<Plan_Types_Inc_Input>
+  _set?: InputMaybe<Plan_Types_Set_Input>
+  pk_columns: Plan_Types_Pk_Columns_Input
+}
+
+/** mutation root */
 export type Mutation_RootUpdate_PropertiesArgs = {
   _inc?: InputMaybe<Properties_Inc_Input>
   _set?: InputMaybe<Properties_Set_Input>
@@ -1937,6 +2005,174 @@ export enum Order_By {
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
   DescNullsLast = 'desc_nulls_last',
+}
+
+/**
+ * Types of plans that a home can be assigned with
+ *
+ *
+ * columns and relationships of "plan_types"
+ *
+ */
+export type Plan_Types = {
+  __typename?: 'plan_types'
+  type: Scalars['Int']
+}
+
+/** aggregated selection of "plan_types" */
+export type Plan_Types_Aggregate = {
+  __typename?: 'plan_types_aggregate'
+  aggregate?: Maybe<Plan_Types_Aggregate_Fields>
+  nodes: Array<Plan_Types>
+}
+
+/** aggregate fields of "plan_types" */
+export type Plan_Types_Aggregate_Fields = {
+  __typename?: 'plan_types_aggregate_fields'
+  avg?: Maybe<Plan_Types_Avg_Fields>
+  count: Scalars['Int']
+  max?: Maybe<Plan_Types_Max_Fields>
+  min?: Maybe<Plan_Types_Min_Fields>
+  stddev?: Maybe<Plan_Types_Stddev_Fields>
+  stddev_pop?: Maybe<Plan_Types_Stddev_Pop_Fields>
+  stddev_samp?: Maybe<Plan_Types_Stddev_Samp_Fields>
+  sum?: Maybe<Plan_Types_Sum_Fields>
+  var_pop?: Maybe<Plan_Types_Var_Pop_Fields>
+  var_samp?: Maybe<Plan_Types_Var_Samp_Fields>
+  variance?: Maybe<Plan_Types_Variance_Fields>
+}
+
+/** aggregate fields of "plan_types" */
+export type Plan_Types_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Plan_Types_Select_Column>>
+  distinct?: InputMaybe<Scalars['Boolean']>
+}
+
+/** aggregate avg on columns */
+export type Plan_Types_Avg_Fields = {
+  __typename?: 'plan_types_avg_fields'
+  type?: Maybe<Scalars['Float']>
+}
+
+/** Boolean expression to filter rows from the table "plan_types". All fields are combined with a logical 'AND'. */
+export type Plan_Types_Bool_Exp = {
+  _and?: InputMaybe<Array<Plan_Types_Bool_Exp>>
+  _not?: InputMaybe<Plan_Types_Bool_Exp>
+  _or?: InputMaybe<Array<Plan_Types_Bool_Exp>>
+  type?: InputMaybe<Int_Comparison_Exp>
+}
+
+/** unique or primary key constraints on table "plan_types" */
+export enum Plan_Types_Constraint {
+  /** unique or primary key constraint */
+  PlanTypesPkey = 'plan_types_pkey',
+}
+
+/** input type for incrementing numeric columns in table "plan_types" */
+export type Plan_Types_Inc_Input = {
+  type?: InputMaybe<Scalars['Int']>
+}
+
+/** input type for inserting data into table "plan_types" */
+export type Plan_Types_Insert_Input = {
+  type?: InputMaybe<Scalars['Int']>
+}
+
+/** aggregate max on columns */
+export type Plan_Types_Max_Fields = {
+  __typename?: 'plan_types_max_fields'
+  type?: Maybe<Scalars['Int']>
+}
+
+/** aggregate min on columns */
+export type Plan_Types_Min_Fields = {
+  __typename?: 'plan_types_min_fields'
+  type?: Maybe<Scalars['Int']>
+}
+
+/** response of any mutation on the table "plan_types" */
+export type Plan_Types_Mutation_Response = {
+  __typename?: 'plan_types_mutation_response'
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int']
+  /** data from the rows affected by the mutation */
+  returning: Array<Plan_Types>
+}
+
+/** on conflict condition type for table "plan_types" */
+export type Plan_Types_On_Conflict = {
+  constraint: Plan_Types_Constraint
+  update_columns?: Array<Plan_Types_Update_Column>
+  where?: InputMaybe<Plan_Types_Bool_Exp>
+}
+
+/** Ordering options when selecting data from "plan_types". */
+export type Plan_Types_Order_By = {
+  type?: InputMaybe<Order_By>
+}
+
+/** primary key columns input for table: plan_types */
+export type Plan_Types_Pk_Columns_Input = {
+  type: Scalars['Int']
+}
+
+/** select columns of table "plan_types" */
+export enum Plan_Types_Select_Column {
+  /** column name */
+  Type = 'type',
+}
+
+/** input type for updating data in table "plan_types" */
+export type Plan_Types_Set_Input = {
+  type?: InputMaybe<Scalars['Int']>
+}
+
+/** aggregate stddev on columns */
+export type Plan_Types_Stddev_Fields = {
+  __typename?: 'plan_types_stddev_fields'
+  type?: Maybe<Scalars['Float']>
+}
+
+/** aggregate stddev_pop on columns */
+export type Plan_Types_Stddev_Pop_Fields = {
+  __typename?: 'plan_types_stddev_pop_fields'
+  type?: Maybe<Scalars['Float']>
+}
+
+/** aggregate stddev_samp on columns */
+export type Plan_Types_Stddev_Samp_Fields = {
+  __typename?: 'plan_types_stddev_samp_fields'
+  type?: Maybe<Scalars['Float']>
+}
+
+/** aggregate sum on columns */
+export type Plan_Types_Sum_Fields = {
+  __typename?: 'plan_types_sum_fields'
+  type?: Maybe<Scalars['Int']>
+}
+
+/** update columns of table "plan_types" */
+export enum Plan_Types_Update_Column {
+  /** column name */
+  Type = 'type',
+}
+
+/** aggregate var_pop on columns */
+export type Plan_Types_Var_Pop_Fields = {
+  __typename?: 'plan_types_var_pop_fields'
+  type?: Maybe<Scalars['Float']>
+}
+
+/** aggregate var_samp on columns */
+export type Plan_Types_Var_Samp_Fields = {
+  __typename?: 'plan_types_var_samp_fields'
+  type?: Maybe<Scalars['Float']>
+}
+
+/** aggregate variance on columns */
+export type Plan_Types_Variance_Fields = {
+  __typename?: 'plan_types_variance_fields'
+  type?: Maybe<Scalars['Float']>
 }
 
 /** columns and relationships of "properties" */
@@ -2368,6 +2604,12 @@ export type Query_Root = {
   messages_aggregate: Messages_Aggregate
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>
+  /** fetch data from the table: "plan_types" */
+  plan_types: Array<Plan_Types>
+  /** fetch aggregated fields from the table: "plan_types" */
+  plan_types_aggregate: Plan_Types_Aggregate
+  /** fetch data from the table: "plan_types" using primary key columns */
+  plan_types_by_pk?: Maybe<Plan_Types>
   /** fetch data from the table: "properties" */
   properties: Array<Properties>
   /** fetch aggregated fields from the table: "properties" */
@@ -2476,6 +2718,26 @@ export type Query_RootMessages_AggregateArgs = {
 
 export type Query_RootMessages_By_PkArgs = {
   id: Scalars['Int']
+}
+
+export type Query_RootPlan_TypesArgs = {
+  distinct_on?: InputMaybe<Array<Plan_Types_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Plan_Types_Order_By>>
+  where?: InputMaybe<Plan_Types_Bool_Exp>
+}
+
+export type Query_RootPlan_Types_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Plan_Types_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Plan_Types_Order_By>>
+  where?: InputMaybe<Plan_Types_Bool_Exp>
+}
+
+export type Query_RootPlan_Types_By_PkArgs = {
+  type: Scalars['Int']
 }
 
 export type Query_RootPropertiesArgs = {
@@ -2737,6 +2999,12 @@ export type Subscription_Root = {
   messages_aggregate: Messages_Aggregate
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>
+  /** fetch data from the table: "plan_types" */
+  plan_types: Array<Plan_Types>
+  /** fetch aggregated fields from the table: "plan_types" */
+  plan_types_aggregate: Plan_Types_Aggregate
+  /** fetch data from the table: "plan_types" using primary key columns */
+  plan_types_by_pk?: Maybe<Plan_Types>
   /** fetch data from the table: "properties" */
   properties: Array<Properties>
   /** fetch aggregated fields from the table: "properties" */
@@ -2845,6 +3113,26 @@ export type Subscription_RootMessages_AggregateArgs = {
 
 export type Subscription_RootMessages_By_PkArgs = {
   id: Scalars['Int']
+}
+
+export type Subscription_RootPlan_TypesArgs = {
+  distinct_on?: InputMaybe<Array<Plan_Types_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Plan_Types_Order_By>>
+  where?: InputMaybe<Plan_Types_Bool_Exp>
+}
+
+export type Subscription_RootPlan_Types_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Plan_Types_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Plan_Types_Order_By>>
+  where?: InputMaybe<Plan_Types_Bool_Exp>
+}
+
+export type Subscription_RootPlan_Types_By_PkArgs = {
+  type: Scalars['Int']
 }
 
 export type Subscription_RootPropertiesArgs = {
@@ -3426,6 +3714,7 @@ export type SearchHomesByLocationDetailedQuery = {
     beds: number
     price: number
     sqft: number
+    plan?: number | null | undefined
   }>
 }
 
@@ -3803,6 +4092,7 @@ export const SearchHomesByLocationDetailedDocument = /*#__PURE__*/ gql`
       beds
       price
       sqft
+      plan
     }
   }
 `

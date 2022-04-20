@@ -23,6 +23,7 @@ import {
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import Link from 'src/components/atoms/Link'
 import { loginNotification } from 'src/lib/util'
+import { getHomeTypes } from 'src/store/static'
 
 export type IPropertyCardProps = Partial<Homes> & {
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
@@ -34,6 +35,7 @@ const PropertyCard = ({
   beds,
   bath,
   price,
+  plan,
   sqft,
   wishlisted,
 }: IPropertyCardProps) => {
@@ -43,6 +45,8 @@ const PropertyCard = ({
 
   const uid = useAppSelector(selectUid)
   useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
+
+  const homePlan = getHomeTypes(plan)
 
   return (
     <div
@@ -57,6 +61,13 @@ const PropertyCard = ({
             src='https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
             alt=''
           />
+          {plan && (
+            <div className='absolute top-0 left-0'>
+              <div className={` px-1 py-0.5 text-xs ${homePlan.bg}`}>
+                {homePlan.displayName}
+              </div>
+            </div>
+          )}
           <div className='font-semibold'>
             <button
               type='button'
