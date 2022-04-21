@@ -27,10 +27,10 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
 
   const highlightedClasses =
     highlighted &&
-    'text-primary-700 scale-150 opacity-100  border border-primary-700 rounded bg-white'
+    'fill-primary scale-110  opacity-100  border border-primary  bg-white'
 
   const wishlistedClasses =
-    wishlisted && 'text-red-600 fill-red-600 scale-150 border-red-600 '
+    wishlisted && 'text-red fill-red border-red scale-110  '
 
   return (
     <Marker latitude={home.lat} longitude={home.lng}>
@@ -53,7 +53,7 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
           )
         }}
         // onMouseLeave={() => debouncedDispatch(setHighlightedHomeId(null))}
-        className={`w-5 h-5 opacity-90  text-primary-900 transition-all shadow-2xl cursor-pointer ease-in-out duration-200 relative ${highlightedClasses} ${wishlistedClasses}`}
+        className={`w-5 h-5 opacity-90  text-primary-900 transition-all shadow-2xl cursor-pointer ease-in-out duration-200 rounded relative ${highlightedClasses} ${wishlistedClasses}`}
       />
     </Marker>
   )

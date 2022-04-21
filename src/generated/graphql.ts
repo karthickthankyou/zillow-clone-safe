@@ -27,6 +27,19 @@ export type Scalars = {
   timestamptz: any
 }
 
+/** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['Boolean']>
+  _gt?: InputMaybe<Scalars['Boolean']>
+  _gte?: InputMaybe<Scalars['Boolean']>
+  _in?: InputMaybe<Array<Scalars['Boolean']>>
+  _is_null?: InputMaybe<Scalars['Boolean']>
+  _lt?: InputMaybe<Scalars['Boolean']>
+  _lte?: InputMaybe<Scalars['Boolean']>
+  _neq?: InputMaybe<Scalars['Boolean']>
+  _nin?: InputMaybe<Array<Scalars['Boolean']>>
+}
+
 /** Boolean expression to compare columns of type "Float". All fields are combined with logical 'AND'. */
 export type Float_Comparison_Exp = {
   _eq?: InputMaybe<Scalars['Float']>
@@ -478,9 +491,11 @@ export type Homes = {
   plan?: Maybe<Scalars['Int']>
   price: Scalars['Int']
   priceSqft?: Maybe<Scalars['Int']>
+  published?: Maybe<Scalars['Boolean']>
   sqft: Scalars['Int']
   state: Scalars['String']
   style: Scalars['String']
+  uid?: Maybe<Scalars['String']>
   updatedAt: Scalars['timestamptz']
   yearBuilt: Scalars['smallint']
   zipcode: Scalars['String']
@@ -568,9 +583,11 @@ export type Homes_Bool_Exp = {
   plan?: InputMaybe<Int_Comparison_Exp>
   price?: InputMaybe<Int_Comparison_Exp>
   priceSqft?: InputMaybe<Int_Comparison_Exp>
+  published?: InputMaybe<Boolean_Comparison_Exp>
   sqft?: InputMaybe<Int_Comparison_Exp>
   state?: InputMaybe<String_Comparison_Exp>
   style?: InputMaybe<String_Comparison_Exp>
+  uid?: InputMaybe<String_Comparison_Exp>
   updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>
   yearBuilt?: InputMaybe<Smallint_Comparison_Exp>
   zipcode?: InputMaybe<String_Comparison_Exp>
@@ -630,9 +647,11 @@ export type Homes_Insert_Input = {
   plan?: InputMaybe<Scalars['Int']>
   price?: InputMaybe<Scalars['Int']>
   priceSqft?: InputMaybe<Scalars['Int']>
+  published?: InputMaybe<Scalars['Boolean']>
   sqft?: InputMaybe<Scalars['Int']>
   state?: InputMaybe<Scalars['String']>
   style?: InputMaybe<Scalars['String']>
+  uid?: InputMaybe<Scalars['String']>
   updatedAt?: InputMaybe<Scalars['timestamptz']>
   yearBuilt?: InputMaybe<Scalars['smallint']>
   zipcode?: InputMaybe<Scalars['String']>
@@ -659,6 +678,7 @@ export type Homes_Max_Fields = {
   sqft?: Maybe<Scalars['Int']>
   state?: Maybe<Scalars['String']>
   style?: Maybe<Scalars['String']>
+  uid?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
   yearBuilt?: Maybe<Scalars['smallint']>
   zipcode?: Maybe<Scalars['String']>
@@ -685,6 +705,7 @@ export type Homes_Min_Fields = {
   sqft?: Maybe<Scalars['Int']>
   state?: Maybe<Scalars['String']>
   style?: Maybe<Scalars['String']>
+  uid?: Maybe<Scalars['String']>
   updatedAt?: Maybe<Scalars['timestamptz']>
   yearBuilt?: Maybe<Scalars['smallint']>
   zipcode?: Maybe<Scalars['String']>
@@ -731,9 +752,11 @@ export type Homes_Order_By = {
   plan?: InputMaybe<Order_By>
   price?: InputMaybe<Order_By>
   priceSqft?: InputMaybe<Order_By>
+  published?: InputMaybe<Order_By>
   sqft?: InputMaybe<Order_By>
   state?: InputMaybe<Order_By>
   style?: InputMaybe<Order_By>
+  uid?: InputMaybe<Order_By>
   updatedAt?: InputMaybe<Order_By>
   yearBuilt?: InputMaybe<Order_By>
   zipcode?: InputMaybe<Order_By>
@@ -784,11 +807,15 @@ export enum Homes_Select_Column {
   /** column name */
   PriceSqft = 'priceSqft',
   /** column name */
+  Published = 'published',
+  /** column name */
   Sqft = 'sqft',
   /** column name */
   State = 'state',
   /** column name */
   Style = 'style',
+  /** column name */
+  Uid = 'uid',
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
@@ -815,9 +842,11 @@ export type Homes_Set_Input = {
   plan?: InputMaybe<Scalars['Int']>
   price?: InputMaybe<Scalars['Int']>
   priceSqft?: InputMaybe<Scalars['Int']>
+  published?: InputMaybe<Scalars['Boolean']>
   sqft?: InputMaybe<Scalars['Int']>
   state?: InputMaybe<Scalars['String']>
   style?: InputMaybe<Scalars['String']>
+  uid?: InputMaybe<Scalars['String']>
   updatedAt?: InputMaybe<Scalars['timestamptz']>
   yearBuilt?: InputMaybe<Scalars['smallint']>
   zipcode?: InputMaybe<Scalars['String']>
@@ -922,11 +951,15 @@ export enum Homes_Update_Column {
   /** column name */
   PriceSqft = 'priceSqft',
   /** column name */
+  Published = 'published',
+  /** column name */
   Sqft = 'sqft',
   /** column name */
   State = 'state',
   /** column name */
   Style = 'style',
+  /** column name */
+  Uid = 'uid',
   /** column name */
   UpdatedAt = 'updatedAt',
   /** column name */
@@ -3715,6 +3748,7 @@ export type SearchHomesByLocationDetailedQuery = {
     price: number
     sqft: number
     plan?: number | null | undefined
+    imgs?: any | null | undefined
   }>
 }
 
@@ -3869,6 +3903,7 @@ export type GetHomeQuery = {
         updatedAt: any
         yearBuilt: any
         zipcode: string
+        imgs?: any | null | undefined
       }
     | null
     | undefined
@@ -3929,6 +3964,19 @@ export type GetMessagesQuery = {
   }>
 }
 
+export type SetHomePlanMutationVariables = Exact<{
+  id: Scalars['Int']
+  plan?: InputMaybe<Scalars['Int']>
+}>
+
+export type SetHomePlanMutation = {
+  __typename?: 'mutation_root'
+  update_homes_by_pk?:
+    | { __typename?: 'homes'; plan?: number | null | undefined }
+    | null
+    | undefined
+}
+
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
@@ -3949,6 +3997,7 @@ export const namedOperations = {
     InsertMessage: 'InsertMessage',
     RemoveWishlist: 'RemoveWishlist',
     InsertHome: 'InsertHome',
+    SetHomePlan: 'SetHomePlan',
   },
 }
 
@@ -4093,6 +4142,7 @@ export const SearchHomesByLocationDetailedDocument = /*#__PURE__*/ gql`
       price
       sqft
       plan
+      imgs
     }
   }
 `
@@ -4284,6 +4334,7 @@ export const GetHomeDocument = /*#__PURE__*/ gql`
       updatedAt
       yearBuilt
       zipcode
+      imgs
     }
   }
 `
@@ -4348,4 +4399,17 @@ export function useGetMessagesQuery(
     query: GetMessagesDocument,
     ...options,
   })
+}
+export const SetHomePlanDocument = /*#__PURE__*/ gql`
+  mutation SetHomePlan($id: Int!, $plan: Int) {
+    update_homes_by_pk(pk_columns: { id: $id }, _set: { plan: $plan }) {
+      plan
+    }
+  }
+`
+
+export function useSetHomePlanMutation() {
+  return Urql.useMutation<SetHomePlanMutation, SetHomePlanMutationVariables>(
+    SetHomePlanDocument
+  )
 }

@@ -54,11 +54,12 @@ const ProductPage = ({ home }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
 
   const homeData = home?.data?.homes_by_pk
+
   return (
     <Container>
       <div className='grid-cols-3 gap-6 lg:grid'>
         <div className='col-span-2 space-y-6 md:space-y-12'>
-          <ProductPageCarousel />
+          <ProductPageCarousel imgs={homeData?.imgs} />
           <MainCard
             className='block lg:hidden '
             home={home}

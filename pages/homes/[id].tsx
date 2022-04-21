@@ -64,13 +64,19 @@ export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
 
-  const id = context.params?.id
+  const id = context.params?.id || -90
   await client?.query(GetHomeDocument, { id }).toPromise()
 
+  const props = {
+    props: JSON.parse(
+      JSON.stringify({
+        urqlState: ssrCache.extractData() || null,
+      })
+    ),
+  }
+
   return {
-    props: {
-      urqlState: ssrCache.extractData(),
-    },
+    props,
   }
 }
 

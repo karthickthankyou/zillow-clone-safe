@@ -19,5 +19,10 @@
     "types": ["cypress", "@testing-library/cypress"]
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/api/webhook/index.ts"
+  ]
 }

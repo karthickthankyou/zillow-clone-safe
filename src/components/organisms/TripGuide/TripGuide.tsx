@@ -85,7 +85,7 @@ const TripGuide = () => {
           <Section
             title='Product page'
             position={{ top: '92%', right: '32%' }}
-            href='/home/68'
+            href='/homes/68'
             Icon={PhotographIcon}
           />
           <Section

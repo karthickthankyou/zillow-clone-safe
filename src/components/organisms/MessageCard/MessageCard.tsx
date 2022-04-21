@@ -21,7 +21,7 @@ const MessageCard = ({
   return (
     <div className='flex gap-3 overflow-hidden rounded '>
       <div className='w-24 '>
-        <Link href={`/home/${id}`}>
+        <Link href={`/homes/${id}`}>
           <Image
             alt=''
             className='w-full h-24 rounded'

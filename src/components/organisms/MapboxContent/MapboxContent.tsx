@@ -102,7 +102,7 @@ export const FetchingBool = ({ fetching }: { fetching: boolean }) =>
 export const Error = () => {
   const error = useAppSelector(selectMapError)
   return error ? (
-    <div className='px-4 py-2 text-white bg-red-600 rounded-full shadow-xl'>
+    <div className='px-4 py-2 text-white rounded-full shadow-xl bg-red'>
       Someting went wrong.
     </div>
   ) : null
@@ -117,7 +117,7 @@ export const MapMessage = ({ message }: { message: string | null }) =>
 
 export const ErrorBool = ({ error }: { error: string | null }) =>
   error ? (
-    <div className='px-4 py-2 text-white border border-red-600 rounded-full shadow-xl shadow-black/30 bg-red-600/60'>
+    <div className='px-4 py-2 text-white border rounded-full shadow-xl border-red shadow-black/30 bg-red/60'>
       {error}
     </div>
   ) : null

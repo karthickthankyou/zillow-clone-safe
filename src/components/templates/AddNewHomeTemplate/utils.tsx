@@ -69,6 +69,7 @@ export const newHomeSchema = yup
         'Write a few words about the house you are trying to sell. You want to sell it or not?'
       ),
     facts: yup.string(),
+    published: yup.boolean(),
     features: yup
       .string()
       .required(

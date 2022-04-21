@@ -3,7 +3,7 @@ import Image from 'src/components/atoms/Image'
 import HScroll from 'src/components/molecules/HScroll'
 
 export interface IProductPageCarouselProps {}
-const data = [
+export const dummyImagedData = [
   {
     id: '0',
     src: 'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg',
@@ -54,20 +54,26 @@ const data = [
   },
 ]
 
-const ProductPageCarousel = () => {
+const ProductPageCarousel = ({ imgs }: { imgs: string[] }) => {
   const [selected, setSelected] = useState(0)
+
+  const updatedImgs = [
+    ...(imgs || []).map((item) => ({ id: item, src: item })),
+    ...dummyImagedData,
+  ]
+
   return (
-    <div className='min-h-[30rem] flex flex-col'>
+    <div className='min-h-[36rem] flex flex-col'>
       <Image
-        key={data[selected].id}
-        src={data[selected].src}
+        key={updatedImgs[selected].id}
+        src={updatedImgs[selected].src}
         alt=''
         className='flex-grow h-full border border-white rounded-lg bg-primary/10 '
       />
 
       <HScroll className='relative flex h-28'>
         <HScroll.Body>
-          {data.map((item, index) => (
+          {updatedImgs.map((item, index) => (
             <HScroll.Child key={item.id}>
               <Image
                 src={item.src}

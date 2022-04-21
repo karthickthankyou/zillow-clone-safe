@@ -60,7 +60,7 @@ export const FilterButtonWithBadge = ({
   <PopoverButton className='relative'>
     <>
       {showBadge ? (
-        <div className='absolute top-0 w-2 h-2 rounded-full left-full bg-red-500/50' />
+        <div className='absolute top-0 w-2 h-2 rounded-full left-full bg-red/50' />
       ) : null}
       {title}
     </>
@@ -252,6 +252,7 @@ export const LocationSearch = ({
   useSearchPlaces()
   const dispatch = useAppDispatch()
   const cityList = useAppSelector(selectMapSearchOptions)
+  const searchText = useAppSelector((state) => state.map.searchText)
   return (
     <Autocomplete<
       MapSlice['mapSearchOptions']['data'][number],
@@ -260,6 +261,7 @@ export const LocationSearch = ({
       false
     >
       options={cityList.data}
+      noOptionsText={searchText ? 'No options' : 'Type something...'}
       placeholder='Type something...'
       getOptionLabel={(x) => x.displayName}
       onInputChange={(_, v) => dispatch(setSearchText(v))}
@@ -279,5 +281,5 @@ export const LocationSearch = ({
 
 export const DirtyMarker = ({ isDirty }: { isDirty: boolean }) =>
   isDirty ? (
-    <div className='absolute top-0 w-2 h-2 rounded-full left-full bg-red-500/50' />
+    <div className='absolute top-0 w-2 h-2 rounded-full left-full bg-red/50' />
   ) : null

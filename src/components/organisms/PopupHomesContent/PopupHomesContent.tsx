@@ -43,7 +43,7 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
 
   return (
     <div className='flex flex-col w-48 '>
-      <Link href={`/home/${id}`}>
+      <Link href={`/homes/${id}`}>
         <div className='relative h-36'>
           <Image
             src='https://via.placeholder.com/150'
@@ -77,9 +77,9 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
               }}
             >
               {!wishlisted ? (
-                <HeartIconReg className='w-6 h-6 text-red-600 hover:fill-red-100' />
+                <HeartIconReg className='w-6 h-6 text-red hover:fill-red-100' />
               ) : (
-                <HeartIconSolid className='w-6 h-6 fill-red-600' />
+                <HeartIconSolid className='w-6 h-6 fill-red' />
               )}
             </button>
           </div>
@@ -96,7 +96,7 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
           </div>
         </div>
         <Link
-          href={`/home/${id}`}
+          href={`/homes/${id}`}
           className='p-2 text-xs bg-gray-50 line-clamp-2'
         >
           {data?.homes_by_pk?.address || ''}

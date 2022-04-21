@@ -17,8 +17,9 @@ import { scrollToTop } from 'src/hooks'
 import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Dialog from 'src/components/molecules/Dialog'
-import { RadioGroup } from '@headlessui/react'
+import { RadioGroup, Switch } from '@headlessui/react'
 import { getHomeTypes } from 'src/store/static'
+import { useAppSelector } from 'src/store'
 import { MapLocationPicker, NewHomeSchema, newHomeSchema } from './utils'
 
 export interface IAddNewHomeTemplateProps {}
@@ -70,6 +71,7 @@ const AddNewHomeTemplate = () => {
       description: '',
       facts: '',
       features: '',
+      published: true,
       lotSize: undefined,
       price: undefined,
       sqft: undefined,
@@ -88,21 +90,22 @@ const AddNewHomeTemplate = () => {
   const formData = watch()
   console.log('Formdata: ', formData, errors)
 
-  const onSubmit = handleSubmit(async (data) => {
-    const { imgFiles, ...uploadData } = data
+  const uid = useAppSelector((state) => state.user.data.user?.uid)
 
-    if (uploadData.plan === 0) {
-      addNewHome({ object: uploadData })
-    } else {
-      console.log(
-        'process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
-        process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-      )
+  const onSubmit = handleSubmit(async (data) => {
+    const { imgFiles, plan, ...uploadData } = data
+
+    const home = await addNewHome({ object: { ...uploadData, uid } })
+    console.log('Home uploaded: ', home)
+    if (home.data?.insert_homes_one?.id && plan && plan > 0) {
       const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       const stripePromise = loadStripe(publishableKey || '')
       const stripe = await stripePromise
       const checkoutSession = await axios.post('/api/create-stripe-session', {
-        homeData: uploadData,
+        id: home.data?.insert_homes_one?.id,
+        plan,
+        imgs: uploadData.imgs,
+        address: uploadData.address,
       })
       const result = await stripe?.redirectToCheckout({
         sessionId: checkoutSession.data.id,
@@ -115,9 +118,9 @@ const AddNewHomeTemplate = () => {
     setshowDialog(Boolean(publishedHome.data?.insert_homes_one?.id))
   }, [publishedHome])
 
-  useEffect(() => {
-    scrollToTop()
-  }, [])
+  // useEffect(() => {
+  //   scrollToTop()
+  // }, [])
 
   return (
     <form onSubmit={onSubmit} className='mb-24 space-y-20'>
@@ -140,7 +143,7 @@ const AddNewHomeTemplate = () => {
           </button>
           <Link
             className='inline-block px-4 py-2 mt-8 text-center text-white bg-primary-600'
-            href={`/home/${publishedHome.data?.insert_homes_one?.id}`}
+            href={`/homes/${publishedHome.data?.insert_homes_one?.id}`}
           >
             Visit page
           </Link>
@@ -424,13 +427,42 @@ const AddNewHomeTemplate = () => {
           )}
         />
       </FormSection>
+      <FormSection
+        title={
+          <FormSectionTitle
+            title='Published'
+            description='Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nam modi
+              deleniti earum ratione qui odio molestiae.'
+          />
+        }
+      >
+        <Controller
+          name='published'
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <Switch
+              checked={value || false}
+              onChange={onChange}
+              className={`${
+                value ? 'bg-luxury' : 'bg-gray-200'
+              } relative inline-flex items-center h-8 shadow-inner rounded-full w-16`}
+            >
+              <span
+                className={`${
+                  value ? 'translate-x-9' : 'translate-x-1'
+                } inline-block w-6 h-6 transform bg-white rounded-full transition-transform`}
+              />
+            </Switch>
+          )}
+        />
+      </FormSection>
 
-      <div className='flex justify-end space-x-4'>
+      <div className='flex justify-end'>
         <button
-          className='px-20 py-2 text-white rounded bg-primary-500'
+          className='w-full px-20 py-2 text-white border rounded sm:w-1/2 md:w-1/3 lg:w-1/4 border-primary bg-primary-500'
           type='submit'
         >
-          Submit
+          Publish
         </button>
       </div>
     </form>

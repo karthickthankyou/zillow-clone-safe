@@ -42,14 +42,14 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
 
   return (
     <div className={`col-span-1 ${className}`}>
-      <div className='sticky flex flex-col min-h-[30rem] top-0 p-6 rounded-lg shadow-lg bg-striped'>
+      <div className='sticky flex flex-col min-h-[36rem] top-0 p-6 rounded-lg shadow-lg bg-striped'>
         <div className='mt-12 text-xs tracking-wide text-gray-600 uppercase'>
           for sale
         </div>
         <div className='mt-1 text-gray-600'>{homeData?.address}</div>
 
         <h2 className='mt-6 text-4xl'>${homeData?.price.toLocaleString()}</h2>
-        <div className='flex flex-wrap mt-1 '>
+        <div className='flex flex-wrap mt-1 text-xl'>
           <div>
             <span>{homeData?.beds} </span>
             <span className='text-base'>bd</span>
@@ -71,7 +71,7 @@ const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
           </div>
         </div>
 
-        <div>
+        <div className='mt-8'>
           <div>
             Est. payment: $
             {Math.round((homeData?.price || 0) / 120).toLocaleString()}

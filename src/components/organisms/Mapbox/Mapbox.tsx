@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react'
 import ReactMapGL, {
   InteractiveMapProps,
   FlyToInterpolator,
+  LinearInterpolator,
 } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
@@ -43,8 +44,8 @@ const MapBox = ({
       onViewportChange={({ latitude, longitude, zoom }: Viewport) => {
         setViewport({ latitude, longitude, zoom })
       }}
-      transitionDuration='auto'
-      transitionInterpolator={new FlyToInterpolator()}
+      // transitionDuration='auto'
+      // transitionInterpolator={new LinearInterpolator()}
       {...props}
       className={`rounded ${className}`}
       data-chromatic='ignore'

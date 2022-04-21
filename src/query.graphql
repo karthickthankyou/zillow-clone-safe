@@ -91,6 +91,7 @@ query SearchHomesByLocationDetailed(
     price
     sqft
     plan
+    imgs
   }
 }
 
@@ -199,6 +200,7 @@ query GetHome($id: Int!) {
     updatedAt
     yearBuilt
     zipcode
+    imgs
   }
 }
 
@@ -238,5 +240,11 @@ query GetMessages($uid: String!) {
     }
     message
     created_at
+  }
+}
+
+mutation SetHomePlan($id: Int!, $plan: Int) {
+  update_homes_by_pk(pk_columns: { id: $id }, _set: { plan: $plan }) {
+    plan
   }
 }

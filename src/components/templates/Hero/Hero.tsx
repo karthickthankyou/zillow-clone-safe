@@ -23,7 +23,7 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
         </div>
 
         <LocationSearch
-          className='mt-12'
+          className='mt-12 '
           onChange={() => router.push({ pathname: '/homes' }, '/homes')}
         />
 

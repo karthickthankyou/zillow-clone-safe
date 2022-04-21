@@ -35,6 +35,7 @@ const PropertyCard = ({
   beds,
   bath,
   price,
+  imgs,
   plan,
   sqft,
   wishlisted,
@@ -54,11 +55,14 @@ const PropertyCard = ({
       onFocus={() => startLongHoverDispatch(setHighlightedHomeId(id))}
       onMouseLeave={() => stopLongHoverDispatch()}
     >
-      <Link href={`/home/${id}`}>
+      <Link href={`/homes/${id}`}>
         <div className='relative overflow-hidden border border-white rounded-md shadow-lg h-80'>
           <Image
             className='absolute h-full transition-transform duration-1000 scale-105 rounded hover:scale-100'
-            src='https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
+            src={
+              (imgs && imgs[0]) ||
+              'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
+            }
             alt=''
           />
           {plan && (
@@ -94,7 +98,7 @@ const PropertyCard = ({
               {!wishlisted ? (
                 <HeartIconReg className='w-8 h-8 p-1' />
               ) : (
-                <HeartIconSolid className='w-8 h-8 p-1 fill-red-600' />
+                <HeartIconSolid className='w-8 h-8 p-1 fill-red' />
               )}
             </button>
           </div>

@@ -3,19 +3,20 @@ import { getHomeTypes } from 'src/store/static'
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 async function CreateStripeSession(
-  req: { body: { homeData: any } },
+  req: { body: { id: string; plan: number; imgs: string[]; address: string } },
   res: { json: (arg0: { id: any }) => void }
 ) {
-  const { homeData } = req.body
+  const { id, plan: planID, imgs, address } = req.body
 
-  const plan = getHomeTypes(homeData.plan)
+  const plan = getHomeTypes(planID)
 
   const transformedItem = {
     price_data: {
       currency: 'usd',
       product_data: {
-        images: [homeData.imgs && homeData.imgs[0]],
+        images: [imgs && imgs[0]],
         name: plan.displayName,
+        description: address,
       },
       unit_amount: plan.price * 100,
     },
@@ -32,10 +33,11 @@ async function CreateStripeSession(
     payment_method_types: ['card'],
     line_items: [transformedItem],
     mode: 'payment',
-    success_url: `${redirectURL}/homes`,
+    success_url: `${redirectURL}/homes/${id}`,
     cancel_url: `${redirectURL}/homes/new`,
     metadata: {
-      homeData: JSON.stringify(homeData),
+      id,
+      plan: planID,
     },
   })
 

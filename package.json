@@ -116,6 +116,7 @@
     "@types/dateformat": "^5.0.0",
     "@types/lodash.debounce": "^4.0.6",
     "@types/mapbox-gl": "^2.6.0",
+    "@types/micro": "^7.3.7",
     "@types/node": "16.11.10",
     "@types/react": "17.0.37",
     "@types/react-google-recaptcha": "^2.1.5",

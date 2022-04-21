@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import ProductPageCarousel from './ProductPageCarousel'
+import ProductPageCarousel, { dummyImagedData } from './ProductPageCarousel'
 
 export default {
   title: 'organisms/ProductPageCarousel',
@@ -8,7 +8,7 @@ export default {
 } as ComponentMeta<typeof ProductPageCarousel>
 
 const Template: ComponentStory<typeof ProductPageCarousel> = () => (
-  <ProductPageCarousel />
+  <ProductPageCarousel imgs={dummyImagedData.map((item) => item.src)} />
 )
 
 export const Primary = Template.bind({})

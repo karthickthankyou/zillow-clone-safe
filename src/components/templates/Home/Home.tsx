@@ -45,7 +45,10 @@ const Home = () => {
           </div>
         </Container>
 
-        <div className='w-screen mb-24 h-screen90' ref={interactiveMapRef}>
+        <div
+          className='w-screen mb-24 h-screen80 md:h-screen'
+          ref={interactiveMapRef}
+        >
           <MapProvider className='h-full'>
             <Mapbox>
               <HomeMarkers />

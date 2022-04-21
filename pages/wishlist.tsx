@@ -49,7 +49,7 @@ const WishlistPage: NextPage = () => {
       <Grid>
         {data?.wishlisted.map((item) => (
           <div key={item.id} className='relative'>
-            <Link href={`/home/${item.hId}`}>
+            <Link href={`/homes/${item.hId}`}>
               <Image
                 alt=''
                 className='h-full rounded'
