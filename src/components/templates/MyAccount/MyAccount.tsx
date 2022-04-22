@@ -1,23 +1,23 @@
+import { useState } from 'react'
 import Container from 'src/components/atoms/Container'
 import { useAppSelector } from 'src/store'
 import { getFunctions, httpsCallable } from 'firebase/functions'
 import { selectUserRoles } from 'src/store/user/userSlice'
+import Button from 'src/components/atoms/Button/Button'
 
 export interface IMyAccountProps {}
 
-const becomeAgentClick = () => {
-  const functions = getFunctions()
-  const becomeAgent = httpsCallable(functions, 'becomeAgent')
-  becomeAgent().then((result) => {
-    // Read result of the Cloud Function.
-    /** @type {any} */
-    const { data } = result
-    // eslint-disable-next-line no-console
-    console.log('Data: ', data)
-  })
-}
-
 const MyAccount = () => {
+  const [becoming, setBecoming] = useState(false)
+
+  const becomeAgentClick = () => {
+    const functions = getFunctions()
+    setBecoming(true)
+    const becomeSellerForZillow = httpsCallable(functions, 'becomeAgent')
+    becomeSellerForZillow().then(() => {
+      setBecoming(false)
+    })
+  }
   const roles = useAppSelector(selectUserRoles)
 
   return (
@@ -29,13 +29,13 @@ const MyAccount = () => {
       {roles?.includes('agent') ? (
         <h2>Already an agent!</h2>
       ) : (
-        <button
-          type='button'
+        <Button
+          isLoading={becoming}
           className='px-4 py-2 text-white rounded bg-primary-500'
           onClick={becomeAgentClick}
         >
           Become agent
-        </button>
+        </Button>
       )}
 
       <div className='mt-6 mb-4 text-2xl font-semibold'>Roles</div>

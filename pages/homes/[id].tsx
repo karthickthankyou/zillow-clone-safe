@@ -59,11 +59,6 @@ interface Params extends ParsedUrlQuery {
 
 // This function gets called at build time
 export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
-  // Call an external API endpoint to get posts
-
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
-
   const id = context.params?.id || -90
   await client?.query(GetHomeDocument, { id }).toPromise()
 

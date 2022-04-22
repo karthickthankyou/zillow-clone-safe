@@ -1,12 +1,8 @@
-import { render, screen } from '@testing-library/react'
+import { mount } from '@cypress/react'
 import Button from '.'
 
 describe('button component', () => {
-  const buttonContent = 'Click me 1'
-  test('should render with given text', async () => {
-    render(<Button onClickAction={() => {}}>{buttonContent}</Button>)
-    screen.getByRole('button', {
-      name: buttonContent,
-    })
+  it('should render with given text', async () => {
+    mount(<Button>Click</Button>)
   })
 })

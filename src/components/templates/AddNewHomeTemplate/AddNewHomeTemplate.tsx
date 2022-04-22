@@ -88,15 +88,15 @@ const AddNewHomeTemplate = () => {
   })
 
   const formData = watch()
-  console.log('Formdata: ', formData, errors)
 
   const uid = useAppSelector((state) => state.user.data.user?.uid)
-
+  const [showDialog, setshowDialog] = useState(false)
+  const [showErrorDialog, setShowErrorDialog] = useState(false)
   const onSubmit = handleSubmit(async (data) => {
     const { imgFiles, plan, ...uploadData } = data
 
     const home = await addNewHome({ object: { ...uploadData, uid } })
-    console.log('Home uploaded: ', home)
+
     if (home.data?.insert_homes_one?.id && plan && plan > 0) {
       const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       const stripePromise = loadStripe(publishableKey || '')
@@ -110,13 +110,11 @@ const AddNewHomeTemplate = () => {
       const result = await stripe?.redirectToCheckout({
         sessionId: checkoutSession.data.id,
       })
+    } else {
+      if (home.error) setShowErrorDialog(true)
+      if (home.data?.insert_homes_one?.id) setshowDialog(true)
     }
   })
-
-  const [showDialog, setshowDialog] = useState(false)
-  useEffect(() => {
-    setshowDialog(Boolean(publishedHome.data?.insert_homes_one?.id))
-  }, [publishedHome])
 
   // useEffect(() => {
   //   scrollToTop()
@@ -126,6 +124,17 @@ const AddNewHomeTemplate = () => {
     <form onSubmit={onSubmit} className='mb-24 space-y-20'>
       <div className='mt-12 text-3xl font-medium'>Add new home</div>
 
+      <Dialog
+        open={showErrorDialog}
+        setOpen={setShowErrorDialog}
+        className='max-w-md'
+      >
+        <div className='text-xl font-semibold'>Oops. Something went wrong.</div>
+        <p className='mt-4 text-sm text-gray-600'>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus
+          tempore laudantium consequuntur, adipisci quidem ex fugit quo et?
+        </p>
+      </Dialog>
       <Dialog open={showDialog} setOpen={setshowDialog} className='max-w-md'>
         <div className='text-xl font-semibold'>🎊 New home posted! 🎊</div>
         <p className='mt-4 text-sm text-gray-600'>

@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { WritableDraft } from 'immer/dist/internal'
 import { RootState } from '..'
-import { AsyncData, AsyncUser, User } from '../../types'
+import { AsyncData, User } from '../../types'
 import {
   signup,
   signin,
@@ -11,7 +11,7 @@ import {
   googleSignin,
 } from './userActions'
 
-type Claims = {
+export type Claims = {
   'x-hasura-default-role': string
   'x-hasura-user-id': string
   'x-hasura-allowed-roles': string[]
@@ -44,7 +44,7 @@ const setStatus =
     loading?: boolean
     error?: boolean
   }) =>
-  (state: WritableDraft<AsyncUser>) => {
+  (state: WritableDraft<UserSliceType>) => {
     state.fulfilled = fulfilled
     state.loading = loading
     state.error = error
@@ -54,8 +54,17 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserSliceType['data']>) => {
-      state.data = action.payload
+    setUser: (state, action: PayloadAction<UserSliceType['data']['user']>) => {
+      state.data.user = action.payload
+      state.fulfilled = true
+      state.loading = false
+      state.error = false
+    },
+    setClaims: (
+      state,
+      action: PayloadAction<UserSliceType['data']['claims']>
+    ) => {
+      state.data.claims = action.payload
       state.fulfilled = true
       state.loading = false
       state.error = false
@@ -63,47 +72,29 @@ export const userSlice = createSlice({
 
     resetUser: () => initialState,
   },
-  extraReducers: () => ({
-    // We manage only the response status here. The setUser is set from the auth listener.
+  extraReducers: (builder) => {
+    builder.addCase(signup.pending, setStatus({ loading: true }))
+    builder.addCase(signup.fulfilled, setStatus({ fulfilled: true }))
+    builder.addCase(signup.rejected, setStatus({ error: true }))
 
-    // Default extra reducer will look like.
-    //   [signup.pending.toString()]: (state, action)=> {
-    //     state.loading = false
-    //   },
+    builder.addCase(signin.pending, setStatus({ loading: true }))
+    builder.addCase(signin.fulfilled, setStatus({ fulfilled: true }))
+    builder.addCase(signin.rejected, setStatus({ error: true }))
 
-    [signup.pending.toString()]: setStatus({ loading: true }),
-    [signup.fulfilled.toString()]: setStatus({ fulfilled: true }),
-    [signup.rejected.toString()]: setStatus({ error: true }),
+    builder.addCase(signout.pending, setStatus({ loading: true }))
+    builder.addCase(signout.fulfilled, setStatus({ fulfilled: true }))
+    builder.addCase(signout.rejected, setStatus({ error: true }))
 
-    [signin.pending.toString()]: setStatus({ loading: true }),
-    [signin.fulfilled.toString()]: setStatus({ fulfilled: true }),
-    [signin.rejected.toString()]: setStatus({ error: true }),
+    builder.addCase(forgotPassword.pending, setStatus({ loading: true }))
+    builder.addCase(forgotPassword.fulfilled, setStatus({ fulfilled: true }))
+    builder.addCase(forgotPassword.rejected, setStatus({ error: true }))
 
-    [signout.pending.toString()]: setStatus({ loading: true }),
-    [signout.fulfilled.toString()]: setStatus({ fulfilled: true }),
-    [signout.rejected.toString()]: setStatus({ error: true }),
-
-    [forgotPassword.pending.toString()]: setStatus({ loading: true }),
-    [forgotPassword.fulfilled.toString()]: setStatus({ fulfilled: true }),
-    [forgotPassword.rejected.toString()]: setStatus({ error: true }),
-
-    [googleSignin.pending.toString()]: setStatus({ loading: true }),
-    [googleSignin.fulfilled.toString()]: setStatus({ fulfilled: true }),
-    [googleSignin.rejected.toString()]: setStatus({ error: true }),
-
-    // We can do something like below to avoid redundancy. But it is not flexible.
-    // ...Object.fromEntries(
-    //   [
-    //     signup.pending,
-    //     signin.pending,
-    //     signout.pending,
-    //     forgotPassword.pending,
-    //     googleSignin.pending,
-    //   ].map((key) => [key.toString(), setStatus({ loading: true })])
-    // ),
-  }),
+    builder.addCase(googleSignin.pending, setStatus({ loading: true }))
+    builder.addCase(googleSignin.fulfilled, setStatus({ fulfilled: true }))
+    builder.addCase(googleSignin.rejected, setStatus({ error: true }))
+  },
 })
-export const { setUser } = userSlice.actions
+export const { setUser, setClaims, resetUser } = userSlice.actions
 
 export const selectUid = (state: RootState) => state.user.data.user?.uid
 export const selectDisplayName = (state: RootState) =>

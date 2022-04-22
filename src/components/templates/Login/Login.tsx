@@ -3,12 +3,14 @@ import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
-import { useAppDispatch } from 'src/store'
-import { googleSignin } from 'src/store/user'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import { googleSignin, signin } from 'src/store/user'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import { FormError } from 'src/components/organisms/AgentContactForm/AgentContactForm'
+import Button from 'src/components/atoms/Button'
+import Link from 'src/components/atoms/Link/Link'
 import SplitLayoutImage from '../SplitLayoutImage'
 
 const signinFormSchema = yup
@@ -43,8 +45,12 @@ const Login = () => {
       rememberMe: false,
     },
   })
-  // eslint-disable-next-line no-console
-  const onSubmit = handleSubmit((data) => console.log('Signin: ', data))
+
+  const onSubmit = handleSubmit((data) => {
+    dispatch(signin(data))
+  })
+
+  const { loading } = useAppSelector((state) => state.user)
 
   return (
     <SplitLayoutImage imgSrc='https://res.cloudinary.com/thankyou/image/upload/v1640791791/nike/wallpapers/alexander-andrews-A3DPhhAL6Zg-unsplash_lngmew.png'>
@@ -91,12 +97,13 @@ const Login = () => {
         </div>
 
         <div>
-          <button
+          <Button
+            isLoading={loading}
             type='submit'
             className='flex justify-center w-full px-4 py-2 text-sm text-white border border-transparent rounded-md shadow-sm bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500'
           >
             Sign in
-          </button>
+          </Button>
         </div>
       </form>
       <div className='relative mt-6'>
@@ -134,8 +141,18 @@ const Login = () => {
           Twitter
         </button>
       </div>
+      <div className='mt-4 text-sm'>
+        Do not have an Zillow clone account?
+        <br />
+        <Link href='/signup' className='text-primary'>
+          Create one now
+        </Link>
+        .
+      </div>
     </SplitLayoutImage>
   )
 }
 
 export default Login
+
+// K A R T H I C K

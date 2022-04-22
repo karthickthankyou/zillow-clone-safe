@@ -1,4 +1,5 @@
 import Brand from 'src/components/atoms/Brand'
+import Link from 'src/components/atoms/Link/Link'
 import { Children } from 'src/types'
 
 export interface ISplitLayoutImageProps {
@@ -18,7 +19,9 @@ const SplitLayoutImage = ({ imgSrc, children }: ISplitLayoutImageProps) => (
         />
       </div>
       <div className='h-full col-span-1 col-start-1 row-span-1 row-start-1 text-center bg-primary-300/10'>
-        <Brand className='mt-12 text-center fill-primary-900' />
+        <Link href='/'>
+          <Brand className='mt-12 text-center transition-colors fill-primary-900 hover:fill-primary' />
+        </Link>
       </div>
     </div>
     <div className='flex items-center py-12 bg-white md:my-0 md:h-screen md:shadow-md shadow-black/30'>

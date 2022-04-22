@@ -68,3 +68,12 @@ export type MenuType = {
     menu: { subtitle: string; url: string }[]
   }[]
 }
+
+export type AllColors =
+  | 'primary'
+  | 'black'
+  | 'white'
+  | 'red'
+  | 'green'
+  | 'yellow'
+  | 'gray'

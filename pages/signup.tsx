@@ -1,10 +1,11 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import SignUp from 'src/components/templates/Signup'
-import { useRedirectLoggedInUsers } from 'src/hooks'
+import { useAuthPageResponses, useRedirectLoggedInUsers } from 'src/hooks'
 
 const Signup: NextPage = () => {
   useRedirectLoggedInUsers()
+  useAuthPageResponses()
   return (
     <div>
       <NextSeo

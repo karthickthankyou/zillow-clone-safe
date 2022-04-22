@@ -7,6 +7,7 @@ import LockClosedIcon from '@heroicons/react/solid/LockClosedIcon'
 import PlusCircleIcon from '@heroicons/react/solid/PlusCircleIcon'
 import PhotographIcon from '@heroicons/react/solid/PhotographIcon'
 import ChatIcon from '@heroicons/react/solid/ChatIcon'
+import ClipboardListIcon from '@heroicons/react/solid/ClipboardListIcon'
 import UserCircleIcon from '@heroicons/react/solid/UserCircleIcon'
 import UserGroupIcon from '@heroicons/react/solid/UserGroupIcon'
 import { selectUid } from 'src/store/user/userSlice'
@@ -110,7 +111,7 @@ const TripGuide = () => {
           />
           <Section
             title='User'
-            position={{ top: '8%', right: '2%' }}
+            position={{ top: '16%', right: '12%' }}
             href='/user'
             Icon={UserCircleIcon}
             enabled={!!uid}
@@ -120,6 +121,13 @@ const TripGuide = () => {
             position={{ top: '2%', right: '12%' }}
             href='/homes/new'
             Icon={PlusCircleIcon}
+            enabled={!!uid}
+          />
+          <Section
+            title='My homes'
+            position={{ top: '8%', right: '2%' }}
+            href='/homes/myhomes'
+            Icon={ClipboardListIcon}
             enabled={!!uid}
           />
           <Section

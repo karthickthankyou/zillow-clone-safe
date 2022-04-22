@@ -1,8 +1,9 @@
 import { Popover as HeadlessPopover, Transition } from '@headlessui/react'
-import { createContext, ReactElement, useContext } from 'react'
+import { createContext, ReactElement, useContext, useEffect } from 'react'
 import Link from 'src/components/atoms/Link'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 import { Children } from 'src/types'
+import { useRouter } from 'next/router'
 
 /** Context for prop sharing among the children */
 const DataContext = createContext({ open: false })
@@ -85,7 +86,6 @@ const PopoverPanelMainMenu = ({
   children: string | ReactElement | ReactElement[]
   className?: string
 }) => (
-  // const { open } = useContext(DataContext)
   <Transition
     enter='transition-all duration-200 ease-out'
     enterFrom='transform opacity-0'

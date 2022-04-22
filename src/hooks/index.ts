@@ -244,7 +244,7 @@ export const useRedirectLoggedInUsers = () => {
   const uid = useAppSelector(selectUid)
   const router = useRouter()
   if (uid) {
-    notify({ message: 'You are already logged in', type: 'warning' })
+    notify({ message: 'You are logged in', type: 'warning' })
     router.push('/')
   }
 }
@@ -257,4 +257,27 @@ export const useRedirectUnAuthenticatedUsers = () => {
     notify({ message: 'You are not logged in', type: 'warning' })
     if (typeof window !== 'undefined') router.push('/login')
   }
+}
+
+export const useAuthPageResponses = () => {
+  const {
+    error,
+    data: { user },
+  } = useAppSelector((state) => state.user)
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (error)
+      notify({
+        type: 'error',
+        message: 'Authentication failed. Please try again.',
+      })
+  }, [error])
+
+  useEffect(() => {
+    if (user?.uid) {
+      router.push('/')
+    }
+  }, [user, router])
 }

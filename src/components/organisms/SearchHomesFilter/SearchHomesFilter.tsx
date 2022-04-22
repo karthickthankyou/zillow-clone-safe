@@ -42,8 +42,6 @@ const SearchHomesFilter = ({
   const filterData = watch()
   useDispatchHomeFilter({ filterData, dirtyFields })
 
-  console.log('sidebarOpenDefault ', sidebarOpenDefault)
-
   const [showSidebar, setShowSidebar] = useState(sidebarOpenDefault)
   const zoom = useAppSelector(selectDebouncedZoom)
 

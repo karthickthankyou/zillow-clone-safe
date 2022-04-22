@@ -23,10 +23,10 @@ import { useUserListener } from 'src/store/user/userHooks'
  */
 
 export const AppLevelHooks = () => {
+  useUserListener()
   useDebouncedDispatch()
   useLongHoverDispatch()
   useGetWishlisted()
-  useUserListener()
 
   return null
 }

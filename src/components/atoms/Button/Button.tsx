@@ -1,40 +1,51 @@
-import { MouseEventHandler, ReactElement } from 'react'
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable react/jsx-props-no-spreading */
+import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 
-export interface IButtonProps {
-  children: ReactElement | string
-  size?: 'sm' | 'md' | 'lg'
+type ButtonSizes = 'none' | 'sm' | 'md' | 'lg' | 'xl'
+
+export type IButtonProps = {
+  size?: ButtonSizes
   variant?: 'contained' | 'outlined' | 'text'
-  color?: 'primary' | 'success' | 'error'
+  color?: 'primary' | 'success' | 'error' | 'white' | 'black'
   fullWidth?: boolean
-  disabled?: boolean
-  onClickAction?: MouseEventHandler<HTMLButtonElement>
-  className?: string
-}
+  isLoading?: boolean
+} & React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+>
 
 const variantColor = {
   contained: {
-    primary: 'text-white bg-primary-600 hover:bg-primary-700',
-    success: 'text-white bg-green-600 hover:bg-green-700',
-    error: 'text-white bg-red-600 hover:bg-red-700',
+    primary: 'text-white bg-primary hover:bg-primary-600',
+    white: 'text-black bg-white',
+    black: 'text-white bg-black hover:bg-gray-900',
+    success: 'text-white bg-green hover:bg-green-700',
+    error: 'text-white bg-red hover:bg-red-700',
   },
 
   outlined: {
-    primary:
-      'border-2 border-primary-600 text-primary-600 hover:bg-primary-100',
-    success: 'border-2 border-green-600 text-green-600 hover:bg-green-100',
-    error: 'border-2 border-red-600 text-red-600 hover:bg-red-100',
+    primary: 'border-2 border-primary text-primary hover:bg-primary-100',
+    white: 'border-2 border-white text-white hover:bg-white/10',
+    black: 'border-2 border-black text-black hover:bg-black/10',
+    success: 'border-2 border-green text-green hover:bg-green-100',
+    error: 'border-2 border-red text-red hover:bg-red-100',
   },
   text: {
-    primary: 'text-primary-600 hover:bg-primary-100',
-    success: 'text-green-600 hover:bg-green-100',
-    error: 'text-red-600 hover:bg-red-100',
+    primary: 'text-primary ',
+    white: 'text-black',
+    black: 'text-white',
+    success: 'text-green ',
+    error: 'text-red ',
   },
 }
 
-const sizes = {
+const sizes: { [key in ButtonSizes]: string } = {
+  none: 'text-sm',
   sm: 'px-3 py-1.5 text-xs',
   md: 'px-4 py-2 text-sm',
   lg: 'px-5 py-2 text-base',
+  xl: 'px-8 py-3 text-xl',
 }
 
 const Button = ({
@@ -43,25 +54,36 @@ const Button = ({
   color = 'primary',
   fullWidth = false,
   disabled = false,
-  children = '',
-  // eslint-disable-next-line no-console
-  onClickAction = () => console.error('onClick not implemented'),
-  className = '',
+  children,
+  className,
+  isLoading = false,
+  type = 'button',
+  ...props
 }: IButtonProps) => {
-  const sizeCls = sizes[size]
   const variantCls = variantColor[variant][color]
+  const sizeCls = variant === 'text' ? sizes.none : sizes[size]
 
   const fwCls = fullWidth && 'w-full'
-  const disCls = disabled && 'opacity-50 cursor-auto'
+  const disCls = (disabled || isLoading) && 'opacity-60 cursor-auto'
 
   return (
     <button
-      type='button'
-      disabled={disabled}
-      onClick={onClickAction}
-      className={`uppercase rounded-sm ${sizeCls} ${fwCls} ${variantCls} ${disCls} ${className}`}
+      // eslint-disable-next-line react/button-has-type
+      type={type}
+      disabled={disabled || isLoading}
+      className={`rounded-full relative font-medium ${sizeCls} ${fwCls} ${variantCls} ${disCls}  ${className} `}
+      {...props}
     >
-      {children}
+      {isLoading ? (
+        <>
+          <div className='absolute inset-0 flex items-center justify-center'>
+            <RefreshIcon className='w-5 h-5 animate-spin-reverse' />
+          </div>
+          <div className='opacity-10'>{children}</div>
+        </>
+      ) : (
+        <>{children}</>
+      )}
     </button>
   )
 }

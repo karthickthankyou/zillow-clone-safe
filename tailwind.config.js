@@ -27,7 +27,6 @@ const primaryPallete = colorGen({ hue: 215 })
 const greenPallete = colorGen({ hue: 100 })
 const yellowPallete = colorGen({ hue: 50 })
 const grayPallete = colorGen({ hue: 215, saturation: '10%' })
-console.log('redPallete', redPallete)
 
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],

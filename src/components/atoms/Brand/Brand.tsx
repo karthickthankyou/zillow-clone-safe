@@ -2,7 +2,7 @@ export interface IBrandProps {
   className?: string
 }
 
-const Brand = ({ className = ' fill-primary-500' }) => (
+const Brand = ({ className = 'scale-90 fill-primary' }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='110'

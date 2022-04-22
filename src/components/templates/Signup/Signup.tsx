@@ -3,14 +3,14 @@ import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
-import Link from 'src/components/atoms/Link'
-
-import { googleSignin } from 'src/store/user'
+import { googleSignin, signup } from 'src/store/user'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { FormError } from 'src/components/organisms/AgentContactForm/AgentContactForm'
-import { useAppDispatch } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import Link from 'src/components/atoms/Link/Link'
+import Button from 'src/components/atoms/Button/Button'
 import SplitLayoutImage from '../SplitLayoutImage'
 
 const signupFormSchema = yup
@@ -50,8 +50,12 @@ const SignUp = () => {
     },
   })
 
+  const { loading } = useAppSelector((state) => state.user)
+
   // eslint-disable-next-line no-console
-  const onSubmit = handleSubmit((data) => console.log('Signup: ', data))
+  const onSubmit = handleSubmit((data) => {
+    dispatch(signup(data))
+  })
   return (
     <SplitLayoutImage imgSrc='https://res.cloudinary.com/thankyou/image/upload/v1640845175/nike/joel-filipe-RFDP7_80v5A-unsplash_ucp0oa.webp'>
       <h2 className='text-3xl font-light'>Create account</h2>
@@ -127,14 +131,14 @@ const SignUp = () => {
             I am a landlord or industry professional
           </label>
         </div>
-        <div>
-          <button
-            type='submit'
-            className='flex justify-center w-full px-4 py-2 text-sm text-white border border-transparent rounded-md shadow-sm bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500'
-          >
-            Create account
-          </button>
-        </div>
+
+        <Button
+          type='submit'
+          isLoading={loading}
+          className='flex justify-center w-full px-4 py-2 text-sm text-white border border-transparent rounded-md shadow-sm bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500'
+        >
+          Create account
+        </Button>
       </form>
       <div className='relative mt-6'>
         <div className='absolute inset-0 flex items-center' aria-hidden='true'>
@@ -168,6 +172,14 @@ const SignUp = () => {
         >
           <FaTwitter className=' w-4 h-4 mr-2 text-[#1DA1F2]' /> Twitter
         </button>
+      </div>
+      <div className='mt-4 text-sm'>
+        Already have an Zillow clone account?
+        <br />
+        <Link href='/login' className='text-primary'>
+          Login now
+        </Link>
+        .
       </div>
     </SplitLayoutImage>
   )

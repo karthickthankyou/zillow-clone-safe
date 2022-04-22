@@ -83,6 +83,9 @@ input[type='checkbox'] {
   .bg-luxury {
     @apply text-white transition-all bg-gradient-to-tr via-primary-500 to-primary-600 from-primary-400 hover:bg-primary-600;
   }
+  .bg-black-luxury {
+    @apply text-white transition-all bg-gradient-to-tr via-black to-primary-500 from-yellow-800 hover:bg-primary-600;
+  }
 }
 
 /* Mapbox */

@@ -7,28 +7,13 @@ export default {
   component: Button,
 } as ComponentMeta<typeof Button>
 
-const Template: ComponentStory<typeof Button> = ({
-  size,
-  variant,
-  color,
-  fullWidth,
-  disabled,
-  onClickAction,
-  children,
-  className,
-}) => (
-  <Button
-    size={size}
-    variant={variant}
-    color={color}
-    fullWidth={fullWidth}
-    disabled={disabled}
-    onClickAction={onClickAction}
-    className={className}
-  >
-    {children}
-  </Button>
-)
+const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+
+export const Loading = Template.bind({})
+Loading.args = {
+  isLoading: true,
+  children: 'Loading...',
+}
 
 export const Small = Template.bind({})
 Small.args = {

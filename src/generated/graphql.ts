@@ -3752,6 +3752,30 @@ export type SearchHomesByLocationDetailedQuery = {
   }>
 }
 
+export type GetMyHomesQueryVariables = Exact<{
+  distinct_on?: InputMaybe<Array<Homes_Select_Column> | Homes_Select_Column>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Homes_Order_By> | Homes_Order_By>
+  where?: InputMaybe<Homes_Bool_Exp>
+}>
+
+export type GetMyHomesQuery = {
+  __typename?: 'query_root'
+  homes: Array<{
+    __typename?: 'homes'
+    id: number
+    address: string
+    bath: number
+    beds: number
+    price: number
+    sqft: number
+    plan?: number | null | undefined
+    imgs?: any | null | undefined
+    published?: boolean | null | undefined
+  }>
+}
+
 export type GetHomeByIdQueryVariables = Exact<{
   id: Scalars['Int']
 }>
@@ -3977,6 +4001,19 @@ export type SetHomePlanMutation = {
     | undefined
 }
 
+export type SetHomePublishedMutationVariables = Exact<{
+  id: Scalars['Int']
+  published?: InputMaybe<Scalars['Boolean']>
+}>
+
+export type SetHomePublishedMutation = {
+  __typename?: 'mutation_root'
+  update_homes_by_pk?:
+    | { __typename?: 'homes'; published?: boolean | null | undefined }
+    | null
+    | undefined
+}
+
 export const namedOperations = {
   Query: {
     MyQuery: 'MyQuery',
@@ -3985,6 +4022,7 @@ export const namedOperations = {
     SearchCitiesByLocation: 'SearchCitiesByLocation',
     SearchStatesByLocation: 'SearchStatesByLocation',
     SearchHomesByLocationDetailed: 'SearchHomesByLocationDetailed',
+    GetMyHomes: 'GetMyHomes',
     GetHomeById: 'GetHomeById',
     GetRegionById: 'GetRegionById',
     GetWishlistedHomes: 'GetWishlistedHomes',
@@ -3998,6 +4036,7 @@ export const namedOperations = {
     RemoveWishlist: 'RemoveWishlist',
     InsertHome: 'InsertHome',
     SetHomePlan: 'SetHomePlan',
+    SetHomePublished: 'SetHomePublished',
   },
 }
 
@@ -4155,6 +4194,43 @@ export function useSearchHomesByLocationDetailedQuery(
 ) {
   return Urql.useQuery<SearchHomesByLocationDetailedQuery>({
     query: SearchHomesByLocationDetailedDocument,
+    ...options,
+  })
+}
+export const GetMyHomesDocument = /*#__PURE__*/ gql`
+  query GetMyHomes(
+    $distinct_on: [homes_select_column!]
+    $limit: Int
+    $offset: Int
+    $order_by: [homes_order_by!]
+    $where: homes_bool_exp
+  ) {
+    homes(
+      distinct_on: $distinct_on
+      limit: $limit
+      offset: $offset
+      order_by: $order_by
+      where: $where
+    ) {
+      id
+      address
+      bath
+      beds
+      price
+      sqft
+      plan
+      imgs
+      plan
+      published
+    }
+  }
+`
+
+export function useGetMyHomesQuery(
+  options: Omit<Urql.UseQueryArgs<GetMyHomesQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetMyHomesQuery>({
+    query: GetMyHomesDocument,
     ...options,
   })
 }
@@ -4412,4 +4488,21 @@ export function useSetHomePlanMutation() {
   return Urql.useMutation<SetHomePlanMutation, SetHomePlanMutationVariables>(
     SetHomePlanDocument
   )
+}
+export const SetHomePublishedDocument = /*#__PURE__*/ gql`
+  mutation SetHomePublished($id: Int!, $published: Boolean) {
+    update_homes_by_pk(
+      pk_columns: { id: $id }
+      _set: { published: $published }
+    ) {
+      published
+    }
+  }
+`
+
+export function useSetHomePublishedMutation() {
+  return Urql.useMutation<
+    SetHomePublishedMutation,
+    SetHomePublishedMutationVariables
+  >(SetHomePublishedDocument)
 }

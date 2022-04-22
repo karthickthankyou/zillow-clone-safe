@@ -146,8 +146,8 @@ const NavSidebar = ({
           </Link>
         </>
       ) : (
-        <Link href={`/user/${uid}`} className='flex items-center '>
-          <Initials name={displayName || ''} className='mr-2' />
+        <Link href='/user' className='flex items-center '>
+          <Initials name={displayName || ''} className='mr-2' color='black' />
 
           {displayName || ''}
         </Link>
@@ -211,6 +211,7 @@ const Navbar = () => {
                     <SubMenuLink url='/user'>My Account</SubMenuLink>
                     <SubMenuLink url='/wishlist'>Wishlist</SubMenuLink>
                     <SubMenuLink url='/messages'>Messages</SubMenuLink>
+                    <SubMenuLink url='/homes/myhomes'>My homes</SubMenuLink>
                     {userRoles?.includes('agent') ? (
                       <SubMenuLink url='/homes/new'>Add new home</SubMenuLink>
                     ) : (

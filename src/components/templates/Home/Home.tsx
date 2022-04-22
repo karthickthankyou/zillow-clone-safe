@@ -17,6 +17,7 @@ import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
 import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 
+import Tooltip from 'src/components/atoms/Tooltip/Tooltip'
 import Link from 'src/components/atoms/Link'
 import Hero from '../Hero'
 
@@ -98,12 +99,20 @@ const Home = () => {
                 home.
               </div>
             </BannerSplit.Description>
-            <button
-              className='flex items-center px-8 py-3 mt-8 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
-              type='button'
+            <Tooltip
+              placement='top'
+              arrow
+              text='white'
+              bg='black'
+              title='Feature not implemented.'
             >
-              Request Pre approval
-            </button>
+              <button
+                className='flex items-center px-8 py-3 mt-8 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
+                type='button'
+              >
+                Request Pre approval
+              </button>
+            </Tooltip>
           </BannerSplit>
           <BannerSplit
             reverse
@@ -116,12 +125,20 @@ const Home = () => {
                 connects you with professionals who can help meet your needs.
               </div>
             </BannerSplit.Description>
-            <button
-              className='px-8 py-3 mt-8 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
-              type='button'
+            <Tooltip
+              placement='top'
+              arrow
+              text='white'
+              bg='black'
+              title='Feature implementation in progress.'
             >
-              Find agents
-            </button>
+              <Link
+                className='inline-block px-8 py-3 mt-8 font-semibold text-white capitalize rounded-full bg-primary-500' // bg-gradient-to-tr from-primary-400 to-primary-600
+                href='/agents'
+              >
+                Find agents
+              </Link>
+            </Tooltip>
           </BannerSplit>
           <BannerSplit>
             <BannerSplit.Heading>Zillow Rental Manager</BannerSplit.Heading>

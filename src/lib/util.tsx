@@ -1,5 +1,6 @@
 import Link from 'src/components/atoms/Link/Link'
 import { notify } from 'src/hooks'
+import { AllColors } from 'src/types'
 
 export const getQueryParam = (
   searchParam: string | string[] | undefined,
@@ -69,3 +70,38 @@ export const loginNotification = () =>
       </div>
     ),
   })
+
+export const bgClasses: { [key in AllColors]: string } = {
+  primary: 'bg-primary',
+  black: 'bg-black',
+  white: 'bg-white',
+  red: 'bg-red',
+  yellow: 'bg-yellow',
+  green: 'bg-green',
+  gray: 'bg-gray',
+}
+
+export const colorClasses: { [key in AllColors]: string } = {
+  primary: 'text-primary',
+  black: 'text-black',
+  white: 'text-white',
+  red: 'text-red',
+  yellow: 'text-yellow',
+  green: 'text-green',
+  gray: 'text-gray',
+}
+
+export const sampleMyHome = {
+  id: 1039,
+  address:
+    '29100 Chualar Canyon Road, Chualar, California 93925, United States',
+  bath: 8,
+  beds: 8,
+  price: 9000,
+  sqft: 88,
+  plan: 1,
+  imgs: [
+    'https://res.cloudinary.com/thankyou/image/upload/v1650536044/zillow-clone/p5zzsthjns9sujxcltrz.jpg',
+  ],
+  published: true,
+}
