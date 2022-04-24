@@ -38,13 +38,9 @@ const MessageCard = ({
     </div>
 
     <div className='flex-grow'>
-      <div className='flex justify-between'>
-        <div>{name && <div className='font-medium'>{name}</div>}</div>
-        <div>
-          {phone && <div className='text-sm text-gray-800'>{phone}</div>}
-          {email && <div className='text-sm text-gray-800'>{email}</div>}
-        </div>
-      </div>
+      {name && <div className='font-medium'>{name}</div>}
+      {phone && <div className='text-sm text-gray-800'>{phone}</div>}
+      {email && <div className='text-sm text-gray-800'>{email}</div>}
       <div className='inline-block max-w-md p-2 -ml-2 bg-primary-25'>
         <div>{message}</div>
         <div className='mt-1 text-xs text-gray-600'>
