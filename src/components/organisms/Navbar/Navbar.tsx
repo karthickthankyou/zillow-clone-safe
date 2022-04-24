@@ -226,15 +226,11 @@ const Navbar = () => {
                     {userRoles?.includes('agent') ? (
                       <SubMenuLink url='/homes/new'>Add new home</SubMenuLink>
                     ) : (
-                      <SubMenuLink url={`/user/${uid}`}>
-                        Become agent
-                      </SubMenuLink>
+                      <SubMenuLink url='/user'>Become agent</SubMenuLink>
                     )}
-                    <SubMenuLink url={`/user/${uid}`}>
-                      <button type='button' onClick={() => dispatch(signout())}>
-                        logout
-                      </button>
-                    </SubMenuLink>
+                    <button type='button' onClick={() => dispatch(signout())}>
+                      logout
+                    </button>
                   </PopoverPanelMainMenu>
                 </PopoverParent>
               )}

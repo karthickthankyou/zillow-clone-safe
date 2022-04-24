@@ -11,6 +11,7 @@ export interface IInitialsProps {
     | 'green'
     | 'yellow'
     | 'black'
+    | 'luxury'
     | 'blackLuxury'
 }
 
@@ -20,6 +21,7 @@ const sizeClasses = {
   lg: 'w-12 h-12 text-lg',
 }
 const colorClasses = {
+  luxury: 'bg-luxury text-white',
   blackLuxury: 'bg-black-luxury text-white',
   black: 'bg-black text-white',
   primary: 'bg-primary-500 text-white',
@@ -33,7 +35,7 @@ const Initials = ({
   name,
   className,
   size = 'md',
-  color = 'blackLuxury',
+  color = 'luxury',
 }: IInitialsProps) => (
   <div
     className={`flex items-center justify-center  rounded-full ${className} ${colorClasses[color]} ${sizeClasses[size]}`}
