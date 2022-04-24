@@ -278,6 +278,7 @@ query GetEnquiries($uid: String!) {
     message
     created_at
     email
+    name
     phone
     home {
       id

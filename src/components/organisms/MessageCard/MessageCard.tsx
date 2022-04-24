@@ -7,6 +7,7 @@ export interface IMessageCardProps {
   address: string
   src?: string
   message: string
+  name?: string
   email?: string
   phone?: string
   date: string
@@ -16,6 +17,7 @@ const MessageCard = ({
   id,
   address,
   src,
+  name,
   email,
   phone,
   message,
@@ -36,10 +38,15 @@ const MessageCard = ({
     </div>
 
     <div className='flex-grow'>
+      <div className='flex justify-between'>
+        <div>{name && <div className='font-medium'>{name}</div>}</div>
+        <div>
+          {phone && <div className='text-sm text-gray-800'>{phone}</div>}
+          {email && <div className='text-sm text-gray-800'>{email}</div>}
+        </div>
+      </div>
       <div className='inline-block max-w-md p-2 -ml-2 bg-primary-25'>
-        {message}
-        {phone}
-        {email}
+        <div>{message}</div>
         <div className='mt-1 text-xs text-gray-600'>
           {dateFormat(date, 'dd mmm yyyy h:MM')}
         </div>

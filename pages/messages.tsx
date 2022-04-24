@@ -79,6 +79,7 @@ const MessagesPage: NextPage = () => {
                   src={item.home.imgs && item.home.imgs[0]}
                   address={item.home.address}
                   email={item.email}
+                  name={item.name}
                   phone={item.phone}
                   message={item.message}
                   date={item.created_at}

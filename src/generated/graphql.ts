@@ -4169,6 +4169,7 @@ export type GetEnquiriesQuery = {
     message: string
     created_at: any
     email: string
+    name: string
     phone: string
     home: {
       __typename?: 'homes'
@@ -4679,6 +4680,7 @@ export const GetEnquiriesDocument = /*#__PURE__*/ gql`
       message
       created_at
       email
+      name
       phone
       home {
         id
