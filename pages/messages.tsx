@@ -46,16 +46,30 @@ const MessagesPage: NextPage = () => {
     )
   }
   return (
-    <Container className='min-h-screen'>
+    <Container>
       <NextSeo
         title={`Messages (${messagesCount}) | Zillow refactor | Karthick Ragavendran - Sample page.`}
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
-      <div className='min-h-screen'>
-        {dataEnquiries?.messages && (
+      <div className='min-h-screen50'>
+        <div className='mb-4 text-xl'>Messages ({data?.messages.length}) </div>
+        <div className='flex flex-col gap-2'>
+          {data?.messages.map((item) => (
+            <MessageCard
+              key={item.id}
+              id={item.home.id}
+              address={item.home.address}
+              message={item.message}
+              date={item.created_at}
+            />
+          ))}
+        </div>
+      </div>
+      <div className='min-h-screen50'>
+        {dataEnquiries?.messages && dataEnquiries?.messages?.length > 0 && (
           <>
             <div className='mb-4 text-xl'>
-              Enquiries ({dataEnquiries.messages.length})
+              Enquiries ({dataEnquiries?.messages.length})
             </div>
             <div className='flex flex-col gap-2'>
               {dataEnquiries?.messages.map((item) => (
@@ -73,20 +87,6 @@ const MessagesPage: NextPage = () => {
             </div>
           </>
         )}
-      </div>
-      <div className='min-h-screen'>
-        <div className='mb-4 text-xl'>Messages</div>
-        <div className='flex flex-col gap-2'>
-          {data?.messages.map((item) => (
-            <MessageCard
-              key={item.id}
-              id={item.home.id}
-              address={item.home.address}
-              message={item.message}
-              date={item.created_at}
-            />
-          ))}
-        </div>
       </div>
     </Container>
   )

@@ -135,6 +135,9 @@ module.exports = {
         screen80: '80vh',
         screen90: '90vh',
       },
+      minHeight: {
+        screen50: '50vh',
+      },
       lineHeight: {
         '80p': '80%',
         '90p': '90%',
