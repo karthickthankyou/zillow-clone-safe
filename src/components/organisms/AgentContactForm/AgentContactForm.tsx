@@ -69,6 +69,7 @@ const AgentContactForm = React.forwardRef(
           message: data.message,
           email: data.email,
           phone: data.phone,
+          name: data.name,
         },
       })
     })
