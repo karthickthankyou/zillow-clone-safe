@@ -105,3 +105,6 @@ export const sampleMyHome = {
   ],
   published: true,
 }
+
+export const randomNumber = ({ min = 0, max }: { min?: number; max: number }) =>
+  Math.floor(Math.random() * (max - min + 1) + min)

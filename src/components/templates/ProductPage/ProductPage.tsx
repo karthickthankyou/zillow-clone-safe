@@ -26,6 +26,10 @@ import Slideup from 'src/components/molecules/Slideup'
 import Container from 'src/components/atoms/Container'
 import { UseQueryResponse } from 'urql'
 
+import { useAppSelector } from 'src/store'
+import { selectHomesDetailed } from 'src/store/home/homeSlice'
+import { useRouter } from 'next/router'
+import { randomNumber } from 'src/lib/util'
 import {
   interiors as interiorsData,
   propertyDetails,
@@ -53,7 +57,19 @@ const HighText = ({ children }: { children: Children }) => (
 const ProductPage = ({ home }: IProductPageProps) => {
   const [contactFormRef, scrollToContactForm] = useScrollTo()
 
+  const { data: nearbyHomes } = useAppSelector(selectHomesDetailed)
+
   const homeData = home?.data?.homes_by_pk
+
+  const filteredHomes =
+    nearbyHomes?.homes.filter(
+      (item) => item.id !== home.data?.homes_by_pk?.id
+    ) || []
+
+  const randomHomeId =
+    filteredHomes[randomNumber({ max: filteredHomes.length })]?.id
+
+  const router = useRouter()
 
   return (
     <Container>
@@ -187,12 +203,19 @@ const ProductPage = ({ home }: IProductPageProps) => {
               <div>Back to search</div>
             </HighText>
           </Link>
-          <Link href='/'>
+          <button
+            type='button'
+            disabled={!randomHomeId}
+            onClick={() => {
+              router.push(`/homes/${randomHomeId}`)
+            }}
+            className='disabled:cursor-not-allowed'
+          >
             <HighText>
               <LoginIcon className='w-8 h-8 rotate-180' />
               <div>Enter a home nearby</div>
             </HighText>
-          </Link>
+          </button>
         </div>
       </Slideup>
     </Container>

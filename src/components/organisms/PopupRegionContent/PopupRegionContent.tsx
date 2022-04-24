@@ -57,7 +57,7 @@ const PopupRegionContent = ({ id, onClick }: IPopupRegionContentProps) => {
       onClick={onClick}
       onKeyDown={onClick}
       tabIndex={0}
-      className='flex flex-col w-56 cursor-pointer '
+      className='flex flex-col w-56 cursor-pointer'
     >
       <div className='relative h-36'>
         <Image

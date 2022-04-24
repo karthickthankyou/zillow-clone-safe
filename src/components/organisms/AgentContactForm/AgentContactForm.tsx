@@ -61,15 +61,17 @@ const AgentContactForm = React.forwardRef(
     const [{ fetching, data: contactData }, contactAgent] =
       useInsertMessageMutation()
 
-    const onSubmit = handleSubmit((data) =>
+    const onSubmit = handleSubmit((data) => {
       contactAgent({
         object: {
           uid,
           home_id: homeId,
           message: data.message,
+          email: data.email,
+          phone: data.phone,
         },
       })
-    )
+    })
 
     return (
       <div ref={ref} className='grid grid-cols-1 gap-3 pt-6 md:grid-cols-2'>

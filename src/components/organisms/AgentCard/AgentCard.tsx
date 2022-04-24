@@ -1,5 +1,4 @@
 import Image from 'src/components/atoms/Image'
-import StarIcon from '@heroicons/react/solid/StarIcon'
 import Rating from 'src/components/molecules/Rating'
 
 export interface IAgentCardProps {

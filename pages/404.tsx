@@ -2,7 +2,6 @@ import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import Container from 'src/components/atoms/Container/Container'
 import TripGuide from 'src/components/organisms/TripGuide/TripGuide'
-import Link from 'src/components/atoms/Link/Link'
 
 const NotFoundPage: NextPage = () => (
   <div>

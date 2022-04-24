@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { ReactElement } from 'react'
 import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
 import InformationCircleIcon from '@heroicons/react/outline/InformationCircleIcon'
@@ -17,7 +16,7 @@ import {
   useFetchStatesMap,
 } from 'src/store/home/homeNetwork'
 
-import { setViewport, setViewportLocation } from 'src/store/map/mapSlice'
+import { setViewport } from 'src/store/map/mapSlice'
 
 import {
   selectHighlightedHomeId,
@@ -35,7 +34,7 @@ import {
 import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
-import { ZOOM_CITIES, ZOOM_HOMES, ZOOM_STATES } from 'src/store/static'
+import { ZOOM_CITIES, ZOOM_HOMES } from 'src/store/static'
 import { Children } from 'src/types'
 import PopupHomesContent from '../PopupHomesContent'
 import PopupRegionContent from '../PopupRegionContent'
@@ -217,9 +216,10 @@ export const CityMarkers = () => {
         style={style}
         onClick={() => {
           dispatch(
-            setViewportLocation({
+            setViewport({
               latitude: marker.lat,
               longitude: marker.lng,
+              zoom: ZOOM_HOMES,
             })
           )
         }}
@@ -298,7 +298,7 @@ export const StateMarkers = () => {
             setViewport({
               latitude: marker.lat,
               longitude: marker.lng,
-              zoom: ZOOM_STATES,
+              zoom: ZOOM_CITIES,
             })
           )
         }}

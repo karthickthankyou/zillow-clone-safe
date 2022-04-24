@@ -97,27 +97,12 @@ export const newHomeSchema = yup
       .min(-180, 'lng must be -180 to 180')
       .max(180, `lng must be -180 to 180`)
       .required('images in required.'),
-    imgFiles: yup
-      .mixed()
-      .test(
-        'required',
-        'select 1 to 8 images',
-        (value) => value?.length > 0 && value?.length <= 2
-      )
-      .test('fileSize', 'file size exceeds 2 MB.', (value) => {
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < value.length; i++) {
-          if (value[i].size > 2097195) return false
-        }
-        return true
-      }),
     imgs: yup
       .array()
       .of(yup.string())
-      .test({
-        message: 'upload the selected pictures...',
-        test: (arr: any) => arr?.length > 0,
-      }),
+      .required('select 1 to 8 images')
+      .min(1, 'select 1 to 8 images')
+      .max(8, 'select 1 to 8 images'),
 
     zipcode: yup.string().required('enter the zipcode.'),
   })

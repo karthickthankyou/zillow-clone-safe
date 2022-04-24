@@ -13,7 +13,6 @@ import {
   Panel,
   PanelContainer,
   MapPanelTypes,
-  HomeMarkers,
   StateMarkers,
 } from '../MapboxContent/MapboxContent'
 import ZoomControls from '../ZoomControls'

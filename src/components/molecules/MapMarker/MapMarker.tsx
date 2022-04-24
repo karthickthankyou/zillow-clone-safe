@@ -5,13 +5,10 @@ import {
   SearchHomesByLocationQuery,
   GetWishlistedHomesQuery,
 } from 'src/generated/graphql'
-import {
-  debouncedDispatch,
-  startLongHoverDispatch,
-  stopLongHoverDispatch,
-} from 'src/hooks'
-import { setViewportLocation } from 'src/store/map/mapSlice'
+import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
+
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
+import { useRouter } from 'next/router'
 
 export interface IMapMarkerProps {
   home: SearchHomesByLocationQuery['homes'][0]
@@ -32,6 +29,8 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
   const wishlistedClasses =
     wishlisted && 'text-red fill-red border-red scale-110  '
 
+  const router = useRouter()
+
   return (
     <Marker latitude={home.lat} longitude={home.lng}>
       <MarkerIcon
@@ -45,12 +44,7 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
         // onTouchEnd={() => console.log('Touch end')}
         // onTouchStart={() => console.log('Touched start')}
         onClick={() => {
-          debouncedDispatch(
-            setViewportLocation({
-              latitude: home.lat,
-              longitude: home.lng,
-            })
-          )
+          router.push(`/homes/${home.id}`)
         }}
         // onMouseLeave={() => debouncedDispatch(setHighlightedHomeId(null))}
         className={`w-5 h-5 opacity-90  text-primary-900 transition-all shadow-2xl cursor-pointer ease-in-out duration-200 rounded relative ${highlightedClasses} ${wishlistedClasses}`}

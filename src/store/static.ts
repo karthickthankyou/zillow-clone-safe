@@ -15,6 +15,23 @@ export const placeTypeZoom: { [key in PlaceTypesType]: number } = {
 }
 
 export const MENU_ITEMS: MenuType = {
+  'My account': [
+    {
+      title: 'User',
+      menu: [
+        { subtitle: 'My account', url: '/user' },
+        { subtitle: 'Wishlist', url: '/wishlist' },
+      ],
+    },
+    {
+      title: 'Agent',
+      menu: [
+        { subtitle: 'Add new home', url: '/homes/new' },
+        { subtitle: 'My homes', url: '/homes/myhomes' },
+        { subtitle: 'Enquiries', url: '/messages' },
+      ],
+    },
+  ],
   Buy: [
     {
       title: 'Homes for Sale',

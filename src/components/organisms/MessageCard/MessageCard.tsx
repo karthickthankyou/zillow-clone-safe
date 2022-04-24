@@ -7,6 +7,8 @@ export interface IMessageCardProps {
   address: string
   src?: string
   message: string
+  email?: string
+  phone?: string
   date: string
 }
 
@@ -14,6 +16,8 @@ const MessageCard = ({
   id,
   address,
   src,
+  email,
+  phone,
   message,
   date,
 }: IMessageCardProps) => (
@@ -34,6 +38,8 @@ const MessageCard = ({
     <div className='flex-grow'>
       <div className='inline-block max-w-md p-2 -ml-2 bg-primary-25'>
         {message}
+        {phone}
+        {email}
         <div className='mt-1 text-xs text-gray-600'>
           {dateFormat(date, 'dd mmm yyyy h:MM')}
         </div>

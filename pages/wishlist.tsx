@@ -1,9 +1,8 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import Skeleton from 'src/components/molecules/Skeleton'
-import { useAppSelector, useAppDispatch } from 'src/store'
+import { useAppSelector } from 'src/store'
 import Image from 'src/components/atoms/Image2'
-import { Children } from 'src/types'
 import { selectUid } from 'src/store/user/userSlice'
 import { useGetWishlistedHomesDetailedQuery } from 'src/generated/graphql'
 import Container from 'src/components/atoms/Container'
@@ -17,16 +16,13 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
 
 const WishlistPage: NextPage = () => {
   const uid = useAppSelector(selectUid)
-  const dispatch = useAppDispatch()
 
-  const [{ data, fetching, stale, error }] = useGetWishlistedHomesDetailedQuery(
-    {
-      variables: {
-        uid: uid!,
-      },
-      pause: !uid,
-    }
-  )
+  const [{ data, fetching }] = useGetWishlistedHomesDetailedQuery({
+    variables: {
+      uid: uid!,
+    },
+    pause: !uid,
+  })
 
   const wishlistCount = data?.wishlisted.length || 0
 
@@ -55,7 +51,7 @@ const WishlistPage: NextPage = () => {
                 className='h-full rounded'
                 src={
                   (item.home.imgs && item.home.imgs[0]) ||
-                  'https://res.cloudinary.com/thankyou/image/upload/v1640725349/nike/cities/maarten-van-den-heuvel-gZXx8lKAb7Y-unsplash_llua9m.jpg'
+                  'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
                 }
               />
             </Link>

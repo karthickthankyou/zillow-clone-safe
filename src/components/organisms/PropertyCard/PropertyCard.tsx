@@ -2,6 +2,7 @@
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
+import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 
 import {
@@ -18,7 +19,6 @@ import {
   startLongHoverDispatch,
   stopLongHoverDispatch,
   useKeypress,
-  notify,
 } from 'src/hooks'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import Link from 'src/components/atoms/Link'
@@ -94,8 +94,9 @@ const PropertyCard = ({
               className='absolute top-0 right-0 z-10 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
             >
               {/* eslint-disable-next-line no-nested-ternary */}
-              {fetching && 'Loading...'}
-              {!wishlisted ? (
+              {fetching ? (
+                <RefreshIcon className='w-8 h-8 p-1 animate-spin-reverse' />
+              ) : !wishlisted ? (
                 <HeartIconReg className='w-8 h-8 p-1' />
               ) : (
                 <HeartIconSolid className='w-8 h-8 p-1 fill-red' />

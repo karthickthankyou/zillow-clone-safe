@@ -36,8 +36,6 @@ export const useUserListener = () => {
             'https://hasura.io/jwt/claims'
           ] as Claims
 
-          console.log('Setting claims ', hasuraClaim)
-
           dispatch(setClaims(hasuraClaim))
         })
       }),

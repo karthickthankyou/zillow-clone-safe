@@ -9,7 +9,6 @@ import { Switch } from '@headlessui/react'
 import { useState } from 'react'
 import { client } from 'src/config/urqlClientWonka'
 import { notify } from 'src/hooks'
-import Badge from 'src/components/atoms/Badge/Badge'
 
 export interface IMyHomesCardProps {
   home: GetMyHomesQuery['homes'][number]

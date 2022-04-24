@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react'
 import NextImage from 'next/image'
-import fallbackImg from 'src/assets/fallback.jpg'
+import fallbackImg from 'public/rowan-heuvel-bjej8BY1JYQ-unsplash.jpeg'
 
 export type IImageProps = React.ComponentProps<typeof NextImage> & {
   fallbackSrc?: string

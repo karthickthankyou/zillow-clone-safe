@@ -1,20 +1,25 @@
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import Skeleton from 'src/components/molecules/Skeleton'
-import { useAppSelector, useAppDispatch } from 'src/store'
-import Image from 'src/components/atoms/Image2'
+import { useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
-import { useGetMessagesQuery } from 'src/generated/graphql'
+import {
+  useGetMessagesQuery,
+  useGetEnquiriesQuery,
+} from 'src/generated/graphql'
 import Container from 'src/components/atoms/Container'
-import dateFormat from 'dateformat'
-import Link from 'src/components/atoms/Link/Link'
 import MessageCard from 'src/components/organisms/MessageCard/MessageCard'
 
 const MessagesPage: NextPage = () => {
   const uid = useAppSelector(selectUid)
-  const dispatch = useAppDispatch()
 
-  const [{ data, fetching, stale, error }] = useGetMessagesQuery({
+  const [{ data, fetching }] = useGetMessagesQuery({
+    variables: {
+      uid: uid!,
+    },
+    pause: !uid,
+  })
+  const [{ data: dataEnquiries }] = useGetEnquiriesQuery({
     variables: {
       uid: uid!,
     },
@@ -46,17 +51,42 @@ const MessagesPage: NextPage = () => {
         title={`Messages (${messagesCount}) | Zillow refactor | Karthick Ragavendran - Sample page.`}
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
-      <div className='mb-4 text-xl'>Messages</div>
-      <div className='flex flex-col gap-2'>
-        {data?.messages.map((item) => (
-          <MessageCard
-            key={item.id}
-            id={item.home.id}
-            address={item.home.address}
-            message={item.message}
-            date={item.created_at}
-          />
-        ))}
+      <div className='min-h-screen'>
+        {dataEnquiries?.messages && (
+          <>
+            <div className='mb-4 text-xl'>
+              Enquiries ({dataEnquiries.messages.length})
+            </div>
+            <div className='flex flex-col gap-2'>
+              {dataEnquiries?.messages.map((item) => (
+                <MessageCard
+                  key={item.id}
+                  id={item.home.id}
+                  src={item.home.imgs && item.home.imgs[0]}
+                  address={item.home.address}
+                  email={item.email}
+                  phone={item.phone}
+                  message={item.message}
+                  date={item.created_at}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      <div className='min-h-screen'>
+        <div className='mb-4 text-xl'>Messages</div>
+        <div className='flex flex-col gap-2'>
+          {data?.messages.map((item) => (
+            <MessageCard
+              key={item.id}
+              id={item.home.id}
+              address={item.home.address}
+              message={item.message}
+              date={item.created_at}
+            />
+          ))}
+        </div>
       </div>
     </Container>
   )

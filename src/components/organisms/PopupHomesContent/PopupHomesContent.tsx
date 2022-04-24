@@ -7,6 +7,7 @@ import Image from 'src/components/atoms/Image'
 import { useGetHighlightedHomeData } from 'src/store/home/homeNetwork'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
 import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
+import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import { useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
 import Link from 'src/components/atoms/Link'
@@ -41,15 +42,15 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   if (fetching) return <HomeContentSkeleton />
   if (error) return <ErrorSkeleton error='Something went wrong...' />
 
+  const imgSrc =
+    (data?.homes_by_pk?.imgs && data?.homes_by_pk.imgs[0]) ||
+    'https://via.placeholder.com/150'
+
   return (
     <div className='flex flex-col w-48 '>
       <Link href={`/homes/${id}`}>
         <div className='relative h-36'>
-          <Image
-            src='https://via.placeholder.com/150'
-            className='h-full'
-            alt=''
-          />
+          <Image src={imgSrc} className='h-full' alt='' />
         </div>
       </Link>
       <div className='relative flex flex-col cursor-auto bg-white/50 backdrop-filter backdrop-blur-sm filter'>
@@ -76,10 +77,13 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
                 })
               }}
             >
-              {!wishlisted ? (
-                <HeartIconReg className='w-6 h-6 text-red hover:fill-red-100' />
+              {/* eslint-disable-next-line no-nested-ternary */}
+              {wishlistLoading ? (
+                <RefreshIcon className='w-8 h-8 p-1 animate-spin-reverse' />
+              ) : !wishlisted ? (
+                <HeartIconReg className='w-8 h-8 p-1' />
               ) : (
-                <HeartIconSolid className='w-6 h-6 fill-red' />
+                <HeartIconSolid className='w-8 h-8 p-1 fill-red' />
               )}
             </button>
           </div>

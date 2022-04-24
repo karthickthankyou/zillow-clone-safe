@@ -21,6 +21,7 @@ import {
   selectUserRoles,
 } from 'src/store/user/userSlice'
 import Container from 'src/components/atoms/Container/Container'
+import Button from 'src/components/atoms/Button/Button'
 
 export interface INavbarProps {}
 
@@ -91,70 +92,80 @@ const NavSidebar = ({
   setOpen: Dispatch<SetStateAction<boolean>>
   uid: string | null | undefined
   displayName: string | null | undefined
-}) => (
-  <Sidebar open={open} setOpen={setOpen}>
-    <Sidebar.Header setOpen={setOpen} />
-    <Sidebar.Body>
-      <div className='flex flex-col items-start'>
-        {Object.entries(MENU_ITEMS).map(([title, items]) => (
-          <Accordion key={title} title={title}>
-            <div className='flex flex-col items-start'>
-              {items.map((menu) => (
-                <Accordion key={menu.title} title={menu.title}>
-                  {menu.menu?.map((subItem) => (
-                    <a
-                      href={subItem.url}
-                      className='block py-1 ml-2'
-                      key={subItem.subtitle}
-                    >
-                      {subItem.subtitle}
-                    </a>
-                  ))}
-                </Accordion>
-              ))}
-            </div>
-          </Accordion>
-        ))}
-        <Link
-          href='/advertise'
-          className='py-1.5 font-medium text-gray-600 capitalize'
-        >
-          Advertise
-        </Link>
-        <Link
-          href='/help'
-          className='py-1.5 font-medium text-gray-600 capitalize'
-        >
-          Help
-        </Link>
-      </div>
-    </Sidebar.Body>
-    <Sidebar.Footer>
-      {!uid ? (
-        <>
+}) => {
+  const dispatch = useAppDispatch()
+  return (
+    <Sidebar open={open} setOpen={setOpen}>
+      <Sidebar.Header setOpen={setOpen} />
+      <Sidebar.Body>
+        <div className='flex flex-col items-start'>
+          {Object.entries(MENU_ITEMS).map(([title, items]) => (
+            <Accordion key={title} title={title}>
+              <div className='flex flex-col items-start'>
+                {items.map((menu) => (
+                  <Accordion key={menu.title} title={menu.title}>
+                    {menu.menu?.map((subItem) => (
+                      <a
+                        href={subItem.url}
+                        className='block py-1 ml-2'
+                        key={subItem.subtitle}
+                      >
+                        {subItem.subtitle}
+                      </a>
+                    ))}
+                  </Accordion>
+                ))}
+              </div>
+            </Accordion>
+          ))}
           <Link
-            href='/login'
-            className='py-2 block w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
+            href='/advertise'
+            className='py-1.5 font-medium text-gray-600 capitalize'
           >
-            Login
+            Advertise
           </Link>
           <Link
-            href='/signup'
-            className='py-2 block w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
+            href='/help'
+            className='py-1.5 font-medium text-gray-600 capitalize'
           >
-            Join now
+            Help
           </Link>
-        </>
-      ) : (
-        <Link href='/user' className='flex items-center '>
-          <Initials name={displayName || ''} className='mr-2' color='black' />
+        </div>
+      </Sidebar.Body>
+      <Sidebar.Footer>
+        {!uid ? (
+          <>
+            <Link
+              href='/login'
+              className='py-2 block w-full border border-primary-500 rounded-full text-primary-500 text-center mt-1.5 font-medium capitalize'
+            >
+              Login
+            </Link>
+            <Link
+              href='/signup'
+              className='py-2 block w-full bg-primary-500 font-medium border border-primary-500 rounded-full text-white text-center mt-1.5 capitalize'
+            >
+              Join now
+            </Link>
+          </>
+        ) : (
+          <Link href='/user' className='flex items-center justify-between'>
+            <Initials name={displayName || ''} className='mr-2' color='black' />
 
-          {displayName || ''}
-        </Link>
-      )}
-    </Sidebar.Footer>
-  </Sidebar>
-)
+            {displayName || ''}
+            <Button
+              variant='outlined'
+              color='black'
+              onClick={() => dispatch(signout)}
+            >
+              Logout
+            </Button>
+          </Link>
+        )}
+      </Sidebar.Footer>
+    </Sidebar>
+  )
+}
 
 const pathWithFixedNav: string[] = []
 

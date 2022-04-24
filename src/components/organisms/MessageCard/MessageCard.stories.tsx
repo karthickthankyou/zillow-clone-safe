@@ -11,7 +11,7 @@ export default {
 const Template: ComponentStory<typeof MessageCard> = (args) => (
   <MessageCard {...args} />
 )
-const SampleListTemplate: ComponentStory<typeof MessageCard> = (args) => (
+const SampleListTemplate: ComponentStory<typeof MessageCard> = () => (
   <div className='flex flex-col gap-2'>
     <MessageCard
       id={713}

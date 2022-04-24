@@ -488,6 +488,10 @@ export type Homes = {
   lat: Scalars['Float']
   lng: Scalars['Float']
   lotSize: Scalars['Int']
+  /** An array relationship */
+  messages: Array<Messages>
+  /** An aggregate relationship */
+  messages_aggregate: Messages_Aggregate
   plan?: Maybe<Scalars['Int']>
   price: Scalars['Int']
   priceSqft?: Maybe<Scalars['Int']>
@@ -510,6 +514,36 @@ export type Homes = {
  */
 export type HomesImgsArgs = {
   path?: InputMaybe<Scalars['String']>
+}
+
+/**
+ * Contains all homes.
+ *
+ *
+ * columns and relationships of "homes"
+ *
+ */
+export type HomesMessagesArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Messages_Order_By>>
+  where?: InputMaybe<Messages_Bool_Exp>
+}
+
+/**
+ * Contains all homes.
+ *
+ *
+ * columns and relationships of "homes"
+ *
+ */
+export type HomesMessages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Messages_Select_Column>>
+  limit?: InputMaybe<Scalars['Int']>
+  offset?: InputMaybe<Scalars['Int']>
+  order_by?: InputMaybe<Array<Messages_Order_By>>
+  where?: InputMaybe<Messages_Bool_Exp>
 }
 
 /** aggregated selection of "homes" */
@@ -580,6 +614,7 @@ export type Homes_Bool_Exp = {
   lat?: InputMaybe<Float_Comparison_Exp>
   lng?: InputMaybe<Float_Comparison_Exp>
   lotSize?: InputMaybe<Int_Comparison_Exp>
+  messages?: InputMaybe<Messages_Bool_Exp>
   plan?: InputMaybe<Int_Comparison_Exp>
   price?: InputMaybe<Int_Comparison_Exp>
   priceSqft?: InputMaybe<Int_Comparison_Exp>
@@ -644,6 +679,7 @@ export type Homes_Insert_Input = {
   lat?: InputMaybe<Scalars['Float']>
   lng?: InputMaybe<Scalars['Float']>
   lotSize?: InputMaybe<Scalars['Int']>
+  messages?: InputMaybe<Messages_Arr_Rel_Insert_Input>
   plan?: InputMaybe<Scalars['Int']>
   price?: InputMaybe<Scalars['Int']>
   priceSqft?: InputMaybe<Scalars['Int']>
@@ -749,6 +785,7 @@ export type Homes_Order_By = {
   lat?: InputMaybe<Order_By>
   lng?: InputMaybe<Order_By>
   lotSize?: InputMaybe<Order_By>
+  messages_aggregate?: InputMaybe<Messages_Aggregate_Order_By>
   plan?: InputMaybe<Order_By>
   price?: InputMaybe<Order_By>
   priceSqft?: InputMaybe<Order_By>
@@ -1344,11 +1381,14 @@ export type Location_Stats_Variance_Fields = {
 export type Messages = {
   __typename?: 'messages'
   created_at: Scalars['timestamptz']
+  email: Scalars['String']
   /** An object relationship */
   home: Homes
   home_id: Scalars['Int']
   id: Scalars['Int']
   message: Scalars['String']
+  name: Scalars['String']
+  phone: Scalars['String']
   uid: Scalars['String']
   updated_at: Scalars['timestamptz']
 }
@@ -1382,11 +1422,39 @@ export type Messages_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>
 }
 
+/** order by aggregate values of table "messages" */
+export type Messages_Aggregate_Order_By = {
+  avg?: InputMaybe<Messages_Avg_Order_By>
+  count?: InputMaybe<Order_By>
+  max?: InputMaybe<Messages_Max_Order_By>
+  min?: InputMaybe<Messages_Min_Order_By>
+  stddev?: InputMaybe<Messages_Stddev_Order_By>
+  stddev_pop?: InputMaybe<Messages_Stddev_Pop_Order_By>
+  stddev_samp?: InputMaybe<Messages_Stddev_Samp_Order_By>
+  sum?: InputMaybe<Messages_Sum_Order_By>
+  var_pop?: InputMaybe<Messages_Var_Pop_Order_By>
+  var_samp?: InputMaybe<Messages_Var_Samp_Order_By>
+  variance?: InputMaybe<Messages_Variance_Order_By>
+}
+
+/** input type for inserting array relation for remote table "messages" */
+export type Messages_Arr_Rel_Insert_Input = {
+  data: Array<Messages_Insert_Input>
+  /** on conflict condition */
+  on_conflict?: InputMaybe<Messages_On_Conflict>
+}
+
 /** aggregate avg on columns */
 export type Messages_Avg_Fields = {
   __typename?: 'messages_avg_fields'
   home_id?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
+}
+
+/** order by avg() on columns of table "messages" */
+export type Messages_Avg_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
 }
 
 /** Boolean expression to filter rows from the table "messages". All fields are combined with a logical 'AND'. */
@@ -1395,10 +1463,13 @@ export type Messages_Bool_Exp = {
   _not?: InputMaybe<Messages_Bool_Exp>
   _or?: InputMaybe<Array<Messages_Bool_Exp>>
   created_at?: InputMaybe<Timestamptz_Comparison_Exp>
+  email?: InputMaybe<String_Comparison_Exp>
   home?: InputMaybe<Homes_Bool_Exp>
   home_id?: InputMaybe<Int_Comparison_Exp>
   id?: InputMaybe<Int_Comparison_Exp>
   message?: InputMaybe<String_Comparison_Exp>
+  name?: InputMaybe<String_Comparison_Exp>
+  phone?: InputMaybe<String_Comparison_Exp>
   uid?: InputMaybe<String_Comparison_Exp>
   updated_at?: InputMaybe<Timestamptz_Comparison_Exp>
 }
@@ -1418,10 +1489,13 @@ export type Messages_Inc_Input = {
 /** input type for inserting data into table "messages" */
 export type Messages_Insert_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>
+  email?: InputMaybe<Scalars['String']>
   home?: InputMaybe<Homes_Obj_Rel_Insert_Input>
   home_id?: InputMaybe<Scalars['Int']>
   id?: InputMaybe<Scalars['Int']>
   message?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  phone?: InputMaybe<Scalars['String']>
   uid?: InputMaybe<Scalars['String']>
   updated_at?: InputMaybe<Scalars['timestamptz']>
 }
@@ -1430,22 +1504,54 @@ export type Messages_Insert_Input = {
 export type Messages_Max_Fields = {
   __typename?: 'messages_max_fields'
   created_at?: Maybe<Scalars['timestamptz']>
+  email?: Maybe<Scalars['String']>
   home_id?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['Int']>
   message?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  phone?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['String']>
   updated_at?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by max() on columns of table "messages" */
+export type Messages_Max_Order_By = {
+  created_at?: InputMaybe<Order_By>
+  email?: InputMaybe<Order_By>
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+  message?: InputMaybe<Order_By>
+  name?: InputMaybe<Order_By>
+  phone?: InputMaybe<Order_By>
+  uid?: InputMaybe<Order_By>
+  updated_at?: InputMaybe<Order_By>
 }
 
 /** aggregate min on columns */
 export type Messages_Min_Fields = {
   __typename?: 'messages_min_fields'
   created_at?: Maybe<Scalars['timestamptz']>
+  email?: Maybe<Scalars['String']>
   home_id?: Maybe<Scalars['Int']>
   id?: Maybe<Scalars['Int']>
   message?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  phone?: Maybe<Scalars['String']>
   uid?: Maybe<Scalars['String']>
   updated_at?: Maybe<Scalars['timestamptz']>
+}
+
+/** order by min() on columns of table "messages" */
+export type Messages_Min_Order_By = {
+  created_at?: InputMaybe<Order_By>
+  email?: InputMaybe<Order_By>
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+  message?: InputMaybe<Order_By>
+  name?: InputMaybe<Order_By>
+  phone?: InputMaybe<Order_By>
+  uid?: InputMaybe<Order_By>
+  updated_at?: InputMaybe<Order_By>
 }
 
 /** response of any mutation on the table "messages" */
@@ -1467,10 +1573,13 @@ export type Messages_On_Conflict = {
 /** Ordering options when selecting data from "messages". */
 export type Messages_Order_By = {
   created_at?: InputMaybe<Order_By>
+  email?: InputMaybe<Order_By>
   home?: InputMaybe<Homes_Order_By>
   home_id?: InputMaybe<Order_By>
   id?: InputMaybe<Order_By>
   message?: InputMaybe<Order_By>
+  name?: InputMaybe<Order_By>
+  phone?: InputMaybe<Order_By>
   uid?: InputMaybe<Order_By>
   updated_at?: InputMaybe<Order_By>
 }
@@ -1485,11 +1594,17 @@ export enum Messages_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
+  Email = 'email',
+  /** column name */
   HomeId = 'home_id',
   /** column name */
   Id = 'id',
   /** column name */
   Message = 'message',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone',
   /** column name */
   Uid = 'uid',
   /** column name */
@@ -1499,9 +1614,12 @@ export enum Messages_Select_Column {
 /** input type for updating data in table "messages" */
 export type Messages_Set_Input = {
   created_at?: InputMaybe<Scalars['timestamptz']>
+  email?: InputMaybe<Scalars['String']>
   home_id?: InputMaybe<Scalars['Int']>
   id?: InputMaybe<Scalars['Int']>
   message?: InputMaybe<Scalars['String']>
+  name?: InputMaybe<Scalars['String']>
+  phone?: InputMaybe<Scalars['String']>
   uid?: InputMaybe<Scalars['String']>
   updated_at?: InputMaybe<Scalars['timestamptz']>
 }
@@ -1513,11 +1631,23 @@ export type Messages_Stddev_Fields = {
   id?: Maybe<Scalars['Float']>
 }
 
+/** order by stddev() on columns of table "messages" */
+export type Messages_Stddev_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+}
+
 /** aggregate stddev_pop on columns */
 export type Messages_Stddev_Pop_Fields = {
   __typename?: 'messages_stddev_pop_fields'
   home_id?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
+}
+
+/** order by stddev_pop() on columns of table "messages" */
+export type Messages_Stddev_Pop_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
 }
 
 /** aggregate stddev_samp on columns */
@@ -1527,6 +1657,12 @@ export type Messages_Stddev_Samp_Fields = {
   id?: Maybe<Scalars['Float']>
 }
 
+/** order by stddev_samp() on columns of table "messages" */
+export type Messages_Stddev_Samp_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+}
+
 /** aggregate sum on columns */
 export type Messages_Sum_Fields = {
   __typename?: 'messages_sum_fields'
@@ -1534,16 +1670,28 @@ export type Messages_Sum_Fields = {
   id?: Maybe<Scalars['Int']>
 }
 
+/** order by sum() on columns of table "messages" */
+export type Messages_Sum_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+}
+
 /** update columns of table "messages" */
 export enum Messages_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
   /** column name */
   HomeId = 'home_id',
   /** column name */
   Id = 'id',
   /** column name */
   Message = 'message',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone',
   /** column name */
   Uid = 'uid',
   /** column name */
@@ -1557,6 +1705,12 @@ export type Messages_Var_Pop_Fields = {
   id?: Maybe<Scalars['Float']>
 }
 
+/** order by var_pop() on columns of table "messages" */
+export type Messages_Var_Pop_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+}
+
 /** aggregate var_samp on columns */
 export type Messages_Var_Samp_Fields = {
   __typename?: 'messages_var_samp_fields'
@@ -1564,11 +1718,23 @@ export type Messages_Var_Samp_Fields = {
   id?: Maybe<Scalars['Float']>
 }
 
+/** order by var_samp() on columns of table "messages" */
+export type Messages_Var_Samp_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
+}
+
 /** aggregate variance on columns */
 export type Messages_Variance_Fields = {
   __typename?: 'messages_variance_fields'
   home_id?: Maybe<Scalars['Float']>
   id?: Maybe<Scalars['Float']>
+}
+
+/** order by variance() on columns of table "messages" */
+export type Messages_Variance_Order_By = {
+  home_id?: InputMaybe<Order_By>
+  id?: InputMaybe<Order_By>
 }
 
 /** mutation root */
@@ -2631,9 +2797,9 @@ export type Query_Root = {
   location_stats_aggregate: Location_Stats_Aggregate
   /** fetch data from the table: "location_stats" using primary key columns */
   location_stats_by_pk?: Maybe<Location_Stats>
-  /** fetch data from the table: "messages" */
+  /** An array relationship */
   messages: Array<Messages>
-  /** fetch aggregated fields from the table: "messages" */
+  /** An aggregate relationship */
   messages_aggregate: Messages_Aggregate
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>
@@ -3026,9 +3192,9 @@ export type Subscription_Root = {
   location_stats_aggregate: Location_Stats_Aggregate
   /** fetch data from the table: "location_stats" using primary key columns */
   location_stats_by_pk?: Maybe<Location_Stats>
-  /** fetch data from the table: "messages" */
+  /** An array relationship */
   messages: Array<Messages>
-  /** fetch aggregated fields from the table: "messages" */
+  /** An aggregate relationship */
   messages_aggregate: Messages_Aggregate
   /** fetch data from the table: "messages" using primary key columns */
   messages_by_pk?: Maybe<Messages>
@@ -3792,6 +3958,7 @@ export type GetHomeByIdQuery = {
         beds: number
         address: string
         style: string
+        imgs?: any | null | undefined
       }
     | null
     | undefined
@@ -3846,6 +4013,8 @@ export type InsertMessageMutation = {
         uid: string
         id: number
         home_id: number
+        email: string
+        phone: string
         updated_at: any
         created_at: any
       }
@@ -3988,6 +4157,29 @@ export type GetMessagesQuery = {
   }>
 }
 
+export type GetEnquiriesQueryVariables = Exact<{
+  uid: Scalars['String']
+}>
+
+export type GetEnquiriesQuery = {
+  __typename?: 'query_root'
+  messages: Array<{
+    __typename?: 'messages'
+    id: number
+    message: string
+    created_at: any
+    email: string
+    phone: string
+    home: {
+      __typename?: 'homes'
+      id: number
+      address: string
+      price: number
+      imgs?: any | null | undefined
+    }
+  }>
+}
+
 export type SetHomePlanMutationVariables = Exact<{
   id: Scalars['Int']
   plan?: InputMaybe<Scalars['Int']>
@@ -4029,6 +4221,7 @@ export const namedOperations = {
     GetWishlistedHomesDetailed: 'GetWishlistedHomesDetailed',
     GetHome: 'GetHome',
     GetMessages: 'GetMessages',
+    GetEnquiries: 'GetEnquiries',
   },
   Mutation: {
     InsertUserHome: 'InsertUserHome',
@@ -4244,6 +4437,7 @@ export const GetHomeByIdDocument = /*#__PURE__*/ gql`
       beds
       address
       style
+      imgs
     }
   }
 `
@@ -4307,6 +4501,8 @@ export const InsertMessageDocument = /*#__PURE__*/ gql`
       uid
       id
       home_id
+      email
+      phone
       updated_at
       created_at
     }
@@ -4473,6 +4669,32 @@ export function useGetMessagesQuery(
 ) {
   return Urql.useQuery<GetMessagesQuery>({
     query: GetMessagesDocument,
+    ...options,
+  })
+}
+export const GetEnquiriesDocument = /*#__PURE__*/ gql`
+  query GetEnquiries($uid: String!) {
+    messages(where: { home: { uid: { _eq: $uid } } }) {
+      id
+      message
+      created_at
+      email
+      phone
+      home {
+        id
+        address
+        price
+        imgs
+      }
+    }
+  }
+`
+
+export function useGetEnquiriesQuery(
+  options: Omit<Urql.UseQueryArgs<GetEnquiriesQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<GetEnquiriesQuery>({
+    query: GetEnquiriesDocument,
     ...options,
   })
 }

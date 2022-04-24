@@ -130,6 +130,7 @@ query GetHomeById($id: Int!) {
     beds
     address
     style
+    imgs
   }
 }
 
@@ -164,6 +165,8 @@ mutation InsertMessage($object: messages_insert_input!) {
     uid
     id
     home_id
+    email
+    phone
     updated_at
     created_at
   }
@@ -266,6 +269,22 @@ query GetMessages($uid: String!) {
     }
     message
     created_at
+  }
+}
+
+query GetEnquiries($uid: String!) {
+  messages(where: { home: { uid: { _eq: $uid } } }) {
+    id
+    message
+    created_at
+    email
+    phone
+    home {
+      id
+      address
+      price
+      imgs
+    }
   }
 }
 

@@ -1,10 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { ReactElement } from 'react'
-import ReactMapGL, {
-  InteractiveMapProps,
-  FlyToInterpolator,
-  LinearInterpolator,
-} from 'react-map-gl'
+import ReactMapGL, { InteractiveMapProps } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 
 import { Viewport } from 'src/types'

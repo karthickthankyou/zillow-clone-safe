@@ -1,10 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { castDraft } from 'immer'
-import {
-  GetWishlistedHomesDetailedQuery,
-  GetWishlistedHomesQuery,
-} from 'src/generated/graphql'
+import { GetWishlistedHomesQuery } from 'src/generated/graphql'
 import { UseQueryResponse } from 'urql'
 
 import { RootState } from '..'

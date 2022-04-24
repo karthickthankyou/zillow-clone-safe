@@ -4,11 +4,7 @@ import { SearchCitiesByLocationQuery } from 'src/generated/graphql'
 import { useAppDispatch } from 'src/store'
 import { setViewport } from 'src/store/map/mapSlice'
 import { ZOOM_CITIES, ZOOM_HOMES } from 'src/store/static'
-import {
-  startLongHoverDispatch,
-  stopLongHoverDispatch,
-  useKeypress,
-} from 'src/hooks'
+import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
 import {
   setHighlightedCityId,
   setHighlightedStateId,

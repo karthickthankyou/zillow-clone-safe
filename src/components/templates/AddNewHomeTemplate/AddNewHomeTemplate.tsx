@@ -2,24 +2,26 @@
 import React, { useEffect, useState, ReactElement } from 'react'
 import { useInsertHomeMutation } from 'src/generated/graphql'
 import Router from 'next/router'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FieldError, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import HtmlSelect from 'src/components/atoms/HtmlSelect'
 import Input from 'src/components/atoms/HtmlInput'
 import Label from 'src/components/atoms/HtmlLabel'
 import TextArea from 'src/components/atoms/HtmlTextArea'
-import UploadIcon from '@heroicons/react/outline/UploadIcon'
+import BadgeCheckIcon from '@heroicons/react/outline/BadgeCheckIcon'
+import Image from 'src/components/atoms/Image'
 
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
 
-import { scrollToTop } from 'src/hooks'
 import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Dialog from 'src/components/molecules/Dialog'
 import { RadioGroup, Switch } from '@headlessui/react'
 import { getHomeTypes } from 'src/store/static'
-import { useAppSelector } from 'src/store'
+import { useAppDispatch, useAppSelector } from 'src/store'
+import Button from 'src/components/atoms/Button'
+import { resetMap } from 'src/store/map/mapSlice'
 import { MapLocationPicker, NewHomeSchema, newHomeSchema } from './utils'
 
 export interface IAddNewHomeTemplateProps {}
@@ -59,7 +61,8 @@ const AddNewHomeTemplate = () => {
     setValue,
     watch,
     control,
-
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<NewHomeSchema>({
     resolver: yupResolver(newHomeSchema),
@@ -82,18 +85,21 @@ const AddNewHomeTemplate = () => {
       zipcode: undefined,
       lat: undefined,
       lng: undefined,
-      imgFiles: undefined,
       imgs: undefined,
     },
   })
 
+  const [isUploading, setIsUploading] = useState(false)
+
   const formData = watch()
 
   const uid = useAppSelector((state) => state.user.data.user?.uid)
+  const [publishing, setPublishing] = useState(false)
   const [showDialog, setshowDialog] = useState(false)
   const [showErrorDialog, setShowErrorDialog] = useState(false)
   const onSubmit = handleSubmit(async (data) => {
-    const { imgFiles, plan, ...uploadData } = data
+    setPublishing(true)
+    const { plan, ...uploadData } = data
 
     const home = await addNewHome({ object: { ...uploadData, uid } })
 
@@ -114,11 +120,14 @@ const AddNewHomeTemplate = () => {
       if (home.error) setShowErrorDialog(true)
       if (home.data?.insert_homes_one?.id) setshowDialog(true)
     }
+    setPublishing(false)
   })
 
-  // useEffect(() => {
-  //   scrollToTop()
-  // }, [])
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(resetMap())
+  }, [dispatch])
 
   return (
     <form onSubmit={onSubmit} className='mb-24 space-y-20'>
@@ -299,53 +308,77 @@ const AddNewHomeTemplate = () => {
       >
         <Label
           title='Images'
-          className='grid-cols-2'
-          error={errors.imgFiles || errors.imgs}
+          className='col-span-2'
+          error={errors.imgs && (errors.imgs as unknown as FieldError)}
         >
           <Input
             type='file'
             placeholder='Upload images'
             accept='image/*'
             multiple
-            {...register('imgFiles')}
-          />
-          {formData.imgFiles?.length > 0 &&
-            !(formData && formData.imgs && formData.imgs.length > 0) && (
-              <button
-                type='button'
-                className='flex items-center px-3 py-2 mt-4 space-x-2 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed bg-primary-500'
-                onClick={async () => {
-                  if (formData.imgFiles && formData.imgFiles.length > 0) {
-                    const promises = Object.values(formData.imgFiles).map(
-                      (file: any) => {
-                        const imageFormData = new FormData()
-                        imageFormData.append('file', file)
-                        imageFormData.append('upload_preset', 'zillow-clone')
-                        imageFormData.append('cloud_name', 'thankyou')
+            disabled={formData && formData.imgs && formData.imgs.length > 0}
+            onChange={(e) => {
+              const images = e.target.files
+              if (images && images?.length > 8) {
+                setError('imgs', {
+                  message:
+                    'Can not upload more than 8 images. Please rechoose files.',
+                })
+                return
+              }
 
-                        return fetch(
-                          'https://api.cloudinary.com/v1_1/thankyou/image/upload',
-                          {
-                            method: 'post',
-                            body: imageFormData,
-                          }
-                        ).then((res) => res.json())
-                      }
-                    )
+              if (images && images.length > 0) {
+                clearErrors('imgs')
+                setIsUploading(true)
 
-                    Promise.all(promises).then((res) => {
-                      const urls = res.map((url) => url.secure_url)
-                      setValue('imgs', urls)
+                const promises = Object.values(images).map((file: any) => {
+                  const imageFormData = new FormData()
+                  imageFormData.append('file', file)
+                  imageFormData.append('upload_preset', 'zillow-clone')
+                  imageFormData.append('cloud_name', 'thankyou')
+
+                  return fetch(
+                    'https://api.cloudinary.com/v1_1/thankyou/image/upload',
+                    {
+                      method: 'post',
+                      body: imageFormData,
+                    }
+                  ).then((res) => res.json())
+                })
+
+                Promise.all(promises)
+                  .then((res) => {
+                    const urls = res.map((url) => url.secure_url)
+                    setValue('imgs', urls)
+                    setIsUploading(false)
+                  })
+                  .catch(() => {
+                    setIsUploading(false)
+                    // Todo: Also reset the uploaded pictures.
+                    setError('imgs', {
+                      message: 'Something went wrong.',
                     })
-                  }
-                }}
-              >
-                <div>Upload</div>
-                <UploadIcon className='w-6 h-6' />
-              </button>
-            )}
+                  })
+              }
+            }}
+          />
+          <div className='grid grid-cols-2 gap-3 my-3 md:grid-cols-3'>
+            {formData?.imgs?.map((item) => (
+              <Image
+                src={item || ''}
+                key={item}
+                alt=''
+                className='w-full h-64 rounded'
+              />
+            ))}
+          </div>
+          {isUploading && <div className='mt-2'>Uploading...</div>}
           {formData && formData.imgs && formData.imgs.length > 0 && (
-            <div>{formData.imgs?.length} pictures uploaded</div>
+            <div className='flex items-center gap-1 py-2 mt-2'>
+              <BadgeCheckIcon className='w-4 h-4 text-green' />
+              {formData.imgs?.length}{' '}
+              {formData.imgs?.length === 1 ? 'picture' : 'pictures'} uploaded
+            </div>
           )}
         </Label>
       </FormSection>
@@ -467,12 +500,13 @@ const AddNewHomeTemplate = () => {
       </FormSection>
 
       <div className='flex justify-end'>
-        <button
+        <Button
+          isLoading={publishing}
           className='w-full px-20 py-2 text-white border rounded sm:w-1/2 md:w-1/3 lg:w-1/4 border-primary bg-primary-500'
           type='submit'
         >
           Publish
-        </button>
+        </Button>
       </div>
     </form>
   )

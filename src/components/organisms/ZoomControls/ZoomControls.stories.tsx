@@ -1,14 +1,13 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { SbReduxProvider } from 'src/lib/sb'
-import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import AcademicCapIcon from '@heroicons/react/outline/AcademicCapIcon'
 import AnnotationIcon from '@heroicons/react/outline/AnnotationIcon'
 import BellIcon from '@heroicons/react/outline/BellIcon'
 import BriefcaseIcon from '@heroicons/react/outline/BriefcaseIcon'
 import ChartPieIcon from '@heroicons/react/outline/ChartPieIcon'
 import { Panel, PanelContainer } from '../MapboxContent/MapboxContent'
-import ZoomControls, { MapControl, MapControlAction } from './ZoomControls'
+import ZoomControls, { MapControlAction } from './ZoomControls'
 
 export default {
   title: 'organisms/ZoomControls',

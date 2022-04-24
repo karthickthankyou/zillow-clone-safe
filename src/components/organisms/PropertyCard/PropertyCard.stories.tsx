@@ -1,8 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { combineReducers, createStore } from '@reduxjs/toolkit'
-import usersReducer, { initialState } from 'src/store/user/userSlice'
-import { RootState } from 'src/store'
+import usersReducer from 'src/store/user/userSlice'
 import { Provider } from 'react-redux'
 import PropertyCard from './PropertyCard'
 
