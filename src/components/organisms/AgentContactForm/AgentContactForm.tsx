@@ -7,8 +7,9 @@ import * as yup from 'yup'
 // If yup-phone is creating problems, Use import parsePhoneNumber from 'libphonenumber-js'
 import Link from 'src/components/atoms/Link'
 import ExclamationIcon from '@heroicons/react/solid/ExclamationIcon'
-import { useInsertMessageMutation } from 'src/generated/graphql'
+import { useCreateMessageMutation } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
+import { notify } from 'src/hooks'
 
 export interface IAgentContactFormProps {
   homeId: number
@@ -59,17 +60,19 @@ const AgentContactForm = React.forwardRef(
     const uid = useAppSelector((state) => state.user.data.user?.uid)
 
     const [{ fetching, data: contactData }, contactAgent] =
-      useInsertMessageMutation()
+      useCreateMessageMutation()
 
     const onSubmit = handleSubmit((data) => {
+      if (!uid) {
+        notify({ message: 'You are not logged in.' })
+        return
+      }
       contactAgent({
-        object: {
+        createMessageInput: {
+          // Todo: Change db schema.
           uid,
-          home_id: homeId,
+          propertyId: homeId,
           message: data.message,
-          email: data.email,
-          phone: data.phone,
-          name: data.name,
         },
       })
     })

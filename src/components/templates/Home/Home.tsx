@@ -5,13 +5,13 @@ import ScrollText from 'src/components/molecules/ScrollBanner'
 import Mapbox from 'src/components/organisms/Mapbox'
 import TripGuide from 'src/components/organisms/TripGuide'
 import {
-  CityMarkers,
+  //   CityMarkers,
   Fetching,
   HomeMarkers,
   Panel,
   PanelContainer,
   Error,
-  StateMarkers,
+  //   StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
@@ -53,8 +53,8 @@ const Home = () => {
           <MapProvider className='h-full'>
             <Mapbox>
               <HomeMarkers />
-              <CityMarkers />
-              <StateMarkers />
+              {/* <CityMarkers />
+              <StateMarkers /> */}
 
               <PanelContainer>
                 <Panel position='center-bottom'>

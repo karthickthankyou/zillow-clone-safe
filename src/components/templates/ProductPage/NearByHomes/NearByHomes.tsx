@@ -38,7 +38,7 @@ const NearByHomes = ({ homeId }: INearByHomesProps) => {
                   key={item}
                 />
               ))
-            : data?.homes
+            : data?.properties
                 .filter((item) => item.id !== homeId)
                 .map((item) => (
                   <HScroll.Child key={item.id}>
@@ -50,13 +50,14 @@ const NearByHomes = ({ homeId }: INearByHomesProps) => {
                       beds={item.beds}
                       price={item.price}
                       sqft={item.sqft}
-                      wishlisted={wishlistedHomes?.wishlisted.find(
-                        (wishlistedItem) => wishlistedItem.hId === item.id
+                      wishlisted={wishlistedHomes?.userHomes.find(
+                        (wishlistedItem) =>
+                          wishlistedItem.propertyId === item.id
                       )}
                     />
                   </HScroll.Child>
                 ))}
-          {!fetching && !data?.homes.length && (
+          {!fetching && !data?.properties.length && (
             <div className='flex items-center justify-center w-full h-96'>
               No nearby properties found.
             </div>

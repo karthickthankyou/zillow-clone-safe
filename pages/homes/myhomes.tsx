@@ -8,7 +8,7 @@
 
 import { NextPage } from 'next'
 
-import { useGetMyHomesQuery } from 'src/generated/graphql'
+import { useUserHomesQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
 import Container from 'src/components/atoms/Container'
 import MyHomesCard from 'src/components/organisms/MyHomesCard/MyHomesCard'
@@ -16,10 +16,10 @@ import Link from 'src/components/atoms/Link/Link'
 
 const MyHomes: NextPage = () => {
   const uid = useAppSelector((state) => state.user.data.user?.uid)
-  const [{ data }] = useGetMyHomesQuery({
+  const [{ data }] = useUserHomesQuery({
     variables: {
       where: {
-        uid: { _eq: uid },
+        buyerUid: { equals: uid },
       },
     },
   })
@@ -36,7 +36,7 @@ const MyHomes: NextPage = () => {
         </Link>
       </div>
       <div className='grid grid-cols-3 gap-3'>
-        {data?.homes.map((item) => (
+        {data?.userHomes.map((item) => (
           <MyHomesCard key={item.id} home={item} />
         ))}
       </div>

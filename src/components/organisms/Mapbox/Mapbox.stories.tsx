@@ -13,7 +13,7 @@ import {
   Panel,
   PanelContainer,
   MapPanelTypes,
-  StateMarkers,
+  //   StateMarkers,
 } from '../MapboxContent/MapboxContent'
 import ZoomControls from '../ZoomControls'
 
@@ -79,13 +79,14 @@ Panels.args = {
 }
 export const MarkersState = Template.bind({})
 MarkersState.args = {
-  children: <StateMarkers />,
+  //   children: <StateMarkers />,
+  children: <div>Children</div>,
 }
 export const MarkersStateWithZoom = Template.bind({})
 MarkersStateWithZoom.args = {
   children: (
     <>
-      <StateMarkers />
+      {/* <StateMarkers /> */}
       <PanelContainer>
         <Panel position='left-top'>
           <ZoomControls>

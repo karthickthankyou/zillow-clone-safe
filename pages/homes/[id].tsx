@@ -3,7 +3,12 @@ import { GetStaticProps } from 'next'
 import { ParsedUrlQuery } from 'querystring'
 import ProductPageTemplate from 'src/components/templates/ProductPage/ProductPage'
 import { client, ssrCache } from 'src/config/urqlClientWonka'
-import { GetHomeDocument, useGetHomeQuery } from 'src/generated/graphql'
+import {
+  PropertyDocument,
+  PropertyQuery,
+  PropertyQueryVariables,
+  usePropertyQuery,
+} from 'src/generated/graphql'
 
 import { useRouter } from 'next/router'
 import { getQueryParam } from 'src/lib/util'
@@ -17,14 +22,16 @@ const ProductPage = () => {
   useHomesDetailed()
 
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
-  const [home] = useGetHomeQuery({
-    variables: { id },
+  const [home] = usePropertyQuery({
+    variables: { where: { id: +id } },
   })
+
+  console.log('---Home ', home)
   const dispatch = useAppDispatch()
 
-  const homeId = home.data?.homes_by_pk?.id
-  const lat = home.data?.homes_by_pk?.lat
-  const lng = home.data?.homes_by_pk?.lng
+  const homeId = home.data?.property?.id
+  const lat = home.data?.property?.lat
+  const lng = home.data?.property?.lng
 
   useEffect(() => {
     dispatch(setHighlightedHomeId(homeId))
@@ -41,10 +48,10 @@ const ProductPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!home.fetching && !home.data?.homes_by_pk) {
+    if (!home.fetching && !home.data?.property) {
       router.push('/404')
     }
-  }, [home.data?.homes_by_pk, home.fetching, router])
+  }, [home.data?.property, home.fetching, router])
 
   return <ProductPageTemplate home={home} />
 }
@@ -60,7 +67,11 @@ interface Params extends ParsedUrlQuery {
 // This function gets called at build time
 export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   const id = context.params?.id || -90
-  await client?.query(GetHomeDocument, { id }).toPromise()
+  await client
+    ?.query<PropertyQuery, PropertyQueryVariables>(PropertyDocument, {
+      where: { id: +id },
+    })
+    .toPromise()
 
   const props = {
     props: JSON.parse(

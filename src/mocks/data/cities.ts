@@ -1,8 +1,7 @@
-import {
-  GetRegionByIdQuery,
-  SearchCitiesByLocationQuery,
-  SearchStatesByLocationQuery,
-} from 'src/generated/graphql'
+import //   GetRegionByIdQuery,
+//   SearchCitiesByLocationQuery,
+//   SearchStatesByLocationQuery,
+'src/generated/graphql'
 
 export const mockDataGetCities = {
   cities: [
@@ -139,7 +138,8 @@ export const mockDataSearchCities = {
   ],
 }
 
-export const mockDataSearchCitiesByLocation: SearchCitiesByLocationQuery = {
+// : SearchCitiesByLocationQuery
+export const mockDataSearchCitiesByLocation = {
   cities: [
     {
       id: 'Portland',
@@ -168,7 +168,8 @@ export const mockDataSearchCitiesByLocation: SearchCitiesByLocationQuery = {
   ],
 }
 
-export const mockDataSearchStatesByLocation: SearchStatesByLocationQuery = {
+// : SearchStatesByLocationQuery
+export const mockDataSearchStatesByLocation = {
   states: [
     {
       id: 'CA',
@@ -389,7 +390,8 @@ export const mockDataSearchStatesByLocation: SearchStatesByLocationQuery = {
   ],
 }
 
-export const mockDataGetRegionById: GetRegionByIdQuery = {
+// : GetRegionByIdQuery
+export const mockDataGetRegionById = {
   location_stats_by_pk: {
     id: 'Mocked State',
     totalHomes: 18,

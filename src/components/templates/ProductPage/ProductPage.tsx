@@ -3,15 +3,15 @@ import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
 import { MapProvider } from 'src/store/map/mapContext'
 import {
-  CityMarkers,
+  //   CityMarkers,
   Fetching,
   HomeMarkers,
   Panel,
   PanelContainer,
-  StateMarkers,
+  //   StateMarkers,
   Error,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
-import { GetHomeQuery } from 'src/generated/graphql'
+import { PropertyDetailedQuery } from 'src/generated/graphql'
 import { useScrollTo, scrollToTop } from 'src/hooks'
 
 import AgentContactForm from 'src/components/organisms/AgentContactForm'
@@ -45,7 +45,7 @@ import MainCard from './MainCard'
 import NearByHomes from './NearByHomes'
 
 export interface IProductPageProps {
-  home: UseQueryResponse<GetHomeQuery, object>[0]
+  home: UseQueryResponse<PropertyDetailedQuery, object>[0]
 }
 
 const HighText = ({ children }: { children: Children }) => (
@@ -59,11 +59,11 @@ const ProductPage = ({ home }: IProductPageProps) => {
 
   const { data: nearbyHomes } = useAppSelector(selectHomesDetailed)
 
-  const homeData = home?.data?.homes_by_pk
+  const homeData = home?.data?.property
 
   const filteredHomes =
-    nearbyHomes?.homes.filter(
-      (item) => item.id !== home.data?.homes_by_pk?.id
+    nearbyHomes?.properties.filter(
+      (item) => item.id !== home.data?.property?.id
     ) || []
 
   const randomHomeId =
@@ -75,7 +75,7 @@ const ProductPage = ({ home }: IProductPageProps) => {
     <Container>
       <div className='grid-cols-3 gap-6 lg:grid'>
         <div className='col-span-2 space-y-6 md:space-y-12'>
-          <ProductPageCarousel imgs={homeData?.imgs} />
+          <ProductPageCarousel imgs={homeData?.imgs || []} />
           <MainCard
             className='block lg:hidden '
             home={home}
@@ -159,8 +159,8 @@ const ProductPage = ({ home }: IProductPageProps) => {
           <MapProvider className='h-144'>
             <Mapbox>
               <HomeMarkers />
-              <CityMarkers />
-              <StateMarkers />
+              {/* <CityMarkers />
+              <StateMarkers /> */}
               <PanelContainer>
                 <Panel position='center-bottom'>
                   <Fetching />

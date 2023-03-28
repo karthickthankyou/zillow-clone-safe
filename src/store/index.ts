@@ -5,7 +5,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import userReducer from './user'
 import mapReducer from './map/mapSlice'
-import homeReducer from './home/homeSlice'
+import { homeReducer } from './home/homeSlice'
 import utilReducer from './utils/utilsStore'
 import userHomeReducer from './userHome/userHomeSlice'
 

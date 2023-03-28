@@ -1,19 +1,16 @@
 import { Marker } from 'react-map-gl'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import OfficeBuildingIcon from '@heroicons/react/solid/OfficeBuildingIcon'
-import {
-  SearchHomesByLocationQuery,
-  GetWishlistedHomesQuery,
-} from 'src/generated/graphql'
+import { SearchPropertiesQuery, UserHomesQuery } from 'src/generated/graphql'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
 
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { useRouter } from 'next/router'
 
 export interface IMapMarkerProps {
-  home: SearchHomesByLocationQuery['homes'][0]
+  home: SearchPropertiesQuery['properties'][0]
   highlighted?: boolean
-  wishlisted?: GetWishlistedHomesQuery['wishlisted'][0]
+  wishlisted?: UserHomesQuery['userHomes'][0]
 }
 
 const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {

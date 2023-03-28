@@ -3,25 +3,26 @@ import { NextSeo } from 'next-seo'
 import Skeleton from 'src/components/molecules/Skeleton'
 import { useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
-import {
-  useGetMessagesQuery,
-  useGetEnquiriesQuery,
-} from 'src/generated/graphql'
+import { useMessagesQuery } from 'src/generated/graphql'
 import Container from 'src/components/atoms/Container'
 import MessageCard from 'src/components/organisms/MessageCard/MessageCard'
 
 const MessagesPage: NextPage = () => {
   const uid = useAppSelector(selectUid)
 
-  const [{ data, fetching }] = useGetMessagesQuery({
+  const [{ data, fetching }] = useMessagesQuery({
     variables: {
-      uid: uid!,
+      where: {
+        buyerUid: { equals: uid },
+      },
     },
     pause: !uid,
   })
-  const [{ data: dataEnquiries }] = useGetEnquiriesQuery({
+  const [{ data: dataEnquiries }] = useMessagesQuery({
     variables: {
-      uid: uid!,
+      where: {
+        buyerUid: { equals: uid },
+      },
     },
     pause: !uid,
   })
@@ -57,10 +58,10 @@ const MessagesPage: NextPage = () => {
           {data?.messages.map((item) => (
             <MessageCard
               key={item.id}
-              id={item.home.id}
-              address={item.home.address}
+              id={item.property.id}
+              address={item.property.address}
               message={item.message}
-              date={item.created_at}
+              date={item.createdAt}
             />
           ))}
         </div>
@@ -75,14 +76,11 @@ const MessagesPage: NextPage = () => {
               {dataEnquiries?.messages.map((item) => (
                 <MessageCard
                   key={item.id}
-                  id={item.home.id}
-                  src={item.home.imgs && item.home.imgs[0]}
-                  address={item.home.address}
-                  email={item.email}
-                  name={item.name}
-                  phone={item.phone}
+                  id={item.property.id}
+                  src={item.property.imgs && item.property.imgs[0]}
+                  address={item.property.address}
                   message={item.message}
-                  date={item.created_at}
+                  date={item.createdAt}
                 />
               ))}
             </div>

@@ -1,13 +1,13 @@
 import CurrencyDollarIcon from '@heroicons/react/outline/CurrencyDollarIcon'
 import Link from 'src/components/atoms/Link'
-import { GetHomeQuery } from 'src/generated/graphql'
+import { PropertyQuery } from 'src/generated/graphql'
 import { toAcres } from 'src/lib/util'
 import Image from 'src/components/atoms/Image'
 import Skeleton from 'src/components/molecules/Skeleton'
 import { UseQueryResponse } from 'urql'
 
 export interface IMainCardProps {
-  home: UseQueryResponse<GetHomeQuery, object>[0]
+  home: UseQueryResponse<PropertyQuery, object>[0]
   scrollToContactForm: () => void
   className?: string
 }
@@ -34,7 +34,7 @@ export const MainCardSkeleton = ({ className }: { className?: string }) => (
 )
 
 const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
-  const homeData = home?.data?.homes_by_pk
+  const homeData = home?.data?.property
 
   if (home.fetching) {
     return <MainCardSkeleton className={`${className}`} />

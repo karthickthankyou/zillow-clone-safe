@@ -13,14 +13,13 @@ const firebaseConfig = {
   // appId: '1:654953459891:web:388170cdf0de9c4b7ac0c6',
   // measurementId: 'G-T62TR0KDWT',
 
-  apiKey: 'AIzaSyDGX9FsAyhP3FZMPK9-LG_1OfXWMWmP_xo',
-  authDomain: 'zillow-clone-f66d8.firebaseapp.com',
-  databaseURL: 'https://zillow-clone-f66d8-default-rtdb.firebaseio.com',
-  projectId: 'zillow-clone-f66d8',
-  storageBucket: 'zillow-clone-f66d8.appspot.com',
-  messagingSenderId: '846163824702',
-  appId: '1:846163824702:web:f97db11bd287944035416f',
-  measurementId: 'G-BZETPKMFRB',
+  apiKey: 'AIzaSyDiENWwMSb_bO_I-FiwM7Jgl3ktHNQ8R4w',
+  authDomain: 'karthick-zillow.firebaseapp.com',
+  projectId: 'karthick-zillow',
+  storageBucket: 'karthick-zillow.appspot.com',
+  messagingSenderId: '719287085853',
+  appId: '1:719287085853:web:7e2ceffc188ba9a4eb0ff4',
+  measurementId: 'G-PDFE7C0BQ6',
 }
 
 // Initialize Firebase

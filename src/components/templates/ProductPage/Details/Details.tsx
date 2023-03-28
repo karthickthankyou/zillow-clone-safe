@@ -1,6 +1,8 @@
+import { ReactNode } from 'react'
+
 export interface IOptionProps {
   title: string
-  content: undefined | string | string[]
+  content?: ReactNode
 }
 export interface IDetailsProps {
   title: string

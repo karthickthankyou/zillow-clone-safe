@@ -10,14 +10,14 @@ import { GetStaticProps, NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { ParsedUrlQuery } from 'querystring'
 import { client, ssrCache } from 'src/config/urqlClientWonka'
-import { GetHomeDocument, useGetHomeQuery } from 'src/generated/graphql'
+import { PropertyDocument, usePropertyQuery } from 'src/generated/graphql'
 import { getQueryParam } from 'src/lib/util'
 import { useHomesDetailed } from 'src/store/home/homeNetwork'
 
 const EditPage: NextPage = () => {
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
-  const [home] = useGetHomeQuery({
-    variables: { id },
+  const [home] = usePropertyQuery({
+    variables: { where: { id } },
   })
 
   return <div>Hello edit page.</div>
@@ -34,7 +34,7 @@ interface Params extends ParsedUrlQuery {
 // This function gets called at build time
 export const getStaticProps: GetStaticProps<{}, Params> = async (context) => {
   const id = context.params?.id || -90
-  await client?.query(GetHomeDocument, { id }).toPromise()
+  await client?.query(PropertyDocument, { id }).toPromise()
 
   const props = {
     props: JSON.parse(

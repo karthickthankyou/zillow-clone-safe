@@ -7,7 +7,6 @@ export interface ISidebarProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   children: (string | ReactElement | null) | (string | ReactElement | null)[]
-  className?: string
 }
 
 const Header = ({

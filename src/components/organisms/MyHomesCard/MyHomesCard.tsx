@@ -1,6 +1,6 @@
 import {
-  GetMyHomesQuery,
-  SetHomePublishedDocument,
+  SearchPropertiesDetailedQuery,
+  UpdatePropertyDocument,
 } from 'src/generated/graphql'
 import Image from 'src/components/atoms/Image'
 import { getHomeTypes } from 'src/store/static'
@@ -11,7 +11,7 @@ import { client } from 'src/config/urqlClientWonka'
 import { notify } from 'src/hooks'
 
 export interface IMyHomesCardProps {
-  home: GetMyHomesQuery['homes'][number]
+  home: SearchPropertiesDetailedQuery['properties'][number]
 }
 
 const setPublishedState = ({
@@ -22,7 +22,7 @@ const setPublishedState = ({
   published: boolean
 }) => {
   client
-    .mutation(SetHomePublishedDocument, {
+    .mutation(UpdatePropertyDocument, {
       id,
       published,
     })

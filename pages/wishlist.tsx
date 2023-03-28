@@ -4,7 +4,7 @@ import Skeleton from 'src/components/molecules/Skeleton'
 import { useAppSelector } from 'src/store'
 import Image from 'src/components/atoms/Image2'
 import { selectUid } from 'src/store/user/userSlice'
-import { useGetWishlistedHomesDetailedQuery } from 'src/generated/graphql'
+import { useUserHomesDetailedQuery } from 'src/generated/graphql'
 import Container from 'src/components/atoms/Container'
 import Link from 'src/components/atoms/Link/Link'
 
@@ -17,14 +17,16 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
 const WishlistPage: NextPage = () => {
   const uid = useAppSelector(selectUid)
 
-  const [{ data, fetching }] = useGetWishlistedHomesDetailedQuery({
+  const [{ data, fetching }] = useUserHomesDetailedQuery({
     variables: {
-      uid: uid!,
+      where: {
+        buyerUid: { equals: uid! },
+      },
     },
     pause: !uid,
   })
 
-  const wishlistCount = data?.wishlisted.length || 0
+  const wishlistCount = data?.userHomes.length || 0
 
   if (fetching) {
     return (
@@ -43,24 +45,24 @@ const WishlistPage: NextPage = () => {
       />
       <div className='mb-4 text-xl'>Wishlist</div>
       <Grid>
-        {data?.wishlisted.map((item) => (
+        {data?.userHomes.map((item) => (
           <div key={item.id} className='relative'>
-            <Link href={`/homes/${item.hId}`}>
+            <Link href={`/homes/${item.propertyId}`}>
               <Image
                 alt=''
                 className='h-full rounded'
                 src={
-                  (item.home.imgs && item.home.imgs[0]) ||
+                  (item.property.imgs && item.property.imgs[0]) ||
                   'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
                 }
               />
             </Link>
 
             <div className='mt-2 text-sm text-gray-600'>
-              {item.home.address}
+              {item.property.address}
             </div>
             <div className='mt-1 mb-2 font-medium'>
-              $ {item.home.price.toLocaleString()}
+              $ {item.property.price.toLocaleString()}
             </div>
           </div>
         ))}

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, ReactElement } from 'react'
-import { useInsertHomeMutation } from 'src/generated/graphql'
+import { Style, useCreatePropertyMutation } from 'src/generated/graphql'
 import Router from 'next/router'
 import { Controller, FieldError, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -22,6 +22,7 @@ import { getHomeTypes } from 'src/store/static'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import Button from 'src/components/atoms/Button'
 import { resetMap } from 'src/store/map/mapSlice'
+import { notify } from 'src/hooks'
 import { MapLocationPicker, NewHomeSchema, newHomeSchema } from './utils'
 
 export interface IAddNewHomeTemplateProps {}
@@ -53,7 +54,7 @@ const FormSectionTitle = ({
 )
 
 const AddNewHomeTemplate = () => {
-  const [publishedHome, addNewHome] = useInsertHomeMutation()
+  const [publishedHome, addNewHome] = useCreatePropertyMutation()
 
   const {
     register,
@@ -75,12 +76,12 @@ const AddNewHomeTemplate = () => {
       facts: '',
       features: '',
       published: true,
-      lotSize: undefined,
+      lotSize: 0,
       price: undefined,
       sqft: undefined,
       plan: 0,
       state: undefined,
-      style: 'Select type of house',
+      style: Style.SingleFamilyHome,
       yearBuilt: undefined,
       zipcode: undefined,
       lat: undefined,
@@ -98,17 +99,27 @@ const AddNewHomeTemplate = () => {
   const [showDialog, setshowDialog] = useState(false)
   const [showErrorDialog, setShowErrorDialog] = useState(false)
   const onSubmit = handleSubmit(async (data) => {
+    if (!uid) {
+      notify({ message: 'You are not logged in.' })
+      return
+    }
     setPublishing(true)
     const { plan, ...uploadData } = data
 
-    const home = await addNewHome({ object: { ...uploadData, uid } })
+    const home = await addNewHome({
+      createPropertyInput: {
+        ...data,
+        plan: plan || 0,
+        sellerUid: uid,
+      },
+    })
 
-    if (home.data?.insert_homes_one?.id && plan && plan > 0) {
+    if (home.data?.createProperty?.id && plan && plan > 0) {
       const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       const stripePromise = loadStripe(publishableKey || '')
       const stripe = await stripePromise
       const checkoutSession = await axios.post('/api/create-stripe-session', {
-        id: home.data?.insert_homes_one?.id,
+        id: home.data?.createProperty?.id,
         plan,
         imgs: uploadData.imgs,
         address: uploadData.address,
@@ -118,7 +129,7 @@ const AddNewHomeTemplate = () => {
       })
     } else {
       if (home.error) setShowErrorDialog(true)
-      if (home.data?.insert_homes_one?.id) setshowDialog(true)
+      if (home.data?.createProperty?.id) setshowDialog(true)
     }
     setPublishing(false)
   })
@@ -128,6 +139,8 @@ const AddNewHomeTemplate = () => {
   useEffect(() => {
     dispatch(resetMap())
   }, [dispatch])
+
+  console.log('publishedHome', publishedHome.error, uid)
 
   return (
     <form onSubmit={onSubmit} className='mb-24 space-y-20'>
@@ -150,7 +163,7 @@ const AddNewHomeTemplate = () => {
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus
           tempore laudantium consequuntur, adipisci quidem ex fugit quo et?
         </p>
-        <p>Home id: {publishedHome.data?.insert_homes_one?.id}</p>
+        <p>Home id: {publishedHome.data?.createProperty?.id}</p>
         <div className='flex justify-end space-x-4'>
           <button
             type='button'
@@ -161,7 +174,7 @@ const AddNewHomeTemplate = () => {
           </button>
           <Link
             className='inline-block px-4 py-2 mt-8 text-center text-white bg-primary-600'
-            href={`/homes/${publishedHome.data?.insert_homes_one?.id}`}
+            href={`/homes/${publishedHome.data?.createProperty?.id}`}
           >
             Visit page
           </Link>

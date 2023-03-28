@@ -2,7 +2,7 @@
 import Stripe from 'stripe'
 import { buffer } from 'micro'
 import { urqlAdminClient } from 'src/lib/client'
-import { SetHomePlanDocument } from 'src/generated/graphql'
+import { UpdatePropertyDocument } from 'src/generated/graphql'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
       const { id, plan } = event.data.object.metadata
 
       urqlAdminClient
-        .mutation(SetHomePlanDocument, { id, plan })
+        .mutation(UpdatePropertyDocument, { id, plan })
         .toPromise()
         .then((result) => {
           console.log('Success after mutation: ', JSON.stringify(result))

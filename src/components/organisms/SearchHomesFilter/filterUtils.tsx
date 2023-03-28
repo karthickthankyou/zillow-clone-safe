@@ -16,30 +16,9 @@ import {
   setSearchText,
 } from 'src/store/map/mapSlice'
 import { useSearchPlaces } from 'src/store/map/mapHooks'
+import { Style } from 'src/generated/graphql'
 
-const homeTypes = [
-  'Single Family Home',
-  'Condo',
-  'Multi Family',
-  'Townhouse',
-  'Mobile Manufactured',
-  'Lot Land',
-  'Farm Ranch',
-  'Coop',
-  'Unknown',
-  'Apartment',
-].sort() as (
-  | 'Single Family Home'
-  | 'Condo'
-  | 'Multi Family'
-  | 'Townhouse'
-  | 'Mobile Manufactured'
-  | 'Lot Land'
-  | 'Farm Ranch'
-  | 'Coop'
-  | 'Unknown'
-  | 'Apartment'
-)[]
+const homeTypes = Object.values(Style).sort((a, b) => a.localeCompare(b))
 
 export const filterDefaultValues = {
   price: [0, 10_000_000] as [number, number],

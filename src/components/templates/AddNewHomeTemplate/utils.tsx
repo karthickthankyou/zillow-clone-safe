@@ -22,6 +22,7 @@ import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import PinSolid from '@heroicons/react/solid/LocationMarkerIcon'
 import { Marker } from 'react-map-gl'
 import Autocomplete from 'src/components/molecules/Autocomplete'
+import { Style } from 'src/generated/graphql'
 
 export type AddressSearchType = {
   address: string
@@ -53,15 +54,18 @@ export const newHomeSchema = yup
     lotSize: yup
       .number()
       .typeError('enter the lot size in square feet. ex: 1000')
-      .min(0, 'a negative number? Seriously?'),
+      .min(0, 'a negative number? Seriously?')
+      .required(),
     price: yup
       .number()
       .typeError('enter the price.')
-      .min(0, 'a negative number? Seriously?'),
+      .min(0, 'a negative number? Seriously?')
+      .required(),
     sqft: yup
       .number()
       .typeError('enter the size of your house in square feet. ex: 1000')
-      .min(0, 'a negative number? Seriously?'),
+      .min(0, 'a negative number? Seriously?')
+      .required(),
     city: yup.string().required('enter the city name.'),
     description: yup
       .string()
@@ -69,7 +73,7 @@ export const newHomeSchema = yup
         'Write a few words about the house you are trying to sell. You want to sell it or not?'
       ),
     facts: yup.string(),
-    published: yup.boolean(),
+    published: yup.boolean().required(),
     features: yup
       .string()
       .required(
@@ -78,7 +82,8 @@ export const newHomeSchema = yup
 
     state: yup.string().required('enter the state name.'),
     style: yup
-      .string()
+      .mixed<Style>()
+      .oneOf(Object.values(Style))
       .required('pick a style. Even if you dont find your house stylish.'),
     yearBuilt: yup
       .number()
@@ -99,7 +104,7 @@ export const newHomeSchema = yup
       .required('images in required.'),
     imgs: yup
       .array()
-      .of(yup.string())
+      .of(yup.string().required())
       .required('select 1 to 8 images')
       .min(1, 'select 1 to 8 images')
       .max(8, 'select 1 to 8 images'),

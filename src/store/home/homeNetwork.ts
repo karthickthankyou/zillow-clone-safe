@@ -1,23 +1,23 @@
 /* eslint-disable camelcase */
 import { useEffect } from 'react'
 import {
-  useGetHomeByIdQuery,
-  useSearchHomesByLocationQuery,
-  useSearchCitiesByLocationQuery,
-  useSearchStatesByLocationQuery,
-  useSearchHomesByLocationDetailedQuery,
-  useGetRegionByIdQuery,
-  Order_By,
+  //   useSearchCitiesByLocationQuery,
+  //   useSearchStatesByLocationQuery,
+  useSearchPropertiesDetailedQuery,
+  //   useGetRegionByIdQuery,
+  SortOrder,
+  usePropertyQuery,
+  useSearchPropertiesQuery,
 } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
 
 import {
-  setCities,
+  //   setCities,
   setHomes,
-  setStates,
-  selectCitiesFilters,
+  //   setStates,
+  //   selectCitiesFilters,
   selectHomeFilters,
-  selectStatesFilters,
+  //   selectStatesFilters,
   setHomesDetailed,
 } from './homeSlice'
 
@@ -25,7 +25,7 @@ export const useFetchHomesMap = () => {
   const dispatch = useAppDispatch()
   const filterVariables = useAppSelector(selectHomeFilters)
 
-  const [{ data, fetching, error, stale }] = useSearchHomesByLocationQuery({
+  const [{ data, fetching, error, stale }] = useSearchPropertiesQuery({
     variables: filterVariables,
   })
 
@@ -34,38 +34,40 @@ export const useFetchHomesMap = () => {
   }, [data, dispatch, error, fetching, stale])
 }
 
-export const useFetchCitiesMap = () => {
-  const dispatch = useAppDispatch()
-  const filterVariables = useAppSelector(selectCitiesFilters)
+// export const useFetchCitiesMap = () => {
+//   const dispatch = useAppDispatch()
+//   const filterVariables = useAppSelector(selectCitiesFilters)
 
-  const [{ data, fetching, error, stale }] = useSearchCitiesByLocationQuery({
-    variables: filterVariables,
-  })
+//   const [{ data, fetching, error, stale }] = useSearchCitiesByLocationQuery({
+//     variables: filterVariables,
+//   })
 
-  useEffect(() => {
-    dispatch(setCities({ data, fetching, error, stale }))
-  }, [data, dispatch, error, fetching, stale])
-}
+//   useEffect(() => {
+//     dispatch(setCities({ data, fetching, error, stale }))
+//   }, [data, dispatch, error, fetching, stale])
+// }
 
-export const useFetchStatesMap = () => {
-  const dispatch = useAppDispatch()
-  const filterVariables = useAppSelector(selectStatesFilters)
+// export const useFetchStatesMap = () => {
+//   const dispatch = useAppDispatch()
+//   const filterVariables = useAppSelector(selectStatesFilters)
 
-  const [{ data, fetching, error, stale }] = useSearchStatesByLocationQuery({
-    variables: filterVariables,
-  })
+//   const [{ data, fetching, error, stale }] = useSearchStatesByLocationQuery({
+//     variables: filterVariables,
+//   })
 
-  useEffect(() => {
-    dispatch(setStates({ data, fetching, error, stale }))
-  }, [data, dispatch, error, fetching, stale])
-}
+//   useEffect(() => {
+//     dispatch(setStates({ data, fetching, error, stale }))
+//   }, [data, dispatch, error, fetching, stale])
+// }
 
 export const useGetHighlightedHomeData = (
   highlightedHomeId: number | null | undefined
 ) => {
-  const [highlightedHomeDetails] = useGetHomeByIdQuery({
+  const [highlightedHomeDetails] = usePropertyQuery({
     variables: {
-      id: highlightedHomeId || -9999,
+      where: {
+        id: highlightedHomeId || -9999,
+      },
     },
     pause: !highlightedHomeId,
   })
@@ -73,29 +75,28 @@ export const useGetHighlightedHomeData = (
   return highlightedHomeDetails
 }
 
-export const useGetHighlightedRegionData = (
-  highlightedRegionId: string | null | undefined
-) => {
-  const [highlightedRegionDetails] = useGetRegionByIdQuery({
-    variables: {
-      id: highlightedRegionId || 'not-found',
-    },
-    pause: !highlightedRegionId,
-  })
-  return highlightedRegionDetails
-}
+// export const useGetHighlightedRegionData = (
+//   highlightedRegionId: string | null | undefined
+// ) => {
+//   const [highlightedRegionDetails] = useGetRegionByIdQuery({
+//     variables: {
+//       id: highlightedRegionId || 'not-found',
+//     },
+//     pause: !highlightedRegionId,
+//   })
+//   return highlightedRegionDetails
+// }
 
 export const useHomesDetailed = () => {
   const variables = useAppSelector(selectHomeFilters)
-  const [{ data, fetching, error, stale }] =
-    useSearchHomesByLocationDetailedQuery({
-      variables: {
-        ...variables,
-        order_by: {
-          plan: Order_By.DescNullsLast,
-        },
+  const [{ data, fetching, error, stale }] = useSearchPropertiesDetailedQuery({
+    variables: {
+      ...variables,
+      orderBy: {
+        plan: SortOrder.Desc,
       },
-    })
+    },
+  })
 
   const dispatch = useAppDispatch()
   useEffect(() => {

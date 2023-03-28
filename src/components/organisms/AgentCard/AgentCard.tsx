@@ -5,7 +5,6 @@ export interface IAgentCardProps {
   brokerName: string
   agentName: string
   phone: string
-  image?: string
   rating: number
   reviews: number
 }
