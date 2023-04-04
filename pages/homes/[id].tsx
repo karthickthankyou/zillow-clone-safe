@@ -22,7 +22,7 @@ const ProductPage = () => {
   useHomesDetailed()
 
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
-  const [home] = usePropertyQuery({
+  const home = usePropertyQuery({
     variables: { where: { id: +id } },
   })
 
@@ -48,10 +48,10 @@ const ProductPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!home.fetching && !home.data?.property) {
+    if (!home.loading && !home.data?.property) {
       router.push('/404')
     }
-  }, [home.data?.property, home.fetching, router])
+  }, [home.data?.property, home.loading, router])
 
   return <ProductPageTemplate home={home} />
 }

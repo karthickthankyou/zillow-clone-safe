@@ -12,7 +12,6 @@ import { ParsedUrlQuery } from 'querystring'
 import { client, ssrCache } from 'src/config/urqlClientWonka'
 import { PropertyDocument, usePropertyQuery } from 'src/generated/graphql'
 import { getQueryParam } from 'src/lib/util'
-import { useHomesDetailed } from 'src/store/home/homeNetwork'
 
 const EditPage: NextPage = () => {
   const id = parseInt(getQueryParam(useRouter().query.id), 10)

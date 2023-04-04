@@ -2,9 +2,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { combineReducers, createStore } from '@reduxjs/toolkit'
-import userReducer, {
-  initialState as userInitialState,
-} from 'src/store/user/userSlice'
+import { userReducer, userInitialState } from 'src/store/user/userSlice'
 import { Provider } from 'react-redux'
 import { AppLevelHooks } from 'pages/_app'
 import Login from './Login'

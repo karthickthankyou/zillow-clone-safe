@@ -29,7 +29,7 @@ const MyHomes: NextPage = () => {
       <div className='flex items-center justify-between mb-4'>
         <div className='text-xl font-semibold text-luxury'>My homes</div>
         <Link
-          href='homes/add'
+          href='/homes/new'
           className='bg-luxury px-3 py-1.5 rounded-full text-white'
         >
           Post new home

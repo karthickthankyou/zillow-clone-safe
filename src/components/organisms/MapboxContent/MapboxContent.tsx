@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { useTransition, animated, config } from 'react-spring'
 import HomeIcon from '@heroicons/react/outline/HomeIcon'
 import InformationCircleIcon from '@heroicons/react/outline/InformationCircleIcon'
@@ -12,39 +11,40 @@ import MapMarker from 'src/components/molecules/MapMarker'
 
 import {
   useFetchHomesMap,
-  //   useFetchCitiesMap,
-  //   useFetchStatesMap,
+  useFetchCitiesMap,
+  useFetchStatesMap,
 } from 'src/store/home/homeNetwork'
 
 import { setViewport } from 'src/store/map/mapSlice'
 
 import {
   selectHighlightedHomeId,
-  //   selectHighlightedCityId,
-  //   setHighlightedCityId,
-  //   selectHighlightedStateId,
-  //   setHighlightedStateId,
+  selectHighlightedCityId,
+  setHighlightedCityId,
+  selectHighlightedStateId,
+  setHighlightedStateId,
   selectMapFetching,
   selectMapError,
   selectHomesMap,
-  //   selectCitiesMap,
-  //   selectStatesMap,
+  selectCitiesMap,
+  selectStatesMap,
   setHighlightedHomeId,
 } from 'src/store/home/homeSlice'
 import { bringHighlightedItemToFront } from 'src/lib/util'
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
 import { ZOOM_CITIES, ZOOM_HOMES } from 'src/store/static'
-import { Children } from 'src/types'
-import PopupHomesContent from '../PopupHomesContent'
-// import PopupRegionContent from '../PopupRegionContent'
 
-export const PanelContainer = ({ children }: { children: Children }) => (
+import { ReactNode } from 'react'
+import PopupHomesContent from '../PopupHomesContent'
+import PopupRegionContent from '../PopupRegionContent'
+
+export const PanelContainer = ({ children }: { children: React.ReactNode }) => (
   <div className='h-full '>{children}</div>
 )
 
 export type MapPanelTypes = {
-  children?: Children
+  children?: ReactNode
   className?: string
   position?:
     | 'left-top'
@@ -140,7 +140,7 @@ export const HomeMarkers = () => {
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)
 
   const getWishlisted = (homeId: number) =>
-    wishlistedHomes?.userHomes.find((item) => item.propertyId === homeId)
+    wishlistedHomes?.myHomes?.find((item) => item.propertyId === homeId)
 
   const highlightedHomeId = useAppSelector(selectHighlightedHomeId)
 
@@ -148,13 +148,13 @@ export const HomeMarkers = () => {
     <>
       {highlightedHomeId === marker.id && (
         <MapPopup
-          latitude={marker.lat}
-          longitude={marker.lng}
+          latitude={marker.lat || 0}
+          longitude={marker.lng || 0}
           onClose={() => dispatch(setHighlightedHomeId(null))}
         >
           <PopupHomesContent
             id={marker.id}
-            wishlisted={!!getWishlisted(marker.id)}
+            wishlisted={Boolean(marker.wishlisted)}
           />
         </MapPopup>
       )}
@@ -169,165 +169,165 @@ export const HomeMarkers = () => {
   ))
 }
 
-// export const CityMarkers = () => {
-//   useFetchCitiesMap()
-//   const dispatch = useAppDispatch()
+export const CityMarkers = () => {
+  useFetchCitiesMap()
+  const dispatch = useAppDispatch()
 
-//   const highlightedCityId = useAppSelector(selectHighlightedCityId)
-//   const items = useAppSelector(selectCitiesMap).data?.cities || []
-//   const reorderedItems = bringHighlightedItemToFront(
-//     highlightedCityId,
-//     items
-//   ) as typeof items
+  const highlightedCityId = useAppSelector(selectHighlightedCityId)
+  const items = useAppSelector(selectCitiesMap).data?.locationStats || []
+  const reorderedItems = bringHighlightedItemToFront(
+    highlightedCityId,
+    items
+  ) as typeof items
 
-//   const cityMarkersTransitions = useTransition(reorderedItems, {
-//     keys: (item) => item.id,
-//     from: { opacity: 0, transform: 'translateY(8px)' },
-//     enter: { opacity: 1, transform: 'translateY(0px)' },
-//     leave: { opacity: 0, transform: 'translateY(4px)' },
-//     trail: 10,
-//     config: config.wobbly,
-//   })
+  const cityMarkersTransitions = useTransition(reorderedItems, {
+    keys: (item) => item.id,
+    from: { opacity: 0, transform: 'translateY(8px)' },
+    enter: { opacity: 1, transform: 'translateY(0px)' },
+    leave: { opacity: 0, transform: 'translateY(4px)' },
+    trail: 10,
+    config: config.wobbly,
+  })
 
-//   return cityMarkersTransitions((style, marker) => (
-//     <>
-//       {highlightedCityId === marker.id && (
-//         <MapPopup
-//           latitude={marker.lat}
-//           longitude={marker.lng}
-//           onClose={() => dispatch(setHighlightedCityId(null))}
-//         >
-//           <PopupRegionContent
-//             id={marker.id}
-//             onClick={() => {
-//               dispatch(
-//                 setViewport({
-//                   latitude: marker.lat,
-//                   longitude: marker.lng,
-//                   zoom: ZOOM_HOMES,
-//                 })
-//               )
-//             }}
-//           />
-//         </MapPopup>
-//       )}
-//       <animated.div
-//         key={marker.id}
-//         style={style}
-//         onClick={() => {
-//           dispatch(
-//             setViewport({
-//               latitude: marker.lat,
-//               longitude: marker.lng,
-//               zoom: ZOOM_HOMES,
-//             })
-//           )
-//         }}
-//       >
-//         <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
-//           <div
-//             className='flex flex-col items-center justify-center'
-//             onMouseOver={() => {
-//               startLongHoverDispatch(setHighlightedCityId(marker.id))
-//             }}
-//             onMouseLeave={() => {
-//               stopLongHoverDispatch()
-//             }}
-//             onFocus={() => {
-//               startLongHoverDispatch(setHighlightedCityId(marker.id))
-//             }}
-//           >
-//             <div className='flex items-center justify-center px-2 py-1 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
-//               {marker.totalHomes}
-//               <HomeIcon className='w-5 h-5 ml-1' />
-//             </div>
-//           </div>
-//         </Marker>
-//       </animated.div>
-//     </>
-//   ))
-// }
+  return cityMarkersTransitions((style, marker) => (
+    <>
+      {highlightedCityId === marker.id && (
+        <MapPopup
+          latitude={marker.lat}
+          longitude={marker.lng}
+          onClose={() => dispatch(setHighlightedCityId(null))}
+        >
+          <PopupRegionContent
+            id={marker.id}
+            onClick={() => {
+              dispatch(
+                setViewport({
+                  latitude: marker.lat,
+                  longitude: marker.lng,
+                  zoom: ZOOM_HOMES,
+                })
+              )
+            }}
+          />
+        </MapPopup>
+      )}
+      <animated.div
+        key={marker.id}
+        style={style}
+        onClick={() => {
+          dispatch(
+            setViewport({
+              latitude: marker.lat,
+              longitude: marker.lng,
+              zoom: ZOOM_HOMES,
+            })
+          )
+        }}
+      >
+        <Marker latitude={marker.lat} longitude={marker.lng} className='group'>
+          <div
+            className='flex flex-col items-center justify-center'
+            onMouseOver={() => {
+              startLongHoverDispatch(setHighlightedCityId(marker.id))
+            }}
+            onMouseLeave={() => {
+              stopLongHoverDispatch()
+            }}
+            onFocus={() => {
+              startLongHoverDispatch(setHighlightedCityId(marker.id))
+            }}
+          >
+            <div className='flex items-center justify-center px-2 py-1 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50 hover:shadow-lg hover:shadow-black/50 group-hover:scale-125 group-hover:bg-black bg-black/70'>
+              {marker.totalHomes}
+              <HomeIcon className='w-5 h-5 ml-1' />
+            </div>
+          </div>
+        </Marker>
+      </animated.div>
+    </>
+  ))
+}
 
-// export const StateMarkers = () => {
-//   useFetchStatesMap()
-//   const dispatch = useAppDispatch()
+export const StateMarkers = () => {
+  useFetchStatesMap()
+  const dispatch = useAppDispatch()
 
-//   const highlightedStateId = useAppSelector(selectHighlightedStateId)
-//   const items = useAppSelector(selectStatesMap).data?.states || []
-//   const reorderedItems = bringHighlightedItemToFront(
-//     highlightedStateId,
-//     items
-//   ) as typeof items
+  const highlightedStateId = useAppSelector(selectHighlightedStateId)
+  const items = useAppSelector(selectStatesMap).data?.locationStats || []
+  const reorderedItems = bringHighlightedItemToFront(
+    highlightedStateId,
+    items
+  ) as typeof items
 
-//   const stateMarkersTransitions = useTransition(reorderedItems, {
-//     keys: (item) => item.id,
-//     from: { opacity: 0, transform: 'translateY(24px)' },
-//     enter: { opacity: 1, transform: 'translateY(0px)' },
-//     leave: { opacity: 0, transform: 'translateY(12px)' },
-//     trail: 50,
-//     config: config.wobbly,
-//   })
+  const stateMarkersTransitions = useTransition(reorderedItems, {
+    keys: (item) => item.id,
+    from: { opacity: 0, transform: 'translateY(24px)' },
+    enter: { opacity: 1, transform: 'translateY(0px)' },
+    leave: { opacity: 0, transform: 'translateY(12px)' },
+    trail: 50,
+    config: config.wobbly,
+  })
 
-//   return stateMarkersTransitions((style, marker) => (
-//     <>
-//       {highlightedStateId === marker.id && (
-//         <MapPopup
-//           latitude={marker.lat}
-//           longitude={marker.lng}
-//           onClose={() => dispatch(setHighlightedStateId(null))}
-//         >
-//           <PopupRegionContent
-//             id={marker.id}
-//             onClick={() => {
-//               dispatch(
-//                 setViewport({
-//                   latitude: marker.lat,
-//                   longitude: marker.lng,
-//                   zoom: ZOOM_CITIES,
-//                 })
-//               )
-//             }}
-//           />
-//         </MapPopup>
-//       )}
-//       <animated.div
-//         key={marker.id}
-//         style={style}
-//         onClick={() => {
-//           dispatch(
-//             setViewport({
-//               latitude: marker.lat,
-//               longitude: marker.lng,
-//               zoom: ZOOM_CITIES,
-//             })
-//           )
-//         }}
-//       >
-//         <Marker latitude={marker.lat} longitude={marker.lng}>
-//           <div
-//             className='flex flex-col items-center justify-center'
-//             onMouseOver={() => {
-//               startLongHoverDispatch(setHighlightedStateId(marker.id))
-//             }}
-//             onMouseLeave={() => {
-//               stopLongHoverDispatch()
-//             }}
-//             onFocus={() => {
-//               startLongHoverDispatch(setHighlightedStateId(marker.id))
-//             }}
-//           >
-//             <div
-//               className={`flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50  bg-black/70 ${
-//                 highlightedStateId === marker.id &&
-//                 'hover:shadow-lg hover:shadow-black/50 hover:scale-125 hover:bg-black'
-//               }`}
-//             >
-//               {marker.totalHomes}
-//               <HomeIcon className='w-5 h-5 ml-1' />
-//             </div>
-//           </div>
-//         </Marker>
-//       </animated.div>
-//     </>
-//   ))
-// }
+  return stateMarkersTransitions((style, marker) => (
+    <>
+      {highlightedStateId === marker.id && (
+        <MapPopup
+          latitude={marker.lat}
+          longitude={marker.lng}
+          onClose={() => dispatch(setHighlightedStateId(null))}
+        >
+          <PopupRegionContent
+            id={marker.id}
+            onClick={() => {
+              dispatch(
+                setViewport({
+                  latitude: marker.lat,
+                  longitude: marker.lng,
+                  zoom: ZOOM_CITIES,
+                })
+              )
+            }}
+          />
+        </MapPopup>
+      )}
+      <animated.div
+        key={marker.id}
+        style={style}
+        onClick={() => {
+          dispatch(
+            setViewport({
+              latitude: marker.lat,
+              longitude: marker.lng,
+              zoom: ZOOM_CITIES,
+            })
+          )
+        }}
+      >
+        <Marker latitude={marker.lat} longitude={marker.lng}>
+          <div
+            className='flex flex-col items-center justify-center'
+            onMouseOver={() => {
+              startLongHoverDispatch(setHighlightedStateId(marker.id))
+            }}
+            onMouseLeave={() => {
+              stopLongHoverDispatch()
+            }}
+            onFocus={() => {
+              startLongHoverDispatch(setHighlightedStateId(marker.id))
+            }}
+          >
+            <div
+              className={`flex items-center justify-center px-4 py-2 text-white transition-all border border-black rounded-full shadow-md cursor-pointer shadow-black/50  bg-black/70 ${
+                highlightedStateId === marker.id &&
+                'hover:shadow-lg hover:shadow-black/50 hover:scale-125 hover:bg-black'
+              }`}
+            >
+              {marker.totalHomes}
+              <HomeIcon className='w-5 h-5 ml-1' />
+            </div>
+          </div>
+        </Marker>
+      </animated.div>
+    </>
+  ))
+}

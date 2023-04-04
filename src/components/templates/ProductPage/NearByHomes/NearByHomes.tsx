@@ -50,10 +50,7 @@ const NearByHomes = ({ homeId }: INearByHomesProps) => {
                       beds={item.beds}
                       price={item.price}
                       sqft={item.sqft}
-                      wishlisted={wishlistedHomes?.userHomes.find(
-                        (wishlistedItem) =>
-                          wishlistedItem.propertyId === item.id
-                      )}
+                      wishlisted={Boolean(item.wishlisted?.buyerUid)}
                     />
                   </HScroll.Child>
                 ))}

@@ -1,10 +1,11 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import userReducer, {
-  initialState as userInitialState,
-} from 'src/store/user/userSlice'
+import { userReducer, userInitialState } from 'src/store/user/userSlice'
 import { Provider } from 'react-redux'
-import { combineReducers, createStore } from '@reduxjs/toolkit'
+import {
+  combineReducers,
+  legacy_createStore as createStore,
+} from '@reduxjs/toolkit'
 import produce from 'immer'
 import TripGuide from './TripGuide'
 

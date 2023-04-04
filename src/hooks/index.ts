@@ -260,24 +260,13 @@ export const useRedirectUnAuthenticatedUsers = () => {
 }
 
 export const useAuthPageResponses = () => {
-  const {
-    error,
-    data: { user },
-  } = useAppSelector((state) => state.user)
+  const { uid } = useAppSelector((state) => state.user)
 
   const router = useRouter()
 
   useEffect(() => {
-    if (error)
-      notify({
-        type: 'error',
-        message: 'Authentication failed. Please try again.',
-      })
-  }, [error])
-
-  useEffect(() => {
-    if (user?.uid) {
+    if (uid) {
       router.push('/')
     }
-  }, [user, router])
+  }, [router, uid])
 }

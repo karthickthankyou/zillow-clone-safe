@@ -1,8 +1,6 @@
-import { Children } from 'src/types'
-
 export interface IShowHideProps {
   show: boolean
-  children: Children
+  children: React.ReactNode
 }
 
 // eslint-disable-next-line react/function-component-definition

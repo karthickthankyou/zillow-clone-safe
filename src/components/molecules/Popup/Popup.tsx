@@ -1,14 +1,13 @@
-/* eslint-disable camelcase */
 import { Popup } from 'react-map-gl'
 
 import XIcon from '@heroicons/react/outline/XIcon'
 import { useKeypress } from 'src/hooks'
-import { Viewport, Children } from 'src/types'
+import { Viewport } from 'src/types'
 
 export type IPopupProps = {
   latitude: Viewport['latitude']
   longitude: Viewport['longitude']
-  children: Children
+  children: React.ReactNode
   onClose: () => void
 }
 

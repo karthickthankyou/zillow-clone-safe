@@ -3,7 +3,8 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { SbUrqlProvider } from 'src/lib/sb'
 import { Provider } from 'react-redux'
 import { combineReducers, createStore } from '@reduxjs/toolkit'
-import homesReducer, {
+import {
+  homeReducer,
   initialState as homeInitialData,
 } from 'src/store/home/homeSlice'
 
@@ -15,9 +16,7 @@ import userHomeReducer, {
   initialState as userHomeInitialState,
 } from 'src/store/userHome/userHomeSlice'
 import { AppLevelHooks } from 'pages/_app'
-import userReducer, {
-  initialState as userInitialState,
-} from 'src/store/user/userSlice'
+import { userReducer, userInitialState } from 'src/store/user/userSlice'
 import ProductListingPage from './ProductListingPage'
 
 export default {
@@ -34,7 +33,7 @@ const Template: ComponentStory<typeof ProductListingPage> = () => (
 
 const store = createStore(
   combineReducers({
-    home: homesReducer,
+    home: homeReducer,
     userHome: userHomeReducer,
     map: mapsReducer,
     user: userReducer,

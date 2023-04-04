@@ -1,17 +1,17 @@
 import Image from 'src/components/atoms/Image'
 
-// import { SearchCitiesByLocationQuery } from 'src/generated/graphql'
+import { LocationStatsQuery, LocationStatsType } from 'src/generated/graphql'
 import { useAppDispatch } from 'src/store'
 import { setViewport } from 'src/store/map/mapSlice'
 import { ZOOM_CITIES, ZOOM_HOMES } from 'src/store/static'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
-// import {
-//   setHighlightedCityId,
-//   setHighlightedStateId,
-// } from 'src/store/home/homeSlice'
+import {
+  setHighlightedCityId,
+  setHighlightedStateId,
+} from 'src/store/home/homeSlice'
 
-export type ICityCardProps = SearchCitiesByLocationQuery['cities'][number] & {
-  type: 'city' | 'state'
+export type ICityCardProps = LocationStatsQuery['locationStats'][number] & {
+  type: LocationStatsType
   zoomEffect?: boolean
 }
 

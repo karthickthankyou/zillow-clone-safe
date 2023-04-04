@@ -1,20 +1,17 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { castDraft } from 'immer'
-import { UserHomesQuery } from 'src/generated/graphql'
-import { UseQueryResponse } from 'urql'
+import { MyHomesQuery } from 'src/generated/graphql'
 
+import { QueryResultPartial } from 'src/types'
 import { RootState } from '..'
 
 export type UserHomeSliceType = {
-  wishlisted: UseQueryResponse<UserHomesQuery, object>[0]
+  wishlisted: QueryResultPartial<MyHomesQuery, object>
 }
 
 export const initialState: UserHomeSliceType = {
-  wishlisted: {
-    stale: false,
-    fetching: false,
-  },
+  wishlisted: {},
 }
 
 const userHomeSlice = createSlice({

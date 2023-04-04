@@ -57,9 +57,9 @@ const AgentContactForm = React.forwardRef(
       },
     })
 
-    const uid = useAppSelector((state) => state.user.data.user?.uid)
+    const uid = useAppSelector((state) => state.user.uid)
 
-    const [{ fetching, data: contactData }, contactAgent] =
+    const [contactAgent, { loading, data: contactData }] =
       useCreateMessageMutation()
 
     const onSubmit = handleSubmit((data) => {
@@ -68,11 +68,13 @@ const AgentContactForm = React.forwardRef(
         return
       }
       contactAgent({
-        createMessageInput: {
-          // Todo: Change db schema.
-          uid,
-          propertyId: homeId,
-          message: data.message,
+        variables: {
+          createMessageInput: {
+            // Todo: Change db schema.
+            uid,
+            propertyId: homeId,
+            message: data.message,
+          },
         },
       })
     })
@@ -143,7 +145,7 @@ const AgentContactForm = React.forwardRef(
             {/* eslint-disable-next-line no-nested-ternary */}
             {contactData
               ? 'Message sent.'
-              : fetching
+              : loading
               ? 'Sending...'
               : 'Send message'}
           </button>

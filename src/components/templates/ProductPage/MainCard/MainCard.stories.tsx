@@ -1,5 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Style } from 'src/generated/graphql'
 import MainCard from './MainCard'
 
 export default {
@@ -17,17 +18,11 @@ Primary.args = {
     fetching: false,
     stale: false,
     data: {
-      homes_by_pk: {
+      property: {
         id: 12,
-        priceSqft: 12,
-        createdAt: '2020-01-01',
-        updatedAt: '2020-01-01',
         address: '6046 M J Taylor Road, Hahira, Georgia 31632, United States',
         bath: 1,
         beds: 1,
-        city: 'Hahira',
-        description: 'Goood house.',
-        facts: '',
         features: 'yes.',
         lat: 31.03866,
         lng: -83.45001,
@@ -35,7 +30,7 @@ Primary.args = {
         price: 878,
         sqft: 1000,
         state: 'Georgia',
-        style: 'Single_Family_Home',
+        style: Style.SingleFamilyHome,
         yearBuilt: 1999,
         zipcode: '31632',
       },

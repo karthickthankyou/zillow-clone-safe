@@ -1,7 +1,5 @@
-import { Children } from 'src/types'
-
 export interface IContainerProps {
-  children: Children
+  children: React.ReactNode
   className?: string
 }
 

@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { Children } from 'src/types'
+
 import CloseIcon from '@heroicons/react/outline/XIcon'
 import InformationCircleIcon from '@heroicons/react/outline/InformationCircleIcon'
 import ShowHide from '../ShowHide/ShowHide'
 
 export interface INotesFixedProps {
-  children: Children
+  children: React.ReactNode
   title?: string
 }
 

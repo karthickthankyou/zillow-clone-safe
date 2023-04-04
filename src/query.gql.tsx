@@ -1,14 +1,5 @@
 import { gql } from 'urql'
 
-export const Properties = gql`
-  query Properties {
-    properties(take: 10) {
-      address
-      description
-    }
-  }
-`
-
 export const SearchProperties = gql`
   query SearchProperties(
     $where: PropertyWhereInput
@@ -30,6 +21,10 @@ export const SearchProperties = gql`
       lat
       lng
       style
+      wishlisted {
+        buyerUid
+        type
+      }
     }
   }
 `
@@ -60,6 +55,10 @@ export const SearchPropertiesDetailed = gql`
       plan
       imgs
       published
+      wishlisted {
+        buyerUid
+        type
+      }
     }
   }
 `
@@ -113,7 +112,6 @@ export const PropertyDetailed = gql`
 export const CreateUserHome = gql`
   mutation CreateUserHome($createUserHomeInput: CreateUserHomeInput!) {
     createUserHome(createUserHomeInput: $createUserHomeInput) {
-      id
       propertyId
       type
       buyerUid
@@ -141,6 +139,29 @@ export const UserHomes = gql`
     $where: UserHomeWhereInput
   ) {
     userHomes(
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      cursor: $cursor
+      orderBy: $orderBy
+      where: $where
+    ) {
+      id
+      propertyId
+      type
+    }
+  }
+`
+export const MyHomes = gql`
+  query MyHomes(
+    $distinct: [UserHomeScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $cursor: UserHomeWhereUniqueInput
+    $orderBy: [UserHomeOrderByWithRelationInput!]
+    $where: UserHomeWhereInput
+  ) {
+    myHomes(
       distinct: $distinct
       skip: $skip
       take: $take
@@ -258,3 +279,61 @@ export const UpdateProperty = gql`
 // export const SDDF = gql``
 // export const SDF = gql``
 // export const DF = gql``
+
+export const LocationStats = gql`
+  query LocationStats(
+    $where: LocationStatsWhereInput
+    $orderBy: [LocationStatsOrderByWithRelationInput!]
+    $cursor: WhereUniqueInputNumber
+    $take: Int
+    $skip: Int
+    $distinct: [LocationStatsScalarFieldEnum!]
+  ) {
+    locationStats(
+      where: $where
+      orderBy: $orderBy
+      cursor: $cursor
+      take: $take
+      skip: $skip
+      distinct: $distinct
+    ) {
+      id
+      name
+      images
+      lat
+      lng
+      priceSqft
+      totalHomes
+      type
+      bedPrices {
+        id
+        sqftAvg
+        beds
+        avg
+        count
+      }
+    }
+  }
+`
+
+export const LocationStat = gql`
+  query LocationStat($where: LocationStatsWhereUniqueInput) {
+    locationStat(where: $where) {
+      id
+      name
+      images
+      lat
+      lng
+      priceSqft
+      totalHomes
+      type
+      bedPrices {
+        id
+        sqftAvg
+        beds
+        avg
+        count
+      }
+    }
+  }
+`

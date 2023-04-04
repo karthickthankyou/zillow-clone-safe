@@ -4,10 +4,10 @@ import { PropertyQuery } from 'src/generated/graphql'
 import { toAcres } from 'src/lib/util'
 import Image from 'src/components/atoms/Image'
 import Skeleton from 'src/components/molecules/Skeleton'
-import { UseQueryResponse } from 'urql'
+import { QueryResult } from '@apollo/client'
 
 export interface IMainCardProps {
-  home: UseQueryResponse<PropertyQuery, object>[0]
+  home: QueryResult<PropertyQuery, object>
   scrollToContactForm: () => void
   className?: string
 }
@@ -36,7 +36,7 @@ export const MainCardSkeleton = ({ className }: { className?: string }) => (
 const MainCard = ({ home, className, scrollToContactForm }: IMainCardProps) => {
   const homeData = home?.data?.property
 
-  if (home.fetching) {
+  if (home.loading) {
     return <MainCardSkeleton className={`${className}`} />
   }
 

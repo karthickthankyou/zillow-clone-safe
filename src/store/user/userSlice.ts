@@ -1,105 +1,36 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { WritableDraft } from 'immer/dist/internal'
 import { RootState } from '..'
-import { AsyncData, User } from '../../types'
-import {
-  signup,
-  signin,
-  signout,
-  forgotPassword,
-  googleSignin,
-} from './userActions'
 
-export type Claims = {
-  'x-hasura-default-role': string
-  'x-hasura-user-id': string
-  'x-hasura-allowed-roles': string[]
+export type Role = 'admin' | 'agent'
+export type UserSliceType = {
+  uid?: string
+  displayName?: string
+  email?: string
+  roles?: Role[]
+  token?: string
+  loaded: boolean
 }
 
-export type UserSliceType = AsyncData<{
-  user: User | null
-  claims: Claims | null
-}>
-
-export const initialState: UserSliceType = {
-  data: {
-    user: null,
-    claims: null,
-  },
-  fulfilled: true,
-  loading: false,
-  error: false,
+export const userInitialState: UserSliceType = {
+  loaded: false,
 }
-
-// An utility function that reducer redundant code in extra reducers.
-
-const setStatus =
-  ({
-    fulfilled = false,
-    loading = false,
-    error = false,
-  }: {
-    fulfilled?: boolean
-    loading?: boolean
-    error?: boolean
-  }) =>
-  (state: WritableDraft<UserSliceType>) => {
-    state.fulfilled = fulfilled
-    state.loading = loading
-    state.error = error
-  }
-
 export const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: userInitialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserSliceType['data']['user']>) => {
-      state.data.user = action.payload
-      state.fulfilled = true
-      state.loading = false
-      state.error = false
-    },
-    setClaims: (
-      state,
-      action: PayloadAction<UserSliceType['data']['claims']>
-    ) => {
-      state.data.claims = action.payload
-      state.fulfilled = true
-      state.loading = false
-      state.error = false
-    },
-
-    resetUser: () => initialState,
-  },
-  extraReducers: (builder) => {
-    builder.addCase(signup.pending, setStatus({ loading: true }))
-    builder.addCase(signup.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(signup.rejected, setStatus({ error: true }))
-
-    builder.addCase(signin.pending, setStatus({ loading: true }))
-    builder.addCase(signin.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(signin.rejected, setStatus({ error: true }))
-
-    builder.addCase(signout.pending, setStatus({ loading: true }))
-    builder.addCase(signout.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(signout.rejected, setStatus({ error: true }))
-
-    builder.addCase(forgotPassword.pending, setStatus({ loading: true }))
-    builder.addCase(forgotPassword.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(forgotPassword.rejected, setStatus({ error: true }))
-
-    builder.addCase(googleSignin.pending, setStatus({ loading: true }))
-    builder.addCase(googleSignin.fulfilled, setStatus({ fulfilled: true }))
-    builder.addCase(googleSignin.rejected, setStatus({ error: true }))
+    setUser: (state, action: PayloadAction<Partial<UserSliceType>>) => ({
+      ...state,
+      ...action.payload,
+      loaded: true,
+    }),
+    resetUser: () => userInitialState,
   },
 })
-export const { setUser, setClaims, resetUser } = userSlice.actions
+export const { setUser, resetUser } = userSlice.actions
 
-export const selectUid = (state: RootState) => state.user.data.user?.uid
-export const selectDisplayName = (state: RootState) =>
-  state.user.data.user?.displayName
-export const selectUserRoles = (state: RootState) =>
-  state.user.data.claims?.['x-hasura-allowed-roles']
+export const selectUser = (state: RootState) => state.user
+export const selectUid = (state: RootState) => state.user.uid
+export const selectDisplayName = (state: RootState) => state.user.displayName
+export const selectUserRoles = (state: RootState) => state.user.roles
 
-export default userSlice.reducer
+export const userReducer = userSlice.reducer

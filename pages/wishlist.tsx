@@ -17,18 +17,17 @@ const Grid = ({ children }: { children: React.ReactNode }) => (
 const WishlistPage: NextPage = () => {
   const uid = useAppSelector(selectUid)
 
-  const [{ data, fetching }] = useUserHomesDetailedQuery({
+  const { data, loading } = useUserHomesDetailedQuery({
     variables: {
       where: {
         buyerUid: { equals: uid! },
       },
     },
-    pause: !uid,
   })
 
   const wishlistCount = data?.userHomes.length || 0
 
-  if (fetching) {
+  if (loading) {
     return (
       <Grid>
         {[1, 2, 3, 4, 5, 6].map((item) => (

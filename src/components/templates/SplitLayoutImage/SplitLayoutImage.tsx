@@ -1,10 +1,9 @@
 import Brand from 'src/components/atoms/Brand'
 import Link from 'src/components/atoms/Link/Link'
-import { Children } from 'src/types'
 
 export interface ISplitLayoutImageProps {
   imgSrc: string
-  children: Children
+  children: React.ReactNode
 }
 
 const SplitLayoutImage = ({ imgSrc, children }: ISplitLayoutImageProps) => (

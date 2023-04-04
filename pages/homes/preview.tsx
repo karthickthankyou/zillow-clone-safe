@@ -10,6 +10,7 @@ import { NextPage } from 'next'
 import Container from 'src/components/atoms/Container'
 import ProductPage from 'src/components/templates/ProductPage'
 import { NextSeo } from 'next-seo'
+import { Style } from 'src/generated/graphql'
 
 const PreviewHome: NextPage = () => (
   <>
@@ -23,7 +24,7 @@ const PreviewHome: NextPage = () => (
           fetching: false,
           stale: false,
           data: {
-            homes_by_pk: {
+            property: {
               id: 12,
               priceSqft: 12,
               createdAt: '2020-01-01',
@@ -42,7 +43,7 @@ const PreviewHome: NextPage = () => (
               price: 878,
               sqft: 1000,
               state: 'Georgia',
-              style: 'Single_Family_Home',
+              style: Style.SingleFamilyHome,
               yearBuilt: 1999,
               zipcode: '31632',
             },

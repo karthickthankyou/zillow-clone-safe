@@ -41,7 +41,7 @@ export const fetchOptionsExchange =
     )
 
 const client = createClient({
-  url: 'http://localhost:3000/graphql',
+  url: 'http://localhost:3001/graphql',
   exchanges: [
     devtoolsExchange,
     dedupExchange,

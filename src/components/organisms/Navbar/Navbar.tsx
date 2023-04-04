@@ -13,7 +13,7 @@ import MenuIcon from '@heroicons/react/outline/MenuIcon'
 import { signout } from 'src/store/user'
 import Initials from 'src/components/molecules/Initials'
 import Brand from 'src/components/atoms/Brand'
-import { Children } from 'src/types'
+
 import { MENU_ITEMS } from 'src/store/static'
 import {
   selectDisplayName,
@@ -29,7 +29,7 @@ const SubMenuTitle = ({
   children,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   className?: string
 }) => <div className={`mb-2 font-semibold ${className}`}>{children}</div>
 
@@ -38,7 +38,7 @@ const SubMenuLink = ({
   url,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   url: string
   className?: string
 }) => (
@@ -223,11 +223,7 @@ const Navbar = () => {
                     <SubMenuLink url='/wishlist'>Wishlist</SubMenuLink>
                     <SubMenuLink url='/messages'>Messages</SubMenuLink>
                     <SubMenuLink url='/homes/myhomes'>My homes</SubMenuLink>
-                    {userRoles?.includes('agent') ? (
-                      <SubMenuLink url='/homes/new'>Add new home</SubMenuLink>
-                    ) : (
-                      <SubMenuLink url='/user'>Become agent</SubMenuLink>
-                    )}
+                    <SubMenuLink url='/homes/new'>Post new home</SubMenuLink>
                     <button type='button' onClick={() => dispatch(signout())}>
                       logout
                     </button>

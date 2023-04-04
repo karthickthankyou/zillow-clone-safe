@@ -1,7 +1,6 @@
 import { ReactElement } from 'react'
 import CheckIcon from '@heroicons/react/outline/CheckIcon'
 import XIcon from '@heroicons/react/outline/XIcon'
-import { Children } from 'src/types'
 
 export interface ITypographyProps {}
 
@@ -21,18 +20,18 @@ const Ok = ({ className }: { className?: string }) => (
   </div>
 )
 
-const Heading = ({ children }: { children: Children }) => (
+const Heading = ({ children }: { children: React.ReactNode }) => (
   <div className='mt-2 mb-4 text-xl font-bold'>{children}</div>
 )
 
-const Description = ({ children }: { children: Children }) => (
+const Description = ({ children }: { children: React.ReactNode }) => (
   <div className='max-w-sm mt-2 mb-6 text-gray-600'>{children}</div>
 )
 const SampleText = ({
   children,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   className?: string
 }) => (
   <div className={`p-6 bg-gray-100 shadow-inner ${className}`}>{children}</div>

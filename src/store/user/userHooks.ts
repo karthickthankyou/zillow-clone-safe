@@ -1,45 +1,35 @@
 import { useEffect, useState } from 'react'
-import { getDatabase, onValue, ref } from 'firebase/database'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from 'src/config/firebase'
 import { useAppDispatch, useAppSelector } from '..'
-import { Claims, resetUser, selectUid, setClaims, setUser } from './userSlice'
-
-const db = getDatabase()
+import { selectUid, setUser } from './userSlice'
 
 export const useUserListener = () => {
+  //   useRefreshToken()
   const dispatch = useAppDispatch()
-
   useEffect(
     () =>
       onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-          dispatch(resetUser())
+        if (!user?.uid) {
+          setUser({})
           return
         }
+        console.log('user', user)
 
+        const tokenResult = await auth.currentUser?.getIdTokenResult()
+        const roles = tokenResult?.claims.roles || []
+        const { displayName, email, uid } = user
         dispatch(
           setUser({
-            displayName: user?.displayName || null,
-            uid: user?.uid || null,
-            email: user?.email || null,
+            uid,
+            email: email || '',
+            displayName: displayName || '',
+            roles,
+            token: tokenResult?.token,
           })
         )
-
-        const metadataRef = ref(db, `metadata/${user.uid}/refreshTime`)
-        onValue(metadataRef, async (data) => {
-          if (!data.exists) return
-
-          const token = await user.getIdToken(true)
-          const idTokenResult = await user.getIdTokenResult()
-          const hasuraClaim = idTokenResult.claims[
-            'https://hasura.io/jwt/claims'
-          ] as Claims
-
-          dispatch(setClaims(hasuraClaim))
-        })
       }),
-    [dispatch]
+    []
   )
 }
 

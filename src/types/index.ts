@@ -1,4 +1,5 @@
-import { ReactElement } from 'react'
+import { OperationVariables, QueryResult } from '@apollo/client'
+import { ReactNode } from 'react'
 
 export type CounterStatus = 'idle' | 'loading' | 'failed'
 
@@ -25,11 +26,9 @@ export type AsyncData<T> = {
 
 export type AsyncUser = AsyncData<User>
 
-export type Children = ReactElement | ReactElement[] | string
-
 export type NotificationType = {
   id: string
-  message: Children
+  message: ReactNode
   type?: 'success' | 'error' | 'info' | 'warning'
   position?:
     | 'top-right'
@@ -77,3 +76,8 @@ export type AllColors =
   | 'green'
   | 'yellow'
   | 'gray'
+
+export type QueryResultPartial<
+  TData = any,
+  TVariables extends OperationVariables = OperationVariables
+> = Partial<QueryResult<TData, TVariables>>

@@ -14,7 +14,6 @@ import Image from 'src/components/atoms/Image'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
 
-import { Children } from 'src/types'
 import Link from 'src/components/atoms/Link'
 import Dialog from 'src/components/molecules/Dialog'
 import { RadioGroup, Switch } from '@headlessui/react'
@@ -32,7 +31,7 @@ const FormSection = ({
   children,
 }: {
   title: string | ReactElement
-  children: Children
+  children: React.ReactNode
 }) => (
   <div className='grid gap-8 pb-6 sm:grid-cols-2 md:grid-cols-3'>
     <div className='col-span-1'>{title}</div>

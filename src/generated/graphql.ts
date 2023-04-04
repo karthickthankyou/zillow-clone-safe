@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import * as Urql from 'urql'
+import { gql } from '@apollo/client'
+import * as Apollo from '@apollo/client'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -11,7 +11,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
   [SubKey in K]: Maybe<T[SubKey]>
 }
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+const defaultOptions = {} as const
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -75,6 +75,62 @@ export type AgentWhereUniqueInput = {
   uid?: InputMaybe<Scalars['String']>
 }
 
+export type BedPrice = {
+  __typename?: 'BedPrice'
+  avg: Scalars['Int']
+  beds: Scalars['String']
+  count: Scalars['Int']
+  id: Scalars['Int']
+  locationStatsId: Scalars['Int']
+  sqftAvg: Scalars['Int']
+}
+
+export type BedPriceListRelationFilter = {
+  every?: InputMaybe<BedPriceWhereInput>
+  none?: InputMaybe<BedPriceWhereInput>
+  some?: InputMaybe<BedPriceWhereInput>
+}
+
+export type BedPriceOrderByRelationAggregateInput = {
+  _count?: InputMaybe<SortOrder>
+}
+
+export type BedPriceOrderByWithRelationInput = {
+  avg?: InputMaybe<SortOrder>
+  beds?: InputMaybe<SortOrder>
+  count?: InputMaybe<SortOrder>
+  id?: InputMaybe<SortOrder>
+  locationStats?: InputMaybe<LocationStatsOrderByWithRelationInput>
+  locationStatsId?: InputMaybe<SortOrder>
+  sqftAvg?: InputMaybe<SortOrder>
+}
+
+export enum BedPriceScalarFieldEnum {
+  Avg = 'avg',
+  Beds = 'beds',
+  Count = 'count',
+  Id = 'id',
+  LocationStatsId = 'locationStatsId',
+  SqftAvg = 'sqftAvg',
+}
+
+export type BedPriceWhereInput = {
+  AND?: InputMaybe<Array<BedPriceWhereInput>>
+  NOT?: InputMaybe<Array<BedPriceWhereInput>>
+  OR?: InputMaybe<Array<BedPriceWhereInput>>
+  avg?: InputMaybe<IntFilter>
+  beds?: InputMaybe<StringFilter>
+  count?: InputMaybe<IntFilter>
+  id?: InputMaybe<IntFilter>
+  locationStats?: InputMaybe<LocationStatsRelationFilter>
+  locationStatsId?: InputMaybe<IntFilter>
+  sqftAvg?: InputMaybe<IntFilter>
+}
+
+export type BedPriceWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>
+}
+
 export type BoolFilter = {
   equals?: InputMaybe<Scalars['Boolean']>
   not?: InputMaybe<Scalars['Boolean']>
@@ -130,8 +186,33 @@ export type CreateAgentInput = {
   uid: Scalars['String']
 }
 
+export type CreateBedPriceInput = {
+  avg: Scalars['Int']
+  beds: Scalars['String']
+  count: Scalars['Int']
+  locationStatsId: Scalars['Int']
+  sqftAvg: Scalars['Int']
+}
+
+export type CreateBedPriceInputWithoutLocationId = {
+  avg: Scalars['Int']
+  beds: Scalars['String']
+  count: Scalars['Int']
+  sqftAvg: Scalars['Int']
+}
+
 export type CreateBuyerInput = {
   uid: Scalars['String']
+}
+
+export type CreateLocationStatsInput = {
+  bedPrices: Array<CreateBedPriceInputWithoutLocationId>
+  lat: Scalars['Int']
+  lng: Scalars['Int']
+  name: Scalars['String']
+  priceSqft: Scalars['Int']
+  totalHomes: Scalars['Int']
+  type?: InputMaybe<LocationStatsType>
 }
 
 export type CreateMessageInput = {
@@ -189,6 +270,24 @@ export type DateTimeFilter = {
   notIn?: InputMaybe<Array<Scalars['String']>>
 }
 
+export type EnumStyleFilter = {
+  equals?: InputMaybe<Style>
+  in?: InputMaybe<Array<Style>>
+  not?: InputMaybe<Style>
+  notIn?: InputMaybe<Array<Style>>
+}
+
+export type FloatFilter = {
+  equals?: InputMaybe<Scalars['Float']>
+  gt?: InputMaybe<Scalars['Float']>
+  gte?: InputMaybe<Scalars['Float']>
+  in?: InputMaybe<Scalars['Float']>
+  lt?: InputMaybe<Scalars['Float']>
+  lte?: InputMaybe<Scalars['Float']>
+  not?: InputMaybe<Scalars['Float']>
+  notIn?: InputMaybe<Scalars['Float']>
+}
+
 export type GroupedMessages = {
   __typename?: 'GroupedMessages'
   messages: Array<Message>
@@ -204,6 +303,71 @@ export type IntFilter = {
   lte?: InputMaybe<Scalars['Int']>
   not?: InputMaybe<Scalars['Int']>
   notIn?: InputMaybe<Scalars['Int']>
+}
+
+export type LocationStats = {
+  __typename?: 'LocationStats'
+  bedPrices?: Maybe<Array<BedPrice>>
+  id: Scalars['Int']
+  images: Array<Scalars['String']>
+  lat: Scalars['Int']
+  lng: Scalars['Int']
+  name: Scalars['String']
+  priceSqft: Scalars['Int']
+  totalHomes: Scalars['Int']
+  type?: Maybe<LocationStatsType>
+}
+
+export type LocationStatsOrderByWithRelationInput = {
+  bedsPrice?: InputMaybe<BedPriceOrderByRelationAggregateInput>
+  id?: InputMaybe<SortOrder>
+  images?: InputMaybe<SortOrder>
+  lat?: InputMaybe<SortOrder>
+  lng?: InputMaybe<SortOrder>
+  name?: InputMaybe<SortOrder>
+  priceSqft?: InputMaybe<SortOrder>
+  totalHomes?: InputMaybe<SortOrder>
+  type?: InputMaybe<SortOrder>
+}
+
+export type LocationStatsRelationFilter = {
+  is?: InputMaybe<LocationStatsWhereInput>
+  isNot?: InputMaybe<LocationStatsWhereInput>
+}
+
+export enum LocationStatsScalarFieldEnum {
+  Id = 'id',
+  Images = 'images',
+  Lat = 'lat',
+  Lng = 'lng',
+  Name = 'name',
+  PriceSqft = 'priceSqft',
+  TotalHomes = 'totalHomes',
+  Type = 'type',
+}
+
+export enum LocationStatsType {
+  City = 'city',
+  State = 'state',
+}
+
+export type LocationStatsWhereInput = {
+  AND?: InputMaybe<Array<LocationStatsWhereInput>>
+  NOT?: InputMaybe<Array<LocationStatsWhereInput>>
+  OR?: InputMaybe<Array<LocationStatsWhereInput>>
+  bedsPrice?: InputMaybe<BedPriceListRelationFilter>
+  id?: InputMaybe<IntFilter>
+  images?: InputMaybe<StringFilter>
+  lat?: InputMaybe<FloatFilter>
+  lng?: InputMaybe<FloatFilter>
+  name?: InputMaybe<StringFilter>
+  priceSqft?: InputMaybe<IntFilter>
+  totalHomes?: InputMaybe<IntFilter>
+  type?: InputMaybe<LocationStatsType>
+}
+
+export type LocationStatsWhereUniqueInput = {
+  id?: InputMaybe<Scalars['Int']>
 }
 
 export type LoginInput = {
@@ -291,7 +455,9 @@ export type MessageWhereUniqueInput = {
 export type Mutation = {
   __typename?: 'Mutation'
   createAgent: Agent
+  createBedPrice: BedPrice
   createBuyer: Buyer
+  createLocationStats: LocationStats
   createMessage: Message
   createProperty: Property
   createSeller: Seller
@@ -301,7 +467,9 @@ export type Mutation = {
   refreshToken: RefreshTokenOutput
   register: RegisterOutput
   removeAgent: Agent
+  removeBedPrice: BedPrice
   removeBuyer: Buyer
+  removeLocationStats: LocationStats
   removeMessage: Message
   removeProperty: Property
   removeSeller: Seller
@@ -310,7 +478,9 @@ export type Mutation = {
   setAdmin: Scalars['Boolean']
   setRole: Scalars['Boolean']
   updateAgent: Agent
+  updateBedPrice: BedPrice
   updateBuyer: Buyer
+  updateLocationStats: LocationStats
   updateProperty: Property
   updateSeller: Seller
   updateUserHome: UserHome
@@ -321,8 +491,16 @@ export type MutationCreateAgentArgs = {
   createAgentInput: CreateAgentInput
 }
 
+export type MutationCreateBedPriceArgs = {
+  createBedPriceInput: CreateBedPriceInput
+}
+
 export type MutationCreateBuyerArgs = {
   createBuyerInput: CreateBuyerInput
+}
+
+export type MutationCreateLocationStatsArgs = {
+  createLocationStatsInput: CreateLocationStatsInput
 }
 
 export type MutationCreateMessageArgs = {
@@ -361,8 +539,16 @@ export type MutationRemoveAgentArgs = {
   where?: InputMaybe<AgentWhereUniqueInput>
 }
 
+export type MutationRemoveBedPriceArgs = {
+  where?: InputMaybe<BedPriceWhereUniqueInput>
+}
+
 export type MutationRemoveBuyerArgs = {
   where?: InputMaybe<BuyerWhereUniqueInput>
+}
+
+export type MutationRemoveLocationStatsArgs = {
+  where?: InputMaybe<LocationStatsWhereUniqueInput>
 }
 
 export type MutationRemoveMessageArgs = {
@@ -397,8 +583,16 @@ export type MutationUpdateAgentArgs = {
   updateAgentInput: UpdateAgentInput
 }
 
+export type MutationUpdateBedPriceArgs = {
+  updateBedPriceInput: UpdateBedPriceInput
+}
+
 export type MutationUpdateBuyerArgs = {
   updateBuyerInput: UpdateBuyerInput
+}
+
+export type MutationUpdateLocationStatsArgs = {
+  updateLocationStatsInput: UpdateLocationStatsInput
 }
 
 export type MutationUpdatePropertyArgs = {
@@ -446,6 +640,7 @@ export type Property = {
   updatedAt: Scalars['DateTime']
   userHomes: Array<UserHome>
   views: Array<View>
+  wishlisted?: Maybe<UserHome>
   yearBuilt: Scalars['Int']
   zipcode: Scalars['String']
 }
@@ -539,8 +734,8 @@ export type PropertyWhereInput = {
   features?: InputMaybe<StringFilter>
   id?: InputMaybe<IntFilter>
   imgs?: InputMaybe<StringListFilter>
-  lat?: InputMaybe<IntFilter>
-  lng?: InputMaybe<IntFilter>
+  lat?: InputMaybe<FloatFilter>
+  lng?: InputMaybe<FloatFilter>
   lotSize?: InputMaybe<IntFilter>
   messages?: InputMaybe<MessageListRelationFilter>
   plan?: InputMaybe<IntFilter>
@@ -551,7 +746,7 @@ export type PropertyWhereInput = {
   sellerUid?: InputMaybe<StringFilter>
   sqft?: InputMaybe<IntFilter>
   state?: InputMaybe<StringFilter>
-  style?: InputMaybe<Style>
+  style?: InputMaybe<EnumStyleFilter>
   updatedAt?: InputMaybe<DateTimeFilter>
   userHomes?: InputMaybe<UserHomeListRelationFilter>
   views?: InputMaybe<ViewListRelationFilter>
@@ -567,12 +762,17 @@ export type Query = {
   __typename?: 'Query'
   agent: Agent
   agents: Array<Agent>
+  bedPrice: BedPrice
+  bedPrices: Array<BedPrice>
   buyer: Buyer
   buyers: Array<Buyer>
+  locationStat: LocationStats
+  locationStats: Array<LocationStats>
   message: Message
   messages: Array<Message>
+  myHomes: Array<UserHome>
   properties: Array<Property>
-  property: Property
+  property?: Maybe<Property>
   seller: Seller
   sellers: Array<Seller>
   userHome: UserHome
@@ -594,6 +794,19 @@ export type QueryAgentsArgs = {
   where?: InputMaybe<AgentWhereInput>
 }
 
+export type QueryBedPriceArgs = {
+  where?: InputMaybe<BedPriceWhereUniqueInput>
+}
+
+export type QueryBedPricesArgs = {
+  cursor?: InputMaybe<WhereUniqueInputNumber>
+  distinct?: InputMaybe<Array<BedPriceScalarFieldEnum>>
+  orderBy?: InputMaybe<Array<BedPriceOrderByWithRelationInput>>
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<BedPriceWhereInput>
+}
+
 export type QueryBuyerArgs = {
   where?: InputMaybe<BuyerWhereUniqueInput>
 }
@@ -607,6 +820,19 @@ export type QueryBuyersArgs = {
   where?: InputMaybe<BuyerWhereInput>
 }
 
+export type QueryLocationStatArgs = {
+  where?: InputMaybe<LocationStatsWhereUniqueInput>
+}
+
+export type QueryLocationStatsArgs = {
+  cursor?: InputMaybe<WhereUniqueInputNumber>
+  distinct?: InputMaybe<Array<LocationStatsScalarFieldEnum>>
+  orderBy?: InputMaybe<Array<LocationStatsOrderByWithRelationInput>>
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<LocationStatsWhereInput>
+}
+
 export type QueryMessageArgs = {
   where?: InputMaybe<MessageWhereUniqueInput>
 }
@@ -618,6 +844,15 @@ export type QueryMessagesArgs = {
   skip?: InputMaybe<Scalars['Int']>
   take?: InputMaybe<Scalars['Int']>
   where?: InputMaybe<MessageWhereInput>
+}
+
+export type QueryMyHomesArgs = {
+  cursor?: InputMaybe<UserHomeWhereUniqueInput>
+  distinct?: InputMaybe<Array<UserHomeScalarFieldEnum>>
+  orderBy?: InputMaybe<Array<UserHomeOrderByWithRelationInput>>
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  where?: InputMaybe<UserHomeWhereInput>
 }
 
 export type QueryPropertiesArgs = {
@@ -808,8 +1043,28 @@ export type UpdateAgentInput = {
   uid: Scalars['String']
 }
 
+export type UpdateBedPriceInput = {
+  avg?: InputMaybe<Scalars['Int']>
+  beds?: InputMaybe<Scalars['String']>
+  count?: InputMaybe<Scalars['Int']>
+  id: Scalars['Int']
+  locationStatsId?: InputMaybe<Scalars['Int']>
+  sqftAvg?: InputMaybe<Scalars['Int']>
+}
+
 export type UpdateBuyerInput = {
   uid: Scalars['String']
+}
+
+export type UpdateLocationStatsInput = {
+  bedPrices?: InputMaybe<Array<CreateBedPriceInputWithoutLocationId>>
+  id: Scalars['Int']
+  lat?: InputMaybe<Scalars['Int']>
+  lng?: InputMaybe<Scalars['Int']>
+  name?: InputMaybe<Scalars['String']>
+  priceSqft?: InputMaybe<Scalars['Int']>
+  totalHomes?: InputMaybe<Scalars['Int']>
+  type?: InputMaybe<LocationStatsType>
 }
 
 export type UpdatePropertyInput = {
@@ -987,17 +1242,6 @@ export type WhereUniqueInputUid = {
   uid?: InputMaybe<Scalars['String']>
 }
 
-export type PropertiesQueryVariables = Exact<{ [key: string]: never }>
-
-export type PropertiesQuery = {
-  __typename?: 'Query'
-  properties: Array<{
-    __typename?: 'Property'
-    address: string
-    description?: string | null | undefined
-  }>
-}
-
 export type SearchPropertiesQueryVariables = Exact<{
   where?: InputMaybe<PropertyWhereInput>
   orderBy?: InputMaybe<
@@ -1019,6 +1263,10 @@ export type SearchPropertiesQuery = {
     lat?: number | null | undefined
     lng?: number | null | undefined
     style?: Style | null | undefined
+    wishlisted?:
+      | { __typename?: 'UserHome'; buyerUid: string; type: UserHomeType }
+      | null
+      | undefined
   }>
 }
 
@@ -1048,6 +1296,10 @@ export type SearchPropertiesDetailedQuery = {
     plan: number
     imgs: Array<string>
     published: boolean
+    wishlisted?:
+      | { __typename?: 'UserHome'; buyerUid: string; type: UserHomeType }
+      | null
+      | undefined
   }>
 }
 
@@ -1057,20 +1309,23 @@ export type PropertyQueryVariables = Exact<{
 
 export type PropertyQuery = {
   __typename?: 'Query'
-  property: {
-    __typename?: 'Property'
-    price: number
-    id: number
-    sqft: number
-    bath?: number | null | undefined
-    beds?: number | null | undefined
-    address: string
-    style?: Style | null | undefined
-    imgs: Array<string>
-    lotSize: number
-    lat?: number | null | undefined
-    lng?: number | null | undefined
-  }
+  property?:
+    | {
+        __typename?: 'Property'
+        price: number
+        id: number
+        sqft: number
+        bath?: number | null | undefined
+        beds?: number | null | undefined
+        address: string
+        style?: Style | null | undefined
+        imgs: Array<string>
+        lotSize: number
+        lat?: number | null | undefined
+        lng?: number | null | undefined
+      }
+    | null
+    | undefined
 }
 
 export type PropertyDetailedQueryVariables = Exact<{
@@ -1079,30 +1334,33 @@ export type PropertyDetailedQueryVariables = Exact<{
 
 export type PropertyDetailedQuery = {
   __typename?: 'Query'
-  property: {
-    __typename?: 'Property'
-    address: string
-    bath?: number | null | undefined
-    beds?: number | null | undefined
-    city: string
-    createdAt: any
-    description?: string | null | undefined
-    facts?: string | null | undefined
-    features?: string | null | undefined
-    id: number
-    lat?: number | null | undefined
-    lng?: number | null | undefined
-    lotSize: number
-    price: number
-    priceSqft?: number | null | undefined
-    sqft: number
-    state: string
-    style?: Style | null | undefined
-    updatedAt: any
-    yearBuilt: number
-    zipcode: string
-    imgs: Array<string>
-  }
+  property?:
+    | {
+        __typename?: 'Property'
+        address: string
+        bath?: number | null | undefined
+        beds?: number | null | undefined
+        city: string
+        createdAt: any
+        description?: string | null | undefined
+        facts?: string | null | undefined
+        features?: string | null | undefined
+        id: number
+        lat?: number | null | undefined
+        lng?: number | null | undefined
+        lotSize: number
+        price: number
+        priceSqft?: number | null | undefined
+        sqft: number
+        state: string
+        style?: Style | null | undefined
+        updatedAt: any
+        yearBuilt: number
+        zipcode: string
+        imgs: Array<string>
+      }
+    | null
+    | undefined
 }
 
 export type CreateUserHomeMutationVariables = Exact<{
@@ -1113,7 +1371,6 @@ export type CreateUserHomeMutation = {
   __typename?: 'Mutation'
   createUserHome: {
     __typename?: 'UserHome'
-    id: number
     propertyId: number
     type: UserHomeType
     buyerUid: string
@@ -1151,6 +1408,29 @@ export type UserHomesQueryVariables = Exact<{
 export type UserHomesQuery = {
   __typename?: 'Query'
   userHomes: Array<{
+    __typename?: 'UserHome'
+    id: number
+    propertyId: number
+    type: UserHomeType
+  }>
+}
+
+export type MyHomesQueryVariables = Exact<{
+  distinct?: InputMaybe<
+    Array<UserHomeScalarFieldEnum> | UserHomeScalarFieldEnum
+  >
+  skip?: InputMaybe<Scalars['Int']>
+  take?: InputMaybe<Scalars['Int']>
+  cursor?: InputMaybe<UserHomeWhereUniqueInput>
+  orderBy?: InputMaybe<
+    Array<UserHomeOrderByWithRelationInput> | UserHomeOrderByWithRelationInput
+  >
+  where?: InputMaybe<UserHomeWhereInput>
+}>
+
+export type MyHomesQuery = {
+  __typename?: 'Query'
+  myHomes: Array<{
     __typename?: 'UserHome'
     id: number
     propertyId: number
@@ -1267,16 +1547,88 @@ export type UpdatePropertyMutation = {
   }
 }
 
+export type LocationStatsQueryVariables = Exact<{
+  where?: InputMaybe<LocationStatsWhereInput>
+  orderBy?: InputMaybe<
+    | Array<LocationStatsOrderByWithRelationInput>
+    | LocationStatsOrderByWithRelationInput
+  >
+  cursor?: InputMaybe<WhereUniqueInputNumber>
+  take?: InputMaybe<Scalars['Int']>
+  skip?: InputMaybe<Scalars['Int']>
+  distinct?: InputMaybe<
+    Array<LocationStatsScalarFieldEnum> | LocationStatsScalarFieldEnum
+  >
+}>
+
+export type LocationStatsQuery = {
+  __typename?: 'Query'
+  locationStats: Array<{
+    __typename?: 'LocationStats'
+    id: number
+    name: string
+    images: Array<string>
+    lat: number
+    lng: number
+    priceSqft: number
+    totalHomes: number
+    type?: LocationStatsType | null | undefined
+    bedPrices?:
+      | Array<{
+          __typename?: 'BedPrice'
+          id: number
+          sqftAvg: number
+          beds: string
+          avg: number
+          count: number
+        }>
+      | null
+      | undefined
+  }>
+}
+
+export type LocationStatQueryVariables = Exact<{
+  where?: InputMaybe<LocationStatsWhereUniqueInput>
+}>
+
+export type LocationStatQuery = {
+  __typename?: 'Query'
+  locationStat: {
+    __typename?: 'LocationStats'
+    id: number
+    name: string
+    images: Array<string>
+    lat: number
+    lng: number
+    priceSqft: number
+    totalHomes: number
+    type?: LocationStatsType | null | undefined
+    bedPrices?:
+      | Array<{
+          __typename?: 'BedPrice'
+          id: number
+          sqftAvg: number
+          beds: string
+          avg: number
+          count: number
+        }>
+      | null
+      | undefined
+  }
+}
+
 export const namedOperations = {
   Query: {
-    Properties: 'Properties',
     SearchProperties: 'SearchProperties',
     SearchPropertiesDetailed: 'SearchPropertiesDetailed',
     Property: 'Property',
     PropertyDetailed: 'PropertyDetailed',
     UserHomes: 'UserHomes',
+    MyHomes: 'MyHomes',
     UserHomesDetailed: 'UserHomesDetailed',
     Messages: 'Messages',
+    LocationStats: 'LocationStats',
+    LocationStat: 'LocationStat',
   },
   Mutation: {
     CreateUserHome: 'CreateUserHome',
@@ -1287,23 +1639,6 @@ export const namedOperations = {
   },
 }
 
-export const PropertiesDocument = /*#__PURE__*/ gql`
-  query Properties {
-    properties(take: 10) {
-      address
-      description
-    }
-  }
-`
-
-export function usePropertiesQuery(
-  options?: Omit<Urql.UseQueryArgs<PropertiesQueryVariables>, 'query'>
-) {
-  return Urql.useQuery<PropertiesQuery, PropertiesQueryVariables>({
-    query: PropertiesDocument,
-    ...options,
-  })
-}
 export const SearchPropertiesDocument = /*#__PURE__*/ gql`
   query SearchProperties(
     $where: PropertyWhereInput
@@ -1325,18 +1660,69 @@ export const SearchPropertiesDocument = /*#__PURE__*/ gql`
       lat
       lng
       style
+      wishlisted {
+        buyerUid
+        type
+      }
     }
   }
 `
 
+/**
+ * __useSearchPropertiesQuery__
+ *
+ * To run a query within a React component, call `useSearchPropertiesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchPropertiesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchPropertiesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
+ *      cursor: // value for 'cursor'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *      distinct: // value for 'distinct'
+ *   },
+ * });
+ */
 export function useSearchPropertiesQuery(
-  options?: Omit<Urql.UseQueryArgs<SearchPropertiesQueryVariables>, 'query'>
+  baseOptions?: Apollo.QueryHookOptions<
+    SearchPropertiesQuery,
+    SearchPropertiesQueryVariables
+  >
 ) {
-  return Urql.useQuery<SearchPropertiesQuery, SearchPropertiesQueryVariables>({
-    query: SearchPropertiesDocument,
-    ...options,
-  })
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<SearchPropertiesQuery, SearchPropertiesQueryVariables>(
+    SearchPropertiesDocument,
+    options
+  )
 }
+export function useSearchPropertiesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SearchPropertiesQuery,
+    SearchPropertiesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    SearchPropertiesQuery,
+    SearchPropertiesQueryVariables
+  >(SearchPropertiesDocument, options)
+}
+export type SearchPropertiesQueryHookResult = ReturnType<
+  typeof useSearchPropertiesQuery
+>
+export type SearchPropertiesLazyQueryHookResult = ReturnType<
+  typeof useSearchPropertiesLazyQuery
+>
+export type SearchPropertiesQueryResult = Apollo.QueryResult<
+  SearchPropertiesQuery,
+  SearchPropertiesQueryVariables
+>
 export const SearchPropertiesDetailedDocument = /*#__PURE__*/ gql`
   query SearchPropertiesDetailed(
     $where: PropertyWhereInput
@@ -1363,21 +1749,69 @@ export const SearchPropertiesDetailedDocument = /*#__PURE__*/ gql`
       plan
       imgs
       published
+      wishlisted {
+        buyerUid
+        type
+      }
     }
   }
 `
 
+/**
+ * __useSearchPropertiesDetailedQuery__
+ *
+ * To run a query within a React component, call `useSearchPropertiesDetailedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchPropertiesDetailedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchPropertiesDetailedQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
+ *      cursor: // value for 'cursor'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *      distinct: // value for 'distinct'
+ *   },
+ * });
+ */
 export function useSearchPropertiesDetailedQuery(
-  options?: Omit<
-    Urql.UseQueryArgs<SearchPropertiesDetailedQueryVariables>,
-    'query'
-  >
-) {
-  return Urql.useQuery<
+  baseOptions?: Apollo.QueryHookOptions<
     SearchPropertiesDetailedQuery,
     SearchPropertiesDetailedQueryVariables
-  >({ query: SearchPropertiesDetailedDocument, ...options })
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    SearchPropertiesDetailedQuery,
+    SearchPropertiesDetailedQueryVariables
+  >(SearchPropertiesDetailedDocument, options)
 }
+export function useSearchPropertiesDetailedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    SearchPropertiesDetailedQuery,
+    SearchPropertiesDetailedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    SearchPropertiesDetailedQuery,
+    SearchPropertiesDetailedQueryVariables
+  >(SearchPropertiesDetailedDocument, options)
+}
+export type SearchPropertiesDetailedQueryHookResult = ReturnType<
+  typeof useSearchPropertiesDetailedQuery
+>
+export type SearchPropertiesDetailedLazyQueryHookResult = ReturnType<
+  typeof useSearchPropertiesDetailedLazyQuery
+>
+export type SearchPropertiesDetailedQueryResult = Apollo.QueryResult<
+  SearchPropertiesDetailedQuery,
+  SearchPropertiesDetailedQueryVariables
+>
 export const PropertyDocument = /*#__PURE__*/ gql`
   query Property($where: PropertyWhereUniqueInput) {
     property(where: $where) {
@@ -1396,14 +1830,51 @@ export const PropertyDocument = /*#__PURE__*/ gql`
   }
 `
 
+/**
+ * __usePropertyQuery__
+ *
+ * To run a query within a React component, call `usePropertyQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePropertyQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePropertyQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
 export function usePropertyQuery(
-  options?: Omit<Urql.UseQueryArgs<PropertyQueryVariables>, 'query'>
+  baseOptions?: Apollo.QueryHookOptions<PropertyQuery, PropertyQueryVariables>
 ) {
-  return Urql.useQuery<PropertyQuery, PropertyQueryVariables>({
-    query: PropertyDocument,
-    ...options,
-  })
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PropertyQuery, PropertyQueryVariables>(
+    PropertyDocument,
+    options
+  )
 }
+export function usePropertyLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PropertyQuery,
+    PropertyQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<PropertyQuery, PropertyQueryVariables>(
+    PropertyDocument,
+    options
+  )
+}
+export type PropertyQueryHookResult = ReturnType<typeof usePropertyQuery>
+export type PropertyLazyQueryHookResult = ReturnType<
+  typeof usePropertyLazyQuery
+>
+export type PropertyQueryResult = Apollo.QueryResult<
+  PropertyQuery,
+  PropertyQueryVariables
+>
 export const PropertyDetailedDocument = /*#__PURE__*/ gql`
   query PropertyDetailed($where: PropertyWhereUniqueInput) {
     property(where: $where) {
@@ -1432,31 +1903,108 @@ export const PropertyDetailedDocument = /*#__PURE__*/ gql`
   }
 `
 
+/**
+ * __usePropertyDetailedQuery__
+ *
+ * To run a query within a React component, call `usePropertyDetailedQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePropertyDetailedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePropertyDetailedQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
 export function usePropertyDetailedQuery(
-  options?: Omit<Urql.UseQueryArgs<PropertyDetailedQueryVariables>, 'query'>
+  baseOptions?: Apollo.QueryHookOptions<
+    PropertyDetailedQuery,
+    PropertyDetailedQueryVariables
+  >
 ) {
-  return Urql.useQuery<PropertyDetailedQuery, PropertyDetailedQueryVariables>({
-    query: PropertyDetailedDocument,
-    ...options,
-  })
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<PropertyDetailedQuery, PropertyDetailedQueryVariables>(
+    PropertyDetailedDocument,
+    options
+  )
 }
+export function usePropertyDetailedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PropertyDetailedQuery,
+    PropertyDetailedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    PropertyDetailedQuery,
+    PropertyDetailedQueryVariables
+  >(PropertyDetailedDocument, options)
+}
+export type PropertyDetailedQueryHookResult = ReturnType<
+  typeof usePropertyDetailedQuery
+>
+export type PropertyDetailedLazyQueryHookResult = ReturnType<
+  typeof usePropertyDetailedLazyQuery
+>
+export type PropertyDetailedQueryResult = Apollo.QueryResult<
+  PropertyDetailedQuery,
+  PropertyDetailedQueryVariables
+>
 export const CreateUserHomeDocument = /*#__PURE__*/ gql`
   mutation CreateUserHome($createUserHomeInput: CreateUserHomeInput!) {
     createUserHome(createUserHomeInput: $createUserHomeInput) {
-      id
       propertyId
       type
       buyerUid
     }
   }
 `
+export type CreateUserHomeMutationFn = Apollo.MutationFunction<
+  CreateUserHomeMutation,
+  CreateUserHomeMutationVariables
+>
 
-export function useCreateUserHomeMutation() {
-  return Urql.useMutation<
+/**
+ * __useCreateUserHomeMutation__
+ *
+ * To run a mutation, you first call `useCreateUserHomeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserHomeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserHomeMutation, { data, loading, error }] = useCreateUserHomeMutation({
+ *   variables: {
+ *      createUserHomeInput: // value for 'createUserHomeInput'
+ *   },
+ * });
+ */
+export function useCreateUserHomeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
     CreateUserHomeMutation,
     CreateUserHomeMutationVariables
-  >(CreateUserHomeDocument)
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateUserHomeMutation,
+    CreateUserHomeMutationVariables
+  >(CreateUserHomeDocument, options)
 }
+export type CreateUserHomeMutationHookResult = ReturnType<
+  typeof useCreateUserHomeMutation
+>
+export type CreateUserHomeMutationResult =
+  Apollo.MutationResult<CreateUserHomeMutation>
+export type CreateUserHomeMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserHomeMutation,
+  CreateUserHomeMutationVariables
+>
 export const CreateMessageDocument = /*#__PURE__*/ gql`
   mutation CreateMessage($createMessageInput: CreateMessageInput!) {
     createMessage(createMessageInput: $createMessageInput) {
@@ -1467,13 +2015,49 @@ export const CreateMessageDocument = /*#__PURE__*/ gql`
     }
   }
 `
+export type CreateMessageMutationFn = Apollo.MutationFunction<
+  CreateMessageMutation,
+  CreateMessageMutationVariables
+>
 
-export function useCreateMessageMutation() {
-  return Urql.useMutation<
+/**
+ * __useCreateMessageMutation__
+ *
+ * To run a mutation, you first call `useCreateMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMessageMutation, { data, loading, error }] = useCreateMessageMutation({
+ *   variables: {
+ *      createMessageInput: // value for 'createMessageInput'
+ *   },
+ * });
+ */
+export function useCreateMessageMutation(
+  baseOptions?: Apollo.MutationHookOptions<
     CreateMessageMutation,
     CreateMessageMutationVariables
-  >(CreateMessageDocument)
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreateMessageMutation,
+    CreateMessageMutationVariables
+  >(CreateMessageDocument, options)
 }
+export type CreateMessageMutationHookResult = ReturnType<
+  typeof useCreateMessageMutation
+>
+export type CreateMessageMutationResult =
+  Apollo.MutationResult<CreateMessageMutation>
+export type CreateMessageMutationOptions = Apollo.BaseMutationOptions<
+  CreateMessageMutation,
+  CreateMessageMutationVariables
+>
 export const UserHomesDocument = /*#__PURE__*/ gql`
   query UserHomes(
     $distinct: [UserHomeScalarFieldEnum!]
@@ -1498,14 +2082,125 @@ export const UserHomesDocument = /*#__PURE__*/ gql`
   }
 `
 
+/**
+ * __useUserHomesQuery__
+ *
+ * To run a query within a React component, call `useUserHomesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserHomesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserHomesQuery({
+ *   variables: {
+ *      distinct: // value for 'distinct'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      orderBy: // value for 'orderBy'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
 export function useUserHomesQuery(
-  options?: Omit<Urql.UseQueryArgs<UserHomesQueryVariables>, 'query'>
+  baseOptions?: Apollo.QueryHookOptions<UserHomesQuery, UserHomesQueryVariables>
 ) {
-  return Urql.useQuery<UserHomesQuery, UserHomesQueryVariables>({
-    query: UserHomesDocument,
-    ...options,
-  })
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<UserHomesQuery, UserHomesQueryVariables>(
+    UserHomesDocument,
+    options
+  )
 }
+export function useUserHomesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserHomesQuery,
+    UserHomesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<UserHomesQuery, UserHomesQueryVariables>(
+    UserHomesDocument,
+    options
+  )
+}
+export type UserHomesQueryHookResult = ReturnType<typeof useUserHomesQuery>
+export type UserHomesLazyQueryHookResult = ReturnType<
+  typeof useUserHomesLazyQuery
+>
+export type UserHomesQueryResult = Apollo.QueryResult<
+  UserHomesQuery,
+  UserHomesQueryVariables
+>
+export const MyHomesDocument = /*#__PURE__*/ gql`
+  query MyHomes(
+    $distinct: [UserHomeScalarFieldEnum!]
+    $skip: Int
+    $take: Int
+    $cursor: UserHomeWhereUniqueInput
+    $orderBy: [UserHomeOrderByWithRelationInput!]
+    $where: UserHomeWhereInput
+  ) {
+    myHomes(
+      distinct: $distinct
+      skip: $skip
+      take: $take
+      cursor: $cursor
+      orderBy: $orderBy
+      where: $where
+    ) {
+      id
+      propertyId
+      type
+    }
+  }
+`
+
+/**
+ * __useMyHomesQuery__
+ *
+ * To run a query within a React component, call `useMyHomesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyHomesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyHomesQuery({
+ *   variables: {
+ *      distinct: // value for 'distinct'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      orderBy: // value for 'orderBy'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useMyHomesQuery(
+  baseOptions?: Apollo.QueryHookOptions<MyHomesQuery, MyHomesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<MyHomesQuery, MyHomesQueryVariables>(
+    MyHomesDocument,
+    options
+  )
+}
+export function useMyHomesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MyHomesQuery, MyHomesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MyHomesQuery, MyHomesQueryVariables>(
+    MyHomesDocument,
+    options
+  )
+}
+export type MyHomesQueryHookResult = ReturnType<typeof useMyHomesQuery>
+export type MyHomesLazyQueryHookResult = ReturnType<typeof useMyHomesLazyQuery>
+export type MyHomesQueryResult = Apollo.QueryResult<
+  MyHomesQuery,
+  MyHomesQueryVariables
+>
 export const UserHomesDetailedDocument = /*#__PURE__*/ gql`
   query UserHomesDetailed(
     $distinct: [UserHomeScalarFieldEnum!]
@@ -1535,13 +2230,61 @@ export const UserHomesDetailedDocument = /*#__PURE__*/ gql`
   }
 `
 
+/**
+ * __useUserHomesDetailedQuery__
+ *
+ * To run a query within a React component, call `useUserHomesDetailedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserHomesDetailedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserHomesDetailedQuery({
+ *   variables: {
+ *      distinct: // value for 'distinct'
+ *      skip: // value for 'skip'
+ *      take: // value for 'take'
+ *      cursor: // value for 'cursor'
+ *      orderBy: // value for 'orderBy'
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
 export function useUserHomesDetailedQuery(
-  options?: Omit<Urql.UseQueryArgs<UserHomesDetailedQueryVariables>, 'query'>
+  baseOptions?: Apollo.QueryHookOptions<
+    UserHomesDetailedQuery,
+    UserHomesDetailedQueryVariables
+  >
 ) {
-  return Urql.useQuery<UserHomesDetailedQuery, UserHomesDetailedQueryVariables>(
-    { query: UserHomesDetailedDocument, ...options }
-  )
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<
+    UserHomesDetailedQuery,
+    UserHomesDetailedQueryVariables
+  >(UserHomesDetailedDocument, options)
 }
+export function useUserHomesDetailedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    UserHomesDetailedQuery,
+    UserHomesDetailedQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<
+    UserHomesDetailedQuery,
+    UserHomesDetailedQueryVariables
+  >(UserHomesDetailedDocument, options)
+}
+export type UserHomesDetailedQueryHookResult = ReturnType<
+  typeof useUserHomesDetailedQuery
+>
+export type UserHomesDetailedLazyQueryHookResult = ReturnType<
+  typeof useUserHomesDetailedLazyQuery
+>
+export type UserHomesDetailedQueryResult = Apollo.QueryResult<
+  UserHomesDetailedQuery,
+  UserHomesDetailedQueryVariables
+>
 export const RemoveUserHomeDocument = /*#__PURE__*/ gql`
   mutation RemoveUserHome {
     removeUserHome {
@@ -1549,13 +2292,48 @@ export const RemoveUserHomeDocument = /*#__PURE__*/ gql`
     }
   }
 `
+export type RemoveUserHomeMutationFn = Apollo.MutationFunction<
+  RemoveUserHomeMutation,
+  RemoveUserHomeMutationVariables
+>
 
-export function useRemoveUserHomeMutation() {
-  return Urql.useMutation<
+/**
+ * __useRemoveUserHomeMutation__
+ *
+ * To run a mutation, you first call `useRemoveUserHomeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveUserHomeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeUserHomeMutation, { data, loading, error }] = useRemoveUserHomeMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRemoveUserHomeMutation(
+  baseOptions?: Apollo.MutationHookOptions<
     RemoveUserHomeMutation,
     RemoveUserHomeMutationVariables
-  >(RemoveUserHomeDocument)
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    RemoveUserHomeMutation,
+    RemoveUserHomeMutationVariables
+  >(RemoveUserHomeDocument, options)
 }
+export type RemoveUserHomeMutationHookResult = ReturnType<
+  typeof useRemoveUserHomeMutation
+>
+export type RemoveUserHomeMutationResult =
+  Apollo.MutationResult<RemoveUserHomeMutation>
+export type RemoveUserHomeMutationOptions = Apollo.BaseMutationOptions<
+  RemoveUserHomeMutation,
+  RemoveUserHomeMutationVariables
+>
 export const CreatePropertyDocument = /*#__PURE__*/ gql`
   mutation CreateProperty($createPropertyInput: CreatePropertyInput!) {
     createProperty(createPropertyInput: $createPropertyInput) {
@@ -1582,13 +2360,49 @@ export const CreatePropertyDocument = /*#__PURE__*/ gql`
     }
   }
 `
+export type CreatePropertyMutationFn = Apollo.MutationFunction<
+  CreatePropertyMutation,
+  CreatePropertyMutationVariables
+>
 
-export function useCreatePropertyMutation() {
-  return Urql.useMutation<
+/**
+ * __useCreatePropertyMutation__
+ *
+ * To run a mutation, you first call `useCreatePropertyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePropertyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPropertyMutation, { data, loading, error }] = useCreatePropertyMutation({
+ *   variables: {
+ *      createPropertyInput: // value for 'createPropertyInput'
+ *   },
+ * });
+ */
+export function useCreatePropertyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
     CreatePropertyMutation,
     CreatePropertyMutationVariables
-  >(CreatePropertyDocument)
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    CreatePropertyMutation,
+    CreatePropertyMutationVariables
+  >(CreatePropertyDocument, options)
 }
+export type CreatePropertyMutationHookResult = ReturnType<
+  typeof useCreatePropertyMutation
+>
+export type CreatePropertyMutationResult =
+  Apollo.MutationResult<CreatePropertyMutation>
+export type CreatePropertyMutationOptions = Apollo.BaseMutationOptions<
+  CreatePropertyMutation,
+  CreatePropertyMutationVariables
+>
 export const MessagesDocument = /*#__PURE__*/ gql`
   query Messages(
     $where: MessageWhereInput
@@ -1619,14 +2433,56 @@ export const MessagesDocument = /*#__PURE__*/ gql`
   }
 `
 
+/**
+ * __useMessagesQuery__
+ *
+ * To run a query within a React component, call `useMessagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMessagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMessagesQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
+ *      cursor: // value for 'cursor'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *      distinct: // value for 'distinct'
+ *   },
+ * });
+ */
 export function useMessagesQuery(
-  options?: Omit<Urql.UseQueryArgs<MessagesQueryVariables>, 'query'>
+  baseOptions?: Apollo.QueryHookOptions<MessagesQuery, MessagesQueryVariables>
 ) {
-  return Urql.useQuery<MessagesQuery, MessagesQueryVariables>({
-    query: MessagesDocument,
-    ...options,
-  })
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<MessagesQuery, MessagesQueryVariables>(
+    MessagesDocument,
+    options
+  )
 }
+export function useMessagesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    MessagesQuery,
+    MessagesQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<MessagesQuery, MessagesQueryVariables>(
+    MessagesDocument,
+    options
+  )
+}
+export type MessagesQueryHookResult = ReturnType<typeof useMessagesQuery>
+export type MessagesLazyQueryHookResult = ReturnType<
+  typeof useMessagesLazyQuery
+>
+export type MessagesQueryResult = Apollo.QueryResult<
+  MessagesQuery,
+  MessagesQueryVariables
+>
 export const UpdatePropertyDocument = /*#__PURE__*/ gql`
   mutation UpdateProperty($updatePropertyInput: UpdatePropertyInput!) {
     updateProperty(updatePropertyInput: $updatePropertyInput) {
@@ -1636,10 +2492,209 @@ export const UpdatePropertyDocument = /*#__PURE__*/ gql`
     }
   }
 `
+export type UpdatePropertyMutationFn = Apollo.MutationFunction<
+  UpdatePropertyMutation,
+  UpdatePropertyMutationVariables
+>
 
-export function useUpdatePropertyMutation() {
-  return Urql.useMutation<
+/**
+ * __useUpdatePropertyMutation__
+ *
+ * To run a mutation, you first call `useUpdatePropertyMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePropertyMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePropertyMutation, { data, loading, error }] = useUpdatePropertyMutation({
+ *   variables: {
+ *      updatePropertyInput: // value for 'updatePropertyInput'
+ *   },
+ * });
+ */
+export function useUpdatePropertyMutation(
+  baseOptions?: Apollo.MutationHookOptions<
     UpdatePropertyMutation,
     UpdatePropertyMutationVariables
-  >(UpdatePropertyDocument)
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useMutation<
+    UpdatePropertyMutation,
+    UpdatePropertyMutationVariables
+  >(UpdatePropertyDocument, options)
 }
+export type UpdatePropertyMutationHookResult = ReturnType<
+  typeof useUpdatePropertyMutation
+>
+export type UpdatePropertyMutationResult =
+  Apollo.MutationResult<UpdatePropertyMutation>
+export type UpdatePropertyMutationOptions = Apollo.BaseMutationOptions<
+  UpdatePropertyMutation,
+  UpdatePropertyMutationVariables
+>
+export const LocationStatsDocument = /*#__PURE__*/ gql`
+  query LocationStats(
+    $where: LocationStatsWhereInput
+    $orderBy: [LocationStatsOrderByWithRelationInput!]
+    $cursor: WhereUniqueInputNumber
+    $take: Int
+    $skip: Int
+    $distinct: [LocationStatsScalarFieldEnum!]
+  ) {
+    locationStats(
+      where: $where
+      orderBy: $orderBy
+      cursor: $cursor
+      take: $take
+      skip: $skip
+      distinct: $distinct
+    ) {
+      id
+      name
+      images
+      lat
+      lng
+      priceSqft
+      totalHomes
+      type
+      bedPrices {
+        id
+        sqftAvg
+        beds
+        avg
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useLocationStatsQuery__
+ *
+ * To run a query within a React component, call `useLocationStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLocationStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLocationStatsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      orderBy: // value for 'orderBy'
+ *      cursor: // value for 'cursor'
+ *      take: // value for 'take'
+ *      skip: // value for 'skip'
+ *      distinct: // value for 'distinct'
+ *   },
+ * });
+ */
+export function useLocationStatsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    LocationStatsQuery,
+    LocationStatsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<LocationStatsQuery, LocationStatsQueryVariables>(
+    LocationStatsDocument,
+    options
+  )
+}
+export function useLocationStatsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    LocationStatsQuery,
+    LocationStatsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<LocationStatsQuery, LocationStatsQueryVariables>(
+    LocationStatsDocument,
+    options
+  )
+}
+export type LocationStatsQueryHookResult = ReturnType<
+  typeof useLocationStatsQuery
+>
+export type LocationStatsLazyQueryHookResult = ReturnType<
+  typeof useLocationStatsLazyQuery
+>
+export type LocationStatsQueryResult = Apollo.QueryResult<
+  LocationStatsQuery,
+  LocationStatsQueryVariables
+>
+export const LocationStatDocument = /*#__PURE__*/ gql`
+  query LocationStat($where: LocationStatsWhereUniqueInput) {
+    locationStat(where: $where) {
+      id
+      name
+      images
+      lat
+      lng
+      priceSqft
+      totalHomes
+      type
+      bedPrices {
+        id
+        sqftAvg
+        beds
+        avg
+        count
+      }
+    }
+  }
+`
+
+/**
+ * __useLocationStatQuery__
+ *
+ * To run a query within a React component, call `useLocationStatQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLocationStatQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLocationStatQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useLocationStatQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    LocationStatQuery,
+    LocationStatQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useQuery<LocationStatQuery, LocationStatQueryVariables>(
+    LocationStatDocument,
+    options
+  )
+}
+export function useLocationStatLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    LocationStatQuery,
+    LocationStatQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions }
+  return Apollo.useLazyQuery<LocationStatQuery, LocationStatQueryVariables>(
+    LocationStatDocument,
+    options
+  )
+}
+export type LocationStatQueryHookResult = ReturnType<
+  typeof useLocationStatQuery
+>
+export type LocationStatLazyQueryHookResult = ReturnType<
+  typeof useLocationStatLazyQuery
+>
+export type LocationStatQueryResult = Apollo.QueryResult<
+  LocationStatQuery,
+  LocationStatQueryVariables
+>

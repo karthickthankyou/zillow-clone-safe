@@ -1,10 +1,9 @@
 import { Provider, ssrExchange } from 'urql'
-import { Children } from 'src/types'
 
 import { client as urqlClient } from 'src/config/urqlClientWonka'
 
 export interface IUrqlProviderProps {
-  children: Children
+  children: React.ReactNode
 }
 
 const isServerSide = typeof window === 'undefined'

@@ -14,6 +14,7 @@ import { selectUid } from 'src/store/user/userSlice'
 
 import React from 'react'
 import { useAppSelector } from 'src/store'
+import { IconBase } from '@react-icons/all-files/lib'
 import styles from './Topography.module.css'
 
 export interface ITripGuideProps {}

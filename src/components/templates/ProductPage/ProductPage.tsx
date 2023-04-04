@@ -3,12 +3,12 @@ import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
 import { MapProvider } from 'src/store/map/mapContext'
 import {
-  //   CityMarkers,
+  CityMarkers,
   Fetching,
   HomeMarkers,
   Panel,
   PanelContainer,
-  //   StateMarkers,
+  StateMarkers,
   Error,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { PropertyDetailedQuery } from 'src/generated/graphql'
@@ -20,16 +20,17 @@ import ArrowCircleUpIcon from '@heroicons/react/outline/ArrowCircleUpIcon'
 import LoginIcon from '@heroicons/react/outline/LoginIcon'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 import PhoneIcon from '@heroicons/react/outline/PhoneIcon'
-import { Children } from 'src/types'
+
 import Link from 'src/components/atoms/Link'
 import Slideup from 'src/components/molecules/Slideup'
 import Container from 'src/components/atoms/Container'
-import { UseQueryResponse } from 'urql'
 
 import { useAppSelector } from 'src/store'
 import { selectHomesDetailed } from 'src/store/home/homeSlice'
 import { useRouter } from 'next/router'
+import { QueryResult } from '@apollo/client'
 import { randomNumber } from 'src/lib/util'
+import { ReactNode } from 'react'
 import {
   interiors as interiorsData,
   propertyDetails,
@@ -45,10 +46,10 @@ import MainCard from './MainCard'
 import NearByHomes from './NearByHomes'
 
 export interface IProductPageProps {
-  home: UseQueryResponse<PropertyDetailedQuery, object>[0]
+  home: QueryResult<PropertyDetailedQuery, object>
 }
 
-const HighText = ({ children }: { children: Children }) => (
+const HighText = ({ children }: { children: ReactNode }) => (
   <div className='flex items-center px-4 py-2 space-x-2 text-black transition-all border border-white rounded-full hover:bg-primary-50 hover:shadow-2xl'>
     {children}
   </div>
@@ -159,8 +160,8 @@ const ProductPage = ({ home }: IProductPageProps) => {
           <MapProvider className='h-144'>
             <Mapbox>
               <HomeMarkers />
-              {/* <CityMarkers />
-              <StateMarkers /> */}
+              <CityMarkers />
+              <StateMarkers />
               <PanelContainer>
                 <Panel position='center-bottom'>
                   <Fetching />

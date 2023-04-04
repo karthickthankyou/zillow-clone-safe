@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
@@ -6,10 +5,10 @@ import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 
 import {
-  UserHomesQuery,
   Property,
   useCreateUserHomeMutation,
   UserHomeType,
+  SearchPropertiesDetailedDocument,
 } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
 
@@ -25,8 +24,8 @@ import Link from 'src/components/atoms/Link'
 import { loginNotification } from 'src/lib/util'
 import { getHomeTypes } from 'src/store/static'
 
-export type IPropertyCardProps = Partial<Property> & {
-  wishlisted?: UserHomesQuery['userHomes'][number]
+export type IPropertyCardProps = Partial<Omit<Property, 'wishlisted'>> & {
+  wishlisted: boolean
 }
 
 const PropertyCard = ({
@@ -42,7 +41,11 @@ const PropertyCard = ({
 }: IPropertyCardProps) => {
   // const setHighlightedHome = (value: number | null | undefined) =>
   //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
-  const [{ fetching }, updateHomeMutation] = useCreateUserHomeMutation()
+
+  console.log('wishlisted ', wishlisted)
+  const [updateHomeMutation, { loading }] = useCreateUserHomeMutation({
+    refetchQueries: [{ query: SearchPropertiesDetailedDocument }],
+  })
 
   const uid = useAppSelector(selectUid)
   useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
@@ -83,20 +86,33 @@ const PropertyCard = ({
                   loginNotification()
                   return
                 }
+                const type = wishlisted
+                  ? UserHomeType.RemovedFromWishlist
+                  : UserHomeType.Wishlisted
+
                 updateHomeMutation({
-                  createUserHomeInput: {
-                    propertyId: hId,
-                    type: wishlisted
-                      ? UserHomeType.RemovedFromWishlist
-                      : UserHomeType.Wishlisted,
-                    buyerUid: uid,
+                  variables: {
+                    createUserHomeInput: {
+                      propertyId: hId,
+                      type,
+                      buyerUid: uid,
+                    },
+                  },
+                  optimisticResponse: {
+                    __typename: 'Mutation',
+                    createUserHome: {
+                      buyerUid: uid,
+                      propertyId: hId,
+                      type,
+                      __typename: 'UserHome',
+                    },
                   },
                 })
               }}
               className='absolute top-0 right-0 z-10 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
             >
               {/* eslint-disable-next-line no-nested-ternary */}
-              {fetching ? (
+              {loading ? (
                 <RefreshIcon className='w-8 h-8 p-1 animate-spin-reverse' />
               ) : !wishlisted ? (
                 <HeartIconReg className='w-8 h-8 p-1' />

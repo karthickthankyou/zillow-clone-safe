@@ -7,6 +7,7 @@ export interface ISidebarProps {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   children: (string | ReactElement | null) | (string | ReactElement | null)[]
+  className?: string
 }
 
 const Header = ({
@@ -35,7 +36,7 @@ const Body = ({ children }: Pick<ISidebarProps, 'children'>) => (
   </div>
 )
 
-const Sidebar = ({ open, setOpen, children }: ISidebarProps) => (
+const Sidebar = ({ className, open, setOpen, children }: ISidebarProps) => (
   <Transition.Root show={open} as={Fragment}>
     <Dialog
       as='div'

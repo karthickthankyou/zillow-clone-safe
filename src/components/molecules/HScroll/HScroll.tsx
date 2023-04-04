@@ -1,7 +1,6 @@
 import React, { createContext, ReactElement, useContext, useMemo } from 'react'
 import { useScroll } from 'src/hooks'
 import ChevronLeftIcon from '@heroicons/react/outline/ChevronLeftIcon'
-import { Children } from 'src/types'
 
 export interface IHScrollProps {
   children: ReactElement[] | ReactElement
@@ -92,7 +91,7 @@ const Child = ({
   children,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   className?: string
 }) => <div className={`flex-shrink-0 snap-start ${className}`}>{children}</div>
 

@@ -1,4 +1,8 @@
-import { UserHomeType, useCreateUserHomeMutation } from 'src/generated/graphql'
+import {
+  SearchPropertiesDocument,
+  UserHomeType,
+  useCreateUserHomeMutation,
+} from 'src/generated/graphql'
 import Image from 'src/components/atoms/Image'
 import { useGetHighlightedHomeData } from 'src/store/home/homeNetwork'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
@@ -41,13 +45,15 @@ const HomeContentSkeleton = () => (
 )
 
 const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
-  const [{ fetching: wishlistLoading }, updateHomeMutation] =
-    useCreateUserHomeMutation()
+  const [updateHomeMutation, { loading: wishlistLoading }] =
+    useCreateUserHomeMutation({
+      refetchQueries: [{ query: SearchPropertiesDocument }],
+    })
   const uid = useAppSelector(selectUid)
   const highlightedHomeDetails = useGetHighlightedHomeData(id)
-  const { data, fetching, error } = highlightedHomeDetails!
+  const { data, loading, error } = highlightedHomeDetails!
 
-  if (fetching) return <HomeContentSkeleton />
+  if (loading) return <HomeContentSkeleton />
   if (error) return <ErrorSkeleton error='Something went wrong...' />
 
   const imgSrc =
@@ -76,13 +82,16 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
                   loginNotification()
                   return
                 }
+                console.log('Wishlisted: ', wishlisted, 'Hello')
                 updateHomeMutation({
-                  createUserHomeInput: {
-                    propertyId: hId,
-                    buyerUid: uid,
-                    type: wishlisted
-                      ? UserHomeType.RemovedFromWishlist
-                      : UserHomeType.Wishlisted,
+                  variables: {
+                    createUserHomeInput: {
+                      propertyId: hId,
+                      buyerUid: uid,
+                      type: wishlisted
+                        ? UserHomeType.RemovedFromWishlist
+                        : UserHomeType.Wishlisted,
+                    },
                   },
                 })
               }}
@@ -93,7 +102,7 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
               ) : !wishlisted ? (
                 <HeartIconReg className='w-8 h-8 p-1' />
               ) : (
-                <HeartIconSolid className='w-8 h-8 p-1 fill-red' />
+                <HeartIconSolid className='w-8 h-8 p-1 text-red' />
               )}
             </button>
           </div>

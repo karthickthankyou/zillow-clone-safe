@@ -10,7 +10,7 @@ import MessageCard from 'src/components/organisms/MessageCard/MessageCard'
 const MessagesPage: NextPage = () => {
   const uid = useAppSelector(selectUid)
 
-  const [{ data, fetching }] = useMessagesQuery({
+  const { data, loading } = useMessagesQuery({
     variables: {
       where: {
         buyerUid: { equals: uid },
@@ -18,7 +18,7 @@ const MessagesPage: NextPage = () => {
     },
     pause: !uid,
   })
-  const [{ data: dataEnquiries }] = useMessagesQuery({
+  const { data: dataEnquiries } = useMessagesQuery({
     variables: {
       where: {
         buyerUid: { equals: uid },
@@ -29,7 +29,7 @@ const MessagesPage: NextPage = () => {
 
   const messagesCount = data?.messages.length || 0
 
-  if (fetching) {
+  if (loading) {
     return (
       <div>
         {[1, 2, 3, 4, 5, 6].map((item) => (

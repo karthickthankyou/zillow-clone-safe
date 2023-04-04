@@ -1,11 +1,10 @@
 import Image from 'src/components/atoms/Image'
 import SlideUp from 'src/components/molecules/Slideup/Slideup'
-import { Children } from 'src/types'
 
 export interface IBannerHomeLoanProps {
   reverse?: boolean
   src?: string
-  children: Children
+  children: React.ReactNode
 }
 
 const BannerSplit = ({
@@ -41,7 +40,7 @@ const Heading = ({
   children,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   className?: string
 }) => (
   <div
@@ -55,7 +54,7 @@ const Description = ({
   children,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   className?: string
 }) => <div className={`max-w-xs text-gray-700 ${className}`}>{children}</div>
 

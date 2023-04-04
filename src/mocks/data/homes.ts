@@ -1,8 +1,4 @@
-import {
-  PropertiesQuery,
-  PropertyDetailedQuery,
-  Style,
-} from 'src/generated/graphql'
+import { Style } from 'src/generated/graphql'
 
 export const homesMockData = {
   properties: [
@@ -475,7 +471,7 @@ export const homeData = {
   fetching: false,
   stale: false,
   data: {
-    homes_by_pk: {
+    property: {
       address: '10166 NE Lafayette Ave Bainbridge Island, WA 98110',
       bath: 3,
       beds: 3,

@@ -14,12 +14,12 @@ import ArrowsExpandIcon from '@heroicons/react/outline/ArrowsExpandIcon'
 import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import { useAppDispatch } from 'src/store'
 import { ZOOM_CITIES } from 'src/store/static'
-import { Children, Viewport } from 'src/types'
+import { Viewport } from 'src/types'
 import { PayloadAction } from '@reduxjs/toolkit'
 
 export interface IZoomControlsProps {}
 
-const MapControls = ({ children }: { children: Children }) => (
+const MapControls = ({ children }: { children: React.ReactNode }) => (
   <div className='flex flex-col border border-white divide-y divide-white rounded shadow-lg bg-white/50 backdrop-blur backdrop-filter'>
     {children}
   </div>

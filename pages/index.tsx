@@ -1,16 +1,7 @@
-import type { GetStaticProps, NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 import { NextSeo } from 'next-seo'
 import Home from 'src/components/templates/Home'
-
-export const getStaticProps: GetStaticProps = async () => ({
-  props: { data: ['Karthick', 'Ragavendran'] }, // will be passed to the page component as props
-})
-
-/**
- * How to infer getStaticProps type?
- * {}: InferGetStaticPropsType<typeof getStaticProps>
- */
 
 const HomePage: NextPage = () => (
   <div>

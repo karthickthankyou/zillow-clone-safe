@@ -2,7 +2,6 @@ import { Popover as HeadlessPopover, Transition } from '@headlessui/react'
 import { createContext, ReactElement, useContext } from 'react'
 import Link from 'src/components/atoms/Link'
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import { Children } from 'src/types'
 
 /** Context for prop sharing among the children */
 const DataContext = createContext({ open: false })
@@ -13,7 +12,7 @@ const Popover = ({
   children,
   className,
 }: {
-  children: Children
+  children: React.ReactNode
   className?: string
 }) => (
   <HeadlessPopover className={className}>
@@ -72,7 +71,7 @@ const PopoverPanel = ({
   className?: string
 }) => (
   <HeadlessPopover.Panel
-    className={`flex p-3 space-y-2 rounded-b-sm shadow-lg border-2 border-white justify-center absolute z-10 gap-6 bg-white/90 top-11 ${className}`}
+    className={`flex p-3 space-y-2 rounded-b-sm shadow-lg border-2 border-white justify-center absolute z-10 gap-4 bg-white/90 top-11 ${className}`}
   >
     {children}
   </HeadlessPopover.Panel>
@@ -92,10 +91,10 @@ const PopoverPanelMainMenu = ({
     leave='transition-all duration-200 ease-out'
     leaveFrom='transform opacity-100'
     leaveTo='transform opacity-0'
-    className='absolute inset-x-0 z-40 gap-6 px-2 pt-2 pb-6 bg-white/90 top-11'
+    className='absolute inset-x-0 z-40 gap-4 px-2 pt-2 pb-6 bg-white/90 top-11'
   >
     <HeadlessPopover.Panel className='flex justify-center w-full py-3'>
-      <div className={`container flex gap-6 mx-auto  ${className}`}>
+      <div className={`container flex gap-4 mx-auto  ${className}`}>
         {children}
       </div>
     </HeadlessPopover.Panel>

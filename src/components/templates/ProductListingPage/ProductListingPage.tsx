@@ -9,8 +9,8 @@ import {
   Panel,
   Fetching,
   Error,
-  //   CityMarkers,
-  //   StateMarkers,
+  CityMarkers,
+  StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 
 import { MapProvider } from 'src/store/map/mapContext'
@@ -30,8 +30,8 @@ const ProductListingPage = () => (
             <MapProvider className='h-full'>
               <Mapbox>
                 <HomeMarkers />
-                {/* <CityMarkers />
-                <StateMarkers /> */}
+                <CityMarkers />
+                <StateMarkers />
                 <PanelContainer>
                   <Panel position='center-bottom'>
                     <Fetching />

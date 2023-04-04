@@ -3,11 +3,8 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Provider } from 'react-redux'
 import { combineReducers, createStore } from '@reduxjs/toolkit'
-import userReducer, {
-  initialState as userInitialState,
-} from 'src/store/user/userSlice'
+import { userReducer, userInitialState } from 'src/store/user/userSlice'
 import { AppLevelHooksWithoutAuth } from 'pages/_app'
-import produce from 'immer'
 import { composedEnhancers } from 'src/store'
 import Navbar from './Navbar'
 
@@ -23,14 +20,12 @@ const store = createStore(
     user: userReducer,
   }),
   {
-    user: produce(userInitialState, (draft) => {
-      // ! - Non-null assertion operator
-      draft.data.user = {
-        uid: '123456',
-        displayName: 'Rajini Kant',
-        email: 'kar@gmail.com',
-      }
-    }),
+    user: {
+      loaded: true,
+      uid: '123456',
+      displayName: 'Rajini Kant',
+      email: 'kar@gmail.com',
+    },
   },
   composedEnhancers
 )

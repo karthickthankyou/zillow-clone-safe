@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { Children } from 'src/types'
+
 import ClipboardCheckIcon from '@heroicons/react/outline/ClipboardCheckIcon'
 
 const ColorContext = React.createContext<{
@@ -125,7 +125,7 @@ const ColorBoxLayout = ({
   children,
   heading,
 }: {
-  children: Children
+  children: React.ReactNode
   heading: string
 }) => (
   <div className='rounded'>

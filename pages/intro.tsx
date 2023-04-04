@@ -5,9 +5,8 @@ import { useAppSelector } from 'src/store'
 import { selectDisplayName } from 'src/store/user/userSlice'
 import Link from 'src/components/atoms/Link'
 import Container from 'src/components/atoms/Container'
-import { Children } from 'src/types'
 
-const Spaced = ({ children }: { children: Children }) => (
+const Spaced = ({ children }: { children: React.ReactNode }) => (
   <div className='max-w-md mt-6 mb-12 space-y-3'>{children}</div>
 )
 

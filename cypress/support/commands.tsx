@@ -31,8 +31,8 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { Provider as UrqlProvider, Client as UrqlClient } from 'urql'
 import { client as urqlClient } from 'src/config/urqlClientWonka'
 import { RootState, store as actualStore } from 'src/store'
-import { Children } from 'src/types'
 import { EnhancedStore } from '@reduxjs/toolkit'
+import { ReactNode } from 'react'
 
 /**
  * About cypress mount
@@ -51,7 +51,7 @@ export const createMount =
       reduxStore: actualStore,
     }
   ) =>
-  (children: Children) => {
+  (children: ReactNode) => {
     cypressMount(
       <UrqlProvider value={client}>
         <ReduxProvider store={reduxStore}>{children}</ReduxProvider>
