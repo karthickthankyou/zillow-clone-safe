@@ -7,6 +7,7 @@ import {
   PropertyDocument,
   PropertyQuery,
   PropertyQueryVariables,
+  usePropertyDetailedQuery,
   usePropertyQuery,
 } from 'src/generated/graphql'
 
@@ -22,7 +23,7 @@ const ProductPage = () => {
   useHomesDetailed()
 
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
-  const home = usePropertyQuery({
+  const home = usePropertyDetailedQuery({
     variables: { where: { id: +id } },
   })
 

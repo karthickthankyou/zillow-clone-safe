@@ -30,6 +30,7 @@ import { selectHomesDetailed } from 'src/store/home/homeSlice'
 import { useRouter } from 'next/router'
 import { QueryResult } from '@apollo/client'
 import { randomNumber } from 'src/lib/util'
+import { QueryResultPartial } from 'src/types'
 import { ReactNode } from 'react'
 import {
   interiors as interiorsData,
@@ -46,7 +47,7 @@ import MainCard from './MainCard'
 import NearByHomes from './NearByHomes'
 
 export interface IProductPageProps {
-  home: QueryResult<PropertyDetailedQuery, object>
+  home: QueryResultPartial<PropertyDetailedQuery, object>
 }
 
 const HighText = ({ children }: { children: ReactNode }) => (

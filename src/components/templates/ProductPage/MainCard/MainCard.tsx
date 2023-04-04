@@ -1,13 +1,14 @@
 import CurrencyDollarIcon from '@heroicons/react/outline/CurrencyDollarIcon'
 import Link from 'src/components/atoms/Link'
-import { PropertyQuery } from 'src/generated/graphql'
+import { PropertyDetailedQuery, PropertyQuery } from 'src/generated/graphql'
 import { toAcres } from 'src/lib/util'
 import Image from 'src/components/atoms/Image'
 import Skeleton from 'src/components/molecules/Skeleton'
 import { QueryResult } from '@apollo/client'
+import { QueryResultPartial } from 'src/types'
 
 export interface IMainCardProps {
-  home: QueryResult<PropertyQuery, object>
+  home: QueryResultPartial<PropertyDetailedQuery, object>
   scrollToContactForm: () => void
   className?: string
 }

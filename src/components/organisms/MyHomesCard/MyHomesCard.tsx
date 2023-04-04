@@ -1,6 +1,8 @@
 import {
-  SearchPropertiesDetailedQuery,
+  MyPropertiesDocument,
+  MyPropertiesQuery,
   UpdatePropertyDocument,
+  useUpdatePropertyMutation,
 } from 'src/generated/graphql'
 import Image from 'src/components/atoms/Image'
 import { getHomeTypes } from 'src/store/static'
@@ -9,9 +11,10 @@ import { Switch } from '@headlessui/react'
 import { useState } from 'react'
 import { client } from 'src/config/urqlClientWonka'
 import { notify } from 'src/hooks'
+import { MyProperties } from 'src/query.gql'
 
 export interface IMyHomesCardProps {
-  home: SearchPropertiesDetailedQuery['properties'][number]
+  home: MyPropertiesQuery['myProperties'][0]
 }
 
 const setPublishedState = ({
@@ -46,7 +49,12 @@ const setPublishedState = ({
 
 const MyHomesCard = ({ home }: IMyHomesCardProps) => {
   const [published, setPublished] = useState(() => home.published)
+
   const homePlan = getHomeTypes(home.plan)
+
+  const [updateProperty, { data }] = useUpdatePropertyMutation({
+    refetchQueries: [{ query: MyPropertiesDocument }],
+  })
 
   return (
     <div key={home.id}>
@@ -72,17 +80,20 @@ const MyHomesCard = ({ home }: IMyHomesCardProps) => {
           <div>Public:</div>
           <Switch
             checked={published || false}
-            onChange={(v) => {
-              setPublished(v)
-              setPublishedState({ id: home.id, published: v })
+            onChange={async (v) => {
+              await updateProperty({
+                variables: { updatePropertyInput: { id: home.id, published } },
+              })
+
+              setPublished((state) => !state)
             }}
             className={` ${
-              published ? 'bg-luxury' : 'bg-gray-200'
+              home.published ? 'bg-luxury' : 'bg-gray-200'
             } relative inline-flex homes-center p-1 h-6 shadow-inner rounded-full w-12`}
           >
             <span
               className={`${
-                published ? 'translate-x-6' : 'translate-x-0'
+                home.published ? 'translate-x-6' : 'translate-x-0'
               } inline-block w-4 h-4  transform bg-white rounded-full transition-transform`}
             />
           </Switch>

@@ -53,7 +53,7 @@ const FormSectionTitle = ({
 )
 
 const AddNewHomeTemplate = () => {
-  const [publishedHome, addNewHome] = useCreatePropertyMutation()
+  const [addNewHome, publishedHome] = useCreatePropertyMutation()
 
   const {
     register,
@@ -93,7 +93,7 @@ const AddNewHomeTemplate = () => {
 
   const formData = watch()
 
-  const uid = useAppSelector((state) => state.user.data.user?.uid)
+  const uid = useAppSelector((state) => state.user?.uid)
   const [publishing, setPublishing] = useState(false)
   const [showDialog, setshowDialog] = useState(false)
   const [showErrorDialog, setShowErrorDialog] = useState(false)
@@ -106,10 +106,12 @@ const AddNewHomeTemplate = () => {
     const { plan, ...uploadData } = data
 
     const home = await addNewHome({
-      createPropertyInput: {
-        ...data,
-        plan: plan || 0,
-        sellerUid: uid,
+      variables: {
+        createPropertyInput: {
+          ...data,
+          plan: plan || 0,
+          sellerUid: uid,
+        },
       },
     })
 
@@ -127,7 +129,7 @@ const AddNewHomeTemplate = () => {
         sessionId: checkoutSession.data.id,
       })
     } else {
-      if (home.error) setShowErrorDialog(true)
+      if (home.errors) setShowErrorDialog(true)
       if (home.data?.createProperty?.id) setshowDialog(true)
     }
     setPublishing(false)

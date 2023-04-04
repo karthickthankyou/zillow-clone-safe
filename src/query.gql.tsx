@@ -80,6 +80,25 @@ export const Property = gql`
     }
   }
 `
+export const MyProperties = gql`
+  query MyProperties($where: PropertyWhereInput) {
+    myProperties(where: $where) {
+      price
+      id
+      sqft
+      bath
+      beds
+      address
+      style
+      imgs
+      lotSize
+      lat
+      lng
+      published
+      plan
+    }
+  }
+`
 
 export const PropertyDetailed = gql`
   query PropertyDetailed($where: PropertyWhereUniqueInput) {
@@ -146,7 +165,6 @@ export const UserHomes = gql`
       orderBy: $orderBy
       where: $where
     ) {
-      id
       propertyId
       type
     }
@@ -169,7 +187,6 @@ export const MyHomes = gql`
       orderBy: $orderBy
       where: $where
     ) {
-      id
       propertyId
       type
     }
