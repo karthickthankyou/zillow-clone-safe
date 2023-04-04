@@ -13,18 +13,18 @@ const MessagesPage: NextPage = () => {
   const { data, loading } = useMessagesQuery({
     variables: {
       where: {
-        buyerUid: { equals: uid },
+        uid: { equals: uid },
       },
     },
-    pause: !uid,
   })
   const { data: dataEnquiries } = useMessagesQuery({
     variables: {
       where: {
-        buyerUid: { equals: uid },
+        property: {
+          is: { sellerUid: { equals: uid } },
+        },
       },
     },
-    pause: !uid,
   })
 
   const messagesCount = data?.messages.length || 0

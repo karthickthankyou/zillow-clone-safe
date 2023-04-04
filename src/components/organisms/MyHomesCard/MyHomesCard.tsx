@@ -12,6 +12,7 @@ import { useState } from 'react'
 import { client } from 'src/config/urqlClientWonka'
 import { notify } from 'src/hooks'
 import { MyProperties } from 'src/query.gql'
+import Link from 'next/dist/client/link'
 
 export interface IMyHomesCardProps {
   home: MyPropertiesQuery['myProperties'][0]
@@ -57,14 +58,16 @@ const MyHomesCard = ({ home }: IMyHomesCardProps) => {
   })
 
   return (
-    <div key={home.id}>
+    <div>
       <div className='relative h-64 overflow-hidden border border-white rounded shadow-lg'>
-        <Image
-          alt=''
-          layout='fill'
-          src={home.imgs && home.imgs[0]}
-          className='h-full'
-        />
+        <Link href={`/homes/${home.id}`}>
+          <Image
+            alt=''
+            layout='fill'
+            src={home.imgs && home.imgs[0]}
+            className='h-full'
+          />
+        </Link>
         <div className='absolute top-0 left-0 '>
           <div className='z-10 text-white'>
             <div className={` px-1 py-0.5 text-xs ${homePlan.bg}`}>
