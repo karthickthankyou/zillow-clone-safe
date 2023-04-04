@@ -41,8 +41,9 @@ const ProductListingResult = () => {
     return (
       <Layout>
         {cities.data?.locationStats.map(
-          ({ id, totalHomes, priceSqft, lat, lng }) => (
+          ({ id, totalHomes, name, priceSqft, lat, lng }) => (
             <CityCard
+              name={name}
               key={id}
               id={id}
               lat={lat}
@@ -50,6 +51,7 @@ const ProductListingResult = () => {
               totalHomes={totalHomes}
               priceSqft={priceSqft}
               type={LocationStatsType.City}
+              images={[]}
             />
           )
         )}
@@ -59,8 +61,9 @@ const ProductListingResult = () => {
     return (
       <Layout>
         {states.data?.locationStats.map(
-          ({ id, totalHomes, priceSqft, lat, lng }) => (
+          ({ id, totalHomes, name, priceSqft, lat, lng }) => (
             <CityCard
+              name={name}
               key={id}
               id={id}
               lat={lat}
@@ -68,6 +71,7 @@ const ProductListingResult = () => {
               totalHomes={totalHomes}
               priceSqft={priceSqft}
               type={LocationStatsType.State}
+              images={[]}
             />
           )
         )}

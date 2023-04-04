@@ -1,7 +1,7 @@
 import { Marker } from 'react-map-gl'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import OfficeBuildingIcon from '@heroicons/react/solid/OfficeBuildingIcon'
-import { SearchPropertiesQuery, UserHomesQuery } from 'src/generated/graphql'
+import { SearchPropertiesQuery } from 'src/generated/graphql'
 import { startLongHoverDispatch, stopLongHoverDispatch } from 'src/hooks'
 
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
@@ -10,10 +10,9 @@ import { useRouter } from 'next/router'
 export interface IMapMarkerProps {
   home: SearchPropertiesQuery['properties'][0]
   highlighted?: boolean
-  wishlisted?: UserHomesQuery['userHomes'][0]
 }
 
-const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
+const MapMarker = ({ home, highlighted }: IMapMarkerProps) => {
   let MarkerIcon = HomeIcon
 
   if (['Coop', 'Apartment'].includes(home?.style || ''))
@@ -24,12 +23,12 @@ const MapMarker = ({ home, highlighted, wishlisted }: IMapMarkerProps) => {
     'fill-primary scale-110  opacity-100  border border-primary  bg-white'
 
   const wishlistedClasses =
-    wishlisted && 'text-red fill-red border-red scale-110  '
+    home.wishlisted && 'text-red fill-red border-red scale-110  '
 
   const router = useRouter()
 
   return (
-    <Marker latitude={home.lat} longitude={home.lng}>
+    <Marker latitude={home.lat || 0} longitude={home.lng || 0}>
       <MarkerIcon
         onMouseOver={() =>
           startLongHoverDispatch(setHighlightedHomeId(home.id))

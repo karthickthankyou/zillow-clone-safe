@@ -29,6 +29,7 @@ const CityCard = ({
   id,
   lat,
   lng,
+  name,
   totalHomes,
   priceSqft,
   type,
@@ -76,7 +77,7 @@ const CityCard = ({
       <div
         className={`absolute pt-24 pb-3 pl-3 pr-24 bottom-0 text-white bg-gradient-to-tr from-primary-800 via-transparent to-transparent ${zoomEffectClassesBody}`}
       >
-        <div className='text-2xl font-semibold tracking-tighter'>{id}</div>
+        <div className='text-2xl font-semibold tracking-tighter'>{name}</div>
         <div className='text-sm text-opacity-75'>{totalHomes} homes</div>
         <div className='text-sm text-opacity-75'>$ {priceSqft}/sqft</div>
       </div>

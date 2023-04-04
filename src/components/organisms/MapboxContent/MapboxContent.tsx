@@ -162,7 +162,6 @@ export const HomeMarkers = () => {
         <MapMarker
           home={marker}
           highlighted={highlightedHomeId === marker.id}
-          wishlisted={getWishlisted(marker.id)}
         />
       </animated.div>
     </>

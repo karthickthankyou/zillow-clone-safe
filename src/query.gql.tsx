@@ -167,6 +167,11 @@ export const UserHomes = gql`
     ) {
       propertyId
       type
+      property {
+        imgs
+        price
+        address
+      }
     }
   }
 `
@@ -209,7 +214,6 @@ export const UserHomesDetailed = gql`
       orderBy: $orderBy
       where: $where
     ) {
-      id
       propertyId
       type
       property {
