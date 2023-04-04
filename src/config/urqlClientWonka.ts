@@ -41,7 +41,7 @@ export const fetchOptionsExchange =
     )
 
 const client = createClient({
-  url: 'http://localhost:3001/graphql',
+  url: 'https://api.zillow.iamkarthick.com/graphql',
   exchanges: [
     devtoolsExchange,
     dedupExchange,

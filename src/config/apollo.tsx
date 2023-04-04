@@ -21,7 +21,7 @@ export const ApolloProvider = ({ children }: IApolloProviderProps) => {
 
   //   Create an http link
   const httpLink = createHttpLink({
-    uri: 'http://localhost:3001/graphql',
+    uri: 'https://api.zillow.iamkarthick.com/graphql',
   })
 
   const authLink = setContext(async (_, { headers }) => {
@@ -41,7 +41,7 @@ export const ApolloProvider = ({ children }: IApolloProviderProps) => {
 
   // Create an Apollo Client instance
   const apolloClient = new ApolloClient({
-    uri: 'http://localhost:3001/graphql',
+    uri: 'https://api.zillow.iamkarthick.com/graphql',
     link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
     connectToDevTools: true,
@@ -69,7 +69,7 @@ export async function createAuthenticatedClient() {
   }))
 
   const httpLink = createHttpLink({
-    uri: 'http://localhost:3001/graphql',
+    uri: 'https://api.zillow.iamkarthick.com/graphql',
   })
 
   return new ApolloClient({

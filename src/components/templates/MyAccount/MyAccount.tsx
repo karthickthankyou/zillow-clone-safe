@@ -1,10 +1,6 @@
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import Container from 'src/components/atoms/Container'
 import { useAppSelector } from 'src/store'
-import { getFunctions, httpsCallable } from 'firebase/functions'
-import { selectUserRoles } from 'src/store/user/userSlice'
-import Button from 'src/components/atoms/Button/Button'
-import { divide } from 'cypress/types/lodash'
 
 export interface IMyAccountProps {}
 
