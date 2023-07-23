@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 
 import {} from '@urql/storybook-addon'
-import { MapProvider } from 'src/store/map/mapContext'
+
 import Mapbox from './Mapbox'
 import {
   FetchingBool,
@@ -13,7 +13,6 @@ import {
   Panel,
   PanelContainer,
   MapPanelTypes,
-  StateMarkers,
 } from '../MapboxContent/MapboxContent'
 import ZoomControls from '../ZoomControls'
 
@@ -23,11 +22,7 @@ export default {
   decorators: [SbUrqlProvider, SbReduxProvider],
 } as ComponentMeta<typeof Mapbox>
 
-const Template: ComponentStory<typeof Mapbox> = (args) => (
-  <MapProvider className='h-screen'>
-    <Mapbox {...args} />
-  </MapProvider>
-)
+const Template: ComponentStory<typeof Mapbox> = (args) => <Mapbox {...args} />
 
 export const EmptyMap = Template.bind({})
 
@@ -77,23 +72,17 @@ Panels.args = {
     </PanelContainer>
   ),
 }
-export const MarkersState = Template.bind({})
-MarkersState.args = {
-  children: <StateMarkers />,
-}
+
 export const MarkersStateWithZoom = Template.bind({})
 MarkersStateWithZoom.args = {
   children: (
-    <>
-      <StateMarkers />
-      <PanelContainer>
-        <Panel position='left-top'>
-          <ZoomControls>
-            <ZoomControls.ZoomIn />
-            <ZoomControls.ZoomOut />
-          </ZoomControls>
-        </Panel>
-      </PanelContainer>
-    </>
+    <PanelContainer>
+      <Panel position='left-top'>
+        <ZoomControls>
+          <ZoomControls.ZoomIn />
+          <ZoomControls.ZoomOut />
+        </ZoomControls>
+      </Panel>
+    </PanelContainer>
   ),
 }

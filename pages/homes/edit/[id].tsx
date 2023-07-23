@@ -17,7 +17,7 @@ import { useHomesDetailed } from 'src/store/home/homeNetwork'
 const EditPage: NextPage = () => {
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
   const [home] = useGetHomeQuery({
-    variables: { id },
+    variables: { where: { id } },
   })
 
   return <div>Hello edit page.</div>

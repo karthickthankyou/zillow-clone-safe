@@ -13,18 +13,17 @@ const Image = (props: IImageProps) => {
   const [imgSrc, setImgSrc] = useState(src)
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
-      <NextImage
-        {...rest}
-        alt={alt}
-        src={imgSrc}
-        className='object-cover h-full'
-        layout='fill'
-        onError={() => {
-          setImgSrc(fallbackSrc)
-        }}
-      />
-    </div>
+    <NextImage
+      {...rest}
+      alt={alt}
+      src={imgSrc}
+      width={300}
+      height={300}
+      className='object-cover h-full'
+      onError={() => {
+        setImgSrc(fallbackSrc)
+      }}
+    />
   )
 }
 

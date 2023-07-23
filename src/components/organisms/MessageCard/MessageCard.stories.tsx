@@ -11,40 +11,39 @@ export default {
 const Template: ComponentStory<typeof MessageCard> = (args) => (
   <MessageCard {...args} />
 )
-const SampleListTemplate: ComponentStory<typeof MessageCard> = () => (
+const SampleListTemplate: ComponentStory<typeof MessageCard> = (args) => (
   <div className='flex flex-col gap-2'>
-    <MessageCard
-      id={713}
-      address='2733 49th Ave SW Seattle, WA 98116'
-      message='Hey, I want to visit your home. Let me know when you are free.'
-      date='2022-04-12T16:39:10.389271+00:00'
-    />
-    <MessageCard
-      id={713}
-      address='2733 49th Ave SW Seattle, WA 98116'
-      message='Hey, are you getting my messages?'
-      date='2022-04-12T16:39:10.389271+00:00'
-    />
-    <MessageCard
-      id={713}
-      address='2733 49th Ave SW Seattle, WA 98116'
-      message='Are you avoiding me?'
-      date='2022-04-12T16:39:10.389271+00:00'
-    />
+    <MessageCard {...args} />
+    <MessageCard {...args} />
+    <MessageCard {...args} />
   </div>
 )
 
 export const Primary = Template.bind({})
 Primary.args = {
-  id: 713,
-  address: '2733 49th Ave SW Seattle, WA 98116',
-  message: 'Hey, are you getting my messages?',
-  date: '2022-04-12T16:39:10.389271+00:00',
+  message: {
+    id: 713,
+    message: 'Hey, are you getting my messages?',
+    createdAt: '2022-04-12T16:39:10.389271+00:00',
+    property: {
+      id: 1,
+      imgs: [],
+      price: 120,
+      address: '2733 49th Ave SW Seattle, WA 98116',
+    },
+  },
 }
 export const List = SampleListTemplate.bind({})
 List.args = {
-  id: 713,
-  address: '2733 49th Ave SW Seattle, WA 98116',
-  message: 'Hey, are you getting my messages?',
-  date: '2022-04-12T16:39:10.389271+00:00',
+  message: {
+    id: 714,
+    message: 'Hey, are you getting my messages?',
+    createdAt: '2022-04-12T16:39:10.389271+00:00',
+    property: {
+      id: 1,
+      imgs: [],
+      price: 120,
+      address: '2733 49th Ave SW Seattle, WA 98116',
+    },
+  },
 }

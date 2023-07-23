@@ -7,7 +7,7 @@ import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
 import { AppLevelHooksWithoutAuth } from 'pages/_app'
-import produce from 'immer'
+import { produce } from 'immer'
 import { composedEnhancers } from 'src/store'
 import Navbar from './Navbar'
 

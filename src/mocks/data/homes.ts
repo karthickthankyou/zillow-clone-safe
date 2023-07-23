@@ -1,8 +1,16 @@
-export const homesMockData = {
-  homes: [
+import { IProductPageProps } from 'src/components/templates/ProductPage/ProductPage'
+import {
+  SearchHomesByLocationDetailedQuery,
+  Style,
+} from 'src/generated/graphql'
+
+export const homesMockData: SearchHomesByLocationDetailedQuery = {
+  properties: [
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 2019,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 3447,
       price: 895900,
       lng: -112.08199,
@@ -14,8 +22,10 @@ export const homesMockData = {
       address: '630 W Echo Ln Phoenix, AZ 85021',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1900,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1232,
       price: 44900,
       lng: -78.82519,
@@ -27,8 +37,10 @@ export const homesMockData = {
       address: '30 Hurlock Ave Buffalo, NY 14211',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1939,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1417,
       price: 959000,
       lng: -73.86017,
@@ -40,8 +52,10 @@ export const homesMockData = {
       address: '6416 Alderton St Flushing, NY 11374',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1957,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 3814,
       price: 1295000,
       lng: -111.94367,
@@ -53,8 +67,10 @@ export const homesMockData = {
       address: '6333 E Lafayette Blvd Scottsdale, AZ 85251',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1992,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 2104,
       price: 235288,
       lng: -93.20809,
@@ -66,8 +82,10 @@ export const homesMockData = {
       address: '15894 Galveston Ave Apple Valley, MN 55124',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 2014,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1898,
       price: 238956,
       lng: -119.06989,
@@ -79,8 +97,10 @@ export const homesMockData = {
       address: '6036 Moonstone Peak Dr Bakersfield, CA 93313',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1969,
-      style: 'Condo',
+      style: Style.Condo,
       sqft: 1069,
       price: 369000,
       lng: -118.16367,
@@ -92,8 +112,10 @@ export const homesMockData = {
       address: '5535 Ackerfield Ave #26 Long Beach, CA 90805',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1963,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1791,
       price: 279900,
       lng: -104.77563,
@@ -105,8 +127,10 @@ export const homesMockData = {
       address: '1426 Rushmore Dr Colorado Springs, CO 80910',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1925,
-      style: 'Townhouse',
+      style: Style.Townhouse,
       sqft: 972,
       price: 95000,
       lng: -75.15664,
@@ -118,8 +142,10 @@ export const homesMockData = {
       address: '2142 Eastburn Ave Philadelphia, PA 19138',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1964,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1746,
       price: 350000,
       lng: -80.76653,
@@ -131,8 +157,10 @@ export const homesMockData = {
       address: '808 Lynbrook Dr Charlotte, NC 28211',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1989,
-      style: 'Townhouse',
+      style: Style.Condo,
       sqft: 1116,
       price: 139900,
       lng: -76.44361,
@@ -144,8 +172,10 @@ export const homesMockData = {
       address: '507 Gloucester Ct Baltimore, MD 21220',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 2004,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1669,
       price: 230000,
       lng: -111.03983,
@@ -157,8 +187,10 @@ export const homesMockData = {
       address: '3435 W Sagebrush Hills Ct Tucson, AZ 85741',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1940,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1675,
       price: 799000,
       lng: -84.35833,
@@ -170,8 +202,10 @@ export const homesMockData = {
       address: '3902 Peachtree Dunwoody Rd NE Atlanta, GA 30342',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1972,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 1525,
       price: 679000,
       lng: -117.15581,
@@ -183,8 +217,10 @@ export const homesMockData = {
       address: '11186 Berryknoll St San Diego, CA 92126',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1983,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 2479,
       price: 272471,
       lng: -111.73079,
@@ -196,8 +232,10 @@ export const homesMockData = {
       address: '4644 E Caballero St Mesa, AZ 85205',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1885,
-      style: 'Condo',
+      style: Style.Condo,
       sqft: 1845,
       price: 390000,
       lng: -85.74706,
@@ -209,8 +247,10 @@ export const homesMockData = {
       address: '325 E Market St #3 Louisville, KY 40202',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 2001,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 9198,
       price: 999900,
       lng: -81.63734,
@@ -222,8 +262,10 @@ export const homesMockData = {
       address: '4551 Hunting Valley Ln Brecksville, OH 44141',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1939,
-      style: 'Condo',
+      style: Style.Condo,
       sqft: 750,
       price: 109000,
       lng: -87.65221,
@@ -235,8 +277,10 @@ export const homesMockData = {
       address: '5044 N Marine Dr #D8 Chicago, IL 60640',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 2015,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 3061,
       price: 415000,
       lng: -111.72018,
@@ -248,8 +292,10 @@ export const homesMockData = {
       address: '5127 E Hillview St Mesa, AZ 85205',
     },
     {
+      imgs: [],
+      plan: 1,
       yearBuilt: 1950,
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
       sqft: 802,
       price: 79000,
       lng: -84.41958,
@@ -402,11 +448,11 @@ export const searchHomesResultsMockData = {
   ],
 }
 
-export const homeData = {
+export const homeData: IProductPageProps['home'] = {
   fetching: false,
   stale: false,
   data: {
-    homes_by_pk: {
+    property: {
       address: '10166 NE Lafayette Ave Bainbridge Island, WA 98110',
       bath: 3,
       beds: 3,
@@ -426,7 +472,8 @@ export const homeData = {
       priceSqft: 396,
       sqft: 2876,
       state: 'WA',
-      style: 'Single Family Home',
+      style: Style.SingleFamilyHome,
+      imgs: [],
       updatedAt: '2022-01-30T14:51:13.971531+00:00',
       yearBuilt: 1981,
       zipcode: '98110',

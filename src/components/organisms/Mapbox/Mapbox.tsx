@@ -1,54 +1,29 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { ReactElement } from 'react'
-import ReactMapGL, { InteractiveMapProps } from 'react-map-gl'
+import React from 'react'
+import MapGl from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-
-import { Viewport } from 'src/types'
-import { useInitializeViewport } from 'src/store/map/mapHooks'
-// import mapStyleLight from './mapLight.json'
 
 export type MarkerType = { id: string; lat: number; lng: number }[]
 
-const defaultMapProps: InteractiveMapProps = {
-  dragPan: true,
-  dragRotate: false,
-  scrollZoom: false,
-  width: '100%',
-  height: '100%',
-  mapboxApiAccessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-  // mapStyle: mapStyleLight,
-}
+type MapProps = React.ComponentProps<typeof MapGl>
 
-const MapBox = ({
-  children,
-  props = defaultMapProps,
-  className,
-}: {
-  children: ReactElement | ReactElement[]
-  props?: InteractiveMapProps
-  className?: string
-}) => {
-  /** useInitializeViewport feeds viewport state to the map. */
-  const { viewport, setViewport } = useInitializeViewport()
+type IMapProps = MapProps & { height?: string }
 
-  return (
-    <ReactMapGL
-      dragPan={false}
-      latitude={viewport.latitude}
-      longitude={viewport.longitude}
-      zoom={viewport.zoom}
-      onViewportChange={({ latitude, longitude, zoom }: Viewport) => {
-        setViewport({ latitude, longitude, zoom })
-      }}
-      // transitionDuration='auto'
-      // transitionInterpolator={new LinearInterpolator()}
+export const MapBox = ({
+  height = 'calc(100vh - 4rem)',
+  ...props
+}: IMapProps) => (
+  <div className='overflow-hidden rounded shadow-inner'>
+    <MapGl
       {...props}
-      className={`rounded ${className}`}
-      data-chromatic='ignore'
+      mapStyle='mapbox://styles/iamkarthick/clebahxqe001701mo1i1adtw3'
+      mapboxAccessToken='pk.eyJ1IjoiaWFta2FydGhpY2siLCJhIjoiY2t4b3AwNjZ0MGtkczJub2VqMDZ6OWNrYSJ9.-FMKkHQHvHUeDEvxz2RJWQ'
+      style={{ height }}
+      scrollZoom={false}
     >
-      {children}
-    </ReactMapGL>
-  )
-}
+      {props.children}
+    </MapGl>
+  </div>
+)
 
 export default MapBox

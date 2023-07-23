@@ -1,6 +1,6 @@
 import MapIcon from '@heroicons/react/outline/MapIcon'
 
-import ArrowCircleDownIcon from '@heroicons/react/outline/ArrowCircleDownIcon'
+import ArrowDownCircleIcon from '@heroicons/react/outline/RefreshIcon'
 
 import { useRouter } from 'next/dist/client/router'
 import { LocationSearch } from 'src/components/organisms/SearchHomesFilter/filterUtils'
@@ -39,7 +39,7 @@ const Hero = ({ className, executeScroll }: IHeroProps) => {
           />
         </button>
       </div>
-      <ArrowCircleDownIcon className='bottom-0 w-8 h-8 text-white justify-self-stretch animate-bounce' />
+      <ArrowDownCircleIcon className='bottom-0 w-8 h-8 text-white justify-self-stretch animate-bounce' />
     </div>
   )
 }

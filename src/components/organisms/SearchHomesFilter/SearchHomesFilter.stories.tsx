@@ -6,7 +6,7 @@ import { combineReducers, createStore } from '@reduxjs/toolkit'
 import mapReducer, {
   initialState as mapInitialState,
 } from 'src/store/map/mapSlice'
-import produce from 'immer'
+import { produce } from 'immer'
 import SearchHomesFilter from './SearchHomesFilter'
 
 export default {

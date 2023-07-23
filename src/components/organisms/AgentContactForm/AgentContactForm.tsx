@@ -1,14 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react'
 import { FieldError, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { zodResolver } from '@hookform/resolvers/zod'
 import * as yup from 'yup'
 
 // If yup-phone is creating problems, Use import parsePhoneNumber from 'libphonenumber-js'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import ExclamationIcon from '@heroicons/react/solid/ExclamationIcon'
-import { useInsertMessageMutation } from 'src/generated/graphql'
+import { useCreateMessageMutation } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
+import { formSchemaAgent } from 'src/forms'
 
 export interface IAgentContactFormProps {
   homeId: number
@@ -40,14 +41,14 @@ export const FormError = ({ error }: { error: FieldError | undefined }) => {
   return null
 }
 
-const AgentContactForm = React.forwardRef(
+export const AgentContactForm = React.forwardRef(
   ({ homeId }: IAgentContactFormProps, ref: any) => {
     const {
       register,
       handleSubmit,
       formState: { errors },
     } = useForm<AgentFormSchema>({
-      resolver: yupResolver(agentFormSchema),
+      resolver: zodResolver(formSchemaAgent),
       defaultValues: {
         name: '',
         email: '',
@@ -59,17 +60,14 @@ const AgentContactForm = React.forwardRef(
     const uid = useAppSelector((state) => state.user.data.user?.uid)
 
     const [{ fetching, data: contactData }, contactAgent] =
-      useInsertMessageMutation()
+      useCreateMessageMutation()
 
     const onSubmit = handleSubmit((data) => {
       contactAgent({
-        object: {
-          uid,
-          home_id: homeId,
+        createMessageInput: {
+          propertyId: homeId,
           message: data.message,
-          email: data.email,
-          phone: data.phone,
-          name: data.name,
+          buyerUid: uid,
         },
       })
     })
@@ -156,4 +154,3 @@ const AgentContactForm = React.forwardRef(
 )
 
 AgentContactForm.displayName = 'AgentContactForm'
-export default AgentContactForm

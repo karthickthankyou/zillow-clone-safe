@@ -32,7 +32,7 @@ export const useScroll = (): [
   [number, number],
   RefObject<HTMLDivElement>,
   () => void,
-  (distance: number) => void
+  (distance: number) => void,
 ] => {
   const [scrollPos, setScrollPos] = useState<[number, number]>([0, 0])
   const scrollEl = useRef<HTMLDivElement>(null)

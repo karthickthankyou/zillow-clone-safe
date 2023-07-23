@@ -15,7 +15,7 @@ const Accordion = ({ title, children, className }: IAccordionProps) => (
         <Disclosure.Button
           className={`flex justify-between w-full py-2 font-medium ${className}`}
         >
-          <span className={`${open ? 'text-primary-600' : 'text-gray-600'}`}>
+          <span className={open ? 'text-primary-600' : 'text-gray-600'}>
             {title}
           </span>
           <ChevronDownIcon

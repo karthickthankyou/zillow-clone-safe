@@ -3,7 +3,7 @@ import { NextSeo } from 'next-seo'
 
 import { useAppSelector } from 'src/store'
 import { selectDisplayName } from 'src/store/user/userSlice'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import Container from 'src/components/atoms/Container'
 import { Children } from 'src/types'
 

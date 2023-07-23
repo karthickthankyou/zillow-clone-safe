@@ -1,8 +1,4 @@
-/* eslint-disable camelcase */
-import {
-  User_Homes_Types_Enum,
-  useInsertUserHomeMutation,
-} from 'src/generated/graphql'
+import { UserHomeType, useUpdateUserHomeMutation } from 'src/generated/graphql'
 import Image from 'src/components/atoms/Image'
 import { useGetHighlightedHomeData } from 'src/store/home/homeNetwork'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
@@ -10,15 +6,27 @@ import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
 import { useAppSelector } from 'src/store'
 import { selectUid } from 'src/store/user/userSlice'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import Skeleton from 'src/components/molecules/Skeleton'
 import { loginNotification } from 'src/lib/util'
-import { ErrorSkeleton } from '../PopupRegionContent/PopupRegionContent'
 
 export interface IPopupHomesContentProps {
   id: number
   wishlisted: boolean
 }
+
+export const ErrorSkeleton = ({ error }: { error: string }) => (
+  <div className='flex flex-col w-56 text-gray-800 '>
+    <Image
+      src='https://via.placeholder.com/150'
+      className='w-full h-36'
+      alt=''
+    />
+    <div className='flex flex-col items-center justify-center p-2 bg-white/90'>
+      <div>{error}</div>
+    </div>
+  </div>
+)
 
 const HomeContentSkeleton = () => (
   <div className='flex flex-col w-48 text-gray-200 '>
@@ -34,7 +42,7 @@ const HomeContentSkeleton = () => (
 
 const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   const [{ fetching: wishlistLoading }, updateHomeMutation] =
-    useInsertUserHomeMutation()
+    useUpdateUserHomeMutation()
   const uid = useAppSelector(selectUid)
   const highlightedHomeDetails = useGetHighlightedHomeData(id)
   const { data, fetching, error } = highlightedHomeDetails!
@@ -43,7 +51,7 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
   if (error) return <ErrorSkeleton error='Something went wrong...' />
 
   const imgSrc =
-    (data?.homes_by_pk?.imgs && data?.homes_by_pk.imgs[0]) ||
+    (data?.property?.imgs && data?.property.imgs[0]) ||
     'https://via.placeholder.com/150'
 
   return (
@@ -57,7 +65,7 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
         <div className='p-2'>
           <div className='flex items-baseline justify-between'>
             <div className='mb-1 text-2xl font-light leading-none'>
-              ${data?.homes_by_pk?.price.toLocaleString()}
+              ${data?.property?.price.toLocaleString()}
             </div>
             <button
               type='button'
@@ -69,11 +77,13 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
                   return
                 }
                 updateHomeMutation({
-                  hId,
-                  type: wishlisted
-                    ? User_Homes_Types_Enum.RemovedFromWishlist
-                    : User_Homes_Types_Enum.Wishlisted,
-                  uid,
+                  updateUserHomeInput: {
+                    propertyId: hId,
+                    type: wishlisted
+                      ? UserHomeType.RemovedFromWishlist
+                      : UserHomeType.Wishlisted,
+                    buyerUid: uid,
+                  },
                 })
               }}
             >
@@ -89,21 +99,21 @@ const PopupHomesContent = ({ id, wishlisted }: IPopupHomesContentProps) => {
           </div>
           <div className='flex flex-wrap mt-2 text-sm'>
             <div className='text-sm '>
-              {data?.homes_by_pk?.sqft.toLocaleString()} sqft
+              {data?.property?.sqft.toLocaleString()} sqft
             </div>
             <span className='mx-1 text-gray-300'>•</span>
-            <div>{data?.homes_by_pk?.beds} bd</div>
+            <div>{data?.property?.beds} bd</div>
             <span className='mx-1 text-gray-300'>•</span>
-            <div>{data?.homes_by_pk?.bath} ba</div>
+            <div>{data?.property?.bath} ba</div>
             <span className='mx-1 text-gray-300'>•</span>
-            <div>{data?.homes_by_pk?.style}</div>
+            <div>{data?.property?.style}</div>
           </div>
         </div>
         <Link
           href={`/homes/${id}`}
           className='p-2 text-xs bg-gray-50 line-clamp-2'
         >
-          {data?.homes_by_pk?.address || ''}
+          {data?.property?.address || ''}
         </Link>
       </div>
     </div>

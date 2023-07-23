@@ -12,6 +12,7 @@ import UrqlProvider, {
 } from 'src/components/templates/UrqlProvider/UrqlProvider'
 import { store } from 'src/store'
 import 'src/globals.css'
+import React from 'react'
 import { useUserListener } from 'src/store/user/userHooks'
 
 /** Enable mocking
@@ -39,25 +40,19 @@ export const AppLevelHooksWithoutAuth = () => {
   return null
 }
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
-  if (pageProps.urqlState) {
-    ssrCache.restoreData(pageProps.urqlState)
-  }
+const App = ({ Component, pageProps }: AppProps) => (
+  <ReduxProvider store={store}>
+    <UrqlProvider>
+      <Layout>
+        <AppLevelHooks />
+        <Notifications />
+        <Component {...pageProps} />
+      </Layout>
+    </UrqlProvider>
+  </ReduxProvider>
+)
 
-  return (
-    <ReduxProvider store={store}>
-      <UrqlProvider>
-        <Layout>
-          <AppLevelHooks />
-          <Notifications />
-          <Component {...pageProps} />
-        </Layout>
-      </UrqlProvider>
-    </ReduxProvider>
-  )
-}
-
-export default MyApp
+export default App
 
 /**
  * Getting the subscriptions to work in urql with hasura is hard.

@@ -1,4 +1,4 @@
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
 import { notify } from 'src/hooks'
 import { AllColors } from 'src/types'
 

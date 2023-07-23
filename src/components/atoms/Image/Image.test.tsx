@@ -8,7 +8,6 @@ describe('Image Component', () => {
       <Image
         src='https://via.placeholder.com/150'
         blurDataURL='ttps://via.placeholder.com/10'
-        layout='fill'
         alt=''
       />
     )

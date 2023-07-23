@@ -1,4 +1,4 @@
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
 import LocationMarkerIcon from '@heroicons/react/solid/LocationMarkerIcon'
 import HomeIcon from '@heroicons/react/solid/HomeIcon'
 import HeartIcon from '@heroicons/react/solid/HeartIcon'

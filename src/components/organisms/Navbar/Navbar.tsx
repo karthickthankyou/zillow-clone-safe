@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction, useMemo, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import PopoverParent, {
   PopoverButton,
   PopoverGroup,

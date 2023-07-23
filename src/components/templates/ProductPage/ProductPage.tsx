@@ -1,14 +1,12 @@
 import ProductPageCarousel from 'src/components/organisms/ProductPageCarousel'
 import { Disclosure } from '@headlessui/react'
 import Mapbox from 'src/components/organisms/Mapbox'
-import { MapProvider } from 'src/store/map/mapContext'
+
 import {
-  CityMarkers,
   Fetching,
   HomeMarkers,
   Panel,
   PanelContainer,
-  StateMarkers,
   Error,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { GetHomeQuery } from 'src/generated/graphql'
@@ -21,7 +19,7 @@ import LoginIcon from '@heroicons/react/outline/LoginIcon'
 import SearchIcon from '@heroicons/react/outline/SearchIcon'
 import PhoneIcon from '@heroicons/react/outline/PhoneIcon'
 import { Children } from 'src/types'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import Slideup from 'src/components/molecules/Slideup'
 import Container from 'src/components/atoms/Container'
 import { UseQueryResponse } from 'urql'
@@ -59,11 +57,11 @@ const ProductPage = ({ home }: IProductPageProps) => {
 
   const { data: nearbyHomes } = useAppSelector(selectHomesDetailed)
 
-  const homeData = home?.data?.homes_by_pk
+  const homeData = home?.data?.property
 
   const filteredHomes =
-    nearbyHomes?.homes.filter(
-      (item) => item.id !== home.data?.homes_by_pk?.id
+    nearbyHomes?.properties.filter(
+      (item) => item.id !== home.data?.property?.id
     ) || []
 
   const randomHomeId =
@@ -75,7 +73,7 @@ const ProductPage = ({ home }: IProductPageProps) => {
     <Container>
       <div className='grid-cols-3 gap-6 lg:grid'>
         <div className='col-span-2 space-y-6 md:space-y-12'>
-          <ProductPageCarousel imgs={homeData?.imgs} />
+          <ProductPageCarousel imgs={homeData?.imgs || []} />
           <MainCard
             className='block lg:hidden '
             home={home}
@@ -156,23 +154,19 @@ const ProductPage = ({ home }: IProductPageProps) => {
 
           <AgentContactForm ref={contactFormRef} homeId={homeData?.id!} />
 
-          <MapProvider className='h-144'>
-            <Mapbox>
-              <HomeMarkers />
-              <CityMarkers />
-              <StateMarkers />
-              <PanelContainer>
-                <Panel position='center-bottom'>
-                  <Fetching />
-                  <Error />
-                </Panel>
+          <Mapbox>
+            <HomeMarkers />
+            <PanelContainer>
+              <Panel position='center-bottom'>
+                <Fetching />
+                <Error />
+              </Panel>
 
-                <Panel position='right-center'>
-                  <ZoomControls />
-                </Panel>
-              </PanelContainer>
-            </Mapbox>
-          </MapProvider>
+              <Panel position='right-center'>
+                <ZoomControls />
+              </Panel>
+            </PanelContainer>
+          </Mapbox>
         </div>
 
         <MainCard

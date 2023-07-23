@@ -4,7 +4,7 @@ import { combineReducers, createStore } from '@reduxjs/toolkit'
 import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
-import produce from 'immer'
+import { produce } from 'immer'
 import { composedEnhancers } from 'src/store'
 import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 import { mswWorker } from 'src/mocks/mswWorker'

@@ -7,9 +7,7 @@ export default {
   component: Image,
 } as ComponentMeta<typeof Image>
 
-const Template: ComponentStory<typeof Image> = (args) => (
-  <Image alt='' {...args} />
-)
+const Template: ComponentStory<typeof Image> = (args) => <Image {...args} />
 
 export const Fixed = Template.bind({})
 Fixed.args = {

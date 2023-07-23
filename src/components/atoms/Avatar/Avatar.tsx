@@ -28,7 +28,6 @@ const Avatar = ({
         <Image
           src={src}
           alt=''
-          layout='fill'
           placeholder='blur'
           blurDataURL='https://via.placeholder.com/10'
           className={`object-cover w-full h-full ${

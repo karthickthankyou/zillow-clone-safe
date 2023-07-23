@@ -18,7 +18,7 @@ const RangeSlider = ({
   labelFormat,
   value,
 }: ISliderMuiProps) => (
-  <div className={`${className}`}>
+  <div className={className}>
     <Slider
       data-testid='slider'
       defaultValue={initialData}

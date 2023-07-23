@@ -1,3 +1,3 @@
-import AgentContactForm from './AgentContactForm'
+import { AgentContactForm } from './AgentContactForm'
 
 export default AgentContactForm

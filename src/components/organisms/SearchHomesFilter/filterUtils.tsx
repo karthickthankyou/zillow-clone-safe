@@ -4,7 +4,7 @@ import Autocomplete from 'src/components/molecules/Autocomplete'
 import { RadioGroup } from '@headlessui/react'
 import { PopoverButton } from 'src/components/molecules/PopoverMenuItem'
 import { addDollar, shortenNumber } from 'src/lib/util'
-import { FilterIcon } from '@heroicons/react/outline'
+import FilterIcon from '@heroicons/react/outline/FilterIcon'
 import { useEffect, useState } from 'react'
 import { catchError, debounceTime, EMPTY, map, Subject, tap } from 'rxjs'
 import { useAppDispatch, useAppSelector } from 'src/store'
@@ -16,6 +16,7 @@ import {
   setSearchText,
 } from 'src/store/map/mapSlice'
 import { useSearchPlaces } from 'src/store/map/mapHooks'
+import { Style } from 'src/generated/graphql'
 
 const homeTypes = [
   'Single Family Home',
@@ -28,18 +29,7 @@ const homeTypes = [
   'Coop',
   'Unknown',
   'Apartment',
-].sort() as (
-  | 'Single Family Home'
-  | 'Condo'
-  | 'Multi Family'
-  | 'Townhouse'
-  | 'Mobile Manufactured'
-  | 'Lot Land'
-  | 'Farm Ranch'
-  | 'Coop'
-  | 'Unknown'
-  | 'Apartment'
-)[]
+].sort() as Style[]
 
 export const filterDefaultValues = {
   price: [0, 10_000_000] as [number, number],
@@ -79,7 +69,7 @@ export const FilterPrice = ({
       onChange={onChange}
       value={value}
       initialData={filterDefaultValues.price}
-      className={`${className}`}
+      className={className}
       labelFormat={(sliderValue) => `${addDollar(shortenNumber(sliderValue))}`}
     />
   </div>
@@ -96,7 +86,7 @@ export const FilterYear = ({
       value={value}
       initialData={filterDefaultValues.yearBuilt}
       step={10}
-      className={`${className}`}
+      className={className}
     />
   </div>
 )
@@ -112,17 +102,18 @@ export const FilterSqft = ({
       value={value}
       initialData={filterDefaultValues.sqft}
       step={10}
-      className={`${className}`}
+      className={className}
     />
   </div>
 )
 
 export const FilterBeds = ({ value, onChange }: any) => (
   <RadioGroup value={value} onChange={onChange} className='space-y-2 '>
-    <RadioGroup.Label className='font-semibold'>Bedrooms</RadioGroup.Label>
+    {/* <RadioGroup.Label>Bedrooms</RadioGroup.Label> */}
+    {/* <RadioGroup.Label className='font-semibold'>Bedrooms</RadioGroup.Label> */}
     <div className='flex gap-3'>
       {['1', '2', '3', '4', '5', 'Any'].map((item) => (
-        <RadioGroup.Option key={item} value={`${item}`}>
+        <RadioGroup.Option key={item} value={item}>
           {({ checked }) => (
             <span
               className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${
@@ -143,10 +134,10 @@ export const FilterBeds = ({ value, onChange }: any) => (
 
 export const FilterBath = ({ value, onChange }: any) => (
   <RadioGroup value={value} onChange={onChange} className='space-y-2'>
-    <RadioGroup.Label className='font-semibold'>Bathrooms</RadioGroup.Label>
+    {/* <RadioGroup.Label className='font-semibold'>Bathrooms</RadioGroup.Label> */}
     <div className='flex gap-3 my-2'>
       {['1', '2', '3', '4', '5', 'Any'].map((item) => (
-        <RadioGroup.Option key={item} value={`${item}`}>
+        <RadioGroup.Option key={item} value={item}>
           {({ checked }) => (
             <span
               className={`flex items-center justify-center w-10 h-10 bg-white border rounded-sm ${

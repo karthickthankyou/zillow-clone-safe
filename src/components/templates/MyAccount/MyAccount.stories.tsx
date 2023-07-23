@@ -5,7 +5,7 @@ import { combineReducers, createStore } from '@reduxjs/toolkit'
 import userReducer, {
   initialState as userInitialState,
 } from 'src/store/user/userSlice'
-import produce from 'immer'
+import { produce } from 'immer'
 import { Provider } from 'react-redux'
 import MyAccount from './MyAccount'
 
@@ -41,12 +41,12 @@ const publicStore = createStore(combineReducers({ user: userReducer }), {
 
 export const Admin = Template.bind({})
 Admin.decorators = [
-  (story) => <Provider store={adminStore}>{story()}</Provider>,
+  (Story) => <Provider store={adminStore}>{Story()}</Provider>,
 ]
 export const User = Template.bind({})
-User.decorators = [(story) => <Provider store={userStore}>{story()}</Provider>]
+User.decorators = [(Story) => <Provider store={userStore}>{Story()}</Provider>]
 
 export const Public = Template.bind({})
 Public.decorators = [
-  (story) => <Provider store={publicStore}>{story()}</Provider>,
+  (Story) => <Provider store={publicStore}>{Story()}</Provider>,
 ]

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { MapRef } from 'react-map-gl'
+import { MapRef, useMap } from 'react-map-gl'
 import { catchError, debounceTime, EMPTY, Subject, map } from 'rxjs'
 import { Bounds, Viewport } from 'src/types'
 import { useAppDispatch, useAppSelector } from '..'
@@ -10,13 +10,13 @@ import {
   selectViewport,
 } from './mapSlice'
 import { DEBOUNCE_DELAY } from '../static'
-import { useMap } from './mapContext'
+
 import { searchPlaces$ } from '../streams'
 
 export const useDispatchMapBounds = ({ viewport }: { viewport: Viewport }) => {
   const dispatch = useAppDispatch()
 
-  const { map: mapObj } = useMap()
+  const { current: mapObj } = useMap()
 
   /** Subject. Set bounds when viewport changes. */
   const [pipeline$] = useState(() => new Subject<Viewport>())
@@ -27,7 +27,10 @@ export const useDispatchMapBounds = ({ viewport }: { viewport: Viewport }) => {
         debounceTime(DEBOUNCE_DELAY),
         map((v): { viewportDebounced: Viewport; bounds: Bounds } => ({
           viewportDebounced: v,
-          bounds: mapObj.getBounds().toArray(),
+          bounds: (mapObj?.getBounds().toArray() as Bounds) || [
+            [0, 0],
+            [0, 0],
+          ],
         })),
         catchError(() => EMPTY)
       )

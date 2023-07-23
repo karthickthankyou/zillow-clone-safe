@@ -55,13 +55,7 @@ const MessagesPage: NextPage = () => {
         <div className='mb-4 text-xl'>Messages ({data?.messages.length}) </div>
         <div className='flex flex-col gap-2'>
           {data?.messages.map((item) => (
-            <MessageCard
-              key={item.id}
-              id={item.home.id}
-              address={item.home.address}
-              message={item.message}
-              date={item.created_at}
-            />
+            <MessageCard key={item.id} message={item} />
           ))}
         </div>
       </div>
@@ -73,17 +67,7 @@ const MessagesPage: NextPage = () => {
             </div>
             <div className='flex flex-col gap-2'>
               {dataEnquiries?.messages.map((item) => (
-                <MessageCard
-                  key={item.id}
-                  id={item.home.id}
-                  src={item.home.imgs && item.home.imgs[0]}
-                  address={item.home.address}
-                  email={item.email}
-                  name={item.name}
-                  phone={item.phone}
-                  message={item.message}
-                  date={item.created_at}
-                />
+                <MessageCard key={item.id} message={item} />
               ))}
             </div>
           </>

@@ -1,8 +1,6 @@
 overwrite: true
 schema:
-  - 'https://zillow-karthick.herokuapp.com/v1/graphql':
-      headers:
-        x-hasura-admin-secret: ${SECRET}
+  - 'zillow-clone-nest-next-monorepo-production.up.railway.app/graphql':
 documents: 'src/**/*.graphql'
 generates:
   src/generated/graphql.ts:

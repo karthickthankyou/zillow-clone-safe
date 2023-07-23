@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { Children } from 'src/types'
-import ClipboardCheckIcon from '@heroicons/react/outline/ClipboardCheckIcon'
+import ClipboardIcon from '@heroicons/react/outline/ClipboardIcon'
 
 const ColorContext = React.createContext<{
   selected: string
@@ -143,7 +143,7 @@ const Notification = () => {
   return selected ? (
     <div className='fixed bottom-0 px-3 mb-12 text-white border border-white rounded-full shadow-2xl backdrop-blur backdrop-filter shadow-black/40 bg-gray-900/50'>
       <p className='flex items-center'>
-        <ClipboardCheckIcon className='w-6 h-6 mr-2' />
+        <ClipboardIcon className='w-6 h-6 mr-2' />
         Text
         <div className='px-2 py-1 mx-2 text-lg -skew-x-12 bg-black'>
           {selected}

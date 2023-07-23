@@ -1,9 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useEffect, useState, ReactElement } from 'react'
-import { useInsertHomeMutation } from 'src/generated/graphql'
+import { Style, useCreatePropertyMutation } from 'src/generated/graphql'
 import Router from 'next/router'
 import { Controller, FieldError, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+
 import HtmlSelect from 'src/components/atoms/HtmlSelect'
 import Input from 'src/components/atoms/HtmlInput'
 import Label from 'src/components/atoms/HtmlLabel'
@@ -15,14 +15,16 @@ import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
 
 import { Children } from 'src/types'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import Dialog from 'src/components/molecules/Dialog'
 import { RadioGroup, Switch } from '@headlessui/react'
 import { getHomeTypes } from 'src/store/static'
 import { useAppDispatch, useAppSelector } from 'src/store'
 import Button from 'src/components/atoms/Button'
 import { resetMap } from 'src/store/map/mapSlice'
-import { MapLocationPicker, NewHomeSchema, newHomeSchema } from './utils'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormTypeNewHome, formSchemaNewHome } from 'src/forms'
+import { MapLocationPicker } from './utils'
 
 export interface IAddNewHomeTemplateProps {}
 
@@ -53,7 +55,7 @@ const FormSectionTitle = ({
 )
 
 const AddNewHomeTemplate = () => {
-  const [publishedHome, addNewHome] = useInsertHomeMutation()
+  const [publishedHome, addNewHome] = useCreatePropertyMutation()
 
   const {
     register,
@@ -64,28 +66,28 @@ const AddNewHomeTemplate = () => {
     setError,
     clearErrors,
     formState: { errors },
-  } = useForm<NewHomeSchema>({
-    resolver: yupResolver(newHomeSchema),
+  } = useForm<FormTypeNewHome>({
+    resolver: zodResolver(formSchemaNewHome),
     defaultValues: {
-      address: undefined,
-      bath: undefined,
-      beds: undefined,
+      address: '',
+      bath: 0, // default value set to 0
+      beds: 0, // default value set to 0
       city: '',
       description: '',
       facts: '',
       features: '',
       published: true,
-      lotSize: undefined,
-      price: undefined,
-      sqft: undefined,
+      lotSize: 0, // default value set to 0
+      price: 0,
+      sqft: 0,
       plan: 0,
-      state: undefined,
-      style: 'Select type of house',
-      yearBuilt: undefined,
-      zipcode: undefined,
-      lat: undefined,
-      lng: undefined,
-      imgs: undefined,
+      state: '',
+      style: Style.SingleFamilyHome,
+      yearBuilt: 2000, // default value set to 2000
+      zipcode: '', // default value set to empty string
+      lat: 0, // default value set to 0
+      lng: 0, // default value set to 0
+      imgs: [], // default value set to empty array
     },
   })
 
@@ -101,14 +103,26 @@ const AddNewHomeTemplate = () => {
     setPublishing(true)
     const { plan, ...uploadData } = data
 
-    const home = await addNewHome({ object: { ...uploadData, uid } })
+    if (!uid) {
+      console.error('Uid')
+      return
+    }
 
-    if (home.data?.insert_homes_one?.id && plan && plan > 0) {
+    const home = await addNewHome({
+      createPropertyInput: {
+        ...uploadData,
+        sellerUid: uid,
+        plan: plan || 0,
+        imgs: [],
+      },
+    })
+
+    if (home.data?.createProperty?.id && plan && plan > 0) {
       const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       const stripePromise = loadStripe(publishableKey || '')
       const stripe = await stripePromise
       const checkoutSession = await axios.post('/api/create-stripe-session', {
-        id: home.data?.insert_homes_one?.id,
+        id: home.data?.createProperty?.id,
         plan,
         imgs: uploadData.imgs,
         address: uploadData.address,
@@ -118,7 +132,7 @@ const AddNewHomeTemplate = () => {
       })
     } else {
       if (home.error) setShowErrorDialog(true)
-      if (home.data?.insert_homes_one?.id) setshowDialog(true)
+      if (home.data?.createProperty?.id) setshowDialog(true)
     }
     setPublishing(false)
   })
@@ -150,7 +164,7 @@ const AddNewHomeTemplate = () => {
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minus
           tempore laudantium consequuntur, adipisci quidem ex fugit quo et?
         </p>
-        <p>Home id: {publishedHome.data?.insert_homes_one?.id}</p>
+        <p>Home id: {publishedHome.data?.createProperty?.id}</p>
         <div className='flex justify-end space-x-4'>
           <button
             type='button'
@@ -161,7 +175,7 @@ const AddNewHomeTemplate = () => {
           </button>
           <Link
             className='inline-block px-4 py-2 mt-8 text-center text-white bg-primary-600'
-            href={`/homes/${publishedHome.data?.insert_homes_one?.id}`}
+            href={`/homes/${publishedHome.data?.createProperty?.id}`}
           >
             Visit page
           </Link>
@@ -435,7 +449,7 @@ const AddNewHomeTemplate = () => {
                 {[0, 1, 2, 3].map((item) => (
                   <RadioGroup.Option
                     key={item}
-                    value={`${item}`}
+                    value={item}
                     className='cursor-pointer'
                   >
                     {({ checked }) => (

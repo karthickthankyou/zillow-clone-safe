@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { WritableDraft } from 'immer/dist/internal'
+import { Draft } from 'immer'
 import { RootState } from '..'
 import { AsyncData, User } from '../../types'
 import {
@@ -44,7 +44,7 @@ const setStatus =
     loading?: boolean
     error?: boolean
   }) =>
-  (state: WritableDraft<UserSliceType>) => {
+  (state: Draft<UserSliceType>) => {
     state.fulfilled = fulfilled
     state.loading = loading
     state.error = error

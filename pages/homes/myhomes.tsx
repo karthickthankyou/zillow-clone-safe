@@ -1,25 +1,17 @@
-/**
- *
- * Idea: The components don't have to use hooks that query data when state changes.
- * We should use observables.
- *
- * How to do ComponentDidMount???
- */
-
 import { NextPage } from 'next'
 
 import { useGetMyHomesQuery } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
 import Container from 'src/components/atoms/Container'
 import MyHomesCard from 'src/components/organisms/MyHomesCard/MyHomesCard'
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
 
 const MyHomes: NextPage = () => {
   const uid = useAppSelector((state) => state.user.data.user?.uid)
   const [{ data }] = useGetMyHomesQuery({
     variables: {
       where: {
-        uid: { _eq: uid },
+        sellerUid: { equals: uid },
       },
     },
   })
@@ -36,7 +28,7 @@ const MyHomes: NextPage = () => {
         </Link>
       </div>
       <div className='grid grid-cols-3 gap-3'>
-        {data?.homes.map((item) => (
+        {data?.properties.map((item) => (
           <MyHomesCard key={item.id} home={item} />
         ))}
       </div>

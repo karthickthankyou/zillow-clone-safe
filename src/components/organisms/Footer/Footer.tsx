@@ -3,7 +3,7 @@ import { FaFacebook } from '@react-icons/all-files/fa/FaFacebook'
 import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaInstagramSquare } from '@react-icons/all-files/fa/FaInstagramSquare'
 import { IconType } from '@react-icons/all-files'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 
 const Icon = ({ IconInput }: { IconInput: IconType }) => (
   <Link

@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  zoomIn,
-  zoomOut,
-  resetMap,
-  setZoom,
-  setViewportLocation,
-} from 'src/store/map/mapSlice'
+import { resetMap } from 'src/store/map/mapSlice'
 import GlobeIcon from '@heroicons/react/outline/GlobeIcon'
 import PlusIcon from '@heroicons/react/outline/PlusIcon'
 import MinusIcon from '@heroicons/react/outline/MinusIcon'
@@ -13,9 +7,9 @@ import MapIcon from '@heroicons/react/outline/MapIcon'
 import ArrowsExpandIcon from '@heroicons/react/outline/ArrowsExpandIcon'
 import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import { useAppDispatch } from 'src/store'
-import { ZOOM_CITIES } from 'src/store/static'
 import { Children, Viewport } from 'src/types'
 import { PayloadAction } from '@reduxjs/toolkit'
+import { useMap } from 'react-map-gl'
 
 export interface IZoomControlsProps {}
 
@@ -26,24 +20,24 @@ const MapControls = ({ children }: { children: Children }) => (
 )
 
 const ZoomIn = () => {
-  const dispatch = useAppDispatch()
+  const { current: map } = useMap()
   return (
     <button
       className='rounded-none hover:bg-white '
       type='button'
-      onClick={() => dispatch(zoomIn())}
+      onClick={() => map?.zoomIn()}
     >
       <PlusIcon className='w-8 h-8 p-1.5 ' />
     </button>
   )
 }
 const ExpandIn = () => {
-  const dispatch = useAppDispatch()
+  const { current: map } = useMap()
   return (
     <button
       className='rounded-none hover:bg-white '
       type='button'
-      onClick={() => dispatch(setZoom(6))}
+      onClick={() => map?.zoomTo(6)}
     >
       <ArrowsExpandIcon className='w-8 h-8 p-1.5 ' />
     </button>
@@ -51,12 +45,12 @@ const ExpandIn = () => {
 }
 
 const ZoomOut = () => {
-  const dispatch = useAppDispatch()
+  const { current: map } = useMap()
   return (
     <button
       className='rounded-none hover:bg-white '
       type='button'
-      onClick={() => dispatch(zoomOut())}
+      onClick={() => map?.zoomOut()}
     >
       <MinusIcon className='w-8 h-8 p-1.5 ' />
     </button>
@@ -77,24 +71,28 @@ const ResetMap = () => {
 }
 
 const ZoomCities = () => {
-  const dispatch = useAppDispatch()
+  const { current: map } = useMap()
   return (
     <button
       className='rounded-none hover:bg-white'
       type='button'
-      onClick={() => dispatch(setZoom(ZOOM_CITIES))}
+      onClick={() => map?.zoomTo(8)}
     >
       <MapIcon className='w-8 h-8 p-1.5 ' />
     </button>
   )
 }
 const GotoMarker = ({ viewport }: { viewport: Omit<Viewport, 'zoom'> }) => {
-  const dispatch = useAppDispatch()
+  const { current: map } = useMap()
+
   return (
     <button
       className='rounded-none hover:bg-white'
       type='button'
-      onClick={() => dispatch(setViewportLocation(viewport))}
+      onClick={() => {
+        const { lat, lng } = map?.getCenter() as { lng: number; lat: number }
+        map?.jumpTo({ center: [lat, lng] })
+      }}
     >
       <Pin className='w-8 h-8 p-1.5 ' />
     </button>

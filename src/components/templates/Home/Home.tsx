@@ -1,24 +1,21 @@
 import BannerSplit from 'src/components/organisms/BannerHomeLoan'
 import BadgeCheckIcon from '@heroicons/react/outline/BadgeCheckIcon'
-import { MapProvider } from 'src/store/map/mapContext'
 import ScrollText from 'src/components/molecules/ScrollBanner'
 import Mapbox from 'src/components/organisms/Mapbox'
 import TripGuide from 'src/components/organisms/TripGuide'
 import {
-  CityMarkers,
   Fetching,
   HomeMarkers,
   Panel,
   PanelContainer,
   Error,
-  StateMarkers,
 } from 'src/components/organisms/MapboxContent/MapboxContent'
 import { useScrollTo } from 'src/hooks'
 import Container from 'src/components/atoms/Container'
 import { DefaultZoomControls as ZoomControls } from 'src/components/organisms/ZoomControls/ZoomControls'
 
 import Tooltip from 'src/components/atoms/Tooltip/Tooltip'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import Hero from '../Hero'
 
 export interface IHomeProps {}
@@ -50,23 +47,19 @@ const Home = () => {
           className='w-screen mb-24 h-screen80 md:h-screen'
           ref={interactiveMapRef}
         >
-          <MapProvider className='h-full'>
-            <Mapbox>
-              <HomeMarkers />
-              <CityMarkers />
-              <StateMarkers />
+          <Mapbox>
+            <HomeMarkers />
 
-              <PanelContainer>
-                <Panel position='center-bottom'>
-                  <Fetching />
-                  <Error />
-                </Panel>
-                <Panel position='left-top'>
-                  <ZoomControls />
-                </Panel>
-              </PanelContainer>
-            </Mapbox>
-          </MapProvider>
+            <PanelContainer>
+              <Panel position='center-bottom'>
+                <Fetching />
+                <Error />
+              </Panel>
+              <Panel position='left-top'>
+                <ZoomControls />
+              </Panel>
+            </PanelContainer>
+          </Mapbox>
         </div>
         <div className='mb-16 bg-primary-25'>
           <Container>

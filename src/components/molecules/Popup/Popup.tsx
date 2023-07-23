@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Popup } from 'react-map-gl'
 
 import XIcon from '@heroicons/react/outline/XIcon'
@@ -23,10 +22,7 @@ const PopupComponent = ({
     <Popup
       latitude={latitude}
       longitude={longitude}
-      sortByDepth
-      offsetLeft={10}
-      offsetTop={-10}
-      dynamicPosition={false}
+      offset={10}
       closeButton={false}
     >
       <div className='grid grid-cols-1 grid-rows-1'>

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 /* eslint-disable react/jsx-props-no-spreading */
-import RefreshIcon from '@heroicons/react/outline/RefreshIcon'
+import ArrowPathIcon from '@heroicons/react/outline/RefreshIcon'
 
 type ButtonSizes = 'none' | 'sm' | 'md' | 'lg' | 'xl'
 
@@ -77,7 +77,7 @@ const Button = ({
       {isLoading ? (
         <>
           <div className='absolute inset-0 flex items-center justify-center'>
-            <RefreshIcon className='w-5 h-5 animate-spin-reverse' />
+            <ArrowPathIcon className='w-5 h-5 animate-spin-reverse' />
           </div>
           <div className='opacity-10'>{children}</div>
         </>

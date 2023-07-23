@@ -5,7 +5,7 @@ import userReducer, {
 } from 'src/store/user/userSlice'
 import { Provider } from 'react-redux'
 import { combineReducers, createStore } from '@reduxjs/toolkit'
-import produce from 'immer'
+import { produce } from 'immer'
 import TripGuide from './TripGuide'
 
 const reducers = { user: userReducer }

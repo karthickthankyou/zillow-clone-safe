@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import AgentContactForm from './AgentContactForm'
+import { AgentContactForm } from './AgentContactForm'
 
 describe('AgentContactForm Component', () => {
   test('AgentContactForm renders', () => {

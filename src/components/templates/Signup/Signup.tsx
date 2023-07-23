@@ -4,32 +4,16 @@ import { FaTwitter } from '@react-icons/all-files/fa/FaTwitter'
 import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
 import { googleSignin, signup } from 'src/store/user'
-import * as yup from 'yup'
+
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+
 import { FormError } from 'src/components/organisms/AgentContactForm/AgentContactForm'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
 import Button from 'src/components/atoms/Button/Button'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormTypeSignup, formSchemaSignup } from 'src/forms'
 import SplitLayoutImage from '../SplitLayoutImage'
-
-const signupFormSchema = yup
-  .object({
-    email: yup
-      .string()
-      .required('Email address is required')
-      .email('Email address is not valid.'),
-    password: yup
-      .string()
-      .required('Password is required')
-      .min(6, 'Minimum 6 characters needed.'),
-    name: yup.string().required('Name is required'),
-    rememberMe: yup.boolean(),
-    isLandlord: yup.boolean(),
-  })
-  .required()
-
-type SignupFormSchema = yup.InferType<typeof signupFormSchema>
 
 export interface ISignUpProps {}
 
@@ -39,12 +23,12 @@ const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SignupFormSchema>({
-    resolver: yupResolver(signupFormSchema),
+  } = useForm<FormTypeSignup>({
+    resolver: zodResolver(formSchemaSignup),
     defaultValues: {
-      email: '',
       password: '',
       name: '',
+      email: '',
       rememberMe: false,
       isLandlord: false,
     },

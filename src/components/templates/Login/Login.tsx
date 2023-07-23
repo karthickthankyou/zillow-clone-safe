@@ -5,29 +5,14 @@ import { FaGoogle } from '@react-icons/all-files/fa/FaGoogle'
 
 import { useAppDispatch, useAppSelector } from 'src/store'
 import { googleSignin, signin } from 'src/store/user'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+
 import { useForm } from 'react-hook-form'
 import { FormError } from 'src/components/organisms/AgentContactForm/AgentContactForm'
 import Button from 'src/components/atoms/Button'
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { FormTypeSignin, formSchemaSignin } from 'src/forms'
 import SplitLayoutImage from '../SplitLayoutImage'
-
-const signinFormSchema = yup
-  .object({
-    email: yup
-      .string()
-      .required('Email address is required')
-      .email('Email address is not valid.'),
-    password: yup
-      .string()
-      .required('Password is required')
-      .min(6, 'Minimum 6 characters needed.'),
-    rememberMe: yup.boolean(),
-  })
-  .required()
-
-type SigninFormSchema = yup.InferType<typeof signinFormSchema>
 
 // https://res.cloudinary.com/thankyou/image/upload/v1640791791/nike/wallpapers/alexander-andrews-A3DPhhAL6Zg-unsplash_lngmew.png
 
@@ -37,8 +22,8 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SigninFormSchema>({
-    resolver: yupResolver(signinFormSchema),
+  } = useForm<FormTypeSignin>({
+    resolver: zodResolver(formSchemaSignin),
     defaultValues: {
       email: '',
       password: '',

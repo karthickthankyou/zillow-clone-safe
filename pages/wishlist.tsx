@@ -6,7 +6,7 @@ import Image from 'src/components/atoms/Image2'
 import { selectUid } from 'src/store/user/userSlice'
 import { useGetWishlistedHomesDetailedQuery } from 'src/generated/graphql'
 import Container from 'src/components/atoms/Container'
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
   <div className='grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-3'>
@@ -45,22 +45,22 @@ const WishlistPage: NextPage = () => {
       <Grid>
         {data?.wishlisted.map((item) => (
           <div key={item.id} className='relative'>
-            <Link href={`/homes/${item.hId}`}>
+            <Link href={`/homes/${item.propertyId}`}>
               <Image
                 alt=''
                 className='h-full rounded'
                 src={
-                  (item.home.imgs && item.home.imgs[0]) ||
+                  (item.property?.imgs && item.property.imgs[0]) ||
                   'https://res.cloudinary.com/thankyou/image/upload/v1640667691/nike/rowan-heuvel-bjej8BY1JYQ-unsplash_ekhbh0.jpg'
                 }
               />
             </Link>
 
             <div className='mt-2 text-sm text-gray-600'>
-              {item.home.address}
+              {item.property?.address}
             </div>
             <div className='mt-1 mb-2 font-medium'>
-              $ {item.home.price.toLocaleString()}
+              $ {item.property?.price.toLocaleString()}
             </div>
           </div>
         ))}

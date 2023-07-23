@@ -3,23 +3,13 @@ import { useEffect } from 'react'
 import {
   useGetHomeByIdQuery,
   useSearchHomesByLocationQuery,
-  useSearchCitiesByLocationQuery,
-  useSearchStatesByLocationQuery,
   useSearchHomesByLocationDetailedQuery,
   useGetRegionByIdQuery,
-  Order_By,
+  SortOrder,
 } from 'src/generated/graphql'
 import { useAppDispatch, useAppSelector } from '..'
 
-import {
-  setCities,
-  setHomes,
-  setStates,
-  selectCitiesFilters,
-  selectHomeFilters,
-  selectStatesFilters,
-  setHomesDetailed,
-} from './homeSlice'
+import { setHomes, selectHomeFilters, setHomesDetailed } from './homeSlice'
 
 export const useFetchHomesMap = () => {
   const dispatch = useAppDispatch()
@@ -34,38 +24,14 @@ export const useFetchHomesMap = () => {
   }, [data, dispatch, error, fetching, stale])
 }
 
-export const useFetchCitiesMap = () => {
-  const dispatch = useAppDispatch()
-  const filterVariables = useAppSelector(selectCitiesFilters)
-
-  const [{ data, fetching, error, stale }] = useSearchCitiesByLocationQuery({
-    variables: filterVariables,
-  })
-
-  useEffect(() => {
-    dispatch(setCities({ data, fetching, error, stale }))
-  }, [data, dispatch, error, fetching, stale])
-}
-
-export const useFetchStatesMap = () => {
-  const dispatch = useAppDispatch()
-  const filterVariables = useAppSelector(selectStatesFilters)
-
-  const [{ data, fetching, error, stale }] = useSearchStatesByLocationQuery({
-    variables: filterVariables,
-  })
-
-  useEffect(() => {
-    dispatch(setStates({ data, fetching, error, stale }))
-  }, [data, dispatch, error, fetching, stale])
-}
-
 export const useGetHighlightedHomeData = (
   highlightedHomeId: number | null | undefined
 ) => {
   const [highlightedHomeDetails] = useGetHomeByIdQuery({
     variables: {
-      id: highlightedHomeId || -9999,
+      where: {
+        id: highlightedHomeId || -9999,
+      },
     },
     pause: !highlightedHomeId,
   })
@@ -74,11 +40,13 @@ export const useGetHighlightedHomeData = (
 }
 
 export const useGetHighlightedRegionData = (
-  highlightedRegionId: string | null | undefined
+  highlightedRegionId: number | null | undefined
 ) => {
   const [highlightedRegionDetails] = useGetRegionByIdQuery({
     variables: {
-      id: highlightedRegionId || 'not-found',
+      where: {
+        id: highlightedRegionId || -99,
+      },
     },
     pause: !highlightedRegionId,
   })
@@ -91,8 +59,8 @@ export const useHomesDetailed = () => {
     useSearchHomesByLocationDetailedQuery({
       variables: {
         ...variables,
-        order_by: {
-          plan: Order_By.DescNullsLast,
+        orderBy: {
+          plan: SortOrder.Desc,
         },
       },
     })

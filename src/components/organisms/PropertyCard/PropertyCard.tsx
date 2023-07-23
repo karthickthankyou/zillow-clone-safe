@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Badge from 'src/components/atoms/Badge'
 import Image from 'src/components/atoms/Image'
 import HeartIconReg from '@heroicons/react/outline/HeartIcon'
@@ -7,9 +6,9 @@ import HeartIconSolid from '@heroicons/react/solid/HeartIcon'
 
 import {
   GetWishlistedHomesQuery,
-  Homes,
-  useInsertUserHomeMutation,
-  User_Homes_Types_Enum,
+  UserHomeType,
+  Property,
+  useUpdateUserHomeMutation,
 } from 'src/generated/graphql'
 import { useAppSelector } from 'src/store'
 
@@ -21,11 +20,11 @@ import {
   useKeypress,
 } from 'src/hooks'
 import { setHighlightedHomeId } from 'src/store/home/homeSlice'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import { loginNotification } from 'src/lib/util'
 import { getHomeTypes } from 'src/store/static'
 
-export type IPropertyCardProps = Partial<Homes> & {
+export type IPropertyCardProps = Partial<Property> & {
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][number]
 }
 
@@ -42,7 +41,7 @@ const PropertyCard = ({
 }: IPropertyCardProps) => {
   // const setHighlightedHome = (value: number | null | undefined) =>
   //   dispatch({ type: 'SET_HIGHLIGHTED_ID', payload: value })
-  const [{ fetching }, updateHomeMutation] = useInsertUserHomeMutation()
+  const [{ fetching }, updateHomeMutation] = useUpdateUserHomeMutation()
 
   const uid = useAppSelector(selectUid)
   useKeypress('Escape', () => debouncedDispatch(setHighlightedHomeId(null)))
@@ -84,11 +83,13 @@ const PropertyCard = ({
                   return
                 }
                 updateHomeMutation({
-                  hId,
-                  type: wishlisted
-                    ? User_Homes_Types_Enum.RemovedFromWishlist
-                    : User_Homes_Types_Enum.Wishlisted,
-                  uid,
+                  updateUserHomeInput: {
+                    propertyId: hId,
+                    type: wishlisted
+                      ? UserHomeType.RemovedFromWishlist
+                      : UserHomeType.Wishlisted,
+                    buyerUid: uid,
+                  },
                 })
               }}
               className='absolute top-0 right-0 z-10 flex items-start justify-end text-white rounded-none rounded-bl backdrop-filter backdrop-blur bg-black/50'
@@ -125,7 +126,7 @@ const PropertyCard = ({
 }
 
 export const PropertyCardSkeleton = ({ className }: { className?: string }) => (
-  <div className={`${className && className}`}>
+  <div className={className && className}>
     <div className='relative overflow-hidden bg-gray-200 border border-white rounded-md shadow-lg h-80 animate-pulse' />
 
     <div className='mt-2 mb-4 ml-1 text-gray-200'>

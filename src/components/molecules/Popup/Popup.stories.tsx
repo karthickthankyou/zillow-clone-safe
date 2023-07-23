@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { MapProvider } from 'src/store/map/mapContext'
+
 import Mapbox from 'src/components/organisms/Mapbox/Mapbox'
 import { SbReduxProvider } from 'src/lib/sb'
 import Popup from './Popup'
@@ -10,14 +10,7 @@ import NotesFixed from '../NotesFixed/NotesFixed'
 export default {
   title: 'molecules/Popup',
   component: Popup,
-  decorators: [
-    (story) => (
-      <MapProvider className='h-screen'>
-        <Mapbox>{story()}</Mapbox>
-      </MapProvider>
-    ),
-    SbReduxProvider,
-  ],
+  decorators: [(story) => <Mapbox>{story()}</Mapbox>, SbReduxProvider],
 } as ComponentMeta<typeof Popup>
 
 const BugNotification = () => (

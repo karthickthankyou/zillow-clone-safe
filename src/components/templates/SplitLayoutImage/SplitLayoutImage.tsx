@@ -1,5 +1,5 @@
 import Brand from 'src/components/atoms/Brand'
-import Link from 'src/components/atoms/Link/Link'
+import Link from 'next/link'
 import { Children } from 'src/types'
 
 export interface ISplitLayoutImageProps {

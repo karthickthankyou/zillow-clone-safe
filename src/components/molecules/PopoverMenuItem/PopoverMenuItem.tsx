@@ -1,6 +1,6 @@
 import { Popover as HeadlessPopover, Transition } from '@headlessui/react'
 import { createContext, ReactElement, useContext } from 'react'
-import Link from 'src/components/atoms/Link'
+import Link from 'next/link'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 import { Children } from 'src/types'
 

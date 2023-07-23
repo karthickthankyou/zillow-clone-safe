@@ -50,11 +50,7 @@ const SearchHomesFilter = ({
       {/**
        * Absolutely positioned sidebar
        */}
-      <Sidebar
-        open={showSidebar}
-        setOpen={setShowSidebar}
-        className='space-y-6'
-      >
+      <Sidebar open={showSidebar} setOpen={setShowSidebar}>
         <Sidebar.Header setOpen={setShowSidebar}>Filter</Sidebar.Header>
         <Sidebar.Body>
           <Controller

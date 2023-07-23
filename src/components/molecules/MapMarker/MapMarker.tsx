@@ -11,7 +11,7 @@ import { setHighlightedHomeId } from 'src/store/home/homeSlice'
 import { useRouter } from 'next/router'
 
 export interface IMapMarkerProps {
-  home: SearchHomesByLocationQuery['homes'][0]
+  home: SearchHomesByLocationQuery['properties'][0]
   highlighted?: boolean
   wishlisted?: GetWishlistedHomesQuery['wishlisted'][0]
 }

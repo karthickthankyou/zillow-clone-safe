@@ -1,8 +1,9 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { MapProvider } from 'src/store/map/mapContext'
+
 import { SbReduxProvider, SbUrqlProvider } from 'src/lib/sb'
 import Mapbox from 'src/components/organisms/Mapbox'
+import { Style } from 'src/generated/graphql'
 import MapMarker from './MapMarker'
 
 export default {
@@ -12,11 +13,9 @@ export default {
 } as ComponentMeta<typeof MapMarker>
 
 const Template: ComponentStory<typeof MapMarker> = (args) => (
-  <MapProvider className='h-screen'>
-    <Mapbox>
-      <MapMarker {...args} />
-    </Mapbox>
-  </MapProvider>
+  <Mapbox>
+    <MapMarker {...args} />
+  </Mapbox>
 )
 
 export const Primary = Template.bind({})
@@ -25,7 +24,7 @@ Primary.args = {
     id: 23,
     lat: 37.7577,
     lng: -122.4376,
-    style: 'Single Family',
+    style: Style.Apartment,
   },
 }
 
@@ -35,21 +34,21 @@ Coop.args = {
     id: 23,
     lat: 37.7577,
     lng: -122.4376,
-    style: 'Apartment',
+    style: Style.Apartment,
   },
 }
 
 export const Wishlisted = Template.bind({})
 Wishlisted.args = {
   wishlisted: {
-    hId: 12,
+    propertyId: 12,
     id: 23,
   },
   home: {
     id: 23,
     lat: 37.7577,
     lng: -122.4376,
-    style: 'Apartment',
+    style: Style.Apartment,
   },
 }
 
@@ -60,6 +59,6 @@ Highlighted.args = {
     id: 23,
     lat: 37.7577,
     lng: -122.4376,
-    style: 'Apartment',
+    style: Style.Apartment,
   },
 }

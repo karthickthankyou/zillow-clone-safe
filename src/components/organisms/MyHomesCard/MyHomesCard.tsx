@@ -11,7 +11,7 @@ import { client } from 'src/config/urqlClientWonka'
 import { notify } from 'src/hooks'
 
 export interface IMyHomesCardProps {
-  home: GetMyHomesQuery['homes'][number]
+  home: GetMyHomesQuery['properties'][number]
 }
 
 const setPublishedState = ({
@@ -31,9 +31,9 @@ const setPublishedState = ({
       if (result.error) {
         notify({ message: `Oops something went wrong.`, type: 'error' })
       }
-      const publishedState = result.data.update_homes_by_pk.published
+      const publishedState = result.data.update_property.published
 
-      if (result.data.update_homes_by_pk) {
+      if (result.data.update_property) {
         if (publishedState)
           notify({ message: `Home published for public view.` })
         else notify({ message: `Home unpublished. No one can view this home.` })
@@ -51,12 +51,7 @@ const MyHomesCard = ({ home }: IMyHomesCardProps) => {
   return (
     <div key={home.id}>
       <div className='relative h-64 overflow-hidden border border-white rounded shadow-lg'>
-        <Image
-          alt=''
-          layout='fill'
-          src={home.imgs && home.imgs[0]}
-          className='h-full'
-        />
+        <Image alt='' src={home.imgs && home.imgs[0]} className='h-full' />
         <div className='absolute top-0 left-0 '>
           <div className='z-10 text-white'>
             <div className={` px-1 py-0.5 text-xs ${homePlan.bg}`}>

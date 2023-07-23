@@ -1,7 +1,7 @@
 import React from 'react'
 import { SbReduxProvider } from 'src/lib/sb'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import AgentContactForm from './AgentContactForm'
+import { AgentContactForm } from './AgentContactForm'
 
 export default {
   title: 'organisms/AgentContactForm',

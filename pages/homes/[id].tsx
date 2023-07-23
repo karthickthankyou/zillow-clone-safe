@@ -18,13 +18,13 @@ const ProductPage = () => {
 
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
   const [home] = useGetHomeQuery({
-    variables: { id },
+    variables: { where: { id } },
   })
   const dispatch = useAppDispatch()
 
-  const homeId = home.data?.homes_by_pk?.id
-  const lat = home.data?.homes_by_pk?.lat
-  const lng = home.data?.homes_by_pk?.lng
+  const homeId = home.data?.property?.id
+  const lat = home.data?.property?.lat
+  const lng = home.data?.property?.lng
 
   useEffect(() => {
     dispatch(setHighlightedHomeId(homeId))
@@ -41,10 +41,10 @@ const ProductPage = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!home.fetching && !home.data?.homes_by_pk) {
+    if (!home.fetching && !home.data?.property) {
       router.push('/404')
     }
-  }, [home.data?.homes_by_pk, home.fetching, router])
+  }, [home.data?.property, home.fetching, router])
 
   return <ProductPageTemplate home={home} />
 }

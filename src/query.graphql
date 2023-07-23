@@ -1,5 +1,5 @@
 query MyQuery {
-  properties(limit: 10) {
+  properties(take: 10) {
     address
     description
   }
@@ -13,28 +13,30 @@ query MyQuery {
 #   }
 # }
 
-query getCities {
-  cities(limit: 10) {
-    displayName
-    lat
-    lng
-    image
-    propertiesCount
-  }
-}
+# query getCities {
+#   cities(take: 10) {
+#     displayName
+#     lat
+#     lng
+#     image
+#     propertiesCount
+#   }
+# }
 
 query SearchHomesByLocation(
-  $distinct_on: [homes_select_column!]
-  $limit: Int
-  $offset: Int
-  $order_by: [homes_order_by!]
-  $where: homes_bool_exp
+  $distinct: [PropertyScalarFieldEnum!]
+  $skip: Int
+  $take: Int
+  $cursor: WhereUniqueInputNumber
+  $orderBy: [PropertyOrderByWithRelationInput!]
+  $where: PropertyWhereInput
 ) {
-  homes(
-    distinct_on: $distinct_on
-    limit: $limit
-    offset: $offset
-    order_by: $order_by
+  properties(
+    distinct: $distinct
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
     where: $where
   ) {
     id
@@ -43,45 +45,47 @@ query SearchHomesByLocation(
     style
   }
 }
-query SearchCitiesByLocation($limit: Int, $where: location_stats_bool_exp) {
-  cities: location_stats(
-    limit: $limit
-    where: $where
-    order_by: { totalHomes: desc_nulls_last }
-  ) {
-    id
-    lat
-    lng
-    priceSqft
-    totalHomes
-  }
-}
-query SearchStatesByLocation($limit: Int, $where: location_stats_bool_exp) {
-  states: location_stats(
-    limit: $limit
-    where: $where
-    order_by: { totalHomes: desc_nulls_last }
-  ) {
-    id
-    lat
-    lng
-    priceSqft
-    totalHomes
-  }
-}
+# query SearchCitiesByLocation($take: Int, $where: location_stats_bool_exp) {
+#   cities: location_stats(
+#     take: $take
+#     where: $where
+#     order_by: { totalHomes: desc_nulls_last }
+#   ) {
+#     id
+#     lat
+#     lng
+#     priceSqft
+#     totalHomes
+#   }
+# }
+# query SearchStatesByLocation($take: Int, $where: location_stats_bool_exp) {
+#   states: location_stats(
+#     take: $take
+#     where: $where
+#     order_by: { totalHomes: desc_nulls_last }
+#   ) {
+#     id
+#     lat
+#     lng
+#     priceSqft
+#     totalHomes
+#   }
+# }
 
 query SearchHomesByLocationDetailed(
-  $distinct_on: [homes_select_column!]
-  $limit: Int
-  $offset: Int
-  $order_by: [homes_order_by!]
-  $where: homes_bool_exp
+  $distinct: [PropertyScalarFieldEnum!]
+  $skip: Int
+  $take: Int
+  $cursor: WhereUniqueInputNumber
+  $orderBy: [PropertyOrderByWithRelationInput!]
+  $where: PropertyWhereInput
 ) {
-  homes(
-    distinct_on: $distinct_on
-    limit: $limit
-    offset: $offset
-    order_by: $order_by
+  properties(
+    distinct: $distinct
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
     where: $where
   ) {
     id
@@ -92,20 +96,27 @@ query SearchHomesByLocationDetailed(
     sqft
     plan
     imgs
+    style
+    yearBuilt
+    lat
+    lng
+    city
   }
 }
 query GetMyHomes(
-  $distinct_on: [homes_select_column!]
-  $limit: Int
-  $offset: Int
-  $order_by: [homes_order_by!]
-  $where: homes_bool_exp
+  $distinct: [PropertyScalarFieldEnum!]
+  $skip: Int
+  $take: Int
+  $cursor: WhereUniqueInputNumber
+  $orderBy: [PropertyOrderByWithRelationInput!]
+  $where: PropertyWhereInput
 ) {
-  homes(
-    distinct_on: $distinct_on
-    limit: $limit
-    offset: $offset
-    order_by: $order_by
+  properties(
+    distinct: $distinct
+    skip: $skip
+    take: $take
+    cursor: $cursor
+    orderBy: $orderBy
     where: $where
   ) {
     id
@@ -121,8 +132,8 @@ query GetMyHomes(
   }
 }
 
-query GetHomeById($id: Int!) {
-  homes_by_pk(id: $id) {
+query GetHomeById($where: PropertyWhereUniqueInput) {
+  property(where: $where) {
     price
     id
     sqft
@@ -134,61 +145,31 @@ query GetHomeById($id: Int!) {
   }
 }
 
-query GetRegionById($id: String!) {
-  location_stats_by_pk(id: $id) {
+query GetRegionById($where: LocationStatsWhereUniqueInput) {
+  locationStat(where: $where) {
     id
     totalHomes
-    bedsPrice
-  }
-}
-
-mutation InsertUserHome(
-  $hId: Int!
-  $uid: String!
-  $type: user_homes_types_enum!
-) {
-  insert_user_homes_one(
-    object: { hId: $hId, uid: $uid, type: $type }
-    on_conflict: {
-      constraint: user_homes_home_id_uid_key
-      update_columns: [hId, type]
-    }
-  ) {
-    id
-    type
-    uid
-    hId
-  }
-}
-mutation InsertMessage($object: messages_insert_input!) {
-  insert_messages_one(object: $object) {
-    uid
-    id
-    home_id
-    email
-    phone
-    updated_at
-    created_at
+    priceSqft
   }
 }
 
 # ($uid: String!)
 query GetWishlistedHomes($uid: String!) {
-  wishlisted: user_homes(
-    where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+  wishlisted: userHomes(
+    where: { buyerUid: { equals: $uid }, type: WISHLISTED }
   ) {
     id
-    hId
+    propertyId
   }
 }
 
 query GetWishlistedHomesDetailed($uid: String!) {
-  wishlisted: user_homes(
-    where: { uid: { _eq: $uid }, type: { _eq: WISHLISTED } }
+  wishlisted: userHomes(
+    where: { buyerUid: { equals: $uid }, type: WISHLISTED }
   ) {
     id
-    hId
-    home {
+    propertyId
+    property {
       address
       price
       imgs
@@ -196,19 +177,8 @@ query GetWishlistedHomesDetailed($uid: String!) {
   }
 }
 
-mutation RemoveWishlist($id: Int!) {
-  update_user_homes_by_pk(
-    pk_columns: { id: $id }
-    _set: { type: REMOVED_FROM_WISHLIST }
-  ) {
-    type
-    id
-    hId
-  }
-}
-
-query GetHome($id: Int!) {
-  homes_by_pk(id: $id) {
+query GetHome($where: PropertyWhereUniqueInput) {
+  property(where: $where) {
     address
     bath
     beds
@@ -233,54 +203,26 @@ query GetHome($id: Int!) {
   }
 }
 
-mutation InsertHome($object: homes_insert_input!) {
-  insert_homes_one(object: $object) {
-    address
-    bath
-    beds
-    city
-    createdAt
-    description
-    facts
-    features
-    id
-    lat
-    lng
-    lotSize
-    price
-    priceSqft
-    sqft
-    state
-    style
-    updatedAt
-    yearBuilt
-    zipcode
-  }
-}
-
 query GetMessages($uid: String!) {
-  messages(where: { uid: { _eq: $uid } }) {
+  messages(where: { buyerUid: { equals: $uid } }) {
     id
-    home {
+    property {
       id
       address
       price
       imgs
     }
     message
-    created_at
+    createdAt
   }
 }
 
 query GetEnquiries($uid: String!) {
-  messages(where: { home: { uid: { _eq: $uid } } }) {
+  messages(where: { property: { is: { sellerUid: { equals: $uid } } } }) {
     id
     message
-    created_at
-    email
-    name
-    phone
-    home {
+    createdAt
+    property {
       id
       address
       price
@@ -290,13 +232,74 @@ query GetEnquiries($uid: String!) {
 }
 
 mutation SetHomePlan($id: Int!, $plan: Int) {
-  update_homes_by_pk(pk_columns: { id: $id }, _set: { plan: $plan }) {
+  updateProperty(updatePropertyInput: { id: $id, plan: $plan }) {
     plan
   }
 }
 
 mutation SetHomePublished($id: Int!, $published: Boolean) {
-  update_homes_by_pk(pk_columns: { id: $id }, _set: { published: $published }) {
-    published
+  updateProperty(updatePropertyInput: { id: $id, published: $published }) {
+    plan
+  }
+}
+
+mutation InsertUserHome($createUserHomeInput: CreateUserHomeInput!) {
+  createUserHome(createUserHomeInput: $createUserHomeInput) {
+    id
+    propertyId
+    type
+    buyerUid
+  }
+}
+
+mutation CreateMessage($createMessageInput: CreateMessageInput!) {
+  createMessage(createMessageInput: $createMessageInput) {
+    id
+    propertyId
+    updatedAt
+    createdAt
+    id
+    buyer {
+      uid
+    }
+    seller {
+      uid
+    }
+    agent {
+      uid
+    }
+  }
+}
+
+mutation CreateProperty($createPropertyInput: CreatePropertyInput!) {
+  createProperty(createPropertyInput: $createPropertyInput) {
+    address
+    bath
+    beds
+    city
+    createdAt
+    description
+    facts
+    features
+    id
+    lat
+    lng
+    lotSize
+    price
+    priceSqft
+    sqft
+    state
+    style
+    updatedAt
+    yearBuilt
+    zipcode
+  }
+}
+
+mutation UpdateUserHome($updateUserHomeInput: UpdateUserHomeInput!) {
+  updateUserHome(updateUserHomeInput: $updateUserHomeInput) {
+    id
+    type
+    propertyId
   }
 }

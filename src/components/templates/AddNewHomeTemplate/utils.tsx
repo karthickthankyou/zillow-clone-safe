@@ -14,7 +14,6 @@ import {
 } from 'src/components/organisms/ZoomControls/ZoomControls'
 import { notify } from 'src/hooks'
 import { useAppDispatch, useAppSelector } from 'src/store'
-import { MapProvider } from 'src/store/map/mapContext'
 import { selectViewport, setViewport } from 'src/store/map/mapSlice'
 import { useSearchAddress } from 'src/store/streams'
 import * as yup from 'yup'
@@ -22,6 +21,7 @@ import Pin from '@heroicons/react/outline/LocationMarkerIcon'
 import PinSolid from '@heroicons/react/solid/LocationMarkerIcon'
 import { Marker } from 'react-map-gl'
 import Autocomplete from 'src/components/molecules/Autocomplete'
+import { Style } from 'src/generated/graphql'
 
 export type AddressSearchType = {
   address: string
@@ -53,15 +53,18 @@ export const newHomeSchema = yup
     lotSize: yup
       .number()
       .typeError('enter the lot size in square feet. ex: 1000')
-      .min(0, 'a negative number? Seriously?'),
+      .min(0, 'a negative number? Seriously?')
+      .required(),
     price: yup
       .number()
       .typeError('enter the price.')
-      .min(0, 'a negative number? Seriously?'),
+      .min(0, 'a negative number? Seriously?')
+      .required(),
     sqft: yup
       .number()
       .typeError('enter the size of your house in square feet. ex: 1000')
-      .min(0, 'a negative number? Seriously?'),
+      .min(0, 'a negative number? Seriously?')
+      .required(),
     city: yup.string().required('enter the city name.'),
     description: yup
       .string()
@@ -69,7 +72,7 @@ export const newHomeSchema = yup
         'Write a few words about the house you are trying to sell. You want to sell it or not?'
       ),
     facts: yup.string(),
-    published: yup.boolean(),
+    published: yup.boolean().required(),
     features: yup
       .string()
       .required(
@@ -78,7 +81,8 @@ export const newHomeSchema = yup
 
     state: yup.string().required('enter the state name.'),
     style: yup
-      .string()
+      .mixed<Style>()
+      .oneOf(Object.values(Style))
       .required('pick a style. Even if you dont find your house stylish.'),
     yearBuilt: yup
       .number()
@@ -171,78 +175,72 @@ export const MapLocationPicker = ({
   const viewport = useAppSelector(selectViewport)
 
   return (
-    <MapProvider className={`h-96 ${className}`}>
-      <Mapbox>
-        <Marker
-          longitude={marker.lng}
-          latitude={marker.lat}
-          draggable
-          // onDragStart={onMarkerDragStart}
-          onDrag={(event: { lngLat: [number, number] }) => {
-            setMarker({
-              lng: event.lngLat[0],
-              lat: event.lngLat[1],
-            })
-          }}
-          onDragEnd={(event) => {
-            setLocation(event.lngLat.join(','))
-          }}
-        >
-          <PinSolid className='w-6 h-6' />
-        </Marker>
-        <PanelContainer>
-          <Panel position='left-top'>
-            <Autocomplete<AddressSearchType, false, false, false>
-              options={searchTextData}
-              getOptionLabel={(x) => x.address}
-              onInputChange={(_, v) => {
-                setSearchText(v)
-              }}
-              loading={searchTextFetching}
-              isOptionEqualToValue={(a, b) => a.address === b.address}
-              onChange={(_, v) => {
-                if (v) {
-                  const { latitude, longitude } = v
-                  setMarker({ lat: latitude, lng: longitude })
-                  dispatch(setViewport({ latitude, longitude, zoom: 14 }))
-                  setAddress(v)
-                }
-              }}
-              className='rounded-lg shadow-lg'
+    <Mapbox>
+      <Marker
+        longitude={marker.lng}
+        latitude={marker.lat}
+        draggable
+        // onDragStart={onMarkerDragStart}
+
+        onDragEnd={({ lngLat }) => {
+          const { lat, lng } = lngLat
+          setLocation(`${lat},${lng}`)
+        }}
+      >
+        <PinSolid className='w-6 h-6' />
+      </Marker>
+      <PanelContainer>
+        <Panel position='left-top'>
+          <Autocomplete<AddressSearchType, false, false, false>
+            options={searchTextData}
+            getOptionLabel={(x) => x.address}
+            onInputChange={(_, v) => {
+              setSearchText(v)
+            }}
+            loading={searchTextFetching}
+            isOptionEqualToValue={(a, b) => a.address === b.address}
+            onChange={(_, v) => {
+              if (v) {
+                const { latitude, longitude } = v
+                setMarker({ lat: latitude, lng: longitude })
+                dispatch(setViewport({ latitude, longitude, zoom: 14 }))
+                setAddress(v)
+              }
+            }}
+            className='rounded-lg shadow-lg'
+          />
+        </Panel>
+        <Panel position='right-top'>
+          <ZoomControls>
+            <ZoomControls.ZoomIn />
+            <ZoomControls.ZoomOut />
+            <MapControlAction
+              action={() =>
+                setMarker({ lat: viewport.latitude, lng: viewport.longitude })
+              }
+              Icon={Pin}
             />
-          </Panel>
-          <Panel position='right-top'>
-            <ZoomControls>
-              <ZoomControls.ZoomIn />
-              <ZoomControls.ZoomOut />
-              <MapControlAction
-                action={() =>
-                  setMarker({ lat: viewport.latitude, lng: viewport.longitude })
-                }
-                Icon={Pin}
-              />
-              <MapControlAction
-                action={() => {
-                  setAddress({})
-                }}
-                Icon={RefreshIcon}
-              />
-              <MapControl
-                action={setViewport({
-                  latitude: marker.lat,
-                  longitude: marker.lng,
-                  zoom: 3,
-                })}
-                Icon={GlobeIcon}
-              />
-            </ZoomControls>
-          </Panel>
-          <Panel position='center-bottom'>
-            <FetchingBool fetching={searchTextFetching || markerDragFetching} />
-            <MapMessage message={markerDragError} />
-          </Panel>
-        </PanelContainer>
-      </Mapbox>
-    </MapProvider>
+            <MapControlAction
+              action={() => {
+                setAddress({})
+              }}
+              Icon={RefreshIcon}
+            />
+            <MapControl
+              action={setViewport({
+                latitude: marker.lat,
+                longitude: marker.lng,
+                zoom: 3,
+              })}
+              Icon={GlobeIcon}
+            />
+          </ZoomControls>
+        </Panel>
+        <Panel position='center-bottom'>
+          <FetchingBool fetching={searchTextFetching || markerDragFetching} />
+          <MapMessage message={markerDragError} />
+        </Panel>
+      </PanelContainer>
+    </Mapbox>
   )
 }
