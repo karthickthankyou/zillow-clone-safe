@@ -48,7 +48,7 @@ const MessagesPage: NextPage = () => {
   return (
     <Container>
       <NextSeo
-        title={`Messages (${messagesCount}) | Zillow refactor | Karthick Ragavendran - Sample page.`}
+        title={`Messages (${messagesCount}) | Zillow refactor | Karthick Ragavendran`}
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
       <div className='min-h-screen50'>

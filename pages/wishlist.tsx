@@ -38,7 +38,7 @@ const WishlistPage: NextPage = () => {
   return (
     <Container className='min-h-screen'>
       <NextSeo
-        title={`Wishlist (${wishlistCount}) | Zillow refactor | Karthick Ragavendran - Sample page.`}
+        title={`Wishlist (${wishlistCount}) | Zillow refactor | Karthick Ragavendran.`}
         description='This is the amazing sample page. A short description goes here which says what goes here.'
       />
       <div className='mb-4 text-xl'>Wishlist</div>

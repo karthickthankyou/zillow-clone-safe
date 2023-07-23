@@ -51,3 +51,6 @@ yarn-error.log*
 
 # Sentry
 .sentryclirc
+
+.env
+.env.development
