@@ -5,7 +5,7 @@ import { createClient } from 'urql'
 import { SetHomePlanDocument } from 'src/generated/graphql'
 
 export const urqlAdminClient = createClient({
-  url: process.env.NEXT_PUBLIC_API_URL,
+  url: process.env.NEXT_PUBLIC_API_URL + '/graphql',
 })
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
