@@ -10,7 +10,6 @@ module.exports = {
   },
   extends: [
     'plugin:react/recommended',
-    'airbnb',
     'next/core-web-vitals',
     'plugin:storybook/recommended',
     'plugin:cypress/recommended',

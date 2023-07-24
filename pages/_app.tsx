@@ -7,9 +7,7 @@ import Notifications from 'src/components/molecules/Notification'
 
 import { useDebouncedDispatch, useLongHoverDispatch } from 'src/hooks'
 import { useGetWishlisted } from 'src/store/userHome/userHomeHooks'
-import UrqlProvider, {
-  ssrCache,
-} from 'src/components/templates/UrqlProvider/UrqlProvider'
+import UrqlProvider from 'src/components/templates/UrqlProvider/UrqlProvider'
 import { store } from 'src/store'
 import 'src/globals.css'
 import React from 'react'

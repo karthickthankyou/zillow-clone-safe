@@ -9,7 +9,7 @@ export type IImageProps = React.ComponentProps<typeof NextImage> & {
 }
 
 const Image = (props: IImageProps) => {
-  const { src, fallbackSrc = fallbackImg, className, alt, ...rest } = props
+  const { src, fallbackSrc = fallbackImg, alt, ...rest } = props
   const [imgSrc, setImgSrc] = useState(src)
 
   return (

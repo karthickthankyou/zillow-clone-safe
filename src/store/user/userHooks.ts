@@ -30,7 +30,7 @@ export const useUserListener = () => {
         onValue(metadataRef, async (data) => {
           if (!data.exists) return
 
-          const token = await user.getIdToken(true)
+          await user.getIdToken(true)
           const idTokenResult = await user.getIdTokenResult()
           const hasuraClaim = idTokenResult.claims[
             'https://hasura.io/jwt/claims'

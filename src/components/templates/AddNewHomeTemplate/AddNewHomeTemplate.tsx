@@ -127,7 +127,7 @@ const AddNewHomeTemplate = () => {
         imgs: uploadData.imgs,
         address: uploadData.address,
       })
-      const result = await stripe?.redirectToCheckout({
+      await stripe?.redirectToCheckout({
         sessionId: checkoutSession.data.id,
       })
     } else {
@@ -273,7 +273,7 @@ const AddNewHomeTemplate = () => {
           />
         }
       >
-        <MapLocationPicker setValue={setValue} className='sm:col-span-2' />
+        <MapLocationPicker setValue={setValue} />
 
         <Label title='Address' error={errors.address}>
           <TextArea

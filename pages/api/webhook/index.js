@@ -1,8 +1,12 @@
 /* eslint-disable camelcase */
 import Stripe from 'stripe'
 import { buffer } from 'micro'
-import { urqlAdminClient } from 'src/lib/client'
+import { createClient } from 'urql'
 import { SetHomePlanDocument } from 'src/generated/graphql'
+
+export const urqlAdminClient = createClient({
+  url: process.env.NEXT_PUBLIC_API_URL,
+})
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 

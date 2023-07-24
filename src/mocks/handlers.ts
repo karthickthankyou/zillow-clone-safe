@@ -1,6 +1,4 @@
-/* eslint-disable no-underscore-dangle */
-import { graphql, rest } from 'msw'
-import { getQueryParam } from 'src/lib/util'
+import { graphql } from 'msw'
 import {
   namedOperations,
   SearchHomesByLocationDetailedQuery,
@@ -10,8 +8,6 @@ import {
   GetWishlistedHomesQueryVariables,
   GetHomeByIdQuery,
   GetHomeByIdQueryVariables,
-  GetRegionByIdQuery,
-  GetRegionByIdQueryVariables,
   Style,
   SearchHomesByLocationQueryVariables,
 } from '../generated/graphql'

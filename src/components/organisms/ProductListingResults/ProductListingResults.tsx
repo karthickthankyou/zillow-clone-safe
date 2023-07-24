@@ -1,18 +1,16 @@
 import { useAppSelector } from 'src/store'
 import { selectHomesDetailed } from 'src/store/home/homeSlice'
-import { selectDebouncedZoom } from 'src/store/map/mapSlice'
 
 import { selectWishlistedHomes } from 'src/store/userHome/userHomeSlice'
 
-import { Children } from 'src/types'
 import PropertyCard from '../PropertyCard'
 import { PropertyCardSkeleton } from '../PropertyCard/PropertyCard'
 
-const Layout = ({ children }: { children: Children | undefined }) => (
-  <div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'>
-    {children}
-  </div>
-)
+// const Layout = ({ children }: { children: Children | undefined }) => (
+//   <div className='grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2'>
+//     {children}
+//   </div>
+// )
 
 const ProductListingResult = () => {
   const { data: wishlistedHomes } = useAppSelector(selectWishlistedHomes)

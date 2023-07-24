@@ -9,7 +9,6 @@
 import { NextPage } from 'next'
 import Container from 'src/components/atoms/Container'
 import ProductPage from 'src/components/templates/ProductPage'
-import { NextSeo } from 'next-seo'
 import Head from 'next/head'
 import { Style } from 'src/generated/graphql'
 

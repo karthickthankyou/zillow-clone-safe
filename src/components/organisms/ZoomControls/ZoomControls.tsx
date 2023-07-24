@@ -90,8 +90,8 @@ const GotoMarker = ({ viewport }: { viewport: Omit<Viewport, 'zoom'> }) => {
       className='rounded-none hover:bg-white'
       type='button'
       onClick={() => {
-        const { lat, lng } = map?.getCenter() as { lng: number; lat: number }
-        map?.jumpTo({ center: [lat, lng] })
+        const { latitude, longitude } = viewport
+        map?.jumpTo({ center: [latitude, longitude] })
       }}
     >
       <Pin className='w-8 h-8 p-1.5 ' />

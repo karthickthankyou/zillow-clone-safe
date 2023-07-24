@@ -39,7 +39,7 @@ const setPublishedState = ({
         else notify({ message: `Home unpublished. No one can view this home.` })
       }
     })
-    .catch((err) =>
+    .catch(() =>
       notify({ message: `Oops. something went wrong.`, type: 'error' })
     )
 }

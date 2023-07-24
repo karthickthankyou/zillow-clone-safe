@@ -114,13 +114,7 @@ export const newHomeSchema = yup
 
 export type NewHomeSchema = yup.InferType<typeof newHomeSchema>
 
-export const MapLocationPicker = ({
-  setValue,
-  className,
-}: {
-  setValue: Function
-  className?: string
-}) => {
+export const MapLocationPicker = ({ setValue }: { setValue: Function }) => {
   const [marker, setMarker] = useState(() => ({
     lat: 40,
     lng: -100,
@@ -129,11 +123,8 @@ export const MapLocationPicker = ({
   const [searchText, setSearchText] = useState('')
   const [location, setLocation] = useState('')
 
-  const {
-    data: searchTextData,
-    loading: searchTextFetching,
-    error: searchTextError,
-  } = useSearchAddress({ searchText })
+  const { data: searchTextData, loading: searchTextFetching } =
+    useSearchAddress({ searchText })
   const {
     data: markerDragData,
     loading: markerDragFetching,

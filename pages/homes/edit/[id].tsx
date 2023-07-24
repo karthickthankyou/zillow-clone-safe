@@ -12,7 +12,6 @@ import { ParsedUrlQuery } from 'querystring'
 import { client, ssrCache } from 'src/config/urqlClientWonka'
 import { GetHomeDocument, useGetHomeQuery } from 'src/generated/graphql'
 import { getQueryParam } from 'src/lib/util'
-import { useHomesDetailed } from 'src/store/home/homeNetwork'
 
 const EditPage: NextPage = () => {
   const id = parseInt(getQueryParam(useRouter().query.id), 10)
@@ -20,7 +19,7 @@ const EditPage: NextPage = () => {
     variables: { where: { id } },
   })
 
-  return <div>Hello edit page.</div>
+  return <div>Hello edit page. {home.data?.property.id} </div>
 }
 
 export async function getStaticPaths() {
